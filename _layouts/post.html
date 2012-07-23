@@ -1,0 +1,14 @@
+---
+layout: default
+---
+<div class="row-fluid">
+  <div class="span9">
+    {{ content }}
+    {% include pagination.html %}
+    {% include discussion.html %}
+  </div>
+
+  <div class="span3">
+    {% include sidebar.html %}
+  </div>
+</div>

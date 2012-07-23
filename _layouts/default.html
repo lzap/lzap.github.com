@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Lukáš Zapletal">
+    <meta name="description" content="Lukáš Zapletal Blog Linux Life Live">
+    <link rel="alternate" type="application/atom+xml" title="Lukáš Zapletal Blog"
+    href="http://feeds.feedburner.com/LukasZapletal" />
+
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/lzap.css" rel="stylesheet">
+    <link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="openid.server" href="http://www.blogger.com/openid-server.g" />
+    <link rel="openid.delegate" href="http://lukas.zapletalovi.com/" />
+  </head>
+
+  <body>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/">{{ site.title }}</a>
+          <ul class="nav">
+            <li class="divider-vertical"></li>
+            <span class="navbar-text">linux | life | live!</span>
+          </ul>
+          <form class="navbar-search pull-right">
+            <input type="text" class="search-query" placeholder="Search">
+          </form>
+          <div class="nav-collapse">
+            <ul class="nav pull-right">
+              <li><a href="/">Blog</a></li>
+              <li><a href="/archive.html">Archive</a></li>
+              <li><a href="/tags.html">Tags</a></li>
+              <li><a href="/about_me.html">About me</a></li>
+              <li><a href="/contact.html">Contact</a></li>
+              <li><a href="http://feeds.feedburner.com/LukasZapletal">Feed</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      {{ content }}
+      
+      <footer class="footer">
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>&copy; 1997-2003, 2004-2011 Lukáš Zapletal | Follow me on <a href="http://twitter.com/lzap">@lzap</a> or <a href="https://plus.google.com/113635437049548586176/posts">@g+</a>.</p>
+        <p>Running on <a href="http://www.github.com">Github.com</a> | Jekyll | Twitter Bootstrap.
+        Licenced under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+      </footer>
+    </div>
+
+    {% include analytics/google.html %}
+    {% include analytics/mixpanel.html %}
+  </body>
+</html>
