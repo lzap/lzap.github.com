@@ -1,0 +1,10 @@
+---
+layout: post
+title: Opožděná inicializace singletonu v Javě
+date: 2010-07-13
+tags:
+- java
+---
+
+<h1>{{ page.title }}</h1>
+Na Wikipedii jsem našel zajímavé řešení návrhového vzoru singleton v Javě. Obecně se nepovažuje za nejšťastnější vytvářet novou instanci opožděně (lazy init) v konstruktoru a doporučuje se statickou inicializací. Když už potřebujete opožděnou inicializaci, tak je vhodné provést to vláknově bezpečnou metodou.<br /><br /><pre>public class Singleton {<br />   // volatile is needed so that multiple thread can reconcile the instance<br />   private volatile static Singleton singleton;<br /> <br />   private Singleton(){}<br /> <br />   // synchronized keyword has been removed from here<br />   public static Singleton getSingleton(){<br />     // needed because once there is singleton available no need to acquire<br />     // monitor again & again as it is costly<br />     if(singleton==null) {<br />       synchronized(Singleton.class){<br />          // this is needed if two threads are waiting at the monitor at the<br />          // time when singleton was getting instantiated<br />          if(singleton==null)<br />          singleton= new Singleton();<br />       }<br />    }<br />   return singleton;<br />  }<br /> <br />}</pre><br />Existuje ovšem <a href="http://en.wikipedia.org/wiki/Singleton_pattern#The_solution_of_Bill_Pugh">elegantnější řešení</a>, které je vláknově bezpečné a má kratší zápis.<br /><br /><pre>public class Singleton {<br />   // Private constructor prevents instantiation from other classes<br />   private Singleton() {}<br /> <br />   /**<br />    * SingletonHolder is loaded on the first execution of Singleton.getInstance() <br />    * or the first access to SingletonHolder.INSTANCE, not before.<br />    */<br />   private static class SingletonHolder { <br />     private static final Singleton INSTANCE = new Singleton();<br />   }<br /> <br />   public static Singleton getInstance() {<br />     return SingletonHolder.INSTANCE;<br />   }<br /> }</pre><br />Kdo zná pravidla načítání tříd v Javě, pochopí, jak to funguje.

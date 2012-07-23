@@ -1,0 +1,11 @@
+---
+layout: post
+title: Linux support on Intel D410PT
+date: 2011-03-16
+tags:
+- rhel
+- english
+---
+
+<h1>{{ page.title }}</h1>
+There are some rumours about Intel D410PT Atom-based motherboard not working under Linux on the internet. Some user reported the board is not booting Linux-based CD-ROM, others are having problems with booting process getting stucked.<br /><br />Ignoring the stuck boot process that is usually resolved by connecting a keyboard to the box the first problem has a simple solution. When product user manual v1.0 states it only support Windows XP/Vista/7 it does not mean there is no Linux support. The statement usually means the manufacturer (or the community) did not work on Linux support <i>yet</i>. This is the very same scenario here with D410PT.<br /><br />The issue with stucked booting of linux-based operating systems was resolved in the BIOS version <a href="http://downloadmirror.intel.com/19846/eng/MO_0512_ReleaseNotes.pdf">0509</a>. In addition Suse has certified this board even for the <a href="http://developer.novell.com/yes/132904.htm">version 0187</a> so you should be fine with this distribution with even older BIOS.<br /><br />I have tested mine with RHEL6 - BIOS 0512 combination. It's always a smooth boot. So the answer is <b>yes</b>. This board works like a charm under Linux. Go and get the latest and greatest BIOS and that's it.

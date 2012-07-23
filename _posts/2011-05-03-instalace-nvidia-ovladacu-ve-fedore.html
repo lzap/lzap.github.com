@@ -1,0 +1,11 @@
+---
+layout: post
+title: Instalace NVidia ovladačů ve Fedoře
+date: 2011-05-03
+tags:
+- fedora
+- nvidia
+---
+
+<h1>{{ page.title }}</h1>
+Po upgradu na novou grafickou kartu u svého domácího PC jsem si musel najít <a href="http://www.if-not-true-then-false.com/2010/fedora-14-nvidia-drivers-install-guide-disable-nouveau-driver/">návod na správnou instalaci ovladačů</a>. Neseděly mi totiž verze jaderného modulu a ovladače samotného. Pokud instalujete NVidia ovladače, doporučuji si přečíst zmíněný link a k tomu ještě přidávám jedno.<br /><br />a) Odstraňte staré verze ovladačů: <i>sudo yum remove kmod-nvidia-* xorg-x11-drv-nvidia-*</i><br /><br />b) Zjistěte si minimální verzi ovladače, kterou můžete použít. Zejména novější karty jsou v Linuxu podporovány až o pár měsíců později. Ideálním místem jsou NVidia changelogy na jejich stránkách.<br /><br />c) Nainstalujte to (<i>sudo yum install kmod-nvidia xorg-x11-drv-nvidia-libs</i>) a před potvrzení v yumu zkontrolujte sloupec Version. Musí ukazovat stejnou verzi jak pro jaderný modul, tak pro ovladač. Například <i>1:260.19.36-1.fc14</i>.<br /><br />d) Pokud narazíte na problém, přečtěte si zmíněný zápisek včetně dalších doporučení a diskusi.<br /><br />Pakliže se nepodaří ovladač z RPM Fusion repa nainstalovat, nevadí. Stále je tu velmi dobře udělaný instalátor oficiálního ovladače od NVidie. Nejprve však odstraňte předchozí verze ovladače, pak jej použijte. Instalátor má volbu --uninstall, která funguje dobře. Není třeba se obávat nějakého "znečištění" systému.

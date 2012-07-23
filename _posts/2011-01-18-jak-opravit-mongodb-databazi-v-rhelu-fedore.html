@@ -1,0 +1,10 @@
+---
+layout: post
+title: Jak opravit MongoDB databázi v RHELu/Fedoře
+date: 2011-01-18
+tags:
+- mongodb
+---
+
+<h1>{{ page.title }}</h1>
+Pro svou práci používám nerelační databázi MongoDB. Včera po práci jsem zapomněl vypnout svůj virtuální testovací stroj, který mi jede na notebooku a došlo k jeho násilnému vypnutí. Inu, to se někdy stane. Souborový systém ext4 se z toho otřepe, ale databáze tohle rády nevidí. Ani ty nerelační.<br /><br />Jel jsem podle manuálu, kde se doporučuje volba --repair. Jenže standardně MongoDB hledá datové soubory v adresáři /data, což je poněkud neUNIXové. V systémech Red Hat (a nejen v nich) jsou datové soubory jinde (adresář /var). Opravení databáze bylo tedy snadné:<br /><br /><i>sudo rm /var/lib/mongodb/mongod.lock<br />sudo -u mongodb mongod -f /etc/mongodb.conf --repair</i><br /><br />Po odstranění lock souboru se MongoDB spustí na popředí, můžete ihned začít pracovat. V opačném případě ji vypněte kombinací Ctrl + C a spusťte znovu démona.

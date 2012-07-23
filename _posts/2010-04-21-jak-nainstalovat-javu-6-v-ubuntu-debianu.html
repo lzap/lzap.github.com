@@ -1,0 +1,10 @@
+---
+layout: post
+title: Jak nainstalovat Javu 6 v Ubuntu/Debianu
+date: 2010-04-21
+tags:
+- oldblog
+---
+
+<h1>{{ page.title }}</h1>
+Triviální, distribuce zatím neposkytují balíčky, takže stáhněte JRE nebo JDK a rozbalte jej například do /opt/java/jdk1.6.0 (nebo kamkoli jinam, ale pak musíte změnit cesty dole). Poté:<br /><br />J=/opt/java/jdk1.6.0<br />sudo update-alternatives --install /usr/bin/java java $J/bin/java 30<br />sudo update-alternatives --install /usr/bin/javac javac $J/bin/javac 30<br />sudo update-alternatives --install /usr/bin/rmiregistry rmiregistry $J/bin/rmiregistry 30<br />sudo update-alternatives --install /usr/bin/keytool keytool $J/bin/keytool 30<br />sudo update-alternatives --install /usr/lib/mozilla/plugins/libjavaplugin.so mozilla-javaplugin.so $J/jre/plugin/i386/ns7/libjavaplugin_oji.so 30<br />sudo update-alternatives --install /usr/lib/firefox/plugins/libjavaplugin.so firefox-javaplugin.so $J/jre/plugin/i386/ns7/libjavaplugin_oji.so 30<br /><br /># nyni budete po kazdem prikazu vyzvani k vybrani spravne volby...<br />sudo update-alternatives --config java <br />sudo update-alternatives --config javac<br />sudo update-alternatives --config jar<br />sudo update-alternatives --config keytool<br />sudo update-alternatives --config rmiregistry<br />sudo update-alternatives --config mozilla-javaplugin.so<br />sudo update-alternatives --config firefox-javaplugin.so<br /><br />Poznámka: přeskočte „jar, keytool a rmiregistry“, pokud instalujtete JRE (a ne JDK). Pokud instalujete starší verze (1.4, 1.5), je nutno upravit cestu …/plugin/i386/ns7/… (na ns610 a tak podobně). Kontrolu na to, zda ještě přeci jen není nastavena nějaká komponenta Javy na GCJ, provedete takto:<br /><br />ls -l /etc/alternatives | grep gcj<br /><br />Hotovo.<br /><br /><i>Toto je poslední příspěvek ze starého blogu roku 2006. Postupně vkládám všechny roky, ale dá to zabrat...</i>

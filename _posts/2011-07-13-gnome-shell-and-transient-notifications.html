@@ -1,0 +1,11 @@
+---
+layout: post
+title: Gnome Shell and transient notifications
+date: 2011-07-13
+tags:
+- weechat
+- gnome-shell
+---
+
+<h1>{{ page.title }}</h1>
+I like that Gnome Shell is mostly written in JavaScript. It allows cool and easy hacking.<br /><br />I am using <b>weechat</b> for my IRC chatting. Since I am running it on a server (via ssh) and I want to be notified about highlights and private messages, I am using simple rnotify.tcl plugin that sends notifications over (tunneled) tcp to local server that calls notify-send command. Easy setup that just works.<br /><br />But there is an issue with Gnome Shell, because its notification daemon keeps all the messages in the queue until user explicitly clicks on them. This is cool for important messages, but Gnome Shell does the same with low priority messages.<br /><br />Try this multiple times:<br /><br /># notify-send test<br /><br />and your notification queue is full. It can run out of the screen in short time. Yes, until today you could DoS me via IRC. Dmitri you were almost there today :-)<br /><br />A bit of hacking around /usr/share/gnome-shell/js directory (files notificationDaemon.js and messageTray.js) and one finds out there is possibility to send "transient" flag in the hints array parameter (but must be boolean). Well, notify-send can't send arrays. The only way is to use dbus-send:<br /><br /># dbus-send --print-reply --dest=org.freedesktop.Notifications /org/freedesktop/Notifications org.freedesktop.Notifications.Notify string:"weechat" int32:1 string:"mail-unread" string:"bla bla blah" string:"" array:string:"" dict:string:boolean:"transient","true"<br /><br />That's it. The notification gets discarded automatically upon hiding. <br /><br />More info at <a href="http://www.galago-project.org/specs/notification/0.9/">Notification DBUS documentation</a> and dbus-send man page.

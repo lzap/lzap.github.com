@@ -1,0 +1,10 @@
+---
+layout: post
+title: How to install Lingea Lexicon 5 in Fedora 16
+date: 2011-11-23
+tags:
+- fedora
+---
+
+<h1>{{ page.title }}</h1>
+<a href="http://www.lingea.eu/">Lingea Lexicon</a> is the best dictionary out there. And not only for linux. It has very fast fuzzy search, decent interface and high-quality corpus for many languages. Where other dictionaries fail, this one is returning correct answers. I am happy user of English and German big dictionaries, but unfortunately I was not able to install it into my new 64bit Fedora 16.<br /><br />Not sure what is wrong with their LD_LIBRARY_PATH setting (they distribute all required libraries along with the program), but this did the job for me:<br /><br /><i>yum install&nbsp;libstdc++.so.5 libXft.so.2 libXrender.so.1 libz.so.1 libXft.so.2 libXmu.so.6 libXt.so.6 ld-linux.so.2 libasound.so.2 libxml2.so.2</i><br /><br />It installs necessary 32bit libraries. I hope Lingea guys will fix that, because this product is awesome.

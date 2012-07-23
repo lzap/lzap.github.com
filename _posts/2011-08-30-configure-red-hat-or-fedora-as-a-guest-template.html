@@ -1,0 +1,12 @@
+---
+layout: post
+title: Configure Red Hat or Fedora as a guest template
+date: 2011-08-30
+tags:
+- rhev
+- fedora
+- rhel
+---
+
+<h1>{{ page.title }}</h1>
+I have several tips how to configure Red Hat Enterprise Linux or Fedora as a guest template. That it an image used for fast provisioning of systems. My tips works with RHEL virtualization, RHEV hypervisor or any other virtualization technologies.<br /><br />Tip: <b>Do not monitor virtual discs.</b><br /><br />Stop and disable disc SMART monitoring. Since discs are virtual, there is no need of monitoring them for hardware failures. Use smartd daemon on the host, but not guests.<br /><br /><i># service smartd stop; chkconfig --del smartd</i><br /><br />Tip: <b>Give your host shutdown support.</b><br /><br />If you did Minimal Installation, you are probably missing ACPI daemon that handles graceful shutdowns. Power outage should never crash your guest.<br /><br /><i># yum install acpid; chkconfig acpid on; service acpid start</i><br /><br />Note: Starting from Fedora 14 the "halt" command no longer switches off the cord, to do it use "poweroff". I was happy "halt" user for many, many years. With the systemd now, I have to create an alias :-)<br /><br />Tip: <b>Install and enable ntp daemon.</b><br /><br />Time keeping is not a duck soup. Certainly not for virtualization hosts, and so I would recommend installing and enabling ntpd. Do not forget to set time properly prior starting up the daemon! It will eventually stop if the time-drift is too big.<br /><br /><i># date +%T -s "14:20:00"<br /># yum install ntp; chkconfig ntpd on; service ntpd start</i><br /><br />Tip: <b>Proxy your yum.</b><br /><br />Relatively "cheap" trick to save some bandwith is to use proxy for yum. Install squid on the host system (or anywhere on the LAN) and add <i>proxy=http://xxx:3128</i> to the <i>/etc/yum.conf</i> file. That's it. I have to admit much more clever solution would be to use <a href="http://pulpproject.org/">Pulp repository manager</a>.<br /><br />Tip: <b>Get ready to be provisioned.</b><br /><br />Once you are ready, you should execute the following last steps that will prepare the image to be reconfigured after restart, clean yum cache and remove generated ssh keys:<br /><br /><i># touch /.unconfigure<br /># yum clean all<br /># rm -rf /etc/ssh/ssh_host_*<br /># poweroff</i><br /><br />Happyend.

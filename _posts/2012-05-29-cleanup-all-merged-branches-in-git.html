@@ -1,0 +1,10 @@
+---
+layout: post
+title: Cleanup all merged branches in git
+date: 2012-05-29
+tags:
+- git
+---
+
+<h1>{{ page.title }}</h1>
+From time to time, I have been cleaning all merged branches using <i>git branch -d</i> command. I was wondering if I can do this automatically. Guess what. I can do that and it's as easy as:<br /><br /><i>git branch --merged master | grep -v 'master$' | xargs git branch -d</i><br /><br />Adding to <a href="http://lukas.zapletalovi.com/2011/04/my-git-aliases.html">my git aliases</a> right away!

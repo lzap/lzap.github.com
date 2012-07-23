@@ -1,0 +1,10 @@
+---
+layout: post
+title: X-Plane 9 and Intel GMA HD
+date: 2010-12-28
+tags:
+- english
+---
+
+<h1>{{ page.title }}</h1>
+X-Plane 9 does not run well on Intel GMA graphics. I have tested it on GMA HD today. There are textures missing -- everything is just gray (TM). It turned out the problem is in lack of <a href="http://en.wikipedia.org/wiki/S3_Texture_Compression">S3 texture compression</a> algorithm in the Mesa 3D library which is used for 3D on all Intel graphics drivers.<br /><br />Running X-Plane 9 with MESA_DEBUG=1 shows the actual problem: <i>Mesa warning: couldn't open libtxc_dxtn.so, software DXTn compression/decompression unavailable</i>. Unfortunately unticking Compress textures in the Rendering options of X-Plane does not help here. What now?<br /><br />Luckily the Mesa 3D is able to load additional shared modules. The one we are looking for is obviously <a href="http://cgit.freedesktop.org/~cbrill/libtxc_dxtn/">libtxc_dxtn.so</a>. To get X-Plane working on an Intel graphics card just clone the git repo, build the library (call "make") and copy/symlink it to /usr/lib. You can modify library path (LD_LIBRARY_PATH) as well but I suggest to make a symlink if you have root access. Don't forget to tick <b>Compress textures</b> in the X-Plane settings. Done.<br /><br />While it's not recommended to fly X-Plane on Intel graphics cards in general thank to this workaround one can use this wonderful piece of software on a intel-based laptop. It works like a charm on modern Intel GMA HD (Intel Core i5/i7) when you play a bit with the settings.<br /><br /><i>Warning: The library contains some patented IP. Please make sure you are allowed to use it in the country of your residence.</i>

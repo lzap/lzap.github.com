@@ -1,0 +1,14 @@
+---
+layout: post
+title: Red Hat Update Infrastructure 2.0
+date: 2011-08-22
+tags:
+- katello
+- pulp
+---
+
+<h1>{{ page.title }}</h1>
+Last month Red Hat released <b>Red Hat Update Infrastructure 2.0</b>. It is a collection of technologies that offers cloud providers the ability to easily deploy Red Hat solutions into their environments. Cloud solution providers can use Red Hat Update Infrastructure to give their customers the ability to update Red Hat technology in the cloud.<br /><br />Red Hat Update Infrastructure streamlines the deployment of Red Hat technologies into a cloud environment. Initial configuration, initialization, and synchronization of available instances in the cloud are done with very little user configuration or intervention. However, cloud-specific configuration is sometimes required, such as in these use cases:<br /><br /><ul><li>Setting a storage volume mountpoint in the cloud to store installation or update packages that have been synchronized from Red Hat Network (RHN)</li>
+ <li>Configuring network security to safeguard communications within the cloud</li>
+ <li>Adding supplemental monitoring checks that are outside those offered by Red Hat</li>
+ </ul><br />Cloud providers are given an X.509 content certificate that grants access to the Red Hat Enterprise Linux and Red Hat Update Infrastructure content stream, including ISO images and RPM packages. Once installed and configured, the Red Hat Update Infrastructure tools can used to create Red Hat Update Appliance (RHUA) and content distribution server (CDS) instances. CDS instances are then managed and monitored by the RHUA.<br /><br />Taken from <a href="http://docs.redhat.com/docs/en-US/Red_Hat_Update_Infrastructure/2.0/html/Installation_Guide/chap-Installation_Guide-Introduction.html">the documentation</a>.

@@ -1,0 +1,10 @@
+---
+layout: post
+title: Reformat vs reindent in Vim
+date: 2011-10-27
+tags:
+- vim
+---
+
+<h1>{{ page.title }}</h1>
+When I see questions about Vim and reformatting and reindenting, I usually feel confusion. But it is pretty easy.<br /><br /><span style="font-weight:bold;">Reindenting</span>, done with <b>=</b> key, is a process of shifting line indetation without inserting any line ends - no hard wrapping. Simply put, beginning columns of the selected lines can change, but the content cannot.<br /><br />On the other hand, reformatting is complete rewrite of a selected piece of code. Simply put, everything is deleted and written again according to the language rules defined in Vim. Easy, huh?<br /><br />The usual patern for reindentation is to go to the beginning of the file (<b>g</b><b>g</b>), change to line selection (<b>V</b>), go to the end of the file (<b>G</b>) and perform reidentation (<b>=</b>). <br /><br />That's indenting in vim: <b>g</b><b>g</b><b>V</b><b>G</b><b>=</b><br /><br /><span style="font-weight:bold;">Reformatting</span> pattern starts with the very same keys (<b>g</b><b>g</b><b>V</b><b>G</b>), but instead of equal key, you do <b>g</b><b>q</b> - reformat Vim command. <br /><br />That's formatting in vim: <b>g</b><b>g</b><b>V</b><b>G</b><b>g</b><b>q</b><br /><br />This works out-of-box in every Vim instance, even with plain text. Only when Vim does not understand the programming language you need to provide it with correct formatting rules (usually bunch of .vim files which have to go to the .vim directory structure).<br /><br />There is even shorter version how to do both, let me show you reindentation: <span style="font-weight:bold;">qqG=</span>. Or maybe you like longer version, which returns your caret to the last position before the action: <span style="font-weight:bold;">mzgg=G`z</span>. And there are many more options... ;-)<br /><br />Isn't Vim cool? It is.

@@ -1,0 +1,10 @@
+---
+layout: post
+title: Adresáře hoďte na zásobník (pushd a popd)
+date: 2011-01-06
+tags:
+- bash
+---
+
+<h1>{{ page.title }}</h1>
+Situace. Pracujete v adresáři /a někde v hloubi unixové adresářové struktury a potřebujete na stejném stroji provést něco v adresáři /b úplně někde jinde. Chcete se ale poté vrátit do původního adresáře. Jak to efektivně provést?<br /><br /><i>Poznámka: pro zlepšení přehlednosti adresáře nazývám /a a /b, ale jde o to že takový adresář může být například /lib/modules/2.6.32-71.el6.x86_64/kernel/arch/x86/kernel/cpu/cpufreq nebo ještě pěknější /var/lib/tomcat6/webapps/rhn/WEB-INF/classes/org/apache/jsp/WEB_002dINF/pages/kickstart/wizard/profile/advanced.</i><br /><br />Když pominu naivní přístup přechodu nejdřív do /b a poté pomocí opisování (ev. s tabelátorem) zpětně do /a, tak si typicky většina uživatelů otevře nový terminál a přejde v něm do /b, zatímco v původním terminálu je vše stále připraveno k akci v /a. Ale co když už máte obrazovku plnou terminálů a už žádný další prostě nechcete? Řešení je snadné.<br /><br />Příkaz pushd (push directory) si "zapamatuje" aktuální adresář (programátorsky: jej uloží na zásobník) a přejde do adresáře, který mu uživatel zadá jako parametr. Jakmile dokončíte práci, příkaz popd zase všechno vrátí zpět (programátorsky: přejde na adresář z vrcholu zásobníku) a uživatel jakoby "zázrakem" zase stojí v původním adresáři. Jelikož se vše ukládá do zásobníku, lze toto libovolně opakovat tak dlouho, jak jen uživatel potřebuje. Program přehledně vypisuje stav zásobníku (historie) na obrazovku.<br /><br />Dost bylo teorie. Pro přehlednost nebudu vypisovat stav historie, který zobrazuje příkaz pushd.<br /><br /><iframe src="http://pastebin.com/embed_iframe.php?i=E26AAkaC" style="border:none;width:100%"></iframe><br /><br />No zas taková diskotéka v přehlednosti to není. Nevadí. A teď pozor. Tohle funguje i ve Windows! Sice nevím k čemu by mi to u cmd.exe bylo, ale třeba se to někomu hodí.

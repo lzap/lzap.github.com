@@ -1,0 +1,10 @@
+---
+layout: post
+title: Google Chrome a eKonto
+date: 2010-08-30
+tags:
+- ekonto
+---
+
+<h1>{{ page.title }}</h1>
+Ačkoli se mi tomu nechce věřit, po akvizici eBanky je pro mě její eKonto stále nejvýhodnějším (osobním) účtem co se týče poplatků, služeb i internetového přístupu (mBanku jsem vyloučil jako podezřele levnou). Začal jsem nedávno používat ke vstupu na účet také Google Chrome, a byl jsem mile překvapen. Vše funguje tak, jak má. Stačí mít jen nainstalovánu Javu verze 5 nebo 6. Chce to ale jednu fintu.<br /><br />Pakliže máte svůj osobní certifikát uložen někde na flashce nebo na disku, javovský applet jej vždy hledá v pracovním adresáři procesu Google Chrome. Tímto adresářem je na Linuxu domovský adresář. Takže stačí si vytvořit v domovském adresáři symbolický odkaz na soubor s certifikátem se stejným názvem, a rázem bankovnictví funguje.<br /><br />Pokud používáte jiný prohlížeč, musíte si nejprve zjistit, který adresář má samotný proces nastavený jako pracovní. Například Mozilla Firefox na OS Windows nastavuje z "bezpečnostních" důvodů neexistující adresář C:\FAKEPATH, takže windowsáci používající Firefox a eKonto musejí takový adresář vytvořit a certifikát si dát právě tam. :-)<br /><br />Důvod je jasný - internetové bankovnictví přes osobní certifikát obsahující tuto chybičku již Reiffeisenbanka nadále nerozvíjí a nabízí klientům přístup jen přes mobil nebo "kalkulačku". Tento způsob trávení léta nesnáším (pořád dokola opisovat nějaká dlouhá čísla). Stávající zákazníci mají možnost ale své certifikáty (zatím) prodlužovat. Doufejme, že tomu tak bude ještě hodně dlouho. <br /><br />V tomto smyslu mě napadá <a href="http://www.imdb.com/title/tt0106697/quotes?qt0412467">citace</a> z jednoho z nejlepších akčních filmů vůbec (Demolition Man): "Simone Phoenixi, okamžitě ulehněte na zem, <b>nebo jinak</b>..." ;-)

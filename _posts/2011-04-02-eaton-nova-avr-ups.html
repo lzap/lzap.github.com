@@ -1,0 +1,11 @@
+---
+layout: post
+title: EATON NOVA AVR UPS
+date: 2011-04-02
+tags:
+- rhel
+- hw
+---
+
+<h1>{{ page.title }}</h1>
+Dnes jsem byl velmi spokojen s instalací UPSky <a href="http://powerquality.eaton.com/Products-services/Backup-Power-UPS/Nova-AVR.aspx?cx=54">EATON NOVA AVR 625</a>. Tak bezproblémovou instalaci na Linuxu jsem opravdu nečekal, zejména po zkušenosti s jinou značkou a také při pomyšlení na její <a href="http://www.alza.cz/eaton-ups-nova-avr-625-usb-d173914.htm">cenu 1333 Kč</a>.<br /><br />Do systému <b>Red Hat Enterprise Linux 6.0</b> jsem po zapojení přes USB kabel nainstaloval oficiální RPM balíček od firmy Eaton (k dispozici na stránkách zdarma). A dále? No to je právě ono. <b>Nic</b>. Vše <i>ihned funguje</i>, server je okamžitě chráněn. Implicitní nastavení je hibernovat při výpadku a 120 sekundách do úplného vybití baterií.<br /><br />Moje přání však bylo systém vypnout (shutdown) a odpojit proud od zdroje (de-energize - to aby po zapnutí zase naběhl). Také vypínání je na mém malém serveru podstatně kratší (120 sekund je moc - postačí minuta). Změnil jsem tedy dvě hodnoty přes velmi pěkně udělané webové rozhraní. Ovládání je přímočaré, intuitivní a <a href="http://download.mgeops.com/install/win32/ipp/eaton_ipp_110_users_guide_env.pdf">dobře zdokumentované</a>. Plus jsem si nadělil také odeslání e-mailu při výpadku. A jedním stiskem tlačítka jsem proces také nasimuloval.<br /><br />Takže velký úspěch, vše smeteno ze stolu během patnácti minut. Ještě snad přidám jednu zkušenost. Tato UPSka po připojení každou minutu jakoby odpojí a zase zapojí USB. Pravděpodobně to dělá kvůli Windows systémům, aby tam naběhl "Nový hardware". Trošku mě to zmátlo, ale jakmile člověk nainstaluje RPMko a UPS se spojí, vše ustane.<br /><br />Takhle bych si přál, aby výrobci navrhovali všechen hardware a software.

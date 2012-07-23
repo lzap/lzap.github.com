@@ -1,0 +1,11 @@
+---
+layout: post
+title: Testování PAMu
+date: 2010-09-14
+tags:
+- linux
+- pam
+---
+
+<h1>{{ page.title }}</h1>
+Potřeboval jsem otestovat PAM, ale nechtělo se mi vytvářet v systému žádného uživatele. Prostě jsem potřeboval, aby PAM každý požadavek (jméno/heslo) ověřil. Stačilo vytvořit soubor /etc/pam.d/testing s obsahem<br /><br /><pre>#%PAM-1.0<br />auth        required      pam_debug.so auth=success cred=success acct=success<br />account     required      pam_debug.so auth=success cred=success acct=success<br />session     required      pam_debug.so auth=success cred=success acct=success</pre><br />Poté již lze software otestovat. Jako PAM službu je nutné uvést "testing" (případně název souboru, který byl zvolen v adresáři pam.d).

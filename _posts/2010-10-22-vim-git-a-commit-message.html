@@ -1,0 +1,11 @@
+---
+layout: post
+title: Vim, Git a commit message
+date: 2010-10-22
+tags:
+- vim
+- git
+---
+
+<h1>{{ page.title }}</h1>
+Vim spolupracuje s Gitem naprosto skvěle. Inu, je to jen textový editor a commit zprávy jsou obyčejné texty. Vim ale umí něco navíc. Sám zjistí, že se jedná o commit message a zapne zvýrazňování syntaxe, které se hodí zejména pokud člověk dělá git rebase -i.<br /><br />Sedmičková verze Vimu ale vždy po otevření skočí na poslední pozici kuzoru, což je super, ale u commit zpráv je to trochu problém. U Gitu se všechny jmenují stejně (.git/COMMIT_EDITMSG), a tak se kurzor objevuje "náhodně" na různých řádcích.<br /><br />Řešení je prosté, stačí vyrobit soubor .vim/ftplugin/gitcommit.vim s tímto obsahem:<br /><br /><pre>if exists("b:did_ftplugin")<br />    finish<br />endif<br /><br />let b:did_ftplugin = 1 " Don't load twice in one buffer<br /><br />setlocal spell<br />call setpos('.', [0, 1, 1, 0])</pre><br />Kromě skoku na první řádek také zapíná spelling, který se hodí jakbysmet.

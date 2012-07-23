@@ -1,0 +1,12 @@
+---
+layout: post
+title: Elluminate, OpenJDK and PulseAudio
+date: 2011-08-01
+tags:
+- java
+- elluminate
+- fedora
+---
+
+<h1>{{ page.title }}</h1>
+I was constantly having sound issues with <a href="http://www.blackboard.com">Elluminate</a> after my upgrade to Fedora 15. The audio had recurring silent pauses about one second long. It was driving me crazy when I was watching recorded sessions (for on-line ones we are using tele-bridge).<br /><br />Today I <b>**saw red**</b>. I was suspecting network, but after a quick audio test (Tools - Audio - Setup Wizard) it turned out its rather java audio issue. After some googling I found there is possibility to setup PulseAudio with OpenJDK. First of all locate your sound.properties file:<br /><br /><blockquote><i># locate sound.properties<br />/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0/jre/lib/sound.properties</i></blockquote><br />Edit it and set javax.sound.sampled properties to PulseAudio providers. They are there already in Fedora 15 and you only have to uncomment it (and comment out the originals).<br /><br /><blockquote><i>javax.sound.sampled.Clip=org.classpath.icedtea.pulseaudio.PulseAudioMixerProvider<br />javax.sound.sampled.Port=org.classpath.icedtea.pulseaudio.PulseAudioMixerProvider<br />javax.sound.sampled.SourceDataLine=org.classpath.icedtea.pulseaudio.PulseAudioMixerProvider<br />javax.sound.sampled.TargetDataLine=org.classpath.icedtea.pulseaudio.PulseAudioMixerProvider<br /><br />#javax.sound.sampled.Clip=com.sun.media.sound.DirectAudioDeviceProvider<br />#javax.sound.sampled.Port=com.sun.media.sound.PortMixerProvider<br />#javax.sound.sampled.SourceDataLine=com.sun.media.sound.DirectAudioDeviceProvider<br />#javax.sound.sampled.TargetDataLine=com.sun.media.sound.DirectAudioDeviceProvider</i></blockquote><br />Now the important part - you need to rerun the Audio Wizard in Elluminate again and set the "default" input and output to start using PulseAudio plugin.<br /><br />Elluminate is using fast and stable PulseAudio from now on. No delays, pauses or clicks any more. High five!<br /><br />By the way there is cool audio/screen conferencing tool called <a href="http://www.mikogo.com">Mikogo</a> which is free to use. No Java needed, its fairly small and it is running smooth. Highly recommended.

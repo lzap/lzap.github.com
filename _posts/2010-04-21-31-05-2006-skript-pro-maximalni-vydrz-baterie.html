@@ -1,0 +1,10 @@
+---
+layout: post
+title: 31. 05. 2006 Skript pro maximální výdrž baterie
+date: 2010-04-21
+tags:
+- oldblog
+---
+
+<h1>{{ page.title }}</h1>
+Pro můj ThinkPad R50e. Opačný skript (pro znovuaktivování maximálního výkonu) je jednoduchý - stačí vrátit max. frekvenci, govenor nastavit na „performance“, to throttling (prokládání instrukcí NOPy) dát nulu a služby zase zapnout. Díky Ivane!<br /><br />#!/bin/sh<br />echo 700000 > \<br />/sys/devices/system/cpu/\<br />cpu0/cpufreq/scaling_max_freq<br />echo "powersave" > \<br />/sys/devices/system/cpu/\<br />cpu0/cpufreq/scaling_governor<br />echo 4 > /proc/acpi/processor/CPU/throttling <br />echo off > /proc/acpi/ibm/light<br />#su -c "xgamma -gamma 1.5" lzap<br />/etc/init.d/urandom stop<br />/etc/init.d/vixie-cron stop<br />/etc/init.d/famd stop<br />/etc/init.d/cupsd stop<br />/etc/init.d/syslog-ng stop<br />Nastavení gammy může pomoci v případě, že si ztmavíte obrazovku na minimum, což je dobrý nápad (u mně přidá asi 10 minut). Já mám ale oči dobré.<br /><br />Ivan mi tvrdí, že si zvýší výdrž vyndáním modulů pro USB, bluetooth aj. Jelikož modrý zub nepoužívám a USB i na baterce potřebuji (myš), pak toto uvedu jen dodatečně: ppdev parport_pc lp parport rfcomm hidp l2cap hci_usb bluetooth xpad usbkbd usbmouse usbhid sd_mod usb_storage sg scsi_mod ehci_hcd uhci_hcd e1000.

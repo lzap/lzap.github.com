@@ -1,0 +1,10 @@
+---
+layout: post
+title: Sháním Fedora sponzora
+date: 2010-09-19
+tags:
+- fedora
+---
+
+<h1>{{ page.title }}</h1>
+O víkendu jsem se rozhodl, že se poprvé pokusím protlačit dva balíky do Fedory. Prozatím jsem přispíval pouze do distribuce Gentoo a vytvářel nějaká ta Ubuntu "pé pé emka". Jelikož jsem však díky Mirkovi Suchému (a jeho přednášce minulý týden) dostal chuť na balení (a další pokračování v něm), zvolil jsem aplikaci, kterou denně používám.<br /><br />Jedná se o vynikající MacOS-like dok s názvem <a href="http://wiki.go-docky.com/">Docky</a>. Tato aplikace dělá přesně to, co potřebuju. Funguje bezproblémově, je rychlá a s pěknými efekty. Bohužel je napsána v C#. A jak je známo - Mono nemá u Fedory zrovna velkou prioritu. V repozitářích samozřejmě chybí.<br /><br />Jedná se o typický balíček s aplikací, přečetl jsem si pokyny a vycházel z příbuzné šablony. Kvůli Docky jsem musel vytvořit ještě jeden balíček navíc - závislost gio-sharp. Jedná se o malý binding na glib-gio.<br /><br />U obou balíčků jsem se snažil maximálně dodržet pokynů. U knihovny jsem použil předepsané "mono postupy", jako je například použití nástroje gacutil pro instalaci dll souborů. U aplikace Docky pak korektní vytvoření spouštěče včetně možnosti automatického spouštění přes XDG. Inspirován balíčkem Gnome Do, který má mimochodem s Docky mnoho společného, jsem vytvořil také patch, který z programu odstraní zoom efekt, který je bohužel v některých zemích patentován firmou Apple. Stejný postup zvolil balíkář Gnome Do.<br /><br />Rád bych požádal "fedoráky", kteří mohou (a mají chuť) sponzorovat, aby se mrkli na bugzilly <a href="https://bugzilla.redhat.com/show_bug.cgi?id=635451">gio-sharp</a> a <a href="https://bugzilla.redhat.com/show_bug.cgi?id=635450">docky</a>. Díky :-)

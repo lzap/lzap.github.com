@@ -1,0 +1,11 @@
+---
+layout: post
+title: How to configure auto-proxying in Chrome
+date: 2011-06-20
+tags:
+- chrome
+- google
+---
+
+<h1>{{ page.title }}</h1>
+If you need to access SOME websites using proxy (only few of them), you might like to use Proxy Autoconfiguration feature (or PAC). Google Chrome can do it and its a piece of cake to configure it. Create a file my-proxy.pac somewhere with this content:<br /><br /><pre>function FindProxyForURL (url,host) {<br />  var hosts = ["my.site1.com","my.site2.com"];<br />  for(var i=0;i&lt;hosts.length;i++) {<br />    if (shExpMatch(url,"*."+hosts[i]+"/*")||shExpMatch(url,"*//"+hosts[i]+"/*")) {<br />      return "PROXY myproxy.company.com:3128; DIRECT";<br />    }<br />  }<br />  return "DIRECT";<br />}</pre><br /><br />Now in Windows you would be configuring the path for PAC file in the Under the hood configuration screen. But its not there in Linux. In this case you need to add one line to your .bashrc:<br /><br /><span style="font-style:italic;">export auto_proxy=file:///home/lzap/my-proxy.pac</span><br /><br />Re-login and you are done. Nice.

@@ -1,0 +1,10 @@
+---
+layout: post
+title: Moje SSH/PGP veřejné klíče
+date: 2010-04-23
+tags:
+- oldblog
+---
+
+<h1>{{ page.title }}</h1>
+<ul><li><a href="http://static.zapletalovi.com/authorized_keys.txt">http://static.zapletalovi.com/authorized_keys.txt</a></li><li><a href="http://static.zapletalovi.com/pgp_block.txt">http://static.zapletalovi.com/pgp_block.txt</a></li></ul><br />Skript na přidání. Klíč nutno poté zkontrolovat!<br /><br /><blockquote><span class="Apple-style-span" style="font-family: 'Courier New', Courier, monospace;">mkdir ~/.ssh 2&gt;/dev/null; \</span></blockquote><blockquote><span class="Apple-style-span" style="font-family: 'Courier New', Courier, monospace;">wget -q --output-document=- http://static.zapletalovi.com/authorized_keys.txt &gt;&gt; \</span></blockquote><blockquote><span class="Apple-style-span" style="font-family: 'Courier New', Courier, monospace;">~/.ssh/authorized_keys &amp;&amp; \</span></blockquote><blockquote><span class="Apple-style-span" style="font-family: 'Courier New', Courier, monospace;">chmod 755 ~/.ssh &amp;&amp; \</span></blockquote><blockquote><span class="Apple-style-span" style="font-family: 'Courier New', Courier, monospace;">chmod 600 ~/.ssh/authorized_keys</span></blockquote><br /><i>Tento zápisek vznikl převodem z mého starého blogu. Ne všechny texty byly takto převedeny, kompletní archiv najdete v <a href="http://static.zapletalovi.com/oldblog">HTML archivu</a>.</i>

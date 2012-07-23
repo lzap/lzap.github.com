@@ -1,0 +1,11 @@
+---
+layout: post
+title: Nahrávání videí do YouTube
+date: 2011-03-28
+tags:
+- travel
+- google
+---
+
+<h1>{{ page.title }}</h1>
+Po návratu z hor bych se rád pokusil "nastříhat" trochu materiálu, který jsme natočili na sjezdovkách. K tomu je třeba první krok - nahrát videa na YouTube.com. Ale jak na to?<br /><br />Nejprve jsem zkusil nahrávání přes standardní rozhraní HTML5, které ale cca po 300 MB zhavarovalo. Poté jsem zkusil Java Applet, který YouTube také nabízí. V Linuxu mi nefunguje. Chvíli jsem se to pokoušel rozchodit, ale nakonec jsem to vzdal.<br /><br />Kdysi jsem četl, že Google vytvořil utility pro příkazovou řádku pro práci s některými jeho službami. Celý ten máslostroj se nazývá <a href="http://code.google.com/p/googlecl">GoogleCL</a> a je k dispozici i ve Fedoře. Bohužel ve starší verzi, která už není s YouTube.com kompatibilní. Použil jsem tedy verzi z SVN a ono to funguje!<br /><br />Videa jsem však potřeboval nahrávat v režimu soukromém. Jak na to není z dokumentace a wiki stránek vůbec patrné. Chvilku jsem se hrabal ve zdrojovém kódu a nakonec na to přišel:<br /><br /><i># google youtube post -c Travel --access=private *.MOV</i><br /><br />Magický přepínač je --access, do kterého lze uvést parametr "public" nebo "private". Implicitní nastavení je samozřejmě public (pro mě nevyhovující). Parameter -c je také důležitý a bez něj nelze videa nahrát. Bez <a href="http://code.google.com/p/googlecl/wiki/Manual#YouTube">nastavené kategorie</a> totiž video nenahrajete (YouTube jej po nahrávání odmítne).<br /><br />Po použití výše uvedeného příkazu se videa dříve nebo později objeví v YouTube profilu. Během tohoto týdne vyzkouším nový video editor a také filtr proti roztřepenému videu. No to jsem zvědav.

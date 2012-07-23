@@ -1,0 +1,11 @@
+---
+layout: post
+title: Sdílení sudo hesla mezi terminály
+date: 2010-11-15
+tags:
+- sudo
+- fedora
+---
+
+<h1>{{ page.title }}</h1>
+Nedávno jsem psal o tom, jak sdílet historii mezi terminály. Velmi úspěšný příspěvek, mimochodem ;-) Dneska se podíváme na sudo - výborný nástroj na který jsem si zvykl při používání Ubuntu. Delegování práv je někdy velmi výhodné, avšak opisovat stále dokola heslo je nepříjemné. Jako root tedy můžete upravit soubor /etc/sudoers příkazem <i>visudo</i> a vložit:<br /><br /><i>Defaults    timestamp_timeout = -1</i><br /><br />Od tohoto okamžiku stačí zadat heslo jen jednou a na daném terminálu již můžete vesele používat sudo příkazy bez obtěžování. V jiných terminálech ale vždy musíte heslo (poprvé) zadat. Lze tedy zadání hesla sdílet? Ano, stačí přidat řádek:<br /><br /><i>Defaults   !tty_tickets</i><br /><br />Celé bych to doporučil doplnit řádky:<br /><br /><i>Defaults   !lecture<br />Defaults    passwd_timeout = 0</i><br /><br />První vypne "varování" o použití sudo (některé distribuce varují jednou nebo dokonce pokaždé) a druhý vypne timeout při výzvě k zadání hesla (implicitně je 5 minut).<br /><br />Odzkoušeno na Fedoře, funguje všude.

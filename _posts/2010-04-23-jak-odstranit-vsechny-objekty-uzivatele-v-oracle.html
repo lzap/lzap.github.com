@@ -1,0 +1,10 @@
+---
+layout: post
+title: Jak odstranit všechny objekty uživatele v Oracle
+date: 2010-04-23
+tags:
+- oldblog
+---
+
+<h1>{{ page.title }}</h1>
+<i><span class="Apple-style-span" style="font-style: normal;"></span></i><br /><i><h1><span class="Apple-style-span" style="font-size: medium; font-weight: normal;"><i><span class="Apple-style-span" style="font-style: normal;"><div class="level1" style="display: inline !important;"><div style="display: inline !important;">Potřebujete „uklidit“ po testovacím uživateli v databázi Oracle? Je na to jeden elegantní příkaz. Nejprve se podíváme, co že za objekty uživatel vytvořil:</div></div></span></i></span></h1><div class="level1"><pre class="code">SELECT * FROM USER_OBJECTS</pre><pre class="code"></pre>Nyní si připravíme DROP klauzule:<br /><br /><pre class="code">SELECT 'DROP '||object_type||' '|| object_name||  DECODE(OBJECT_TYPE,'TABLE',' CASCADE CONSTRAINTS;',';') FROM USER_OBJECTS</pre><pre class="code"></pre>Ve výsledkovém okně našeho nástroje najdeme potřebné DROP příkazy. Například v&nbsp;<acronym title="Structured Query Language">SQL</acronym>&nbsp;Developeru nyní můžeme zvolit Select All a poté text zkopírovat do schránky a spustit. Například:<br /><br /><pre class="code">DROP TABLE XXX;<br />DROP TABLE YYY;<br />-- atd</pre><pre class="code"></pre>Na závěr je vhodné vyčistit koš.<br /><br /><pre class="code">PURGE RECYCLEBIN;</pre><pre class="code"></pre>A je to.<br /><br /></div></i><br /><i>Tento zápisek vznikl převodem z mého starého blogu. Ne všechny texty byly takto převedeny, kompletní archiv najdete v <a href="http://static.zapletalovi.com/oldblog">HTML archivu</a>.</i>

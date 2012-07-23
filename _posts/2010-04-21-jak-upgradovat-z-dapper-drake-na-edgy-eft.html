@@ -1,0 +1,10 @@
+---
+layout: post
+title: Jak upgradovat z Dapper Drake na Edgy Eft
+date: 2010-04-21
+tags:
+- oldblog
+---
+
+<h1>{{ page.title }}</h1>
+Nejdříve si udělejte pořádek v sources.list, je dobré vyhodit extra repozitáře, udělat update. Poté příkazem<br /><br />aptitude search '~i!~Oubuntu'<br /><br />najděte všechny nestandardní balíky, které byly přidány z jiných zdrojů. Doporučuji odinstalovat ty, které nepoužíváte (jen jste zkoušeli) a ponechat minimum (skype, realplayer – skutečně jen základní věci). Toto můžete provést také přes grafický Synaptic-Stav-Zastaralé nebo lokální balíčky.<br /><br />Dále jsem postupoval dle návodu: https://wiki.kubuntu.org/KubuntuUpgrade (update, dist-upgrade, instalace balíčku kubuntu-desktop, restart)<br /><br />Během instalace se apt několikrát zeptal, zda má modifikovat nebo zachovat změněné konfigurační soubory.

@@ -1,0 +1,12 @@
+---
+layout: post
+title: How to easily mount ISO files for Apache
+date: 2011-10-25
+tags:
+- pulp
+- fuse
+- fedora
+---
+
+<h1>{{ page.title }}</h1>
+I play with yum repositories and ISO files very often, therefore it is vital to have such files and directories avaiable via local Apache httpd. I had this idea of mounting ISO files into directories and using these as yum repositories. I leveraged fuseiso program, but there's a trick.<br /><br />Fuseiso works per-user by default and few steps need to be done to publish those directories under different (apache) user. The solution is to use <span style="font-weight:bold;">allow_other</span> FUSE option:<br /><br /><span style="font-style:italic;">killall fuseiso 2>/dev/null<br />mkdir fuse<br />for D in *iso; do<br />  fuseiso -n -p $D fuse/$D -o allow_other<br />  sleep 0.3s<br />done</span><br /><br />Uh, but wait!<br /><br /><span style="font-style:italic;">fusermount: option allow_other only allowed if 'user_allow_other' is set in /etc/fuse.conf</span><br /><br />Edit the file and resubmit. There you go!

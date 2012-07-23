@@ -1,0 +1,16 @@
+---
+layout: post
+title: The unix-way and unzip
+date: 2011-08-12
+tags:
+- bash
+- zip
+---
+
+<h1>{{ page.title }}</h1>
+The whole world use ZIP package format. Nothing can be done, that is the fact. This poor compression format got famous thanks to the WinZIP utility and tons of its clones.<br /><br />We, Linux and UNIX fans, use tarballs. This name was generalized and estabilished as a term for all compresset tar files. The most famous compression programs are gzip, bzip2 or the old guy named compress. All the utilities I just mentioned above works the UNIX WAY(TM).<br /><br />Today I needed to unzip several zip files and I issued "typical" UNIX command:<br /><br /># unzip *zip<br />Archive: a.zip<br />caution: filename not matched: b.zip<br />caution: filename not matched: c.zip<br />caution: filename not matched: d.zip<br />caution: filename not matched: e.zip<br />...<br /><br />Oh, it happens again. I am not able to remember this does not work. The first idea that comes to my mind is to use Bash for loop. But wait, what is the cause of this? The man page reveals it in it's full glory.<br /><br /><pre>UnZip 6.00 of 20 April 2009, by Info-ZIP.  Maintained by C. Spieler.  Send
+<br />bug reports using http://www.info-zip.org/zip-bug.html; see README for details.
+<br />
+<br />Usage: unzip [-Z] [-opts[modifiers]] file[.zip] [list] [-x xlist] [-d exdir]
+<br />  Default action is to extract files in list, except those in xlist, to exdir;
+<br />  file[.zip] may be a wildcard.  -Z => ZipInfo mode ("unzip -Z" for usage).</pre><br />When shell expands the asterisk, unzip treats everything from the second parameters as files within the archive. The unzip itself is able to do globs. No offense aginst Info-ZIP guys who do a really great job, but this is cool. So you have to be faster here:<br /><br /># unzip \*zip<br /><br />Then it works. <br /><br />We are ofter surprised when programs in UNIX or Linux misbehave, but nothing is perfect.

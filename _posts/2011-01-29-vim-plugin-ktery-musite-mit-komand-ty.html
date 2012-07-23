@@ -1,0 +1,10 @@
+---
+layout: post
+title: Vim plugin který musíte mít - Komand Tý
+date: 2011-01-29
+tags:
+- vim
+---
+
+<h1>{{ page.title }}</h1>
+Vím, není Štědrý večer. Pro Vim ale ano. Trošku si totiž dneska "hraju". Tuním. Piju. Nespím.<br /><br />Jestli používáte Vim intenzivněji, možná už máte ten "svůj" způsob otevírání souborů. Mě se osvědčil příkaz :find ve spolupráci s nastavením :set path na aktuální adresář (tedy projekt). Mám nabindované sady kláves pro otevírání souborů ve splitu (horizontál, vertikál) a tabu. Asi klasika, kterou zná každý vimař.<br /><br />Na podobném způsobu funguje plugin <a href="https://wincent.com/products/command-t">CommandT</a>, ale všechno to tak nějak dotahuje k dokonalosti. Předně je nesmírně rychlý i u adresářů s mnoha soubory. On totiž kešuje. Za druhé vyhledává jakékoliv části souborů. Ihned, bez nutnosti dávat globy (alias hvězdy). Chci otevřít soubor define.h? Není třeba zadávat vše, ani *.h pokud bychom na to šli z "druhé strany". Prostě jakákoliv část. Fungovat bude třeba i "Fine". Na velikosti záleží, ale ne v tomto případě.<br /><br />Standardně je CommandT okno nadefinováno na klávesy leader-T (v implcitním Vimu tedy \-T). Já mám jako leader klávesu čárku, což je takový standard. Navíc jsem si jej nadefinoval taky na bleskuryhchlou kombinaci leader-leader (čárka čárka).<br /><br />Pak lze také dělat různé zkratky, např. pro soubor app/controller/human_controller.rb lze použít "achum" a enter. Tedy první znaky adresářů plug část souboru. Těžko se to popisuje, zkuste zkouknout toto <a href="http://amix.dk/blog/post/19501">skvělé video</a>. Zachycuje zhruba to nejdůležitější, co tento plugin umí.

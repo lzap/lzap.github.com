@@ -1,0 +1,11 @@
+---
+layout: post
+title: Create self-signed certificate for Apache on one line
+date: 2011-02-17
+tags:
+- english
+- httpd
+---
+
+<h1>{{ page.title }}</h1>
+You need to create a self-signed certificate for httpd server by Apache Software Foundation I guess. There are thousands of tutorials out there. But I have the special one. A oneliner. Yeah! Do the following in an empty directory, /tmp for example. <br /><br /><i>openssl genrsa -out cert.key 1024 && echo -ne "\n\n\n\n\n$HOSTNAME\nroot@$HOSTNAME\n" | openssl req -new -key cert.key -x509 -out cert.crt -days 999</i><br /><br />All done. Nasty, isn't it? You can check out your fresh certificate by issuing<br /><br /><i>openssl x509 -text -in cert.crt</i><br /><br />As you can see the Subject and Issuer are the same. It's a self-signed certificate as I promised.<br /><br />Two files were created. The cert.crt contains the certificate itself, the cert.key contains, guess what, the private key. Please note this is NOT recommended for production use. Only for quick & dirty certificates for development use. You have been warned!<br /><br />Sit back and hit your <a href="http://www.google.cz/images?q=that+was+easy+button">That Was Easy</a> (TM) button now.

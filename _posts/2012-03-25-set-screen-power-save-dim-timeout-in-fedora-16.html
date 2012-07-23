@@ -1,0 +1,11 @@
+---
+layout: post
+title: Set screen power-save dim timeout in Fedora 16+
+date: 2012-03-25
+tags:
+- screen
+- fedora
+---
+
+<h1>{{ page.title }}</h1>
+I cannot believe I use Fedora with the default ten seconds screen dimming for almost two years now. When running on battery, this is very annoying. I need to think more than 10 seconds during coding, and this is driving me crazy.<br /><br />So I found a <a href="http://www.sparsebrain.com/2012/01/changing-interval-for-desktop-display.html">nice little post</a> about this and sharing. To determine your value just run:<br /><br /><br /><i>$ gsettings get org.gnome.settings-daemon.plugins.power idle-dim-time</i><br /><i>10</i><br /><div><br /></div><div>To set it to lets say reasonable thirty seconds, just do this:</div><div><br /></div><div><i>$&nbsp;gsettings set org.gnome.settings-daemon.plugins.power idle-dim-time 30</i></div><div><br /></div><div>Again, this is not out of my head. Thanks!</div>

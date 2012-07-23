@@ -1,0 +1,10 @@
+---
+layout: post
+title: Chyba v Javě umožňuje DoS útoky
+date: 2011-02-03
+tags:
+- java
+---
+
+<h1>{{ page.title }}</h1>
+Fatální chyba v implementaci Javy (postižená je Java od Oracle stejně jako OpenJDK) zapříčiní nekonečnou smyčku, pakliže se JVM pokusí přečíst číslo <a href="http://www.exploringbinary.com/java-hangs-when-converting-2-2250738585072012e-308/">2.2250738585072012e-308</a>. Škodlivý kód je velmi jednoduché vytvořit:<br /><br />class runhang {<br />public static void main(String[] args) {<br />  System.out.println("Test:");<br />  double d = Double.parseDouble("2.2250738585072012e-308");<br />  System.out.println("Value: " + d);<br /> }<br />}<br /><br />Tento program se zastaví na druhém řádku, kde se parsuje číslo, a nikdy neskončí. Není to "nic moc". Chyba musí být bleskurychle opravena. Zneužití je možné doslova na všech frontách. Postižené jsou například některé J2EE kontejnery, které je možné "shodit". Například Tomcat parsuje v hlaviččce Accept-Language parametr "q" jako Double. Takže lze prostě poslat něco jako:<br /><br />$ curl -H "Accept-Language:cs;q=2.2250738585072012e-308" www.server.cz<br /><br />No nic příjemného. To každopádně. Ale není to žádná tragedie.

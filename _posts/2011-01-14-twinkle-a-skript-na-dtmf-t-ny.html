@@ -1,0 +1,11 @@
+---
+layout: post
+title: Twinkle a skript na DTMF tóny
+date: 2011-01-14
+tags:
+- twinkle
+- sip
+---
+
+<h1>{{ page.title }}</h1>
+Program Twinkle je jasně nejnadupanějším softwarovým telefonem (soft-phonem) v Linuxu. Tím myslím, že má úplně nejvíc funkcí ze všech. Má pěkné rozhraní napsané v QT, disponuje nekonečně mnoha SIP účty s dvěma linkami pro každý, všemožnými kodeky i protokoly a bohatým nastavením včetně skriptování v libovolném jazyce. A hlavně funguje bez chyb.<br /><br />Pokud často používáte službu (například <a href="http://www.intercall.com">InterCall</a>), u které je třeba zadávat DTMF tóny, začne vás to po čase štvát. Človek musí mít po ruce papírky a zadávání je nepohodlné, zdlouhavé. Řešení pomocí Twinkle je až děsivě jednoduché:<br /><br /><i>DTMF_MEETING_A=7682743329#<br />DTMF_MEETING_B=7682743223#<br />DTMF_MEETING_C=7682743875#</i><br /><br /><i>twinkle --call "sip:800321876@sip.mujprovider.cz" --immediate && sleep 5s && twinkle --cmd "dtmf $DTMF_MEETING_A"</i><br /><br />Pokud Twinlke ještě nebyl spuštěn, tak se spustí. V opačném případě začne rovnou volat a zadávat DMTF tóny pro volbu konferenčního hovoru. Samozřejmě je nejlepší si na to vytvořit vlastní skripty či aliasy, ale to už jak kdo chce.<br /><br />Poznámka: všechna čísla v příspěvku jsou čistě náhodná :-)

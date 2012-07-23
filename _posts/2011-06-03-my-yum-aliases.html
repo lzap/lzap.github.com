@@ -1,0 +1,11 @@
+---
+layout: post
+title: My yum aliases
+date: 2011-06-03
+tags:
+- fedora
+- yum
+---
+
+<h1>{{ page.title }}</h1>
+I am using yum a lot. Everyday. Typing <span style="font-style:italic;">sudo yum -y</span> is boring. Now, guess what.<br /><br /><span style="font-style:italic;">$ alias | grep yum<br />alias ycu='sudo yum check-update'<br />alias yi='sudo yum install'<br />alias yli='sudo yum localinstall --nogpgcheck'<br />alias ypr='sudo yum provides'<br />alias yprw='sudo yum provides $(which $1)'<br />alias yr='sudo yum remove'<br />alias ys='sudo yum search'<br />alias yu='sudo yum update'<br />alias yut='sudo yum --enablerepo=updates-testing update'<br />alias yyi='sudo yum -y install'<br />alias yyr='sudo yum -y remove'<br />alias yys='sudo yum -C search'<br />alias yyu='sudo yum -y update'<br />alias yyyi='sudo yum -Cy install'</span><br /><br />And here's the workflow.<br /><br />Are there any updates for me?<br /><br /><span style="font-weight:bold;"># yum ycu</span><br /><br />Install vim.<br /><br /><span style="font-weight:bold;"># yyi vim</span><br /><br />Install gcc from testing repo, cos theres annoying bug fixed that drives me crazy.<br /><br /><span style="font-weight:bold;"># yut gcc</span><br /><br />Install downloaded RPM package using yum.<br /><br /><span style="font-weight:bold;"># yli my_package</span><br /><br />What package is /bin/bash from?<br /><br /><span style="font-weight:bold;"># ypr /bin/bash</span><br /><br />What package is command "file" from?<br /><br /><span style="font-weight:bold;"># yprw file</span><br /><br />And the most used - search for package vim.<br /><br /><span style="font-weight:bold;"># ys vim</span><br /><br />Do you <span style="font-weight:bold;">hate</span> metadata dowloading everytime you issue a yum command? Use -C parameter or set <span style="font-style:italic;">metadata_expire=never</span> in your /etc/yum.conf file. You need to update manually (just like with aptitute/apt-get). Well, theres outstanding yum-cron script for that. Just install it and it will do it for you. Just edit the /etc/sysconfig/yum-cron file and set <span style="font-style:italic;">DOWNLOAD_ONLY=yes</span> if you need only metadata to be downloaded. Otherwise the system will be kept up-to-date.

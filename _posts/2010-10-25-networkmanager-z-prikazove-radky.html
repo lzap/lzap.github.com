@@ -1,0 +1,11 @@
+---
+layout: post
+title: NetworkManager z příkazové řádky
+date: 2010-10-25
+tags:
+- linux
+- cli
+---
+
+<h1>{{ page.title }}</h1>
+Nebaví mě klikat. Raději píšu. Spouštím tak programy, provádím různé operace, programuji a pracuji. Když se chci připojit na skrytou wifi nebo do vpn, je nutné klikat. A nebo ne?<br /><br /><pre>$ nmcli con list<br />NAME        UUID                                   TYPE              SCOPE<br />System eth0 afb06bd0-0bb0-7ffb-45f1-d6edd65f3e03   802-3-ethernet    system<br />NAME        UUID                                   TYPE              SCOPE<br />amsterdam   a73ae51c-0c76-45e0-a75b-e5dfb87a8ccb   vpn               user<br />lzap        af8342f9-b553-418f-9dda-3546c059c0b3   802-11-wireless   user</pre><br />Pro jednoduchost jsem výpis trošku zkrátil a odstranil sloupec. Takže připojit na wifi "lzap":<br /><br /><i># nmcli con up id lzap</i><br /><br />Připojit do VPN pojmenované jako "amsterdam":<br /><br /><i># nmcli con up id "amsterdam"</i><br /><br />Odpojit VPN:<br /><br /><i># nmcli con down id "amsterdam"</i><br /><br />Jaký je stav?<br /><br /><pre># nmcli nm<br />RUNNING         STATE           WIFI-HARDWARE   WIFI       WWAN-HARDWARE   WWAN      <br />running         connected       enabled         enabled    enabled         enabled</pre><br />A tak dále. A tak podobně.

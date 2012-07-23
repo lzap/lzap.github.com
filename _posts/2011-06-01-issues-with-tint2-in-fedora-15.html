@@ -1,0 +1,10 @@
+---
+layout: post
+title: Issues with tint2 in Fedora 15
+date: 2011-06-01
+tags:
+- fedora
+---
+
+<h1>{{ page.title }}</h1>
+Having issues with tint2 using the new kernel from Fedora 15? It's the same one from Debian.<br /><br /><span style="font-style:italic;">$ tint2<br />real transparency off.... depth: 24<br />xRandr: Found crtc's: 2<br />xRandr: Linking output LVDS1 with crtc 0<br />warning : monitor not found. tint2 default to all monitors.<br />ERROR: battery applet can't open energy_now<br />Segmentation fault (core dumped)</span><br /><br />I <a href="https://bugzilla.redhat.com/show_bug.cgi?id=709821">reported</a> and fixed the issue for Fedora rawhide and 15. I also asked package maintainer Germán Racca to push it into the updates. If you cannot wait the workaround is to disable baterry "applet" (battery = 0 in the tint2 config file) or update to <a href="http://lzap.fedorapeople.org/patches/tint2/709821/">my build</a> (only 32 bits - sorry).

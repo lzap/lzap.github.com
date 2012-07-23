@@ -1,0 +1,10 @@
+---
+layout: post
+title: Intel 855 na R50e a xorg.conf
+date: 2010-04-21
+tags:
+- oldblog
+---
+
+<h1>{{ page.title }}</h1>
+Už dlouho jsem měl v TODO položku rozchodit xineramu (dvě plochy) a xineramu (dual - kopírování LCD na CRT) na svém notebooku a konečně jsem se k tomu dostal. Jelikož mám zítra prezentaci, na které je nutné, aby mi to chodilo, tak jsem po asi hodině laborování našel ty správné konfigurace.<br /><br /><span class="Apple-style-span" style="color: #333333; font-family: Verdana, 'Lucida Grande', Lucida, Helvetica, Arial, sans-serif; font-size: 13px; line-height: 19px;"><a class="media mediafile mf_zip" href="http://lukas.zapletalovi.com/_media/blog:r50e_configs.zip" style="background-attachment: initial; background-clip: initial; background-color: transparent; background-image: url(http://lukas.zapletalovi.com/lib/images/fileicons/zip.png); background-origin: initial; background-position: 0px 1px; background-repeat: no-repeat no-repeat; color: #436976; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px; padding-bottom: 1px; padding-left: 18px; padding-right: 0px; padding-top: 0px; text-decoration: none;" title="blog:r50e_configs.zip">r50e_configs.zip</a></span><br /><br />Notebook mám nyní nastaven tak, že plochu duplikuje na VGA výstup (1024×768@70) - stačí připojit kabel (soubor xorg-dual.conf). Během laborování jsem ale také našel konfiguraci, kdy mám dvě plochy. Na prezentaci to sice není vhodné, ale na práci ano (soubor xorg-xinerama.conf). A konečně xorg-normal.conf je obyčejná konfigurace - pro případ, že by snad klonování žralo víc baterií. Přikládám ke stažení tarball se všemi konfiguracemi.

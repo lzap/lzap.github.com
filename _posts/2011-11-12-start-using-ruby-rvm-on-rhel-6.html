@@ -1,0 +1,12 @@
+---
+layout: post
+title: Start using Ruby RVM on RHEL 6
+date: 2011-11-12
+tags:
+- ruby
+- fedora
+- rhel
+---
+
+<h1>{{ page.title }}</h1>
+Rubyists know RVM very well, I tried it several times. This time I am doing on RHEL 6. The installation instructions from the RVM site differs slightly when applied on a RHEL box, so here is my tutorial. I extended the process a bit with some tunings. As you will see I will create a dedicated user (running it on a server box) and configure everything slightly. Let's go.<br /><br /><i>yum -y install zlib-devel readline-devel libxml2-devel libxslt-devel sqlite sqlite-devel openssl-devel postgresql-devel<br />adduser -m ruby<br />passwd ruby<br />su ruby<br />echo "install: --no-rdoc --no-ri" > ~/.gemrc<br />curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer | bash<br />. ~/.bashrc<br />rvm install 1.8.7<br />rvm use 1.8.7 --default<br />gem install bundler</i><br /><br />After RVM installation and Ruby 1.8.7 setup, let's install a Ruby on Rails application (simple photo gallery) as an example.<br /><br /><i>git clone https://github.com/espen/balder.git<br />cd balder<br />bundle install<br />gem install pg<br />yum -y install perl-Image-ExifTool<br />rails server</i><br /><br />Done. And what was the trick on RHEL? To install those devel packages and then the pipe into bash. The command from RVM site did not work as there is different Bash version than on Ubuntu, which the author apparently tested against.

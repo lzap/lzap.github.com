@@ -1,0 +1,12 @@
+---
+layout: post
+title: Getting TP-LINK TL-WN722NC work under RHEL6
+date: 2012-05-05
+tags:
+- rhel6
+- fedora
+- wifi
+---
+
+<h1>{{ page.title }}</h1>
+<a href="http://www.tp-link.com/en/products/details/?model=TL-WN722NC">TP-LINK TL-WN722NC</a> is a wonderful and cheap USB wifi stick which provides stable connection and has extra USB cradle bundled with it (so you can put it on a window or something). I have to admit there are better solutions than USB sticks, but sometimes you need to solve a problem and this ten bucks piece of hardware can do it for ya.<br /><br />Unfortunately the driver (<b>ath9k_htc</b>) is still in testing, thus not available in default RHEL6 kernels. In Fedora 16+ it is already there, but how to get it working under RHEL6 (CentOS 6, Scientific Linux 6...)?<br /><br />Super easy. Just enable <a href="http://elrepo.org/">ELRepo</a> repository. Don't worry, main repository is safe (does not override any RHEL6 packages):<br /><br /><i>rpm -Uvh http://elrepo.org/elrepo-release-6-4.el6.elrepo.noarch.rpm</i><br /><br />And install <a href="http://elrepo.org/tiki/kmod-compat-wireless">the following package</a>. It will take some time to install it, because it's kmod-based package, grab a coffee or something:<br /><br /><i>yum -y install&nbsp;kmod-compat-wireless</i><br /><br />Test it!<br /><br /><i>modprobe&nbsp;ath9k_htc</i><br /><br />You can use your favourite wifi tool to connect to a network. In my case this is, belive me or not, <b>NetworkManager</b>. Works nice. Allright, &nbsp;we are almost done. I am not sure if the following step is needed, but I just want to be sure proper module will be loaded for wlan0:<br /><br /><i>echo "alias wlan0 ath9k_htc" &gt; /etc/modprobe.d/wlan0.conf</i><br /><br />Reboot, re-test, relax.

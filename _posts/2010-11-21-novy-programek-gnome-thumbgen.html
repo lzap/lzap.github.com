@@ -1,0 +1,10 @@
+---
+layout: post
+title: Nový prográmek gnome-thumbgen
+date: 2010-11-21
+tags:
+- gnome-thumbgen
+---
+
+<h1>{{ page.title }}</h1>
+Včera v noci jsem si udělal malý skriptík v Pythonu, který je schopen rekurzivně prolézt adresářovou strukturu a vygenerovat pro všechny obrázky náhledy v adresáři .thumbnails, které používá například Nautilus nebo gThumb. Dnes se totiž chci probrat svoji databází fotek (cca 60 GB) a něco si z ní vytáhnout. Dlouho jsem na fotky nesáhl a od doby, kdy jsem je přesunul na svůj NAS server uplynula již nějaká doba.<br /><br />Problém je ten, že moje oblíbená Picassa si se "vzdálenými" fotkami vůbec nerozumí. Už jsem přišel o nějakoku tu značkovací práci, když jsem omylem Picassu spustil, když nebyl NAS server zapnutý. Picasa ihned všechny fotky "smazala" z databáze včetně značek (tagů). Když se mi to stalo po druhé, že jsem se ani nesnažil obnovovat z databáze a Picasu prostě smazal.<br /><br />Dnes hodlám brouzdat adresáři plnými fotek programem gThumb. Proto jsem si přes noc vygeneroval tímto mým nový skriptíkem náhledy. S hrůzou jsem ale zjistil, že předgenerované náhledy gThumb vůbec nezrychlí. Z nějakého důvodu si stále "osahává" původní soubory, což je velmi pomalé. Nu ale když by někdo měl chuť tento skriptík použít, dal jsem ho na <a href="https://github.com/lzap/gnome-thumbgen">github.com</a>.<br /><br />Pozor - nedokončil jsem úplně autotools skripty (configure, make, make install), takže musíte program nainstalovat ručně. V tomto případě je to však triviální - soubor <a href="https://github.com/lzap/gnome-thumbgen/blob/master/src/gnome-thumbgen.py">gnome-thumbgen.py</a> prostě nakopírujte do cesty $PATH (například na většině distribucí je to adresář ~/bin) a dejte mu spustitelný příznak. Pak zkuste přepínač <i>--help</i>, protože možností je poměrně mnoho.<br /><br /><span class="Apple-style-span" style="color: #181818; font-family: 'trebuchet MS', 'Lucida Sans Unicode', 'Lucida Sans', sans-serif; font-size: 13px; line-height: 24px;"><iframe src="http://pastebin.com/embed_iframe.php?i=ahLBj1mZ" style="border: none; width: 100%;"></iframe></span>

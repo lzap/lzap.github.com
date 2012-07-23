@@ -1,0 +1,11 @@
+---
+layout: post
+title: Sdílení historie mezi terminály
+date: 2010-10-20
+tags:
+- linux
+- bash
+---
+
+<h1>{{ page.title }}</h1>
+V poslední době se výrazně zvýšil počet terminálů, se kterými pracuji. Také přibylo velké množství příkazů, takže jsem se musel naučit lépe pracovat s historií v Bashi. Například jsem si nadefinoval alias, se kterým mohu rychle progrepovat v celé historii a prohlížet si například několik velmi podobných příkazů (a vybrat si ten konkrétní).<br /><br /><i>alias hist='history | grep $1"'</i><br /><br />Pochopitelně bylo potřeba zvýšit si velikost historie a také zamezit vkládání příkazů začínajících mezerou, o kterých vím, že je v historii mít nechci.<br /><br /><i>export HISTFILESIZE=20000<br />export HISTCONTROL=ignoreboth</i><br /><br />To jsou všechno základní věci, ale jeden problém mě trápil. Při větším množství otevřených terminálů se člověku stane, že by potřeboval použít příkaz z historie, která je sice v paměti jiného terminálu, ale ještě nebyla zapsána (do souboru .bash_history). Jiné terminály prostě příkaz ještě "nevidí" a bude k dispozici až po odhlášení a přihlášení obou.<br /><br />Řešení je snadné. Příkaz <i>history -a</i> provede zápis všech příkazů z paměti do souboru. Ten provedu v terminálu, ve kterém jsem kýžený příkaz spustil. No a příkaz <i>history -n</i> načte soubor zpět do paměti. Ten je nutné provést v terminálu, kde chci v historii dolovat.<br /><br />No a celé je to možné provést za sebou. Udělal jsem si tedy alias.<br /><br /><i>alias hh='history -a; history -n'</i><br /><br />V obou terminálech tedy stačí provést jen "hh" a je hotovo. Žádná věda, ale potěší to...

@@ -1,0 +1,10 @@
+---
+layout: post
+title: Síť v minimal instalaci Fedory 13
+date: 2010-10-01
+tags:
+- fedora
+---
+
+<h1>{{ page.title }}</h1>
+Překvapilo mě (celkem logické) chování instalačního programu Anaconda ve Fedoře 13 (a zřejmě i jiných verzích) v podobě nenastavování sítě u minimální instalace. Týká se to pouze "klasické" instalace (tedy ne LiveCD). Síť je třeba po instalaci nahodit. Třeba takto:<br /><br /><pre># ifup eth0<br /># yum install system-config-network-tui<br /># system-config-network</pre><br />V posledním příkazu je schováno nastavení sítě pomocí grafického rozhraní. Typicky stačí jen potvrdit (Save and Quit). Případně to můžete provést <a href="https://bugzilla.redhat.com/show_bug.cgi?id=557112#c2">ručně stručně</a>.

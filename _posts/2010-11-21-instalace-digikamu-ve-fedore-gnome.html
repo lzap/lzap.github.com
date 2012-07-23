@@ -1,0 +1,13 @@
+---
+layout: post
+title: Instalace digiKamu ve Fedoře (Gnome)
+date: 2010-11-21
+tags:
+- fedora
+- digikam
+- kde
+- gnome
+---
+
+<h1>{{ page.title }}</h1>
+Dneska testuji digiKam 1.5.0 ve Fedoře 14. Tento program opravdu vyzrál a má mnoho funkcí. Ale hlavně první testy ukazují, že je i velmi rychlý. Moji velkou databázi fotek naindexoval dokonce dříve, než Bibble 5.1, který o sobě tvrdí, jak je rychlý. Fotky se načítají bleskově, a přitom má digiKam databázi náhledů jen nějakých 300 MB (z celkové velikosti necelých 60 GB fotek).<br /><br />Při instalaci jsem ale narazil na problém. Nefungovalo mi bezztrátové otáčení JPEGů - tlačítka vpravo/vlevo prostě nereagovala. Nakonec jsem přišel na to, že musím mít nainstalovaný jistý KIPI plugin, který nebyl v závislostech balíku digikam (není povinný).<br /><br />Takže kdybyste instalovali ve Fedoře s Gnome prostředím digiKam, tak nainstalujte dva další balíky (ten druhý je pro podporu vzdálené databáze metadat MySQL - což jistě také vyzkouším). Kompletní příkaz je pak:<br /><br /><i>$ yum install digikam kipi-plugins qt-mysql</i><br /><br />Ještě napíšu, jak jsem dopadl s testováním a jestli u mě program zvítězil.

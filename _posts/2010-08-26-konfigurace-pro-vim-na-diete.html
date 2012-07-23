@@ -1,0 +1,10 @@
+---
+layout: post
+title: Konfigurace pro Vim na dietě
+date: 2010-08-26
+tags:
+- vim
+---
+
+<h1>{{ page.title }}</h1>
+V noci na dnešek jsem si dal tu práci a během upgradu na Vim 7.3 jsem výrazně zredukoval svoji konfiguraci. Ta se smrskla z nějakých 42 MB na pouhých 31 MB. Doslova jsem řádil a vyházel všechno, co už nepoužívám. Zbylo v podstatě torzo - moje hlavní konfigurace, pár barevných schémat a slovníky na kontrolu pravopisu (čeština, angličtina - kódování ISO88592 a UTF8).<br /><br />Zároveň jsem přesunul repozitář s konfigurací ze soukromého FTP serveru (Bazaar) na <a href="http://github.com/lzap/vim-lzap">Github</a> (GIT). Můžete si tedy moji "vychytanou" konfiguraci stáhnout a třeba i používat. Několik poznámek: <br /><br /><ul><li>leader key mám nastavenu na čárku (,)</li><li>klávesy F1-F4 slouží k práci s taby (otevřít okno s prohlížečem, tabclose, tabnext, tabprevious)</li><li>klávesy F5-F8 s buildy (make, cnext, cprevious, cclose)</li><li>klávesy CTRL-F1 až F3 pak ke zobrazení menu, toolbaru a scrollbaru (vše mám standardně schováno)</li><li>klávesa Q (velké q) udělá naformátování paragrafu (qg)</li><li>CTRL-SPACE je alias na doplňování kódu omnifunc (CTRL-X, CTRL-O)</li><li>CTRL-K je alias pro CTRL-] (tag - na české klávesnici nedostupná záležitost)</li></ul><br />Plus mnoho dalších vychytávek a nastavení. S textovými (*.txt) soubory je nakládáno jinak - je aktivované automatické lámání na 78mém sloupci a kontrola pravopisu (čeština i angličtina zároveň). Podpora mnoha dalších jazyků byla odstraněna - zjistil jsem, že s některými formáty jsem nedělal deset let. Zachoval jsem pouze ty, které jsem <a href="http://www.vim.org/account/profile.php?user_id=132">publikoval na vim.org</a> - například zvýrazňování syntaxe pro <a href="http://perl.apache.org/embperl/">Embedded Perl</a>. Některé ovšem již ztratily smysl, protože funkčnost byla již začleněna do hlavní distribuce Vimu.<br /><br />Konfigurace je odzkoušená také na Windows, předpokládá ale přítomnost adresáře C:/TEMP, kde se ukládají záložní soubory i swapy. A také přítomnost TTF fontu Terminus. Jiný nepoužívám.

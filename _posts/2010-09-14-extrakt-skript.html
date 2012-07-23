@@ -1,0 +1,10 @@
+---
+layout: post
+title: Extrakt skript
+date: 2010-09-14
+tags:
+- bash
+---
+
+<h1>{{ page.title }}</h1>
+Dost často musím rozbalovat nějaký archív, balík, tarball, něco. Používám šikovnou funkci, kterou mám ve svém bashrc souboru, jenže jsem zjistil, že na systémech Red Hat nefunguje (protože program file má o trošku jiný výstup). Skript jsem tedy upravil tak, aby fungoval i na RH systémech. Zde je výsledek:<br /><br /><pre># extract script for BASH<br />e() { <br /> for EXTRACT_FILE in $*; do<br />  if [ -f "$EXTRACT_FILE" ] ; then <br />   FT1=$(file -bi "$EXTRACT_FILE" | grep -Eo '[[:alnum:]_-]+/[[:alnum:]_-]+')<br />   case $FT1 in <br />    "application/x-bzip2") tar xvjf "$EXTRACT_FILE" || bunzip2 "$EXTRACT_FILE" ;; <br />    "application/x-gzip") tar xvzf "$EXTRACT_FILE" || gunzip "$EXTRACT_FILE" ;; <br />    "application/x-rar") rar x "$EXTRACT_FILE" || unrar x "$EXTRACT_FILE" ;; <br />    "application/x-arj") arj x "$EXTRACT_FILE" || 7z x "$EXTRACT_FILE" ;; <br />    "application/x-lha") lha x "$EXTRACT_FILE" || 7z x "$EXTRACT_FILE" ;; <br />    "application/x-cpio") cpio -i "$EXTRACT_FILE" ;; <br />    "application/x-tar, POSIX (GNU)") tar xvf "$EXTRACT_FILE" || gunzip "$EXTRACT_FILE" ;; <br />    "application/x-tar") tar xvf "$EXTRACT_FILE" || gunzip "$EXTRACT_FILE" ;; <br />    "application/x-zip") unzip "$EXTRACT_FILE" ;; <br />    "application/zip") unzip "$EXTRACT_FILE" ;; <br />    "application/octet-stream") unlzma "$EXTRACT_FILE" || 7z x "$EXTRACT_FILE" || uncompress "$EXTRACT_FILE" ;; <br />    *) echo "'$EXTRACT_FILE' ($FT1) cannot be extracted via e() bash function" ;; <br />   esac <br />  else <br />   echo "'$EXTRACT_FILE' is not a valid file" <br />  fi <br /> done<br />}</pre>

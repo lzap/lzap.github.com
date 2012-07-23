@@ -1,0 +1,10 @@
+---
+layout: post
+title: 02. 11. 2005 Který filesystém na desktop?
+date: 2010-04-21
+tags:
+- oldblog
+---
+
+<h1>{{ page.title }}</h1>
+Udělal jsem si takový přehled ext3 vs reiser3 vs xfs. Pokud jsem přečetl všechny potřebné informace, tak mi vyšlo, že XFS je vhodný zejména pro čtení velkých souborů, je vysoce stabilní, poskytuje nástroje na on-line zálohování a změnu velikosti oddílu. Velmi se tedy hodí na servery (databáze, filesystémy), to také díky dobré škálovatelnosti.<br /><br />Reiser3 (verze 4 zatím není ve vanilla kernelu) se jeví jako velmi flexibilní filesystém. „Umí“ velké soubory i mnoho malých, je dobře konfigurovatelý. V mazání souborů je sice lepší ext3 (tam dopadá XFS nejhůře), ale reiser má velkou výhodu v predikci a používání cache, což využijete zejména na desktopu (např. rozbalení tarballu). Tato predikce je ale vykoupena vyšším využitím CPU. Vhodný je pro servery (poštovní, webové, …) i na stanici.<br /><br />Poslední zkoumaný byl ext3 filesystém, který dosahuje podobných výsledků, jako reiser, ale spotřebuje daleko méně času procesoru. Málokdo ví, že se jedný o „nejbezpečnější“ filesystém – implicitně má velmi striktní nastavení a až poslední úroveň „bezpečnosti“ (writeback) je srovnatelná s ostatními zmíněnými systémy. Je velmi dobře konfigurovatelný, zpětně kompatibilní s ext2 (což se dá využít při zavádění systému) a jeho vývoj je živý.<br /><br />Bohužel nezbyl čas na reiser4, což má být (podle testů) témeř absolutní jednička mezi současnými filesystémy pro Linux. Jsem na něj velice zvědav a nevím, jestli vydržím čekat, než se dostane do hlavní vývojové větve Linuxu.

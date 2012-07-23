@@ -1,0 +1,12 @@
+---
+layout: post
+title: Setup a SystemTap permission change trap
+date: 2012-04-17
+tags:
+- fedora
+- rhel
+- systemtap
+---
+
+<h1>{{ page.title }}</h1>
+We were investigating issue today - something - some process - have changed permission of a very important file in one of our Katello testing installations. We only know it happened over the night. The task is to catch the instigator. We can use SystemTap for that. <a href="http://docs.redhat.com/docs/en-US/Red_Hat_Enterprise_Linux/6/html/SystemTap_Beginners_Guide/index.html">Prepare our environment</a>:<br /><br /><i>yum -y install systemtap systemtap-runtime kernel-debuginfo-`uname -r` kernel-debuginfo-common-`uname -i`-`uname -r` kernel-devel-`uname -r`</i><br /><br />Our target file will be /test:<br /><br /><i>touch /test</i><br /><br />Let's get its inode:<br /><br /><i>ls -i /test<br />274</i><br /><br />Using "mount" found the device the file resides on and find it's major and minor numbers: In my case it's:<br /><br /><i>ll /dev/md-0<br />brw-rw----. 1 root disk 253, 0 Apr 17 10:23 /dev/dm-0</i><br /><br />Now create the following file:<br /><br /><pre>cat filechange.stp<br />#!/usr/bin/env stap<br />global ATTR_MODE = 1<br />probe kernel.function("setattr_copy")!,<br />      kernel.function("generic_setattr")!,<br />      kernel.function("inode_setattr") {<br />  dev_nr = $inode->i_sb->s_dev<br />  inode_nr = $inode->i_ino<br /><br />  if (dev_nr == MKDEV($1,$2) # major/minor device<br />      && inode_nr == $3<br />      && $attr->ia_valid & ATTR_MODE)<br />    printf ("%d %s(%d) %s 0x%x/%u %o %d\n",<br />      gettimeofday_us(), execname(), pid(), probefunc(),<br />      dev_nr, inode_nr, $attr->ia_mode, uid())<br />}</pre><br />And run it in a screen session or something:<br /><br /><i>stap -v filechange.stp 253 0 274</i><br /><br />After some time...<br /><br /><i>1334676922011223 chmod(6157) generic_setattr 0xfd00000/274 100600 0</i><br /><br />...<b>BUSTED</b>! The fist one is timestamp, the second one is process name(pid).

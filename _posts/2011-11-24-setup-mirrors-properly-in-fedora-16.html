@@ -1,0 +1,10 @@
+---
+layout: post
+title: Setup mirrors properly in Fedora 16
+date: 2011-11-24
+tags:
+- fedora
+---
+
+<h1>{{ page.title }}</h1>
+Fedora 16 (and older versions) comes already preconfigured so yum downloads packages from nearest mirror. That is cool, but once you are using proxy for speeding up you will be always re-downloading packages again, because mirrors are picked up in a random order.<br /><br />If you uncomment the baseurl and comment out mirrorlist in the repositories, the situation is the same. The main download site does not provide RPM packages directly, but redirect to mirrors only based on geo location. Again in a random order.<br /><br />If you want to be sure you are always downloading from the same place, you have to put the URL manually there. And I have a script to do it for you, just edit the MIRRORURL variable here to a nearest (or fastest) mirror. You are looking for a directory that contains releases and updates folders.<br /><blockquote class="tr_bq"><span class="Apple-style-span" style="font-family: 'Courier New', Courier, monospace; font-size: x-small;">BASEURL=http://download.fedoraproject.org/pub/fedora/linux<br />MIRRURL=http://ftp.linux.cz/pub/linux/fedora/linux<br />sed -i "s|^# *baseurl=$BASEURL/releases|baseurl=$MIRRURL/releases|g" /etc/yum.repos.d/fedora.repo<br />sed -i 's|^mirrorlist=|#mirrorlist=|g' /etc/yum.repos.d/fedora.repo<br />sed -i "s|^# *baseurl=$BASEURL/updates|baseurl=$MIRRURL/updates|g" /etc/yum.repos.d/fedora-updates.repo<br />sed -i 's|^mirrorlist=|#mirrorlist=|g' /etc/yum.repos.d/fedora-updates.repo</span></blockquote><div>It should work in Fedora 13+. Maybe even older versions.</div>

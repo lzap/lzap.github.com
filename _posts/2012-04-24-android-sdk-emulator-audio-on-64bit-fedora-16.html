@@ -1,0 +1,13 @@
+---
+layout: post
+title: Android SDK emulator audio on 64bit Fedora 16
+date: 2012-04-24
+tags:
+- anroid
+- fedora
+- emulator
+- audio
+---
+
+<h1>{{ page.title }}</h1>
+And this is how to get audio working on Android SDK device emulator on <b>Fedora 16+ 64bits</b>. First of all you need 32bit java (OpenJDK works, but take care) and some libs:<br /><br /><i># yum install glibc.i686 glibc-devel.i686 libstdc++.i686 zlib-devel.i686 ncurses-devel.i686 libX11-devel.i686 libXrender.i686 libXrandr.i686</i><br /><br />Now if you run the emulator with some debug settings, it turns out some 32bit libraries are missing:<br /><br /><i># emulator -avd MY_AVD_NAME -debug audio</i><br /><br />I have tried various combinations of OSS PulseAudio wrapper (padsp) until I found it works using default setting; ALSA using PulseAudio perhaps. Install those:<br /><br /><i># yum install pulseaudio-utils.i686 pulseaudio-libs-devel.i686 alsa-plugins-pulseaudio.i686</i><br /><br />And run emulator as usual:<br /><br /><i># emulator -avd MY_AVD_NAME -debug audio</i><br /><br />Happy Android audio hacking. I call it a day!

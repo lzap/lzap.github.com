@@ -1,0 +1,12 @@
+---
+layout: post
+title: Rsync in cron
+date: 2012-07-19
+tags:
+- katello
+- bash
+- rhel6
+---
+
+<h1>{{ page.title }}</h1>
+I've installed some rsync scripts to a RHEL6 cron yesterday, but this morning I was surprised with error messages in my mailbox:<br /><br /><pre>/etc/bashrc: fork: retry: Resource temporarily unavailable<br />/etc/bashrc: fork: Resource temporarily unavailable<br />rsync: connection unexpectedly closed (0 bytes received so far) [receiver]</pre><br />When you see resource temporarily unavailable you can be sure it is most likely some system limit issue, or your box is really running out of resources (worse case). The issue was I was calling the script from crontab and my limits was apparently set up incorrectly.<br /><br />The trick was to modify those. I took the easiest method of modifying the script itself. So I went for:<br /><br /><pre>#!/bin/bash<br />ulimit -d unlimited<br />ulimit -m unlimited<br />ulimit -s unlimited<br />rsync [...]</pre><br />And it's working again.<br /><br />By the way we just started building our <a href="http://katello.org/">Katello</a> open-source project using our own Koji. Kudos to Mirek Suchý and other Satellite folks. Repositories (nightlies at the moment) are available <a href="http://fedorapeople.org/groups/katello/releases/releases/yum/nightly/">here</a>.

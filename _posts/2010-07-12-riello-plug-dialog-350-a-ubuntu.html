@@ -1,0 +1,10 @@
+---
+layout: post
+title: Riello Plug Dialog 350 a Ubuntu
+date: 2010-07-12
+tags:
+
+---
+
+<h1>{{ page.title }}</h1>
+Pořídil jsem ke svému novému NAS také UPSku. Nakonec jsem se rozhodl pro <a href="http://www.barbone.cz/index.asp?stiid=58358">levnější značku</a> (ale ne úplně nejlevnější - Trust), protože výrobce Riello se chlubil podporou v Linuxu. Bohužel známý open-source software NUT toto zařízení nepodporuje, takže jsem musel instalovat proprietární software.<br /><br />Na <a href="http://www.riello-ups.com/?en/support">stránkách výrobce</a> jsem tedy stáhl software nazvaný PowerShield 5.0 (verze 5.0.7). Z neznámých důvodů chyběla binárka pro Ubuntu 32 bitů (pouze 64bitová), takže jsem použil verzi Debian 32 bitů. Po nainstalování deb balíčku stačilo spustit program upsetup a nastavit základní parametry. Musel jsem skriptu předat sériové číslo výrobku a také jeden další speciální kód (oba jsou na zařízením samotném). A také nastavit port pro komunikaci - z dokumentace jsem se sice dočetl, že by to měl být řetězec "USB", ale pomohlo nastavení "/dev/ttyUSB0". Nastavovací program byl udělán pomocí knihovny curses, k dispozici byl také JAR soubor spustitelný i na Linuxu pomocí Javy. Použil jsem tu textovou verzi.<br /><br />Poté jsem ještě upravil startovací skript, který nebyl úplně kompatibilní s aktuální verzí Ubuntu LTS a neukládal správně pid procesu (přidal jsem tedy volání pidof). Spustil démona a programem upsview zkontroloval stav.<br /><br />A pak samozřejmě restartoval systém, abych se ujistil, že démon naběhne správně. A vše ukončil obligátním "akceptačním testem". Jinými slovy server jsem vytrhl ze zásuvky a počkal, co se stane. Shutdown. Skvělé. Over.

@@ -1,0 +1,12 @@
+---
+layout: post
+title: When github says I cannot merge
+date: 2012-04-27
+tags:
+- git
+- fedora
+- github
+---
+
+<h1>{{ page.title }}</h1>
+We are evaluating github for our <a href="https://github.com/Katello/katello" rel="nofollow">Katello open-source project</a>. While I like <i>plain git</i> more, I have to say github has pretty convenient merge reviews and it's very fast (Rackspace UK-based datacenters are faster than US-based fedorahosted.org; at least&nbsp;for me).<br /><br />Anyway, today I hit my very first git conflict during git pull review process. For some time, github shows this very nice Automerge button, but it only works when request can be clearly merged. Otherwise, github shows the following message:<br /><br /><b>This pull request cannot be automatically merged.</b><br /><br />What to do now? There are many approaches one can take. I like to have <a href="https://github.com/lzap/katello">my own repo</a> cloned while upstream repository is added in <b>read-only mode</b> to prevent accidental pushes (I use separate fork for upstream works like tagging). Manual merge would lead to switching over to the second fork, fetching, merging. And I would like to fix errors and let folks to review it again.<br /><br />So the approach I took today was pretty simple. I merged upstream changes into my master, created new branch topic2 and rebased master on top of it. Git push gives the flexibility of <i>another review round</i>. Now, in the console it would look like:<br /><br /><i>git co topic</i><br /><i># coding work</i><br /><i>git push origin master topic</i><br /><i># review was done but github shows the above message</i><br /><i>git co master</i><br /><i>git fetch upstream</i><br /><i>git merge upstream/master</i><br /><i>git co topic</i><br /><i>git co -b topic2</i><br /><i>git rebase master</i><br /><i># solve conflicts here - I use "git mergetool" command with "meld" tool</i><br /><i>git push origin master topic2</i><br /><i># review, merge</i><br /><br />By the way "co" is my "checkout" alias. Let me know what you do in these cases!

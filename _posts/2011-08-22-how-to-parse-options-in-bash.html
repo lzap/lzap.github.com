@@ -1,0 +1,19 @@
+---
+layout: post
+title: How to parse options in Bash
+date: 2011-08-22
+tags:
+- bash
+---
+
+<h1>{{ page.title }}</h1>
+I needed to parse some options in a bash script. I was always using <b>GNU getopt</b> external program. It's portable, old and buggy, yet it can handle both short (-x) and long (--extra) options. More info can be found in it's man page:<br /><br /># man getopt<br /><br />Anyway, this is cool, but I just wanted short options and did not want to rely on external command. What were the options? Well, there is a bash built-in called <b>getopts</b>. <i>Note the trailing "s"</i>. More info can be found in the bash manual page:<br /><br /># man getopts<br /><br />It shows you "the long one; the bash one", you have been warned. Using it is as easy as:<br /><br /><pre>while getopts ":f" opt; do
+<br />  case $opt in
+<br />    f)
+<br />      FORCE=1
+<br />      ;;
+<br />    \?)
+<br />      echo "Invalid option: -$OPTARG" >&2
+<br />      ;;
+<br />  esac
+<br />done</pre><br />I was not aware about the bash built-in. Although it does not support long options, I like it very much.

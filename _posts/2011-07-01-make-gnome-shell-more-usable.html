@@ -1,0 +1,10 @@
+---
+layout: post
+title: Make Gnome Shell more usable
+date: 2011-07-01
+tags:
+- gnome-shell
+---
+
+<h1>{{ page.title }}</h1>
+Evaluating Gnome Shell for the second time. There are few things driving me crazy. All can be easily fixed.<br /><br />1) <span style="font-weight:bold;">Multiple workspaces works only on primary monitor</span>. If you have two (or more) screens setup forget changing workspaces on secondary ones. It just does not work(TM). Easy fix: run gconf-editor, navigate to /desktop/gnome/shell/windows and uncheck workspaces_only_on_primary. Restart with alt-f2 and "r" + enter.<br /><br />2) <span style="font-weight:bold;">Window "slide" animation</span> when changing workspaces is killing me. Let's disable it by using <a href="http://lukas.zapletalovi.com/2011/07/new-gnome-shell-extension-disable.html">my plugin</a>. Restart with alt-f2 and "r" + enter.<br /><br />3) <b>Broken alt-tab</b>. The order of alt-tab swapping was changed due to window grouping. I know this is <a href="https://live.gnome.org/GnomeShell/CheatSheet">feature</a>, but its ultra-confusing and I hate it. There's plugin called gnome-shell-extensions-alternate-tab that reverts to the classic Alt+Tab behavior. Window based instead of app based.<br /><br />After bunch of updates in Fedora 15 Gnome Shell seems stable for me now. I will give it a try.

@@ -1,0 +1,11 @@
+---
+layout: post
+title: Jak blokovat určitý program od internetu
+date: 2010-11-04
+tags:
+- firewall
+- fedora
+---
+
+<h1>{{ page.title }}</h1>
+Blokovat jeden program od internetu je v Linuxu snadné. Ostatně jako všechno. Následující trik spočívá ve vytvoření speciální skupiny "noinet", zřízení pravidla v linuxovém firewallu na tuto skupinu a spouštění programů, které chceme blokovat, pod touto skupinou.<br /><br />Následující příklad by měl fungovat ve většině distribucí. Testováno na Fedoře.<br /><ul><li>groupadd noinet</li><li>sudo usermod -a -G noinet lzap</li><li>sudo iptables -A OUTPUT -m owner --gid-owner noinet -j DROP</li><li>sudo service iptables save</li><li>sg noinet firefox</li></ul><div>Což znamená:</div><div><ul><li>vytvoříme skupinu noinet</li><li>přidáme se do ní</li><li>nastavíme firewall tak, aby odřízl od internetu všechny programy běžící s touto skupinou</li><li>uložíme nastavení iptables na disk</li><li>spuštění programu "odříznutého od internetu" provedeme pomocí sg noinet příkaz</li></ul><div>Pokud má příkaz více parametrů, je potřeba je dát do uvozovek: sg noinet "příkaz parametr".</div></div><div><br /></div><div>Nastavení firewallu drtivá většina distribucí před vypnutím nebo restartem systému uloží nastavení na disk příkazem "save" u služby "iptables" nebo "firewall". &nbsp;Po startu se vždy automaticky obnoví. Pokud to ale vaše distribuce nenabízí (pravidlo se po restartu neobjeví v seznamu "Chain OUTPUT" vyvolaném příkazem "sudo iptables -L"), musíte vždy tento příkaz provést ručně po startu. A nebo třeba automaticky v rc.local. Nebo někde jinde. Je to jedno.</div><div><br /></div><div>Já říkal, že to bude snadné.</div>

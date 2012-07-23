@@ -1,0 +1,11 @@
+---
+layout: post
+title: Uninstall all the gems
+date: 2011-06-21
+tags:
+- ruby
+- gem
+---
+
+<h1>{{ page.title }}</h1>
+From time to time I need to uninstall all my gems within RVM gemset. I googled a nice command for this:<br /><br /># gem list | cut -d" " -f1 | xargs gem uninstall -aIx<br /><br />Then I usually go for:<br /><br /># gem install bundler && bundle install<br /><br />Easy peasy. Kudos to <a href="http://geekystuff.net/2009/01/14/remove-all-ruby-gems/">geekystuff.net</a>. Thanks.

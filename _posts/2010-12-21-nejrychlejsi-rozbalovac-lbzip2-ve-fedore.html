@@ -1,0 +1,10 @@
+---
+layout: post
+title: Nejrychlejší rozbalovač lbzip2 ve Fedoře
+date: 2010-12-21
+tags:
+- fedora
+---
+
+<h1>{{ page.title }}</h1>
+V aktualizacích Fedory 14 přistály další dva balíčky, které jsem vytvořil. Kromě zvukového javového API tritonus, který není příliš zajímavý, to byla aplikace lbzip2. Jedná se o implementaci programů bzip2 a bunzip2 optimalozovanou pro vícejaderné stroje, kterou napsal kolega z brněnského Red Hatu Laszlo Ersek. <br /><br />Program lbzip2 je patrně nejrychlejší rozbalovač bzip2 tarballů na světě. A ani v kompresi příliš nezaostává za konkurencí a drží se na předních místech.<br /><br />Pokud často rozbalujete velké tarbally (například zdrojáky jádra), možná vás bude lbzip2 zajímat. Použití je úplně stejné, jako u klasického GNU bzipu. Většinu parametrů má dokonce kompatibilních, a tak lze originální bzip2 tímto novým dokonce zcela nahradit.

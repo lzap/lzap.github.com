@@ -1,0 +1,10 @@
+---
+layout: post
+title: How to take a git push back
+date: 2011-08-01
+tags:
+- git
+---
+
+<h1>{{ page.title }}</h1>
+Ouch, just pushed something I don't want in my remote git repo. Easy help:<br /><br /><blockquote><i># git reset --hard HEAD~1<br /># git push origin +master</i></blockquote><br />Oops, I also pushed a tag. Well, it's a git, yea?<br /><br /><blockquote><i># git tag -d MY_TAG<br /># git push origin :refs/tags/MY_TAG</i></blockquote><br /><b>Use with care.</b>

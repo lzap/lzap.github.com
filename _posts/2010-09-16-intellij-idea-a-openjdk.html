@@ -1,0 +1,12 @@
+---
+layout: post
+title: IntelliJ IDEA a OpenJDK
+date: 2010-09-16
+tags:
+- java
+- idea
+- linux
+---
+
+<h1>{{ page.title }}</h1>
+Pokud by snad někdo chtěl provozovat vývojové prostředí IntelliJ IDEA na OpenJDK, tak mám malou radu. <b>Nedělejte to</b>. Program se chová nestandardně, některé funkce jsou zcela nedostupné, občas obdržíte oznámení o pádu (program však obvykle "drží") a vše je opravdu (ale *opravdu*) hodně pomalé. Ne nadarmo podpora společnosti JetBrains nabádá k používání oficiální Javy od Oracle. Uff. Nějak mi to ještě stále nejde "do huby" ;-)<br /><br />A jak zjistit, že máte tu správnou Javu? Začal bych příkazem <i>java -version</i> v příkazové řádce. Pokud tam najdete něco jako <i>OpenJDK</i>, je to špatně. Pokud něco jako <i>Java HotSpot(TM)</i>, je to správně. Podobně to můžete zjistit přímo v programu v nabídce Help - About.<br /><br />Standardní součástí dnešních Linuxů bývá z licenčních důvodů právě OpenJDK. Jak si nainstalovat "originální" Javu najdete v dokumentaci ke svým distribucím. Stačí vygooglit "Sun Java Ubuntu" či "Sun Java Fedora" a kliknout na první odkaz.<br /><br /><i>You have been warned!</i><br /><br /><b>Update</b>: Mám zprávy, že IDEA se dá na OpenJDK dlouhodobě provozovat. Jen je potřeba vynaložit vyšší úsilí, pohrát si s nastavením fontů a možná též i něco opatchovat ;-) Další info Lukáš Vlček.

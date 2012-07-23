@@ -1,0 +1,12 @@
+---
+layout: post
+title: New postgresql-setup command in Fedora 16
+date: 2011-11-05
+tags:
+- fedora
+- error
+- postgresql
+---
+
+<h1>{{ page.title }}</h1>
+Faced this error in Fedora 16?<br /><br /><i>#&nbsp;service postgresql start</i><br /><i>Redirecting to /bin/systemctl &nbsp;start postgresql.service</i><br /><i>Job failed. See system logs and 'systemctl status' for details.</i><br /><br />If you work with PostgreSQL and execute <i>service postgresql initdb</i>, it wont work. Simply because the startup scripts for PostgreSQL and MySQL were ported to systemd. There is a brand new command called <i>postgresql-setup</i> for that. Initialization is as easy as:<br /><i><br /></i><br /><i># sudo postgresql-setup initdb</i><br /><br />My first impressions from Verne are positive. I have been doing complete re-install because I am switching from i386 to x86_64 for the first time on a laptop or desktop. Yeah, I never needed 64 bits for editing source codes, reading mail and browsing web, but I need sometime to run 64 bit virtual guests on my laptop and one can't do that with 32 bit host.

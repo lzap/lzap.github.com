@@ -1,0 +1,11 @@
+---
+layout: post
+title: Jak vypnout SELinux
+date: 2010-08-27
+tags:
+- rh
+- fedora
+---
+
+<h1>{{ page.title }}</h1>
+V systémech Fedora a Red Hat bývá SELinux implicitně zapnut a pokud jej nevyhodíte už při instalaci, budete jej v systému mít. Někdy může být značně otravný, jindy neaktuální pravidla mohou snížit stabilitu některých programů. Můžete jej buď úplně vypnout (disabled), nebo jej ponechat zapnutý v režimu "monitorování". Programům, které dělají podezřelé věci, SELinux umožní akci, ale uživatele upozorní (permissive).<br /><br />A jak že takové vypnutí (nebo zmírnění) SELinuxu "naklikat"? Snadno. Nainstalujte balík <i>policycoreutils-gui</i> a poté spusťte program <i>system-config-selinux</i>. Nastavení je naprosto intuitivní.

@@ -1,0 +1,11 @@
+---
+layout: post
+title: Oracle žaluje Google za zneužívání Javy při vývoji Android OS
+date: 2010-08-15
+tags:
+- java
+- oracle
+---
+
+<h1>{{ page.title }}</h1>
+A je to tady. Oracle se rozhodl vytřískat maximum z akvizice společnosti Sun Microsystems a v cca 18-ti stránkovém dokumentu žaluje Google za zneužívání technologie Java <b>při vývoji</b> aplikací pro Android.<br /><br />Tučně jsem uvedl "při vývoji", protože Oracle, Google i celý svět ví, že v Androidu není ani řádek kódu z Javy (Core API). Ba ani Java samotná (JVM) v Androidu není. Google se již od začátku pojistil a Javu do Androidu nedal. Vyvinul vlastní technologii, která se nazývá Dalvik a funguje jednoduše.<br /><br />Vytvoříte aplikaci pro Android v Javě a vytvořené class soubory (soubory s příponou *.class - něco jako EXE soubory pro Windows obvykle zabalené v archivu JAR - což je mimochodem ZIP) převedete speciálním programem do jiného formátu. Je to v podstatě velmi podobný formát, jako je class, jen je optimalizovaný pro malá zařízení (mobily, touchpady) a k jeho spouštění není potřeba virtuální stroj Java (JVM), ale virtuální stroj Dalvik.<br /><br />Nyní je všechno na právnících, aby rozuzlili, zda se jedná o porušení licencí, či nikoliv. Faktem však je, že veškeré třídy, které Google takto převedl do Androidu, nevzal z originální Javy od Sunu, ale z projektu GNU Classpath. Ten vznikl před mnoha lety a programátoři se v něm snaží přepsat všechny knihovny Javy pod licencí svobodnou licencí GNU.<br /><br />Já osobně si myslím, že Google tenhle útok ustojí. Nicméně Oracle dal světu jasný signál. Koupili Sun proto, aby vydělali peníze. Dneska je Java na obrovském množství zařízení. Normální uživatel ani netuší, že Java běží v jeho mobilu, televizi, set-top-boxu a dokonce na kreditní kartě.

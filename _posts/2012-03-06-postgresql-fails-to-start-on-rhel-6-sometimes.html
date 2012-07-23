@@ -1,0 +1,12 @@
+---
+layout: post
+title: PostgreSQL fails to start on RHEL 6 sometimes
+date: 2012-03-06
+tags:
+- fedora
+- rhel
+- postgresql
+---
+
+<h1>{{ page.title }}</h1>
+We were having issues with PostgreSQL startup and it was pretty undeterministic. For some reason, PostgreSQL failed to start <b>from time to time</b>:<br /><br /><br /><i>[root@beta ~]# service postgresql start</i><br /><i>Starting postgresql service: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [ &nbsp;FAIL &nbsp;]</i><br /><br />Apparently, when I tried to list processes, it was running. Something wrong is with the sysv init script in RHEL 6 or CentOS 6 (or other clones). Quickly checking start function I saw this:<br /><br /><br /><i><span class="Apple-tab-span" style="white-space: pre;"> </span>$SU -l postgres -c "$PGENGINE/postmaster -p ...</i><br /><i><span class="Apple-tab-span" style="white-space: pre;"> </span><b>sleep 2</b></i><br /><i><span class="Apple-tab-span" style="white-space: pre;"> </span>pid=`head -n 1 "$PGDATA/postmaster.pid" 2&gt;/dev/null`</i><br /><i><span class="Apple-tab-span" style="white-space: pre;"> </span>if [ "x$pid" != x ]; then</i><br /><i><span class="Apple-tab-span" style="white-space: pre;">  </span>success "$PSQL_START"</i><br /><i><span class="Apple-tab-span" style="white-space: pre;"> </span>else</i><br /><i><span class="Apple-tab-span" style="white-space: pre;">  </span>failure "$PSQL_START"</i><br /><i><span class="Apple-tab-span" style="white-space: pre;"> </span>fi</i><br /><div><br /></div><div>I simplified the bit a bit, but you should see it. Start, wait two seconds, then try to locate the pid file. If it's not there, report error. Oops.</div><div><br /></div><div>On some very slow systems or discs, you can hit this problem. Slow systems? I guess you are pretty sure all your systems are simply <i>fast enough</i> to handle this properly. Well, you may be wrong. In our case it was a virtual hypervisor with a high IO load and in some cases, postgresql startup was a little longer than two seconds. Just a liiiittle bit.</div><div><br /></div><div>Good news is this is gonna be fixed very soon, the next Fedora version will probably have systemd startup configuration instead sysv init script. It should work fine then. For older versions, we have filed <a href="https://bugzilla.redhat.com/show_bug.cgi?id=800534">a BZ</a>.</div><br />

@@ -1,0 +1,10 @@
+---
+layout: post
+title: ThinkPad X201 a Linux
+date: 2010-09-21
+tags:
+- thinkpad
+---
+
+<h1>{{ page.title }}</h1>
+Zatím jsem se nedostal k žádnému podrobnějšímu testování, ale zdá se, že vše funguje na jedničku, a to včeně suspend-to-ram. Hibernaci jsem však ještě nezkoušel a funkční tlačítka pro nastavení intenzity podsvícení zatím z neznámých důvodů fungují jen když je připojeno napájení.<br /><br />Samozřejmě jsem si nastavil "speciální" ThinkPad klávesy Forward/Back, které se nacházejí u šipek, na Page Up a Page Down. Toto klasické nastavení využívá hodně lidí, mě na tuhle vychytávku navedl Ivan Bíbr. Takže pro zopakování:<br /><br /><pre># cat ~/.Xmodmap<br />keycode 166 = Prior<br />keycode 167 = Next<br /><br /># xmodmap ~/.Xmodmap</pre><br />Druhý příkaz provádím automaticky po spuštění X Window. A UltraNav scrollování pomocí trackpointu a prostředního tlačítka jsem si nastavil pomocí programu <i>gpointing-device-settings</i> (Wheel emulation).<br /><br />Stroj je to dobrý, škoda jen, že display port má jen docking station. Hodil by se přímo na přístroji,

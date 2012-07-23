@@ -1,0 +1,12 @@
+---
+layout: post
+title: Connect to your ssh boxes faster
+date: 2011-05-28
+tags:
+- rhel6
+- rhel
+- ssh
+---
+
+<h1>{{ page.title }}</h1>
+If you want ultra-fast connection login times to your ssh servers you may like to change several values in the /etc/ssh/sshd_config file along with RSA authentication:<br /><br /><span style="font-style:italic;">GSSAPIAuthentication no<br />UseDNS no</span><br /><br />You can use this only if you don't need GSS or reverse DNS of course. No more delays. Every milisecond counts!

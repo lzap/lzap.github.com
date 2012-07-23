@@ -1,0 +1,10 @@
+---
+layout: post
+title: Podivné chování Eclipse IDE při exportu RCP
+date: 2010-04-21
+tags:
+- oldblog
+---
+
+<h1>{{ page.title }}</h1>
+Pracuji na projektu, který píšeme v Eclipse RCP. S kolegou vyvíjíme na systémech Linux a Windows, pro to jsme také rozhodli, že všechny zdrojové kódy budou v UTF-8 kódování. Při exportu aplikace však Eclipse IDE na Windows špatně soubory překódovává a do generovaných class tříd zakompiluje „zmrvené“ řetězce – program pak špatně zobrazuje diakritiku i jiné znaky.<br /><br />Řešením pro Windows je spustit Eclipse IDE s parametrem, který nastaví systémové kódování souborů, a provést reexport. Linuxu se tahle chyba netýká.<br /><br /><blockquote><span class="Apple-style-span" style="font-family: 'Courier New', Courier, monospace;">eclipse -vmargs -Dfile.encoding=UTF-8</span></blockquote><br />Řešení z diskuzního fóra: http://dev.eclipse.org/newslists/news.eclipse.platform.rcp/msg17107.html

@@ -1,0 +1,10 @@
+---
+layout: post
+title: Co MS SQL neumí
+date: 2010-04-21
+tags:
+- oldblog
+---
+
+<h1>{{ page.title }}</h1>
+<b>TRIM</b><br /><br />Že databázový server MS SQL 2005 nesplňuje prvky standardu SQL99 asi nikoho nepřekvapí. Programátory z jiných systémů tudíž asi nezaskočí, když nenajdou funkci TRIM. Implementace od Microsoftu totiž nabízí pouze funkce LTRIM a RTRIM, takže nezbývá, než si takovou funkci napsat – jenže to pak člověk zjistí, že tyto funkce se dají použít pouze na typy char a varchar! Tudíž pokud používáte typ text, jste namydlení. A to je teprve začátek <br /><br /><b>Schémata</b><br /><br />Tento příspěvek by se asi měl jmenovat co MS SQL „umí“ a jinde se nevede. Databázová schémata vymysleli soudruzi i Microsoftu proto, aby bylo možné tvořit objekty se stejným názvem v jedné databázi. Je to sice pěkné, ale má to jeden háček – když potřebujete vytvořit funkci v aktuálním schématu (aby se dal volat bez přípony – např. dbo), tak máte prostě smůlu. Tečka. Hotovson. Amen. Je to tak asi nejlepší. Je zajímavé, že u tabulek a pohledů to lze.<br /><br /><b>Default TIMESTAMP</b><br /><br />Pokud se pokusíte v MS SQL udělat sloupec TIMESTAMP DEFAULT CURRENT_TIMESTAMP, server odpoví docela vtipně: Defaults cannot be created on columns of data type timestamp. To je prosím verze 2005. Potvrdila to dokumentace, prostě to nejde. Máte smůlu. Škoda že software nejde rozsekat sekerou…<br /><br />Timestamp v MSSQL je něco diametrálně odlišného, než TIMESTAMP v chápání jiných db systémů, takže proto. Timestamp jako takový MSSQL neumí, ale lze jej konvertovat:<br /><br />SELECT DATEDIFF(s, '19700101', GETDATE())<br />SELECT DATEADD(s, 1067441023, '19700101')

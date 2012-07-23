@@ -1,0 +1,10 @@
+---
+layout: post
+title: Odsazování (indenting) XML ve Vimu
+date: 2010-11-29
+tags:
+- vim
+---
+
+<h1>{{ page.title }}</h1>
+Na internetu existuje nepřeberné množství "tipů", jak lze formátovat XML (XHTML, HTML) kód pomocí programu xmllint a možnosti "protáhnout" buffer Vimu externím programem. Já sám mám také namapovanou klávesu F5 na tuto "vychytávku":<br /><br />$ cat .vim/ftplugin/xml.vim <br /><br /><iframe src="http://pastebin.com/embed_iframe.php?i=Ahe3eKjM" style="border:none;width:100%"></iframe><br /><br />Příliš často tuto možnost však nepoužívám. Bloggeři kteří toto doporučují jako jediné možné řešení dotiž zapomínají, že Vim dokáže odsadit XML i HTML sám od sebe - potřebná pravidla jsou již v základním instalačním balíčku. Finta je akorát ta, že je nutné to zapnout. Provede se to takto:<br /><br />$ cat .vimrc | tail -n3<br /><br /><iframe src="http://pastebin.com/embed_iframe.php?i=FxZppmNN" style="border:none;width:100%"></iframe><br /><br />Odsazování se pak opravuje pomocí rovnítka (=). Pro opravení odsazení v celém souboru používám (o něco delší) kombinaci <b>ggVG=</b>.

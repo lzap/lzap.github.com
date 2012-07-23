@@ -1,0 +1,10 @@
+---
+layout: post
+title: Aktivace mazání souborů v Gnome
+date: 2010-11-20
+tags:
+- fedora
+---
+
+<h1>{{ page.title }}</h1>
+Standardní instalace pracovního prostředí Gnome neumožňuje uživateli přímo mazat soubory. V kontektové nabídce souboru v programu Nautilus je pouze volba Move To Trash (Přesunout do koše). Pokud byste tam snad chtěli mít také položku Delete (Smazat), stačí provést následující příkaz:<br /><br /><i>$ gconftool-2 -t bool -s /apps/nautilus/preferences/enable_delete true</i><br /><br />Hotovo, položka je dostupná ihned.

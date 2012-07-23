@@ -1,0 +1,11 @@
+---
+layout: post
+title: Změna pozadí v GDM
+date: 2010-11-28
+tags:
+- fedora
+- gnome
+---
+
+<h1>{{ page.title }}</h1>
+Změna pozadí plochy u GDM (Gnome Display Manager - úvodní přihlašovací obrazovka) není tak snadná, jak se zprvu zdálo. Nejprve jsem musel lokalizovat v gconf-editoru klíč <i>/desktop/gnome/background/picture_filename</i>, který obsahuje v mém případě (Fedora 14) hodnotu <i>/usr/share/gnome-background-properties/desktop-backgrounds-laughlin.xml</i>. Tento soubor jsem si odkopíroval, zeditoval (obsahuje tři odkazy na PNG soubory různých velikostí a poměrů stran) a hodnotu v gconf-editoru změnil.<br /><br />Hotovo.

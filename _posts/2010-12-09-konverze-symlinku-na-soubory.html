@@ -1,0 +1,11 @@
+---
+layout: post
+title: Konverze symlinků na soubory
+date: 2010-12-09
+tags:
+- bash
+- english
+---
+
+<h1>{{ page.title }}</h1>
+Potřeboval jsem dnes převést větší množství symlinků na cílové soubory. Nenašel jsem ani po pěti minutách žádný program (tedy jeden ano - unln napsaný v Perlu který nefungoval), takže jsem si vytvořil tento skript. Stačí mu předat jeden nebo více symlinků a on je přepíše cílovými soubory. Třeba se to bude někomu hodit. Použití je snadné:<br /><br /><i># ls ...<br />test_link -> /tmp/test_file<br /><br /># unln test_link<br /><br /># ls ...<br />test_file</i><br /><br />Obsah skriptu <b>unln</b>:<br /><br /><iframe src="http://pastebin.com/embed_iframe.php?i=FT3uJMmU" style="border:none;width:100%"></iframe><br /><br />Note to English speakers: The script above converts symlinks to files. It basically resolves the symlinks and copy all the destination files over them automatically skipping non-symlink inputs.

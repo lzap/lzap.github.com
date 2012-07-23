@@ -1,0 +1,10 @@
+---
+layout: post
+title: Kde najdete staré zápisky
+date: 2010-04-24
+tags:
+
+---
+
+<h1>{{ page.title }}</h1>
+Můj starý blog běžící na php wiki motoru DokuWiki je pryč. Protože obsahoval spoustu zajímavých článků, některé jsem převedl jsem na Blogger. Nebylo ovšem technicky možné přesunout všech zhruba 700 příspěvků, proto jsem situaci řešil jinak.<br /><br />Všechny stránky z blogu jsem vyexportoval v HTML a <a href="http://oldblog.zapletalovi.com/filelisting.txt">nahrál na doménu</a> oldblog.zapletalovi.com. Ačkoliv doména lukas.zapletalovi.com nyní již obsahuje jiný systém odkazů, pakliže engine Bloggeru nenajde linkovanou stránku, přesměřuje na tento statický server. Ten má nakonfigurovány přesměřování, takže pokud stránka existovala a byla převedena, objeví se kýžený text.<br /><br />Pokud stránka neexistuje ani v archivu, pak se objeví hlášení o nenalezené stránce s možností vyhledávání pomocí Google na obou doménách.<br /><br />Mimochodem technicky je to řešeno pomocí jednoduchého PHP skriptu a .htaccess souboru. Musím ovšem říci, že všechno jsem to mohl realizovat jen díky tomu, že Blogger.com podporuje přesměřovávání v případě neexistující stránky.<br /><br />Ukázka tohoto skriptu:<br /><br /><code>&lt;?php<br />  $sr = $_SERVER['REQUEST_URI'];<br />  if ($sr == '/') {<br />    header(&quot;Location: ...&quot;);<br />    exit;<br />  }<br />  $html = str_replace(':', '/', $sr);<br />  $html = str_replace('/bliki', '/blog', $html);<br />  header(&quot;Location: $html.html&quot;) ;<br />?&gt;</code><br /><br />A nastavení .htaccess:<br /><br /><code>RewriteEngine on <br />RewriteRule ^(blog:.*|bliki:.*)$ /index.php/$1 [L]</code>

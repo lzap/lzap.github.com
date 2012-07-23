@@ -1,0 +1,12 @@
+---
+layout: post
+title: How to set timezone from shell quickly
+date: 2011-08-25
+tags:
+- bash
+- fedora
+- shell
+---
+
+<h1>{{ page.title }}</h1>
+The easiest trick is to override /etc/localtime:<br /><br /><i># ln -sf /usr/share/zoneinfo/Europe/Prague /etc/localtime</i><br /><br />According to the BIOS clocks and BIOS-UTC setting of the OS it is usually good idea to correct time:<br /><br /><i># date +%T -s "22:30"</i><br /><br />It's also quite good idea to start NTP daemon:<br /><br /><i># service ntpd restart<br /># chkconfig ntpd on</i><br /><br />For Fedora/RHEL systems you should also update sysconfig file to make this permanent:<br /><br /># echo 'ZONE="Europe/Prague"' > /etc/sysconfig/clock<br /><br />This is very important if you run a virtual guest since clocks are not very accurate for them.

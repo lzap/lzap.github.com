@@ -1,0 +1,10 @@
+---
+layout: post
+title: Hesla libozvučná a jinak krásná
+date: 2010-10-08
+tags:
+- bash
+---
+
+<h1>{{ page.title }}</h1>
+Hesla, nebo v mém případě názvy serverů, se těžko nejen pamatují, ale i vymýšlejí. Co kdybychom mohli takovou věc přenechat strojům? Existuje mnoho způsobů, jak toho docílit. Já si do dneška v hlavě nosím heslo do Státní vědecké knihovny v Olomouci, kde už snad přes deset nemám přístup (kartička mi propadla), takže není platné. Nicméně dostal jsem ho na vytištěném lístečku a dobře se pamatovalo. To proto, že bylo generováno po snadno zapamatovatelném vzoru samohláska, souhláska, samohláska, souhláska...<br /><br />Finta pro náš mozek je asi v tom, že se takto vytvořené slovo dá snadno vyslovit. A tedy i 10x zopakovat a naučit velmi rychle. Při generování názvů serverů při testování a ladění chyb jsem si vytvořil jednoduchý skript, který vytváří podobnou věc:<br /><br /><pre>#!/bin/bash <br />SIZE=6<br />vowels=(b f l m p s v z) <br />consonants=(a e i o u)<br />modvowels=${#vowels[*]} <br />modconsonants=${#consonants[*]} <br />pwd_len=0 <br />result=""<br />while [ $pwd_len -lt $SIZE ]<br />do <br />    if [ $(($pwd_len%2)) -eq 0 ]; then<br />        i=$(($RANDOM%$modvowels)) <br />        result="$result${vowels[$i]}" <br />    else<br />        i=$(($RANDOM%$modconsonants)) <br />        result="$result${consonants[$i]}" <br />    fi<br />    ((pwd_len++)) <br />done <br />echo "$result"</pre><br />Není to úplný zázrak a ukázka programování v Bashi, ale tak nějak jsem docílil toho, co potřebuji. Ukázka:<br /><br /><pre>mobavo<br />mosofa<br />bafila<br />subezu<br />suloze<br />bavami<br />lomezi<br />vivisu<br />samevo<br />zipofo</pre><br />No není to lepší název počítače, než sol2-5-989 nebo ia64-0-1-18? Tak na to vemte jed!

@@ -1,0 +1,10 @@
+---
+layout: post
+title: Git's crying Patch format detection failed
+date: 2011-11-30
+tags:
+- git
+---
+
+<h1>{{ page.title }}</h1>
+<br />If you get the following error message while applying git patch:<br /><br /><i>$ git am /path/to/0001-My-awesome-change.patch</i><br /><i>Patch format detection failed.</i><br /><br />It means that the patch was not generated with git format-patch and transmitted correctly. Either ask the contributor to try again using the above patch creation instructions, or apply each patch separately using git apply:<br /><br /><i>$ git apply --whitespace=fix /path/to/0001-My-awesome-change.patch</i><br /><i>$ git commit --author='Contributor Name &lt;contributor@thedomain.com&gt;'</i><br /><br />If the patch does not fit, check out older version. I usually checkout a version from the same date (or hour), that usually works.<br /><br />Remember; writing is learning. That's all folks. At least for today. Cheers.

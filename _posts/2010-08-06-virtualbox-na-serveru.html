@@ -1,0 +1,10 @@
+---
+layout: post
+title: VirtualBox na serveru
+date: 2010-08-06
+tags:
+
+---
+
+<h1>{{ page.title }}</h1>
+Když jsem spatřil, co udělal VMWare se svým produktem VMWare Server 2, panenky se mi třikrát přetočily a začal jsem hledat náhradní řešení. Ani by mi nevadila přítomnost javového serveru Tomcat pro správu, ale nefunočnost pod Firefoxem 3.6 (a tím pádem vynucení použití IE) je věc, kterou neskousnu. <br /><br />Bohužel se mi nepodařily první pokusy s KVM a VNC (hostovaný systém Windows XP). Proto jsem zkoumal možnosti použití VirtualBoxu na serveru. No a ono to jde, na internetu jsou <a href="http://www.howtoforge.com/vboxheadless-running-virtual-machines-with-virtualbox-3.1.x-on-a-headless-fedora-12-server">různé</a> návody na to, jak zprovoznit tzv. headless režim.<br /><br />Instalace je díky RDP bezproblémová. K tomu všemu pak stačí vytvořit <a href="http://forums.virtualbox.org/viewtopic.php?f=7&t=32842">init.d</a> skripty a vše je téměř dokonalé. Na takové to domácí žvýkání ideální.<br /><br />A ještě tip - ve Windows XP je přes RDP protokol omezena maximální barevná hloubka na 16 bitů. Toto omezení lze však <a href="http://blogs.sun.com/ThinkThin/entry/24_bit_rdp_under_windows">přenastavit</a> zásahem to systémového registru.

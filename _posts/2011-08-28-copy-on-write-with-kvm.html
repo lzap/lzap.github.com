@@ -1,0 +1,14 @@
+---
+layout: post
+title: Copy-on-write with KVM
+date: 2011-08-28
+tags:
+- bash
+- tip
+- fedora
+- rhel
+- kvm
+---
+
+<h1>{{ page.title }}</h1>
+While KVM/QEMU snapshoting is still a dirty feature (quite slow), I love <a href="http://en.wikipedia.org/wiki/Qcow">copy-on-write disc image format</a> of the QEMU. It is actually the best way how to quiclky provision pre-installed systems for testing and development. The idea is easy:<br /><br /><ul><li>Install a base operating system, configure it for your specific purposes.</li><li>Stop it. You wont use it anymore, only copy-on-write "children". You may start it to do some additional configuration when you forgot something for example.</li><li>Provision a new VM with qcow disk image format based on the one from above.</li><li>Do it multiple times. You can run more than one instances simultaneously.</li></ul><br />The key command is qemu-img create which creates new image. You need to provide <i>-f qcow2</i> parameter specifying the correct image format, and <i>-b /path/to/the/base.img</i>. New VM is provisioned in few seconds since it only needs to create very small image (few kilobytes) that will grow as it copies on write.<br /><br />I have modified a cool script (karma goes to Jason Dobies, Shannon Hughes and all the others I forgot) for fast image provision. It is tuned for Fedora/Red Hat systems, but it's a piece to modify it for other distributions or systems. It works either with Windows. Simple session:<br /><br /><i># snap-guest <br />Usage: BASE_IMAGE_NAME TARGET_IMAGE_NAME [MEMORY IN MB]<br /><br />Available base images:<br />f12-x64-base<br />f13-x64-base<br />f14-x64-base<br />el6_0-x64-base<br />el6_1-x64-base<br /><br /># snap-guest el6_0-x64-base testing_el6 1024<br />...<br />Provisioning guest<br /><br />#</i><br /><br />The script also connect to the newly created image and configure it (MAC address, hostname). This part needs to be tuned to support non-redhat distros. If you want to provision Windows system - you can - you need to find other way to do it.<br /><br />It is also possible to modify the script to use LVM or physical volumes to get fastest possible speed for the base image. VM provisioning couldn't be easier.<br /><br /><b>Please note my script now lives on <a href="https://github.com/lzap/snap-guest">github.com</a></b> - fetch the most recent version with even more features.<br /><br /><iframe src="http://pastebin.com/embed_iframe.php?i=z4TwhSgB"  style="border:none;width:100%"></iframe>

@@ -1,0 +1,12 @@
+---
+layout: post
+title: Lazy logger levels
+date: 2012-01-30
+tags:
+- ruby
+- rails
+- logging
+---
+
+<h1>{{ page.title }}</h1>
+Developers are lazy guys. They tend to make their lifes easier. I do it everyday. I never miss an opportunity to write a shell script or a shell bit instead of renaming 10+ files. Even when I know it will take exactly the same time as for the manual approach.<br /><br />Every software piece in the world, I hope, have some decent logging. Those stacks offer various logging levels, such as debug, info, warn, error, and fatal taking Ruby on Rails as an example. And they usually default to info logging setting. Everything "above" info, including, is written in logs.<br /><br />Now, question. What will a developer like me do, when he needs to write a debug information to the log. The proper way is to set the default logging level to debug or something, restart the application if needed, and use <b>debug</b> call to do it. Good approach, bad answer. He will use <b>info</b> for that. It's simple. It's fast.<br /><br />And the codebase starts to fill with lots of info statements, the log is being filled with various messages. Administrators do not like it.<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://4.bp.blogspot.com/-NnlshirjwmA/TyZrAWpOFzI/AAAAAAAAAMI/vj9Q0YX--1o/s1600/bart-simpson-generator.gif" imageanchor="1" style="margin-left:1em; margin-right:1em"><img border="0" height="171" width="320" src="http://4.bp.blogspot.com/-NnlshirjwmA/TyZrAWpOFzI/AAAAAAAAAMI/vj9Q0YX--1o/s320/bart-simpson-generator.gif" /></a></div><br />Speaking about Ruby on Rails logging, I miss a "trace" logging level so much. Having just one debug tier is simply not enough. Sometimes you want to insert some very low-level statements that could fill the log very easily. If you use debug level, it's not a good idea to commit those changes, because it can bite others. So in Rails the only way is to delete those statements after debugging is done. But wait! The work was already done and maybe someone will need it in the future. That's why trace level should be there. Log4j has it, Rails does not.<br /><br />Let's read Rails devs opinion on that topic: <a href="https://github.com/rails/rails/issues/4756">https://github.com/rails/rails/issues/4756</a>

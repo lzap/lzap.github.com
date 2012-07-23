@@ -1,0 +1,10 @@
+---
+layout: post
+title: Ubuntu Lucid Lynx, Google Chrome a Java
+date: 2010-06-01
+tags:
+
+---
+
+<h1>{{ page.title }}</h1>
+Potřebujete rozchodit oficiální Javu (od Sunu) v prohlížeči Google Chrome v novém Ubuntu (například kvůli přístupu do banky)? Je to snadné.<br /><br />Nejprve nainstalujeme Javu od Sunu:<br /><br /><i>agi sun-java6-bin sun-java6-fonts sun-java6-jdk sun-java6-jre sun-java6-plugin</i><br /><br />Nyní zvolíme tuto Javu jako výchozí:<br /><br /><i>sudo update-alternatives --config java</i><br /><br />V nabídce zvolíme Javu od Sunu. Toto si můžeme ihned ověřit (není nutný žádný restart terminálu):<br /><br /><i>$ java -version</i><br /><i>java version "1.6.0_20"</i><br /><i>Java(TM) SE Runtime Environment (build 1.6.0_20-b02)</i><br /><i>Java HotSpot(TM) Client VM (build 16.3-b01, mixed mode, sharing)</i><br /><br />No a restartujte Google Chrome. Na stránce <a href="about:plugins">about:plugins</a> můžete ověřit, zda Java funguje. Hotovo. Říkal jsem to, že to bude brnkačka.<br /><br />ps - agi = alias apt-get install<br /><div><br /></div>

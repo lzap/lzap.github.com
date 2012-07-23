@@ -1,0 +1,10 @@
+---
+layout: post
+title: Když rsync křičí - protocol version mismatch
+date: 2011-04-20
+tags:
+- cygwin
+---
+
+<h1>{{ page.title }}</h1>
+Člověk se učí, každý den. Dnes jsem si připomenul jedno železné pravidlo. To když rsync na mě z ničeho nic začal křičet:<br /><br /><i>protocol version mismatch — is your shell clean?</i><br /><br />Jelikož se jednalo o zálohovací skript (používající rsync) z Windows stroje, ihned jsem začal podezřívat nekompatibilní verze rsyncu z Cygwinu a z RHELu. Začalo zkoumání, instalace různých verzí, prohledávání diskuzních fór a bugzill. Jenže rsync pod touto zprávou psal něco ve smyslu "mrkni do manuálové stránky".<br /><br />Až po několika desítkách minut jsem tam kouknul. S hrůzou jsem zjistil, že tohle rsync křičí, když je něco nekalého v .bashrc skriptu uživatele na který se připojuje. Ano, nedávno jsem tam přihodil nějaké interaktivní smetí. Ostranil jsem to a všechno jelo jako víno.<br /><br />Poučení ja jasné. Když program píše "podívej se do manu", ihned se tam mrknu.<br /><br />Když už píšu o zálohování pomocí rsyncu z <i>Windows</i>, doporučil bych zejména nastavit parametry <b>--no-p --no-g --chmod=ugo=rwX</b> (jako poslední). Občas se mohou přístupové atributy Linux vs Windows "poprat". Můj skript s 2 měsíční historií pomocí hardlinků je následující (odzkoušeno na Cygwinu):<br /><br /><i>#!/bin/bash<br />what=/cygdrive/c/Users/UserXY<br />where=backup@10.0.0.123<br />dir=/home/samba/zaloha/xy<br />days=60<br />exclude=$what/Documents/Zaloha/backup_exclude<br /><br />now=$( date +%Y-%m-%d_%H:%M:%S )<br /><br />previous=$( ssh $where "ls $dir" 2>/dev/null | tail -1 )<br />link_dest=<br />if [ -n "$previous" ] ; then<br />    link_dest=--link-dest=$dir/$previous<br />fi<br />rsync -vaHxS --no-p --no-g --chmod=ugo=rwX --delete --exclude-from $exclude \<br /> --stats $link_dest $what $where:$dir/$now 2>&1<br />ssh $where "find $dir/* -maxdepth 0 -atime +$days | xargs rm -rf"</i>

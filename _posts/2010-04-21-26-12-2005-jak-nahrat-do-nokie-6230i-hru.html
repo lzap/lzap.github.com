@@ -1,0 +1,10 @@
+---
+layout: post
+title: 26. 12. 2005 Jak nahrát do Nokie 6230i hru
+date: 2010-04-21
+tags:
+- oldblog
+---
+
+<h1>{{ page.title }}</h1>
+Tak jsem konečně rozlousknul oříšek - jak nahrát do Nokie v Linuxu aplikaci nebo hru. Zatím jsem to rozchodil pouze s Bluetooth, má to ovšem háček. Bluetooth je hodně nestabilní (a to i na Windows), telefon se často odpojuje a nahrát aplikaci to je ruleta. Na 5 pokusů to obyčejně vyjde. Nyní, jak na to.<br /><br />Stačí nastavit gammu na bluetooth a pak provést příkaz gammu –nokiaaddfile Game aplikace, kde aplikace je název souboru JAD (bez přípony). Ten bohužel musí existovat (je to textový soubor) a bude nahrán do telefonu spolu s JAR souborem. Nokia 6230i umí brát tyto informace přímo z JARu, takže se pak v aplikacích objeví vlastně programy dva - JAD a JAR, stačí tu JAD verzi (je žašedlá) smazat.

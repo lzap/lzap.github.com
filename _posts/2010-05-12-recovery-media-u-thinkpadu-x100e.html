@@ -1,0 +1,10 @@
+---
+layout: post
+title: Recovery média u ThinkPadu X100e
+date: 2010-05-12
+tags:
+- x100e
+---
+
+<h1>{{ page.title }}</h1>
+Vytvořit záchranná média pro ThinkPad X100e nebylo tak jednoduché, jak se mi zprvu zdálo. Tento model nemá CD/DVD mechaniku a jelikož externí nemám, pokoušel jsem se před instalací Linuxu pochopitelně média nějak vyrobit. K notebooku se totiž nedodává žádné médium a instalace Linuxu může záchranné oddíly Rescue and Recovery zničit.<br /><br />Nejprve jsem zkusil standardní USB klíčenku, ale boot test Ubuntu neprošel. ThinkPad mi z USB klíčenky nebootoval, což dávám za vinu nejspíš neznačkové klíčence. Navíc velikost 512 MB stejnak nebyla dostačující (záchranné oddíly mají celkem 1 GB a 7,8 GB). Tudy cesta nevedla.<br /><br />ThinkPad X100e má naštěstí čtečku karet a po ruce jsem měl 8 GB SDHC kartu, nicméně zpočátku jsem byl skeptický. Podle Wikipedie totiž USB čtečky (tato interní se v systému objeví jako USB) obvykle bootování nepodporují. Test ale vyšel - ThinkPad X100e umí bootovat z SD karty! Skvělé.<br /><br />Pokusil jsem se tedy znovu vyvolat vytvoření záchranných médií, ale dozvěděl jsem se pouze, že uživatel má právo na vytvoření jen jednoho kusu. Ten byl ovšem nefunkční. Nemusel jsem ani moc googlit, abych přišel na to, jak program znovu donutit vytvořit média nová. Stačilo změnit číslo 1 na 0 v souboru <i>q:\FactoryRecovery\service_done.ini</i>.<br /><br />Jenže ono to nakonec nešlo ani přes SDHC kartu, protože jsem nenašel žádný program pro Windows, který by dokázal zapsat obraz flash disku do souboru. Windowsový port programu dd nefungoval, pak jsem ještě zkoušel několik utilit, abych to nakonec vzdal. Hledal jsem něco, co by dokázalo zapsat celý obraz, ale přeskočit nevyužité sekce (jinak bych měl místo nějakých 9 GB celkem 8+8+8 GB ve třech obrazech).<br /><br />Vyřešil jsem to nakonec použitím jakéhosi shareware programu, který emuluje DVD zapisovačku. Dokázal mi vytvořit tři ISO soubory, a já se konečně mohl pustit do instalaci Linuxu.<br /><br />A teď mi vysvětlete, kterého chytráka napadlo ušetřit tak asi 60 korun na koncové ceně a nepřikládat k notebooku bez DVD vypalovačky instalační média.

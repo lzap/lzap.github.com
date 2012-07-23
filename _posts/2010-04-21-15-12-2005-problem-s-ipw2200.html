@@ -1,0 +1,10 @@
+---
+layout: post
+title: 15. 12. 2005 Problém s ipw2200
+date: 2010-04-21
+tags:
+- oldblog
+---
+
+<h1>{{ page.title }}</h1>
+Na mém ThnikPadu se mi někdy stává, že nemohu nahodit bezdrátovou kartu. Stává se to s jádrem 2.6.14, vyřešil jsem to následujícím zvýšením timeoutu:<br /><br />echo -n „90“ > /sys/class/firmware/timeout<br /><br />Poté stačí znovu zavést modul ipw2200 a žádnou chybu Unable to load firmware: -2 již neuvidím. Hmmmmmmmmmmmm
