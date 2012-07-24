@@ -1,5 +1,33 @@
 task :default => :server
 
+desc "Begin a new post"
+task :post do
+  title = ENV["title"] || "new-post"
+  slug = title.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
+  begin
+    date = (ENV['date'] ? Time.parse(ENV['date']) : Time.now).strftime('%Y-%m-%d')
+  rescue Exception => e
+    abort("Error - date format must be YYYY-MM-DD, please check you typed it correctly!")
+  end
+  filename = File.join('_posts', "#{date}-#{slug}.mkd")
+  if File.exist?(filename)
+    abort("rake aborted filename already exists!")
+  end
+  
+  puts "Creating new post: #{filename}"
+  open(filename, 'w') do |post|
+    post.puts "---"
+    post.puts "layout: post"
+    post.puts "title: \"#{title.gsub(/-/,' ')}\""
+    post.puts "date: #{date}"
+    post.puts "tags:"
+    post.puts "---"
+    post.puts "{{ page.title }}"
+    post.puts "================"
+  end
+  system("/usr/bin/gvim #{filename}")
+end
+
 desc 'Clean up generated site'
 task :clean do
   cleanup
