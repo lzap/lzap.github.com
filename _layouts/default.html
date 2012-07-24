@@ -43,8 +43,10 @@
             <li class="divider-vertical"></li>
             <span class="navbar-text">linux | life | live!</span>
           </ul>
-          <form class="navbar-search pull-right">
-            <input type="text" class="search-query" placeholder="Search">
+          <form id="searchform" class="navbar-search pull-right" method="GET" action="https://www.google.com/search"
+            onsubmit="document.getElementById('searchfield').value = 'site:lukas.zapletalovi.com ' + document.getElementById('searchfield').value">
+            <input id="searchfield" name="q" type="text" class="search-query" placeholder="Search"
+            onclick="document.getElementById('searchfield').value = ''"/>
           </form>
           <div class="nav-collapse">
             <ul class="nav pull-right">
