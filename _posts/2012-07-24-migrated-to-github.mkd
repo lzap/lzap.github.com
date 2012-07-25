@@ -67,7 +67,7 @@ task :post do
     post.puts "date: #{date}"
     post.puts "tags:"
     post.puts "---"
-    post.puts "{{ page.title }}"
+    post.puts "{ { page.title } }" # remove spaces between { and }
     post.puts "================"
   end
   system("/usr/bin/gvim #{filename}")
