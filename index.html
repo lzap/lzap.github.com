@@ -16,7 +16,7 @@ title: Blog
           <div class="span6 text-right">
             <i class="icon-book"></i>{{ post.date | date_to_long_string }}
             {% for tag in post.tags %} 
-              | <a href="/tags.html#{{ tag }}-ref">{{ tag }}</a></li>
+              | <a href="/tags.html#{{ tag }}-ref">{{ tag }}</a>
             {% endfor %}
           </div>
         </div>
