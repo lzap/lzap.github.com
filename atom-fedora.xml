@@ -2,9 +2,9 @@
 layout: nil
 title : Atom Feed
 ---
-{% assign feed_tag = 'fedora' %}  
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
+{% assign feed_tag = 'fedora' %}  
  
  <title>{{ site.title }}</title>
  <link href="{{ site.production_url }}/atom-{{ feed_tag }}.xml" rel="self"/>
