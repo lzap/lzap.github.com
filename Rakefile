@@ -22,6 +22,7 @@ task :post do
     post.puts "date: #{date}"
     post.puts "tags:"
     post.puts "- linux"
+    post.puts "- fedora"
     post.puts "---"
     post.puts "{{ page.title }}"
     post.puts "================"
