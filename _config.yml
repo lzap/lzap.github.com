@@ -4,7 +4,6 @@ permalink: /:categories/:year/:month/:title.html
 pygments: true
 exclude: ['Rakefile', 'README.md', 'config.rb']
 safe: true
-auto: true
 production_url: http://lukas.zapletalovi.com
 author:
   name: Lukáš Zapletal

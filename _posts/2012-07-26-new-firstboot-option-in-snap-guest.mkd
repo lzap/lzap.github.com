@@ -2,7 +2,10 @@
 layout: post
 title: "New firstboot option in snap guest"
 date: 2012-07-26
+name: test
 tags:
+- linux
+- snapguest
 ---
 {{ page.title }}
 ================

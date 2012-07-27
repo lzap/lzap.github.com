@@ -3,6 +3,7 @@ layout: post
 title: "Initializing git repo with httpd anon access"
 date: 2012-07-26
 tags:
+- linux
 - rhel
 - fedora
 - git
@@ -25,40 +26,38 @@ Search for UserDir string, somewhere on the line 370 you need to commend and
 (un)comment two UserDir lines *and* uncomment the very next section with
 access to /home/\*/public_html directory.
 
-{% highlight conf %}
-<IfModule mod_userdir.c>
-    #
-    # UserDir is disabled by default since it can confirm the presence
-    # of a username on the system (depending on home directory
-    # permissions).
-    #
-    #UserDir disabled
+    <IfModule mod_userdir.c>
+        #
+        # UserDir is disabled by default since it can confirm the presence
+        # of a username on the system (depending on home directory
+        # permissions).
+        #
+        #UserDir disabled
+
+        #
+        # To enable requests to /~user/ to serve the user's public_html
+        # directory, remove the "UserDir disabled" line above, and uncomment
+        # the following line instead:
+        # 
+        UserDir public_html
+    </IfModule>
 
     #
-    # To enable requests to /~user/ to serve the user's public_html
-    # directory, remove the "UserDir disabled" line above, and uncomment
-    # the following line instead:
-    # 
-    UserDir public_html
-</IfModule>
-
-#
-# Control access to UserDir directories.  The following is an example
-# for a site where these directories are restricted to read-only.
-#
-<Directory /home/*/public_html>
-    AllowOverride FileInfo AuthConfig Limit
-    Options MultiViews Indexes SymLinksIfOwnerMatch IncludesNoExec
-    <Limit GET POST OPTIONS>
-        Order allow,deny
-        Allow from all
-    </Limit>
-    <LimitExcept GET POST OPTIONS>
-        Order deny,allow
-        Deny from all
-    </LimitExcept>
-</Directory>
-{% endhightlight %}
+    # Control access to UserDir directories.  The following is an example
+    # for a site where these directories are restricted to read-only.
+    #
+    <Directory /home/*/public_html>
+        AllowOverride FileInfo AuthConfig Limit
+        Options MultiViews Indexes SymLinksIfOwnerMatch IncludesNoExec
+        <Limit GET POST OPTIONS>
+            Order allow,deny
+            Allow from all
+        </Limit>
+        <LimitExcept GET POST OPTIONS>
+            Order deny,allow
+            Deny from all
+        </LimitExcept>
+    </Directory>
 
 Now the trick. Create public_html directory in your home folder and check
 permissions are correct. On RHEL6, home folder has permissions of 700 by

@@ -1,4 +1,4 @@
-task :default => :server
+task :default => :build
 
 desc "Begin a new post"
 task :post do
@@ -21,6 +21,7 @@ task :post do
     post.puts "title: \"#{title.gsub(/-/,' ')}\""
     post.puts "date: #{date}"
     post.puts "tags:"
+    post.puts "- linux"
     post.puts "---"
     post.puts "{{ page.title }}"
     post.puts "================"
@@ -34,7 +35,7 @@ task :clean do
 end
 
 desc 'Build site with Jekyll'
-task :build => :clean do
+task :build do
   jekyll
 end
 
