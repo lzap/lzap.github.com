@@ -86,7 +86,7 @@ I usually create *git* symlink in the home folder just to make some paths
 shorter.
 
     server# cd
-    server# ln public_html/ git
+    server# ln -s public_html/ git
 
 That's it. We are done. To access your repository with read-write access just
 do this
