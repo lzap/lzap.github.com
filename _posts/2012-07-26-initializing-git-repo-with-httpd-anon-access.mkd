@@ -23,9 +23,9 @@ UserDir option is *explicitely* turned off. We need to edit
 
 Search for UserDir string, somewhere on the line 370 you need to commend and
 (un)comment two UserDir lines *and* uncomment the very next section with
-access to /home/*/public_html directory.
+access to /home/\*/public_html directory.
 
-{% highhlight conf %}
+{% highlight conf %}
 <IfModule mod_userdir.c>
     #
     # UserDir is disabled by default since it can confirm the presence
@@ -58,7 +58,7 @@ access to /home/*/public_html directory.
         Deny from all
     </LimitExcept>
 </Directory>
-{% endhighlight %}
+{% endhightlight %}
 
 Now the trick. Create public_html directory in your home folder and check
 permissions are correct. On RHEL6, home folder has permissions of 700 by
@@ -75,19 +75,19 @@ We are done. Now, restart Apache with
 Creating empty git repository is a piece of cake. But we also want to make
 sure it always has correct permissions. There is a git hook for that. Do this:
 
-    cd /home/lzap/public_html
-    mkdir project.git
-    cd project.git
-    git init --bare
-    mv hooks/post-update.sample hooks/post-update
-    chmod a+x hooks/post-update
-    hooks/post-update
+    server# cd /home/lzap/public_html
+    server# mkdir project.git
+    server# cd project.git
+    server# git init --bare
+    server# mv hooks/post-update.sample hooks/post-update
+    server# chmod a+x hooks/post-update
+    server# hooks/post-update
 
 I usually create *git* symlink in the home folder just to make some paths
 shorter.
 
-    cd
-    ln public_html/ git
+    server# cd
+    server# ln public_html/ git
 
 That's it. We are done. To access your repository with read-write access just
 do this
@@ -98,4 +98,4 @@ To get anonymous access via "dumb" http protocol use
 
     client# git clone http://lzap@server/git/project.git
 
-It was simple, uh?
+Okay. Now I can copy&paste from here next time.
