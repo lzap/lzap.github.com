@@ -27,7 +27,7 @@ task :post do
     post.puts "{{ page.title }}"
     post.puts "================"
   end
-  system("/usr/bin/gvim #{filename}")
+  system("/usr/bin/vim #{filename}")
 end
 
 desc 'Clean up generated site'
