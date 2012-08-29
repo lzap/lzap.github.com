@@ -168,7 +168,7 @@ I don't use this with arrow keys, but it's defined by default. Why not.
     bindsym $mod+v split v
 
 This is important. By default i3 splits the screen according to the screen
-size. For wide screens it's usually vertical split. You can configure this
+size. For wide screens it's usually horizontal split. You can configure this
 behavior if you want, but sometimes you want to split different way. That is
 what these bindings are for. i3 remembers that for the workspace, so you can
 split multiple windows easily.
@@ -225,9 +225,13 @@ this. Notice it's disabled because I use mod+d for the dmenu.
 
 This is not standard binding, but I find Alt+Tab pretty useful combination.
 It's handy (I use my right hand for mouse) and it was not used by i3. So I
-started using it for cycling through windows on one workspace. Shift does the
-other way around while Win+Tab switches to the last used weapon. Sorry, I said
-weapon? I mean workspace.
+started using it for cycling through windows on one workspace. If you have
+various (horizontal and vertical splits), it does not cycle through all of
+them. It's only moving in vertical movement (right - left). I wish there has
+been a option like "focus cycle" in the next i3 version.
+
+Shift does the other way around while Win+Tab switches to the last used
+weapon. Sorry, I said weapon? I mean workspace.
 
     # switch to workspace
     bindsym $mod+ampersand workspace 1
@@ -649,6 +653,8 @@ I use Win+n to close all notifications. Nice.
 
 Okay, I think I showed you [i3][5]. Highly recommended tiling window manager.
 Share your opinions on this page with me!
+
+__Update__: All my configs are published here: http://lzap.fedorapeople.org/presentations/i3-article/
 
 [1]: http://www.youtube.com/watch?v=QnYN2CTb1hM
 [2]: https://bugzilla.redhat.com/show_bug.cgi?id=852211
