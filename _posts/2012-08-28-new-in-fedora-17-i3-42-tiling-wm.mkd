@@ -654,10 +654,11 @@ I use Win+n to close all notifications. Nice.
 Okay, I think I showed you [i3][5]. Highly recommended tiling window manager.
 Share your opinions on this page with me!
 
-__Update__: All my configs are published here: http://lzap.fedorapeople.org/presentations/i3-article/
+__Update__: I have pushed all my configuration files to [git repository][6].
 
 [1]: http://www.youtube.com/watch?v=QnYN2CTb1hM
 [2]: https://bugzilla.redhat.com/show_bug.cgi?id=852211
 [3]: http://pulpproject.org
 [4]: http://i3wm.org/docs/userguide.html#_changing_the_container_layout
 [5]: http://i3wm.org
+[6]: https://github.com/lzap/doti3
