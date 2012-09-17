@@ -93,17 +93,17 @@ side-by-side comparison.
 Now how the third approach look like when you start Meld. The first tab shows
 the changes in the branch I am merging into (e.g. "master"):
 
-!(assets/img/posts/2012-09-17-three-way-git-merging-with-meld/meld1.png)
+![Meld](assets/img/posts/2012-09-17-three-way-git-merging-with-meld/meld1.png)
 
 The second is similar, shows changes from the branch I am merging (e.g.
 "feature" branch):
 
-!(assets/img/posts/2012-09-17-three-way-git-merging-with-meld/meld2.png)
+![Meld](assets/img/posts/2012-09-17-three-way-git-merging-with-meld/meld2.png)
 
 And the third (opened by default) has traditional three-pane layout where I do
 the work.
 
-!(assets/img/posts/2012-09-17-three-way-git-merging-with-meld/meld3.png)
+![Meld](assets/img/posts/2012-09-17-three-way-git-merging-with-meld/meld3.png)
 
 That's all for today.
 
