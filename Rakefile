@@ -30,6 +30,22 @@ task :post do
   system("/usr/bin/vim #{filename}")
 end
 
+desc 'Prepare images directory'
+task :img do
+  latest_file = Dir.open("_posts") {|d| 
+    d.max_by {|f| 
+      if f =~ /^\..*/
+        Time.at(0)
+      else
+        File.mtime(File.join("_posts", f))
+      end
+    }
+  }
+  newdir = "assets/img/posts/" + latest_file.to_s.gsub(/\.\w+$/, '')
+  FileUtils.mkdir_p newdir
+  puts newdir
+end
+
 desc 'Clean up generated site'
 task :clean do
   cleanup
