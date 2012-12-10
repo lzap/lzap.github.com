@@ -60,7 +60,7 @@ key (F9 - yeah old good Borland times :-) to do everything for me:
 
 This is it:
 
-    map <F9> :wa\|silent! make|cw<CR>
+    map <F9> :wa|silent! make|cw<CR>
 
 Make and output parsing works usually out of the box in Vim, but if you need
 to tune it a bit, look for errorformat (efm) setting.
