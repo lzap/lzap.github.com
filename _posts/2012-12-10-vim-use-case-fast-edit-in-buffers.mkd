@@ -26,9 +26,9 @@ buffers" section of the Vim documentation.
 
 Simply put, you can open multiple files in Vim (vim file1 file2 ...) and all
 files will be "magically" available as buffers. To list all buffers just use
-:ls command, to jump on particular buffer use :Nb where N is index of the
+_:ls_ command, to jump on particular buffer use :Nb where N is index of the
 buffer starting from one (for instance :5b). To jump to the next or previous
-buffer use :bn (:bnext) and :bp (:bprevious) respectively.
+buffer use _:bn_ (:bnext) and _:bp_ (:bprevious) respectively.
 
 This is the total minimum to know about buffers. You can do much more with
 them, I highly recommend to search the web and read Vim documentation. As I
