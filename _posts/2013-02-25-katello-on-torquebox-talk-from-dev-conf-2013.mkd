@@ -18,7 +18,7 @@ And also as PDF on the SlideShare.net:
 
 <p><iframe src="http://www.slideshare.net/slideshow/embed_code/16752063"
 width="476" height="400" frameborder="0" marginwidth="0" marginheight="0"
-scrolling="no"></iframe></p>
+scrolling="no"> </iframe></p>
 
 I was talking about proof of concept port of Katello to JRuby. I had several
 issues with rubygem slow loading, bundler and rvm. The actual port was pretty
