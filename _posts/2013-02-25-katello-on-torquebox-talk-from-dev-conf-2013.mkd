@@ -1,0 +1,27 @@
+---
+layout: post
+title: "Katello on Torquebox talk from Dev Conf 2013"
+date: 2013-02-25
+tags:
+- linux
+- katello
+---
+{{ page.title }}
+================
+
+Hey all, I am happy to publish my talk I have yesterday on Developer
+Conference 2013 in Brno (http://www.devconf.cz).
+
+<div>
+<iframe src="http://www.slideshare.net/slideshow/embed_code/16752063"
+width="476" height="400" frameborder="0" marginwidth="0" marginheight="0"
+scrolling="no"></iframe>
+</div>
+
+I was talking about proof of concept port of Katello to JRuby. I had several
+issues with rubygem slow loading, bundler and rvm. The actual port was pretty
+smooth and I was giving several tips for JRuby porting, in particular for Ruby
+on Rails applications. At the end of the talk, I did short introduction to
+SystemTap and it's integration with Ruby as well as bundler_ext extension.
+
+The session was recorded, expect the video to be published hopefully soon.
