@@ -10,7 +10,12 @@ tags:
 ================
 
 Hey all, I am happy to publish my talk I have yesterday on Developer
-Conference 2013 in Brno (http://www.devconf.cz).
+Conference 2013 in Brno (http://www.devconf.cz). Slides are available on-line
+here:
+
+http://lzap.fedorapeople.org/presentations/katello-on-torquebox/
+
+And also as PDF on the SlideShare.net:
 
 <div>
 <iframe src="http://www.slideshare.net/slideshow/embed_code/16752063"
