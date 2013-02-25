@@ -9,19 +9,16 @@ tags:
 {{ page.title }}
 ================
 
-Hey all, I am happy to publish my talk I have yesterday on Developer
-Conference 2013 in Brno (http://www.devconf.cz). Slides are available on-line
-here:
-
-http://lzap.fedorapeople.org/presentations/katello-on-torquebox/
+Hey all, I am happy to publish my talk I have yesterday on [Developer
+Conference 2013 in Brno](http://www.devconf.cz). Slides are available on-line
+[in html
+format](http://lzap.fedorapeople.org/presentations/katello-on-torquebox/).
 
 And also as PDF on the SlideShare.net:
 
-<div>
-<iframe src="http://www.slideshare.net/slideshow/embed_code/16752063"
+<p><iframe src="http://www.slideshare.net/slideshow/embed_code/16752063"
 width="476" height="400" frameborder="0" marginwidth="0" marginheight="0"
-scrolling="no"></iframe>
-</div>
+scrolling="no"></iframe></p>
 
 I was talking about proof of concept port of Katello to JRuby. I had several
 issues with rubygem slow loading, bundler and rvm. The actual port was pretty
