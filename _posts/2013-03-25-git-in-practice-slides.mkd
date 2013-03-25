@@ -17,11 +17,11 @@ Honestly, it is not possible to give decent git overview in one hour. It was
 just a master plan I could not achieve. I tried at least.
 
 
-Do not forget, the book you want to go for is (Pro
-Git)[http://git-scm.com/book]. Available in Czech as, believe me or not, (Pro
-Git)[http://knihy.cznic.cz].
+Do not forget, the book you want to go for is [Pro
+Git](http://git-scm.com/book). Available in Czech as, believe me or not, [Pro
+Git](http://knihy.cznic.cz).
 
 Here you go:
 
-(Git in Practice
-slides)[http://lzap.fedorapeople.org/presentations/git-in-practice/]
+[Git in Practice
+slides](http://lzap.fedorapeople.org/presentations/git-in-practice/)
