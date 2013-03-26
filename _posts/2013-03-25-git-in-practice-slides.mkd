@@ -19,7 +19,7 @@ just a master plan I could not achieve. I tried at least.
 
 Do not forget, the book you want to go for is [Pro
 Git](http://git-scm.com/book). Available in Czech as, believe me or not, [Pro
-Git](http://knihy.cznic.cz).
+Git](http://knihy.nic.cz).
 
 Here you go:
 
