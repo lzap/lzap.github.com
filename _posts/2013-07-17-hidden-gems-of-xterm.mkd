@@ -152,7 +152,7 @@ This is important thing. By default clicking in xterm works in the following
 way:
 
  * one click - nothing
- * double click - select word (only really something like [a-zA-Z])
+ * double click - select word (only really something like a-zA-Z and \_)
  * triple click - whole line
 
 When working with files (/some/filename) or links (https://www.xyz.com)
