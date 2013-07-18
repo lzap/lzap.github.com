@@ -22,7 +22,8 @@ e-mails in mutt and I hate copying links.
 During migration, I noticed several nice features of xterm so I decided to
 write a blog post about some. Let's start.
 
-*Unicode support*
+Unicode support
+---------------
 
 Xterm supports UTF-8 by default, you really do not need to do anything except
 starting it with -u8 option or using uxterm wrapper (which essentially does
@@ -44,7 +45,8 @@ use
 
     XTerm*font: -*-terminus-medium-*-*-*-18-*-*-*-*-*-iso10646-*
 
-*256 colors*
+256 colors
+----------
 
 By default xterm does support 256 colors. In any modern distribution, it will
 likely start in the 256 colors mode, so you really do not need to change
@@ -79,7 +81,8 @@ or use something like:
     *color14:    rgb:71/be/be
     *color15:    rgb:ff/ff/ff
 
-*Comfortable menu*
+Comfortable menu
+----------------
 
 Do you miss menu from Gnome-terminal or Konsole? I don't. Actually when I was
 using those, the first thing I usually did was to hide those. Xterm has menu
@@ -89,7 +92,8 @@ Just hit Control key and left click, right click or click with middle button
 and you have plenty of options there. You can toggle scrollbar, redraw window
 or send 
 
-*Configurable pointer and cursor*
+Configurable pointer and cursor
+-------------------------------
 
 You can configure color of your pointer and even cursor (blinking and color):
 
@@ -101,20 +105,23 @@ You can configure color of your pointer and even cursor (blinking and color):
 Some of these are available in the VT menu (Control + middle click) so you can
 change them on the fly.
 
-*Show Alternate Screen*
+Show Alternate Screen
+---------------------
 
 So you are running a vim or less program and the previous content is all
 covered. How to show it so you are able to copy something from there? Well,
 you can use Show Alternate Screen from the VT Menu (Control + middle click)
 and you are there. Click again and guess what, you are back.
 
-*File logging*
+File logging
+------------
 
 You can enable logging in the main menu (Control + left click) which saves all
 the session to a file. Note this feature might not be available on all
 platforms as it is considered as a high security risk.
 
-*Truetype fonts*
+Truetype fonts
+--------------
 
 Xterm does support truetype fonts, although I do not use them. They look ugly
 in my opinion and rendering of these is slower (you can measure it). If you
@@ -126,7 +133,8 @@ You have been warned, if you really like to use xft fonts, here is an example:
 
     xterm*faceName: Inconsolata:size=10:antialias=false
 
-*Copy and paste*
+Copy and paste
+--------------
 
 Linux geeks already know PRIMARY and CLIPBOARD and how to work with them. New
 users can be confused. Xterm is a typical X Window application and users are
@@ -139,14 +147,16 @@ If you really like this, you can set this permanently:
 
     XTerm*selectToClipboard: true
 
-*Left and right selection*
+Left and right selection
+------------------------
 
 Some users prefer to select portions of text using left button for beginning
 and right button for end. I sometimes use this when I want to be absolutely
 sure with the selection (selecting e.g. ssh key) or I want to select something
 really big (click, scroll, click). Learn this, it is nice feature.
 
-*Triple click*
+Triple click
+------------
 
 This is important thing. By default clicking in xterm works in the following
 way:
@@ -173,7 +183,8 @@ And additionally you can configure more regular expressions like:
 
 Depends on what do you really do in your terminals.
 
-*Multiple font sizes*
+Multiple font sizes
+-------------------
 
 You know that - you are presenting some stuff to colleagues on a video
 conference in your brand-new xterm configuration when somebody asks you to
@@ -218,7 +229,8 @@ this is Fedora 19):
     ter-x28n.pcf.gz -xos4-terminus-medium-r-normal--28-280-72-72-c-140-iso10646-1
     ter-x32n.pcf.gz -xos4-terminus-medium-r-normal--32-320-72-72-c-160-iso10646-1
 
-*Buffer history*
+Buffer history
+--------------
 
 The buffer history defaults to one thousand lines, which is a little bit low.
 To change that, use something like:
@@ -228,7 +240,8 @@ To change that, use something like:
 By the way, I have 4 gigabytes of memory on my laptop. Quite enough to save
 even more.
 
-*Scrolling*
+Scrolling
+---------
 
 I don't like scrollbars in terminals, they just eat space. I already know how
 many lines are scrolled up, because I am working there! You can hide scrollbar
@@ -237,13 +250,15 @@ and just use Shift+PageUp or PageDown to scroll.
     XTerm*ScrollKey: true
     XTerm*ScrollBar: false
 
-*Secure keyboard*
+Secure keyboard
+---------------
 
 If you enable this option in menu (or via command line), xterm will try to do
 its best to make sure there is no other application trying to log keys. Nifty
 feature not only for security fans.
 
-*Bell blinking*
+Bell blinking
+-------------
 
 If you want, for some reason, your screen to blink on bell, just find the menu
 item and enable that. You can even make it urgent. Settings are:
@@ -251,7 +266,8 @@ item and enable that. You can even make it urgent. Settings are:
     XTerm*visualbell: true
     XTerm*bellIsUrgent: true
 
-*Disable Fullscreen Toggle*
+Fullscreen Toggle
+-----------------
 
 Xterm by default uses Alt + Enter for fullscreen toggle which can conflict
 with Midnight Commander feature. If you want to disable this, you can simply
@@ -262,7 +278,8 @@ disable fullscreen mode:
 You can still put the window into the fullscreen mode using your window
 manager tho.
 
-*Rich keyboard shortcuts*
+Rich keyboard shortcuts
+-----------------------
 
 I already showed several keys, xterm has some additional keys which you can
 even remap.
@@ -297,9 +314,10 @@ even remap.
 
 All events and mapping is documented in the manual page. Read it.
 
-*Open URL*
+Open URL
+--------
 
-Best feature ever. I was waiting for this one for years. There is new event
+*Best feature ever*. I was waiting for this one for years. There is new event
 called exec-formatted which allows you to execute arbitrary commands. If you
 make a PRIMARY selection before that, you can open URLs in browser easily. Do
 this:
@@ -310,9 +328,12 @@ And then select a link and Alt + click on the selection *once again*. Profit.
 
 Note: It is highly recommended to setup word boundaries as described above.
 
-*Default settings*
+Default settings
+----------------
 
 If you want to investigate what else you can re-configure, make a coffee.
 Really. Because there is plenty of other things you can do, just browse to
 /usr/share/X11/app-defaults (this is Fedora 19) and see what you can do.
 
+And there's more. Much more. Why don't you go ahead and try xterm *right
+now*!
