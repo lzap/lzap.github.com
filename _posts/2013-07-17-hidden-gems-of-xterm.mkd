@@ -90,7 +90,8 @@ as well!
 
 Just hit Control key and left click, right click or click with middle button
 and you have plenty of options there. You can toggle scrollbar, redraw window
-or send 
+or send signals to the console. There are many options and lots of them are
+quite useful. I will go through few in the next paragraphs.
 
 Configurable pointer and cursor
 -------------------------------
@@ -126,12 +127,16 @@ Truetype fonts
 Xterm does support truetype fonts, although I do not use them. They look ugly
 in my opinion and rendering of these is slower (you can measure it). If you
 want to use it, configure Terminus font (see above) and find TrueType Fonts
-option in the right-click menu. See the difference? That's why I recommend
-Terminus - the best bitmap (and even xft) font.
+option in the right-click menu. Terminal swaps between bitmap Terminus font
+and TrueType Terminus font. See the difference? That's why I recommend bitmap
+Terminus for everybody.
 
 You have been warned, if you really like to use xft fonts, here is an example:
 
     xterm*faceName: Inconsolata:size=10:antialias=false
+
+If you want antialias, just delete that particular part. But if you like your
+eyes, please don't do that.
 
 Copy and paste
 --------------
@@ -147,6 +152,10 @@ If you really like this, you can set this permanently:
 
     XTerm*selectToClipboard: true
 
+If you are enabling this, re-think this once again. Having PRIMARY *and*
+CLIPBOARD is a good thing and once you get used to it, it's like having two
+clipboards.
+
 Left and right selection
 ------------------------
 
@@ -155,13 +164,16 @@ and right button for end. I sometimes use this when I want to be absolutely
 sure with the selection (selecting e.g. ssh key) or I want to select something
 really big (click, scroll, click). Learn this, it is nice feature.
 
+Xterm supports that plus you can still use double clicking and dragging which
+is ordinary behavior. More about that in the next paragraph.
+
 Triple click
 ------------
 
 This is important thing. By default clicking in xterm works in the following
 way:
 
- * one click - nothing
+ * one click - nothing (you can drag or use the other button to select)
  * double click - select word (only really something like a-zA-Z and \_)
  * triple click - whole line
 
@@ -181,7 +193,9 @@ And additionally you can configure more regular expressions like:
     XTerm*on4Clicks: regex ...
     XTerm*on5Clicks: regex ...
 
-Depends on what do you really do in your terminals.
+Depends on what do you really do in your terminals. But what you definitely
+want to set is the charClass which helps with selecting links or filenames. We
+will talk about this down the article.
 
 Multiple font sizes
 -------------------
@@ -212,11 +226,11 @@ like:
 Now use the right mouse button menu and select desired font. Work done.
 Applause!
 
-One important note: Always select sizes which the fonts are prepared for. If
-you don't stick with this rule, you will end up with slow and ugly resampled
-fonts which is something you don't want to see. In my case, make sure the
-sizes match installed fonts (the directory can differ in you distribution -
-this is Fedora 19):
+One important note for users with bitmap fonts: Always select sizes which the
+fonts are prepared for. If you don't stick with this rule, you will end up
+with slow and ugly resampled fonts which is something you don't want to see.
+In my case, make sure the sizes match installed fonts (the directory can
+differ in you distribution - this is Fedora 19):
 
     grep medium /usr/share/fonts/terminus/fonts.dir | grep iso10646
     ter-x12n.pcf.gz -xos4-terminus-medium-r-normal--12-120-72-72-c-60-iso10646-1
@@ -228,6 +242,8 @@ this is Fedora 19):
     ter-x24n.pcf.gz -xos4-terminus-medium-r-normal--24-240-72-72-c-120-iso10646-1
     ter-x28n.pcf.gz -xos4-terminus-medium-r-normal--28-280-72-72-c-140-iso10646-1
     ter-x32n.pcf.gz -xos4-terminus-medium-r-normal--32-320-72-72-c-160-iso10646-1
+
+Note there are keyboard shortcuts for font size, more about them later on.
 
 Buffer history
 --------------
@@ -247,8 +263,12 @@ I don't like scrollbars in terminals, they just eat space. I already know how
 many lines are scrolled up, because I am working there! You can hide scrollbar
 and just use Shift+PageUp or PageDown to scroll.
 
-    XTerm*ScrollKey: true
     XTerm*ScrollBar: false
+
+If you want your terminal to scroll down anytime you press a key, use this
+setting:
+
+    XTerm*ScrollKey: true
 
 Secure keyboard
 ---------------
@@ -324,9 +344,15 @@ this:
 
     *VT100*translations: #override Meta <Btn1Up>: exec-formatted("google-chrome '%t'", PRIMARY)
 
-And then select a link and Alt + click on the selection *once again*. Profit.
+And then select a link and Alt + click on the selection *once again*. This is
+important - let me repeat this:
+
+ * hover above a link
+ * double click it to select it
+ * Alt + click it to open it
 
 Note: It is highly recommended to setup word boundaries as described above.
+Otherwise selecting the link is messy.
 
 Default settings
 ----------------
@@ -334,6 +360,40 @@ Default settings
 If you want to investigate what else you can re-configure, make a coffee.
 Really. Because there is plenty of other things you can do, just browse to
 /usr/share/X11/app-defaults (this is Fedora 19) and see what you can do.
+As always, read the man page!
+
+    $ rpm -ql xterm
+    /usr/bin/koi8rxterm
+    /usr/bin/resize
+    /usr/bin/uxterm
+    /usr/bin/xterm
+    /usr/share/X11/app-defaults/KOI8RXTerm
+    /usr/share/X11/app-defaults/KOI8RXTerm-color
+    /usr/share/X11/app-defaults/UXTerm
+    /usr/share/X11/app-defaults/UXTerm-color
+    /usr/share/X11/app-defaults/XTerm
+    /usr/share/X11/app-defaults/XTerm-color
+    /usr/share/applications/xterm.desktop
+    /usr/share/doc/xterm-293
+    /usr/share/doc/xterm-293/16colors.txt
+    /usr/share/doc/xterm-293/README.i18n
+    /usr/share/doc/xterm-293/THANKS
+    /usr/share/doc/xterm-293/ctlseqs.txt
+    /usr/share/doc/xterm-293/xterm.log.html
+    /usr/share/icons/hicolor/48x48/apps/xterm-color.png
+    /usr/share/icons/hicolor/scalable/apps/xterm-color.svg
+    /usr/share/man/man1/koi8rxterm.1.gz
+    /usr/share/man/man1/resize.1.gz
+    /usr/share/man/man1/uxterm.1.gz
+    /usr/share/man/man1/xterm.1.gz
+    /usr/share/pixmaps/filled-xterm_32x32.xpm
+    /usr/share/pixmaps/filled-xterm_48x48.xpm
+    /usr/share/pixmaps/mini.xterm_32x32.xpm
+    /usr/share/pixmaps/mini.xterm_48x48.xpm
+    /usr/share/pixmaps/xterm-color_32x32.xpm
+    /usr/share/pixmaps/xterm-color_48x48.xpm
+    /usr/share/pixmaps/xterm_32x32.xpm
+    /usr/share/pixmaps/xterm_48x48.xpm
 
 And there's more. Much more. Why don't you go ahead and try xterm *right
 now*!
