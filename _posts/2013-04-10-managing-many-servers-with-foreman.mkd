@@ -22,12 +22,23 @@ recommended to run production setup configured according to this blog post!
 I will repeat this several times, *do not* install Foreman for serious use
 following this page.
 
-When you finish, you will be able to:
+*Warning*: I used this setup to _learn_ how Foreman works, how Foreman
+Smart-Proxy works and how everything fit together. Foreman does have
+puppet-based installer which configures all services out-of-box (except
+libvirt of course). It is highly recommended to use it instead of this manual
+installation. If you are going to evaluate Foreman, it is more recommended to
+do this:
 
- * automate Linux OS installations
- * manage systems in Foreman
- * apply configurations on the systems
- * investigate statistics and audit
+ * Get a RHEL 6.4+ box with some memory and space and hypervisor capabilities
+ * Install libvirt and create a virtual NAT network without DHCP enabled (see
+ bellow how to do that)
+ * Install Foreman and Foreman-Proxy using our installers
+ * Reconfigure ISC DHCP to listen only on the virtual network (see bellow)
+ * Register the proxy and the libvirt in the Foreman using the UI
+ * Play with Foreman
+
+Ok if you decided *not* to stop reading here, you want to do the "hard" setup.
+And that is fine, this is the purpose of my blog post.
 
 The idea is simple - I will have one hardware box running RHEL6 where I want
 to install KVM/libvirt hypervisor with a virtual network. In this network, I
@@ -39,7 +50,7 @@ on RHEL-based systems.
 Also, I will not use libvirt DHCP server since I wanted to try out full
 integration with ISC DHCP service. Ready, steady. Let's do this!
 
-Firs of all, get a decent hardware box with at least 4 GB RAM and a CPU with
+First of all, get a decent hardware box with at least 4 GB RAM and a CPU with
 native virtualization support, install RHEL6 (I am using 6.4) and install
 necessary Virtualization yum group (or just libvirt if you want).
 
@@ -59,7 +70,7 @@ Restart the guy.
 
     # service libvirtd restart
 
-You should be able to reach this instance via TCP. Note the above setup is
+You should be able to reach this instance via TCP. Note the above setting is
 perhaps not necessary for the whole setup, but I just did this for my
 convenience. Test it out:
 
@@ -105,7 +116,8 @@ creating very own network not to confuse others which would like to use
 
 Now, the following step is really not necessary, because there will not be any
 TFTP NAT traversal, but we can load our iptables modules since it does not
-hurt at all :-)
+hurt at all (actually I just wanted to keep these lines somewhere not to
+forget about these :-)
 
     # cat /etc/sysconfig/modules/foreman.modules
     #!/bin/sh
@@ -127,7 +139,7 @@ Before we start configuring DHCP, we need to generate security token:
 
 Copy the output and paste it bellow to the dhcpd.conf.
 
-Note: If you get an package conflict error in Fedora 12 or RHEL 6.0, do yum
+Note: If you get an package conflict error in Fedora 16 or RHEL 6.0, do yum
 update dhclient and try again then. Now configure dhcpd and make it listen on
 the correct interface (virbr1 in our case). This is *very* important - do NOT
 run DHCP daemon on your physical device like eth0 :-)
