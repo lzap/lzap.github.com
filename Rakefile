@@ -58,7 +58,7 @@ end
 
 desc 'Start server with --auto'
 task :server => :clean do
-  jekyll('--server --auto')
+  jekyll('--serve --watch')
 end
 
 desc 'Build and deploy'

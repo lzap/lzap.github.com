@@ -1,5 +1,5 @@
 title : Lukáš Zapletal
-tagline: linux - life - live!
+tagline: engineer in pyjama
 permalink: /:categories/:year/:month/:title.html
 pygments: true
 exclude: ['Rakefile', 'README.md', 'config.rb']
