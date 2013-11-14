@@ -1,0 +1,77 @@
+---
+layout: post
+title: "How to TRIM your encrypted SSD in Fedora 19"
+date: 2013-11-14
+tags:
+- linux
+- fedora
+---
+{{ page.title }}
+================
+
+Few months ago I installed Fedora 19 on my new laptop with Samsung SSD and
+yesterday I found out TRIM is not enabled by default. I was installing using
+standard options with LVM/LUKS/ext4 partitions.
+
+There were some problems in Fedora 18 with LUKS not propagating TRIM commands,
+but this was fixed in Fedora 19. On my system, TRIM commands propagate
+successfully. One just needs to make few changes in the configuration. First
+of all, we need to check if TRIM propagates for all partitions to the end
+device:
+
+    [lzap@lzapx ~]$ lsblk -D
+    NAME                                            DISC-ALN DISC-GRAN DISC-MAX DISC-ZERO
+    sda                                                    0      512B       2G         1
+    ├─sda1                                                 0      512B       2G         1
+    └─sda2                                                 0      512B       2G         1
+      ├─fedora_lzapx-root                                  0      512B       2G         1
+      ├─fedora_lzapx-swap                                  0      512B       2G         1
+      └─fedora_lzapx-home                                  0      512B       2G         1
+        └─luks-aaaaaaaa-6657-44f4-8297-bbbbbbbb1111        0      512B       2G         0
+
+The last column shows if TRIM commands do propagate. We can see all is set,
+*except* the encrypted home (the last line). To get full TRIM support on
+LUKS-encrypted devices, we need to allow TRIM commands. Note that *this can
+decrease encryption strengh*. This is the Fedora 19 default crypttab file:
+
+    $ cat /etc/crypttab
+    luks-aaaaaaaa-6657-44f4-8297-bbbbbbbb1111 UUID=aaaaaaaa-6657-44f4-8297-a571e02e5492 none
+
+I added `allow-discards` option there:
+
+    $ cat /etc/crypttab
+    luks-aaaaaaaa-6657-44f4-8297-bbbbbbbb1111 UUID=aaaaaaaa-6657-44f4-8297-a571e02e5492 none allow-discards
+
+Now, to enable TRIM and take advantage of it, there are two options:
+
+TRIM when deleting files
+------------------------
+
+It is possible to configure ext4 to send TRIM commands while deleting data.
+You can do this by adding `discard` option to partitions in `/etc/fstab`. Note
+that this slows down deleting a bit. It depends on the SSD drive, but this can
+slow down quite significantly on some drives.
+
+Do not put `discard` option to swap devices as this is not required (and
+perhaps it will not work either). Swap is SSD friendly by default and
+propagates TRIM command.
+
+TRIM from cron
+--------------
+
+This is the preferred option because it can be scheduled daily, weekly or
+during night if you do not turn off your laptop/server:
+
+    cat /etc/cron.weekly/01-fstrim
+    #!/bin/sh
+    fstrim /
+    fstrim /home
+
+    chmod +x /etc/cron.weekly/01-fstrim
+
+Try to run the script now, it should not print any error message. If you
+changed LUKS configuration, you might need restart before doing that. That's
+all folks.
+
+I would like to thank Lukáš Czerner and Kamil Páral for helping me with this.
+
