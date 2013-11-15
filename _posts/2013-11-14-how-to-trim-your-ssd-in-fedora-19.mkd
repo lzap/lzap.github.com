@@ -42,7 +42,30 @@ I added `allow-discards` option there:
     $ cat /etc/crypttab
     luks-aaaaaaaa-6657-44f4-8297-bbbbbbbb1111 UUID=aaaaaaaa-6657-44f4-8297-a571e02e5492 none allow-discards
 
+After reboot, LUKS can be checked (for discards flag) with:
+
+    [lzap@lzapx ~]$ sudo cryptsetup status luks-aaaaaaaa-6657-44f4-8297-bbbbbbbb1111
+    /dev/mapper/luks-aaaaaaaa-6657-44f4-8297-bbbbbbbb1111 is active and is in use.
+      type:    LUKS1
+      cipher:  aes-xts-plain64
+      keysize: 512 bits
+      device:  /dev/mapper/fedora_lzapx-home
+      offset:  4096 sectors
+      size:    370683904 sectors
+      mode:    read/write
+      flags:   discards
+
 Now, to enable TRIM and take advantage of it, there are two options:
+
+Optional LVM configuration
+--------------------------
+
+If you modify your LVM logical volumes often (e.g. shrinking, deleting), you
+want to set issue\_discards to 1 in /etc/lvm/lvm.conf and then to issue
+
+    dracut -f
+
+This is not needed for users who do not modify logical volumes often.
 
 TRIM when deleting files
 ------------------------
@@ -70,8 +93,10 @@ during night if you do not turn off your laptop/server:
     chmod +x /etc/cron.weekly/01-fstrim
 
 Try to run the script now, it should not print any error message. If you
-changed LUKS configuration, you might need restart before doing that. That's
-all folks.
+changed LUKS configuration, you might need restart before doing that. If you
+delete lots of files often, consider scheduling trimming every day or even
+every hour. The more you trim, the faster the process should be.
 
-I would like to thank Lukáš Czerner and Kamil Páral for helping me with this.
+That's all folks. I would like to thank Lukáš Czerner, Kamil Páral and Chris
+Smart for helping me with this.
 
