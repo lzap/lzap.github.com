@@ -61,11 +61,20 @@ Optional LVM configuration
 --------------------------
 
 If you modify your LVM logical volumes often (e.g. shrinking, deleting), you
-want to set issue\_discards to 1 in /etc/lvm/lvm.conf and then to issue
+want to set issue\_discards to 1 in `/etc/lvm/lvm.conf. Then you need to do
+the next optional step described bellow.
+
+Optional init RAM disk regeneration
+-----------------------------------
+
+If you have *root* partition encrypted by LUKS (not my case) or if you have
+your *root* partition on LVM *and* you want LVM trimming when shrinking or
+deleting (see above optional step), initial RAM disk needs to be regenerated
+using the following command:
 
     dracut -f
 
-This is not needed for users who do not modify logical volumes often.
+You will need to reboot to make this change effective of course.
 
 TRIM when deleting files
 ------------------------
