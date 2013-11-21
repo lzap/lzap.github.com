@@ -61,7 +61,7 @@ Optional LVM configuration
 --------------------------
 
 If you modify your LVM logical volumes often (e.g. shrinking, deleting), you
-want to set issue\_discards to 1 in `/etc/lvm/lvm.conf. Then you need to do
+want to set issue\_discards to 1 in `/etc/lvm/lvm.conf`. Then you need to do
 the next optional step described bellow.
 
 Optional init RAM disk regeneration
