@@ -12,10 +12,10 @@ tags:
 I am using an excellent open-source tunneling solution called PageKite for
 about an year now. It's a small utility written in Python with almost zero
 dependencies (okay there is one) and it enables you to reach various ports
-behind NAT. More on the (PageKite.net)[https://pagekite.net] which also
+behind NAT. More on the [PageKite.net](https://pagekite.net) which also
 provides subscription-based service for those who do not want to run their own
 man-in-the-middle server (which is needed for this to operate). By the way
-they datacenters are spread over whole World with excellent Europe coverage.
+they datacenters are spread over whole world with excellent Europe coverage.
 
 After decent testing time, I pushed PageKite into EPEL 5 and 6 (it is already
 included in Fedora repos). Installation and setup is ultra easy:
@@ -68,5 +68,5 @@ Work done!
     # ssh yourkite-yourname.pagekite.me
 
 Nice, isn't it? Now, if you find out how to tunnel
-(mosh)[http://mosh.mit.edu/] protocol, let me know bellow.
+[mosh](http://mosh.mit.edu/) protocol, let me know bellow.
 
