@@ -4,14 +4,15 @@ title: Contact
 ---
 ## Contact
 
-* irc: lzap @ freenode: #fedora #katello #pulp #candlepin #theforeman #spacewalk
+* irc: lzap @ freenode: #theforeman-dev #theforeman #fedora #katello #pulp #candlepin
 * e-mail: lukas-a_t-zapletalovi-dot-com
 * jabber 1: lukas-dot-zapletal-a_t-jabber-dot-cz
 * jabber 2: lukas-a_t-zapletalovi-dot-com
 * skype: lukas-podtrzitko-zapletal (offline)
 * paypal: lukas-dot-zapletal-a_t-gmail-dot-com
 * czech bank: 1036270015 / 3030
-* tel: 587_407_032 (Fayn) - 910_616_884 (Voocaal)
+* office tel: 00_420_532294361
+* private tel: 00_420_587407032 (redirected to my handy)
 
 ## Public keys
 
