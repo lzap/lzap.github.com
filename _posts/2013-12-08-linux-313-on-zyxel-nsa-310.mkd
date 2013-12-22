@@ -37,7 +37,11 @@ printers etc.)
 I usually write the configuration now and edit it via editor from now on which
 is faster. Let's do the kernel now.
 
-    # make && make modules && make modules_install
+    # make && make dtbs
+
+Or if you selected some modules, do this instead:
+
+    # make && make dtbs && make modules && make modules_install
 
 The final step is very important - we need to make an uImage with concatenated
 device tree for our NSA 310.
@@ -48,9 +52,18 @@ device tree for our NSA 310.
         -n Linux-kikrwood-nsa310.dtb -d /tmp/zImage-dtb-kirwood \
         /boot/uImage-3.13.0-rc2
 
+Note there are two files:
+
+* arch/arm/boot/dts/kirkwood-nsa310.dtb
+* arch/arm/boot/dts/kirkwood-nsa310a.dtb
+
+Because there are more hardware versions, try out both and find which one
+works best for you.
+
 Boot the new kernel and note that *everything works*, except LEDs. Also the
 power button is working, which is great. I don't need LEDs, actually I don't
-like blinking LEDs at all so I am fine.
+like blinking LEDs at all so I am fine. If you _need_ LEDs, there are couple
+of patches on the arm-list floating around - grab them.
 
 I have created an ultra [simple script](https://github.com/lzap/fan3xxnsa)
 which controls the fan. There are other ways of doing that (e.g. via
