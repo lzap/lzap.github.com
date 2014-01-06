@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "New in Fedora 17: i3 4.2 tiling win manager"
+title: "The i3 4.2 tiling win manager"
 date: 2012-08-28
 tags:
 - linux
