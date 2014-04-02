@@ -97,6 +97,21 @@ Of course you can see more detailed udev output using
 
     udevadm monitor --property --kernel --udev
 
+One additional remark - for this particular printer, I had troubles with USB
+2.0, so I disabled it completely leaving USB 1.1. Transfer bandwidth does not
+matter much for GDI printing I guess. Maybe it was wrong cable (I tried two
+USB cables), anyway it works just fine.
+
+Also, I turned off CUPS on my host system and disabled usblp driver (it was
+acquiring the device via udev which was useless - I don't use LP on the host):
+
+    service cups stop
+    chkconfig cups off
+
+    # cat /etc/modprobe.d/blacklist.conf
+    blacklist ehci_hcd
+    blacklist usblp
+
 That's all. You can use this approach to get any winprinter working on Linux
 (RHEL6) via libvirt (kvm/qemu). All you really need is a valid Windows license
 and Linux box with libvirt.
