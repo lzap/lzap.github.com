@@ -15,7 +15,7 @@ one is GDI only printer without overpriced network/cpu extension PCL card.
 What to do now?
 
 Well, I have one license of Windows XP running in libvirt in the house. Oh, by
-the way Microsoft support will ends this month, *what will I do*? :-)
+the way Microsoft support is ending this month, *what will I do*? :-)
 Seriously, how about connecting the machine to my host machine (RHEL6) and
 passing the USB device into Windows so I can share the printer and print (via
 Google Cloud Print as well). The plan is set.
