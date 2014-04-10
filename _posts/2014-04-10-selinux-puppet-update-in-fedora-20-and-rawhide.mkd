@@ -15,7 +15,6 @@ We are rolling out update of Puppet to 3.4.3 in Fedora 20 and Rawhide that
 adds one important change. We have found that puppet master was running
 unconfined, therefore the Puppet SELinux policy was not effective in Fedoras.
 
-[](https://admin.fedoraproject.org/updates/puppet-3.4.3-3.fc20)
 
 The puppet package update fixes one little issue (missing runtime dependency) and
 corrects startup wrappers for systemd which puts Puppet Master into
@@ -24,7 +23,8 @@ have decided to backport this change into Fedora 20 too. Another reason is
 the change in selinux-policy package in Fedora 20 which allows us to backport
 the changes into EPEL7.
 
-[](https://admin.fedoraproject.org/updates/FEDORA-2014-4933/selinux-policy-3.12.1-153.fc20)
+- [Puppet Fedora 20 update](https://admin.fedoraproject.org/updates/puppet-3.4.3-3.fc20)
+- [SELinux policy Fedora 20 update](https://admin.fedoraproject.org/updates/FEDORA-2014-4933/selinux-policy-3.12.1-153.fc20)
 
 SELinux core puppet policy was refactored in paralel so we have now
 puppetmaster_t and puppetagent_t domains which reflects the state much better.
