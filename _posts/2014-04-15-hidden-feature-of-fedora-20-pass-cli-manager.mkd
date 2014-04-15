@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Hidden feature of Fedora 20: pass cli manager"
+title: "Hidden feature of Fedora 20 - pass cli manager"
 date: 2014-04-15
 tags:
 - linux
@@ -28,7 +28,7 @@ It's definitely not a monster tool, which I appreciate:
     /usr/share/doc/pass/README
     /usr/share/man/man1/pass.1.gz
 
-Let's read the completion (or logout and login to your shell):
+Let's read the completion (or re-login to your shell):
 
     # source /etc/bash_completion.d/password-store
 
