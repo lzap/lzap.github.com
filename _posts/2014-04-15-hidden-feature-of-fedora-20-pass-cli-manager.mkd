@@ -60,6 +60,7 @@ fix for that most likely).
 
 Usage is simple enough:
 
+    # pass init "Lukas Zapletal (pass)"
     # pass insert Business/cheese-whiz-factory
     # pass -c Email/zx2c4.com
     Copied Email/jason@zx2c4.com to clipboard. Will clear in 45 seconds.
