@@ -5,6 +5,7 @@ pygments: true
 exclude: ['Rakefile', 'README.md', 'config.rb']
 safe: true
 production_url: http://lukas.zapletalovi.com
+markdown: kramdown
 author:
   name: Lukáš Zapletal
 analytics:
