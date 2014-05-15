@@ -183,19 +183,35 @@ setting changes what xterm considers as characters:
 
     XTerm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
 
-You can achieve similar behavior with
+Good complementary configuration is to select links with triple click:
 
-    XTerm*on2Clicks: regex [[:alpha:]]+://([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]][[:xdigit:]]))+
+    XTerm*on3Clicks: regex [[:alpha:]]+://([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]][[:xdigit:]]))+
+
+I usually leave out the protocol part as optional, therefore both filesystem
+paths and URL links do work.
+
+    XTerm*on3Clicks: regex ([[:alpha:]]+://)?([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]][[:xdigit:]]))+
 
 And additionally you can configure more regular expressions like:
 
-    XTerm*on3Clicks: regex ...
     XTerm*on4Clicks: regex ...
     XTerm*on5Clicks: regex ...
 
 Depends on what do you really do in your terminals. But what you definitely
 want to set is the charClass which helps with selecting links or filenames. We
 will talk about this down the article.
+
+Search history
+--------------
+
+While there is no support for history search in XTerm, it is possible to
+configure it in a way that when you hit a sequence (in this example Ctrl+/) it
+will spawn another xterm instance with history of the calling terminal in a
+less program. The new window is entitled "History":
+
+    XTerm*printerCommand: xterm -T History -e sh -c 'less -r <&3' 3<&0
+    XTerm*translations: #override Ctrl ~Meta ~Shift <Key>slash: print-everything()
+
 
 Multiple font sizes
 -------------------
