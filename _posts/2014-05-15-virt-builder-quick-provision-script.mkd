@@ -135,7 +135,7 @@ What next?
 ----------
 
 The fvb script is just a little prototype. It [lives
-here](https://github.com/lzap/bin-public/blob/mas]er/fvb) and I might move it
+here](https://github.com/lzap/bin-public/blob/master/fvb) and I might move it
 into a separate repository eventually.
 
 The script can be used for anything, you can provide different distribution
