@@ -201,6 +201,27 @@ Depends on what do you really do in your terminals. But what you definitely
 want to set is the charClass which helps with selecting links or filenames. We
 will talk about this down the article.
 
+Open URL
+--------
+
+*Best feature ever*. I was waiting for this one for years. There is new event
+called exec-formatted which allows you to execute arbitrary commands. If you
+make a PRIMARY selection before that, you can open URLs in browser easily. Do
+this:
+
+    *VT100*translations: #override Meta <Btn1Up>: exec-formatted("google-chrome '%t'", PRIMARY)
+
+And then select a link and Alt + click on the selection *once again*. This is
+important - let me repeat this:
+
+ * hover above a link
+ * triple click it to select it (see above)
+ * Alt + click it to open it
+
+I recommend to setup word boundaries as described above if you want to use
+double clicking and dragging to select links. But triple click is the best
+solution so far.
+
 Search history
 --------------
 
@@ -349,26 +370,6 @@ even remap.
                                   <BtnDown>:ignore()
 
 All events and mapping is documented in the manual page. Read it.
-
-Open URL
---------
-
-*Best feature ever*. I was waiting for this one for years. There is new event
-called exec-formatted which allows you to execute arbitrary commands. If you
-make a PRIMARY selection before that, you can open URLs in browser easily. Do
-this:
-
-    *VT100*translations: #override Meta <Btn1Up>: exec-formatted("google-chrome '%t'", PRIMARY)
-
-And then select a link and Alt + click on the selection *once again*. This is
-important - let me repeat this:
-
- * hover above a link
- * double click it to select it
- * Alt + click it to open it
-
-Note: It is highly recommended to setup word boundaries as described above.
-Otherwise selecting the link is messy.
 
 Default settings
 ----------------
