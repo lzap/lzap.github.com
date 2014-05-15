@@ -145,6 +145,9 @@ deploy Katello Foreman plugin (which we sometimes call "foretello"), do:
 
     fvb -n knightly --script 'git clone https://github.com/Katello/katello-deploy.git && cd katello-deploy && ./setup.rb centos6'
 
+The script accepts any shell variables and values after the `--` option, so
+you are able to pass anything to your own scripts when needed.
+
 Please send me patches and comments. If you like it, I can rename the project
 and generalize it a bit so it is useful for others as well.
 
