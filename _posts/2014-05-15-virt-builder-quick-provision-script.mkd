@@ -9,14 +9,15 @@ tags:
 {{ page.title }}
 ================
 
-Until now, I was using (snap-guest)[https://github.com/lzap/snap-guest] tool
+Until now, I was using [snap-guest](https://github.com/lzap/snap-guest) tool
 together with Foreman to spawn my development/test virtual machines. I have
 been carefully monitoring
 (virt-builder)[http://libguestfs.org/virt-builder.1.html] tool in recent
 Fedoras and it looks like the version from Fedora 20 is finally usable for my
 scenarios (thanks Rich for fixing some annoying bugs for me).
 
-Therefore I am happy to announce new tool called "fvb" which stands for
+Therefore I am happy to announce new tool called
+[fvb](https://github.com/lzap/bin-public/blob/master/fvb) which stands for
 Foreman-virt-builder. This little script is based around two little commands
 virt-builder/virt-install and it has grown to something bigger over last
 couple of months. The usage is simple:
@@ -133,8 +134,8 @@ fast internal lookups.
 What next?
 ----------
 
-The fvb script is just a little prototype. It (lives
-here)[https://github.com/lzap/bin-public/blob/master/fvb] and I might move it
+The fvb script is just a little prototype. It [lives
+here](https://github.com/lzap/bin-public/blob/mas]er/fvb) and I might move it
 into a separate repository eventually.
 
 The script can be used for anything, you can provide different distribution
