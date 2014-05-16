@@ -209,7 +209,7 @@ called exec-formatted which allows you to execute arbitrary commands. If you
 make a PRIMARY selection before that, you can open URLs in browser easily. Do
 this:
 
-    *VT100*translations: #override Meta <Btn1Up>: exec-formatted("google-chrome '%t'", PRIMARY)
+    *VT100*translations: #override Shift <Btn1Up>: exec-formatted("google-chrome '%t'", PRIMARY)
 
 And then select a link and Alt + click on the selection *once again*. This is
 important - let me repeat this:
@@ -222,6 +222,9 @@ I recommend to setup word boundaries as described above if you want to use
 double clicking and dragging to select links. But triple click is the best
 solution so far.
 
+You can map *meta* key instead of *shift*, but I prefer the latter because
+this is good configuration for both handed people.
+
 Search history
 --------------
 
@@ -231,8 +234,14 @@ will spawn another xterm instance with history of the calling terminal in a
 less program. The new window is entitled "History":
 
     XTerm*printerCommand: xterm -T History -e sh -c 'less -r <&3' 3<&0
-    XTerm*translations: #override Ctrl ~Meta ~Shift <Key>slash: print-everything()
+    XTerm*translations: #override Ctrl <Key>slash: print-everything()
 
+Sidenote: If you want to combine multiple translation statements, you need to
+do something like:
+
+    XTerm*translations: #override \n\
+      Ctrl <Key>slash: print-everything() \n\
+      Shift <Btn1Up>: exec-formatted("google-chrome '%t'", PRIMARY)
 
 Multiple font sizes
 -------------------
