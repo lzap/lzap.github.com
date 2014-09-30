@@ -55,7 +55,12 @@ After reboot, LUKS can be checked (for discards flag) with:
       mode:    read/write
       flags:   discards
 
-Now, to enable TRIM and take advantage of it, there are two options:
+Note the `lsblk` command will still show zero for the LUKS partition (this is
+normal). You should have the whole chain with `1` and `cryptsetup status`
+should give you `discards`.
+
+Before we get to the actual configuration, there are two optional steps you
+can do.
 
 Optional LVM configuration
 --------------------------
@@ -75,6 +80,8 @@ using the following command:
     dracut -f
 
 You will need to reboot to make this change effective of course.
+
+Now, to enable TRIM and take advantage of it, there are two options:
 
 TRIM when deleting files
 ------------------------

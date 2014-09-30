@@ -4,11 +4,13 @@ title: About me
 ---
 ## About me
 
-Lukáš Zapletal is Senior Software Engineer in Cloud division within Red Hat.
+Lukáš Zapletal works in Systems Management group, Cloud division, Red Hat
+where he maintains Satellite 6 product and works on open-source project
+Foreman.
 
 ### Experience
 * 2010: senior software engineer, Red Hat Czech s.r.o.
-* 2009-2010: consultant v T-Mobile Netherlands, Den Haag (PIKE Electronic)
+* 2009-2010: consultant in T-Mobile Netherlands, Den Haag (PIKE Electronic)
 * 2007: PIKE Electronic s.r.o., solution architect (http://www.pikeelectronic.com)
 * 2006-2007: QCM s.r.o., software development (http://www.qcm.cz)
 * 2004-2006: editor-in-chief LinuxEXPRES magazine (http://www.linuxexpres.cz)
@@ -25,19 +27,20 @@ Lukáš Zapletal is Senior Software Engineer in Cloud division within Red Hat.
 * IBM WebSphere DataStage V8.0 (Prague CZ)
 
 ### Trainings taken
-* TIBCO BusinessWorks Administration Boot Camp (TRAINING, Prague CZ)
-* TIBCO BusinessEvents 2.x Developer (TRAINING, Prague CZ)
-* Green Hat - GH Tester Boot Camp (TRAINING, London UK)
-* TMO SOA BP Workshop (TRAINING, Bonn DE)
-* Oracle Enterprise Service Bus (TRAINING, Prague CZ)
-* Oracle Universal Conent Management (WORKSHOP, Prague CZ)
-* webMethods Integration Workshop (WORKSHOP, Prague CZ)
-* webMethods Advanced Integration Workshop (WORKSHOP, Prague CZ)
-* Oracle Single Sign-On (WORKSHOP, Prague CZ)
-* Oracle SOA Governance (WORKSHOP, Prague CZ)
-* webMethods Administration Workshop (WORKSHOP, Prague CZ)
-* IBM Information Management – Optim Bootcamp for Business Partners (WORKSHOP, Budapest HU)
-* IBM DataStage Essentials V8.1 (WORKSHOP, Prague CZ)
+* Red Hat Enterprise Linux Fast Track Course
+* TIBCO BusinessWorks Administration Boot Camp
+* TIBCO BusinessEvents 2.x Developer
+* Green Hat - GH Tester Boot Camp
+* TMO SOA BP Workshop
+* Oracle Enterprise Service Bus
+* Oracle Universal Conent Management
+* webMethods Integration Workshop
+* webMethods Advanced Integration Workshop
+* Oracle Single Sign-On
+* Oracle SOA Governance
+* webMethods Administration Workshop
+* IBM Information Management – Optim Bootcamp for Business Partners
+* IBM DataStage Essentials V8.1
 
 ### Formal education
 * 2006: Mgr. ve studijním oboru Informatika (Univerzita Palackého v Olomouci)
