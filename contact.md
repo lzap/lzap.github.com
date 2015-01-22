@@ -10,7 +10,7 @@ title: Contact
 * jabber 2: lukas-a_t-zapletalovi-dot-com
 * skype: lukas-podtrzitko-zapletal (offline)
 * paypal: lukas-dot-zapletal-a_t-gmail-dot-com
-* czech bank: 1036270015 / 3030
+* czech bank: 1036270015 / 3030 (IBAN CZ05 3030 0000 0010 3627 0015 / BIC AIRACZPP)
 * office tel: 00_420_532294361
 * private tel: 00_420_587407032 (redirected to my handy)
 
