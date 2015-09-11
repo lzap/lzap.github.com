@@ -9,7 +9,8 @@ tags:
 {{ page.title }}
 ================
 
-This article is updated version of [Three-way git merging and meld][1].
+This article is updated version of [Three-way git merging and meld][1] and it
+was updated once again in 2015 (thanks to Eric Drechsel).
 
 Although I am vim-lover, when it comes to git merging I use excellent tool
 called Meld instead of vim. It's a GTK-based application written in Python and
@@ -74,7 +75,10 @@ which is also handy. Therefore it is possible to configure git to use this
     tool = mymeld
     conflictstyle = diff3
     [mergetool "mymeld"]
-    cmd = meld $LOCAL $BASE $REMOTE $MERGED
+    cmd = meld $LOCAL $BASE $REMOTE -o $MERGED --auto-merge
+
+Note `--auto-merge` option was added in Meld 1.7.0 and it merges all
+non-conflicting code after start automatically.
 
 You can also use combination of both approaches, because sometimes it's better
 to see side-by-side comparison. I call the final setup *three-way merge with
@@ -84,7 +88,7 @@ tabs*.
     tool = mymeld
     conflictstyle = diff3
     [mergetool "mymeld"]
-    cmd = meld --diff $BASE $LOCAL --diff $BASE $REMOTE --diff $LOCAL $BASE $REMOTE $MERGED
+    cmd = meld $LOCAL $BASE $REMOTE -o $MERGED --diff $BASE $LOCAL --diff $BASE $REMOTE --auto-merge
 
 This way you can still use Meld with three windows, but it will read lines
 from the BASE file showing you history. And you can still use tabs to do
@@ -104,6 +108,18 @@ And the third (opened by default) has traditional three-pane layout where I do
 the work.
 
 ![Meld](/assets/img/posts/2012-09-17-three-way-git-merging-with-meld/meld3.png)
+
+I sometimes use little bit different configuration when I want to see plain
+git marks in the file that is being merged (the middle file). I have a
+separate merge tool configured and use it explicitly when I want. In rare
+cases, it can be faster to manually edit the file in the editor visualizing
+the changes via meld.
+
+    [merge]
+    tool = mymeld_plain
+    conflictstyle = diff3
+    [mergetool "mymeld_plain"]
+    cmd = meld --diff $LOCAL $MERGED $REMOTE --diff $BASE $LOCAL --diff $BASE $REMOTE
 
 That's all for today.
 
