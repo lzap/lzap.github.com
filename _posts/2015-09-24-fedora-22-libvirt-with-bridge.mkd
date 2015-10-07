@@ -37,6 +37,7 @@ case.
     nmcli c add type bridge-slave autoconnect yes con-name "$MAIN_CONN" ifname "$MAIN_CONN" master br0
     systemctl restart NetworkManager
     systemctl start libvirtd
+    sysctl -p /usr/lib/sysctl.d/00-system.conf
     EOS
 
 Do not, I repeat, do not execute this one by one. You need to do this in one
