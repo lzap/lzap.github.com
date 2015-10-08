@@ -43,12 +43,32 @@ with static configuration. Create the following PXELinux kind template and
 associate it with the OS/Host, then download the image:
 
     <%
-      mac = @host.primary_interface.mac
-      bootif = '00-' + mac.gsub(':', '-')
-      ip = @host.primary_interface.ip
-      mask = @host.primary_interface.subnet.mask
-      gw = @host.primary_interface.subnet.gateway
-      dns = @host.primary_interface.subnet.dns_primary || ''
+      mac = @host.primary_interface.mac rescue ''
+      bootif = '00-' + mac.gsub(':', '-') rescue ''
+      ip = @host.primary_interface.ip rescue ''
+      mask = @host.primary_interface.subnet.mask rescue ''
+      gw = @host.primary_interface.subnet.gateway rescue ''
+      dns = @host.primary_interface.subnet.dns_primary rescue ''
+    -%>
+    DEFAULT linux
+    LABEL linux
+    KERNEL <%= @kernel %>
+    <% if (@host.operatingsystem.name == 'Fedora' and @host.operatingsystem.major.to_i > 16) or
+        (@host.operatingsystem.name != 'Fedora' and @host.operatingsystem.major.to_i >= 7) -%>
+    APPEND initrd=<%= @initrd %> ks=<%= foreman_url('provision') + "&static=yes" %> inst.ks.sendmac <%= "ip=#{ip}::#{gw}:#{mask}:::none nameserver=#{dns} ksdevice=bootif BOOTIF=#{bootif}" %>
+    <% else -%>
+    APPEND initrd=<%= @initrd %> ks=<%= foreman_url('provision') + "&static=yes" %> kssendmac <%= "ip=#{ip} netmask=#{mask} gateway=#{gw} dns=#{dns} ksdevice=#{mac} BOOTIF=#{bootif}" %>
+    <% end -%>
+
+For Foreman 1.6 or older (or Satellite 6.0-6.1) use this one:
+
+    <%
+      mac = @host.mac rescue ''
+      bootif = '00-' + mac.gsub(':', '-') rescue ''
+      ip = @host.ip rescue ''
+      mask = @host.subnet.mask rescue ''
+      gw = @host.subnet.gateway rescue ''
+      dns = @host.subnet.dns_primary rescue ''
     -%>
     DEFAULT linux
     LABEL linux
