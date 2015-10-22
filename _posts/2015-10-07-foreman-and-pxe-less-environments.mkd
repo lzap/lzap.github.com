@@ -15,19 +15,18 @@ PXE-less (or DHCP-less) environments.
 Option 1: *Bootdisk plugin - iPXE*
 
 Foreman Bootdisk plugin enables Foreman users to download *Host based* or
-*Full host* images. These are small ISO images pre-loaded with SYSLINUX which
+*Generic host* images. These are small ISO images pre-loaded with SYSLINUX which
 chainloads [iPXE](http://ipxe.org). This kind of firmware is able to load
 kernels via http, but hardware driver in iPXE *must* exist for this to work.
 Unfortunately, there are many issues with various hardware and even
 virtualization technologies (VMWare, Microsoft).
 
-The Full host image embeds network credentials (IP, gateway, netmask, DNS)
+The *host image* embeds network credentials (IP, gateway, netmask, DNS)
 therefore DHCP is not requred but the host is bound to the host it was
 generated for. On the other hand, Generic image initializes network via DHCP
 and can be used with any host. Recent version of Foreman will add Subnet
 image, which is a Generic image but proxies the http calls via Smart Proxy
 (Templates plugin must be enabled).
-
 
 Option 2: *Bootdisk plugin - SYSLINUX*
 
@@ -82,7 +81,8 @@ For Foreman 1.6 or older (or Satellite 6.0-6.1) use this one:
 
 The template passes network credentials from Foreman Host via SYSLINUX
 configuration file into Anaconda. This is an example for Red Hat or Fedora
-systems.
+systems. Keep in mind that provisioning token is embedded in the image, so
+Host record *must* be present (the image is *not* generic).
 
 For more info visit [Foreman
 Bootdisk](https://github.com/theforeman/foreman_bootdisk)
