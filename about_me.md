@@ -4,9 +4,10 @@ title: About me
 ---
 ## About me
 
-Lukáš Zapletal works in Systems Management group, Cloud division, Red Hat
-where he maintains Satellite 6 product and works on open-source project
-Foreman.
+Lukas Zapletal is a core member of The Foreman (http://www.theforeman.org)
+open-source project and Red Hat Satellite 6 product engineer with focus on
+hardware discovery, bare-metal provisioning, PXE and SELinux. Co-founder of
+LinuxEXPRES magazine and author of few articles about Linux and FOSS.
 
 ### Experience
 * 2010: senior software engineer, Red Hat Czech s.r.o.
