@@ -46,7 +46,8 @@ Target setup with NBD is very easy:
     src# sudo nbd-client dst-server -N vdb /dev/nbd1
 
 Initial testing in the train involved testing on KVM instance. Direct transfer
-with block size of 1kB was the fastest method:
+of 1GB image with CirrOS (created with a command below) with block size of 1kB
+was the fastest method indeed:
 
     src# time sudo dd if=/tmp/cirros.img of=/dev/nbd1 bs=1k
     real    0m0.882s
@@ -65,6 +66,7 @@ Compressing the data speeds up things, lzop seems to be the fastest of course:
     src# time sudo cat /tmp/cirros.img | lzop | ncat dst-server 1234
     real    0m2.358s
 
+Note that KVM/virtio is a special case, usually lzop is faster than raw data.
 Now the remote block device approach:
 
     src# time sudo virt-builder cirros-0.3.1 --output /tmp/cirros.img --size 1G
@@ -84,8 +86,7 @@ connection. For the record, I had to disable IPv6 to get nbd-server running
 due to some bugs. For comparison, I created 10GB image. First, test the
 fastest possible stream method:
 
-
-    dst# nc -l 1234 | lzop -d > /dev/vdb
+    dst# nc -l 1234 | lzop -d > /dev/XYZ
     src# time sudo cat /tmp/cirros.img | lzop | ncat dst-server 1234
     real    1m32.336s
 
@@ -100,9 +101,9 @@ The same size, but over the (gigabit) network:
     real    0m29.926s
 
 I was scratching my head for few seconds until I realized why the attached
-storage case is actually faster. I was testing this on my T430s laptop with
-HDD in DVD bay while the server was Dell Precision T5400 with end-consumer
-SATA drive. Still faster than the two inch laptop one.
+physical storage is actually faster. The local test was on my T430s laptop
+with HDD in DVD bay while the server was Dell Precision T5400 with
+end-consumer SATA drive. Still faster than the two inch laptop one.
 
 Anyway, it looks like NBD performs well enough. I think this is a go to
 implement this in foreman-discovery-image. Exporting volumes via NBD is an
