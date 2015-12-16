@@ -13,7 +13,7 @@ task :post do
   if File.exist?(filename)
     abort("rake aborted filename already exists!")
   end
-  
+
   puts "Creating new post: #{filename}"
   open(filename, 'w') do |post|
     post.puts "---"
@@ -29,6 +29,7 @@ task :post do
   end
   system("/usr/bin/vim #{filename}")
 end
+task :new_post => :post
 
 desc 'Prepare images directory'
 task :img do

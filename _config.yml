@@ -4,7 +4,7 @@ permalink: /:categories/:year/:month/:title.html
 pygments: true
 exclude: ['Rakefile', 'README.md', 'config.rb']
 safe: true
-production_url: http://lukas.zapletalovi.com
+production_url: https://lukas.zapletalovi.com
 markdown: kramdown
 author:
   name: Lukáš Zapletal
