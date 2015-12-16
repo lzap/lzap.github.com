@@ -8,5 +8,3 @@ production_url: https://lukas.zapletalovi.com
 markdown: kramdown
 author:
   name: Lukáš Zapletal
-analytics:
-  mixpanel_token: 
