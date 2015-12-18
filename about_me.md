@@ -15,7 +15,7 @@ LinuxEXPRES magazine and author of few articles about Linux and FOSS.
 * 2007: PIKE Electronic s.r.o., solution architect (http://www.pikeelectronic.com)
 * 2006-2007: QCM s.r.o., software development (http://www.qcm.cz)
 * 2004-2006: editor-in-chief LinuxEXPRES magazine (http://www.linuxexpres.cz)
-* 2003-září 2004: editor-in-chief Linux+ magazine
+* 2003-2004: editor-in-chief Linux+ magazine
 * 2000: Faculty Hospital Olomouc, IT (http://www.fnol.cz)
 * 1998: Bach systems s.r.o., Visual Basic developer (http://www.bach.cz)
 
@@ -44,7 +44,8 @@ LinuxEXPRES magazine and author of few articles about Linux and FOSS.
 * IBM DataStage Essentials V8.1
 
 ### Formal education
-* 2006: Mgr. ve studijním oboru Informatika (Univerzita Palackého v Olomouci)
-* 2004: Bc. ve studijním oboru Informatika (Univerzita Palackého v Olomouci)
-* 1998: Střední průmyslová škola strojnická Olomouc (obor Management strojírenství)
-* 1994: Sportovní plavecká třída ZŠ Bratří Czerviu (1990: ZŠ Hodolany Olomouc)
+* 2006: Master degree Computer Science (Palacky University in Olomouci)
+* 2004: Bachelor degree Computer Science (Palacky University in Olomouci)
+* 1998: Secondary technical school of mechanical engineering
+* 1994: Elementary sport school Czerviu Brothers Olomouc
+* 1990: Elementary school Hodolany Olomouc
