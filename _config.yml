@@ -1,11 +1,11 @@
 title : Lukáš Zapletal
 tagline: engineer in pyjama
 permalink: /:categories/:year/:month/:title.html
-pygments: true
 exclude: ['Rakefile', 'README.md', 'config.rb']
 safe: true
 production_url: https://lukas.zapletalovi.com
 enforce_ssl: lukas.zapletalovi.com
 markdown: kramdown
+highlighter: rogue
 author:
   name: Lukáš Zapletal

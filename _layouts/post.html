@@ -4,6 +4,12 @@ layout: default
 <div class="row-fluid">
   <div class="span9">
     {{ content }}
+    <div class="span12 text-right">
+      <i class="icon-book"></i>{{ page.date | date_to_long_string }}
+      {% for tag in page.tags %}
+        | <a href="/tags.html#{{ tag }}-ref">{{ tag }}</a>
+      {% endfor %}
+    </div>
     {% include pagination.html %}
     {% include discussion.html %}
   </div>
