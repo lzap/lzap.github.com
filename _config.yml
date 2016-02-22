@@ -6,6 +6,6 @@ safe: true
 production_url: https://lukas.zapletalovi.com
 enforce_ssl: lukas.zapletalovi.com
 markdown: kramdown
-highlighter: rogue
+highlighter: rouge
 author:
   name: Lukáš Zapletal
