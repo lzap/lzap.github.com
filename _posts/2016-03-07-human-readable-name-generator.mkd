@@ -82,7 +82,9 @@ Random-based disadvantages
 
 ## Usage
 
-Visit project homepage at https://github.com/lzap/deacon
+Visit [project homepage](https://github.com/lzap/deacon) to see some examples.
+Also try [the Foreman](http://www.theforeman.org) which will (hopefully) have
+a embedded generator based on Deacon library in the 1.12 release.
 
 ## Why the?
 
