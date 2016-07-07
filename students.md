@@ -4,7 +4,9 @@ title: For students
 ---
 ## For students
 
-Information for Palacky University in Olomouc.
+Information for Palacky University in Olomouc. Heads up, this page is cached
+with 8 hours expiration, you may need to refresh it in your browser in order
+to get recent change.
 
 ### "KMI/SLS: Správa linuxového serveru" aka CentOS 7 course (2016)
 

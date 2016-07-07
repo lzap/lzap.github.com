@@ -1,0 +1,34 @@
+---
+layout: post
+title: "Brother MFC L27000DW and Fedora 23"
+date: 2016-07-07
+tags:
+- linux
+- fedora
+---
+{{ page.title }}
+================
+
+I bought this new device in order to have network printing *and* scanning and
+it works just fine. It was a pain to get it working tho.
+
+Downloaded brscan4 and brscan-skey RPM packages from [Brother
+site](http://support.brother.com/g/s/id/linux/en/download_scn.html) and fed
+the DNF tool with them.
+
+Then I visited printers built-in web interface and configured it for static
+IP. You can do the same on your DHCP server if you prefer to.
+
+And then - aaarghhh - the hidden trick which caused me headache:
+
+    $ brsaneconfig4 -a name=PRACOVNA model=MFC-L2700DW ip=192.168.1.105
+
+And done! Switch over to "Brother *PRACOVNA" scanner and you can scan over IP.
+I use "simple-scan" which is quick and nice tool that aims for easy scanning
+into PDF with multiple pages support. Highly recommended.
+
+To all incoming documents, payslips and letters - you will be all archived!
+
+Actually I haven't configured printing because I use Google Cloud Print which
+is build in the device, but it should not be that hard. Frankly, I tried but
+it did not work. Drop me a line in comments if you know how to do that.
