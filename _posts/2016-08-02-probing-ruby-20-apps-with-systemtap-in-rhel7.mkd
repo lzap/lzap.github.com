@@ -1,0 +1,233 @@
+---
+layout: post
+title: "Probing Ruby 2.0 apps with SystemTap in RHEL7"
+date: 2016-08-02
+tags:
+- linux
+- fedora
+- systemtap
+---
+{{ page.title }}
+================
+
+Few years ago, I wrote an article about SystemTap and Ruby in RHEL6. When RHEL
+7.0 was released, things changed. It has Ruby 2.0 and the Ruby SystemTap API
+changed as well, therefore I am updating my old article today according to new
+changes.
+
+Imagine you have a Ruby application that has some performance issues on a
+production server and it's running RHEL 7.0 or newer. With SystemTap, you can
+easily peek into the running application and investigate bottlenecks or count
+memory objects. If you know DTrace from other operating systems, welcome home.
+
+Installation of SystemTap is easy and straightforward and for our purposes we
+do not need to install kernel devel and debug info packages.
+
+    # yum -y install systemtap systemtap-runtime ruby
+
+Let's create a trivial application called factorial.rb.
+
+    # cat factorial.rb
+    def factorial n
+      f = 1; for i in 1..n; f *= i; end; f
+    end
+    puts factorial ARGV[1].to_i
+
+And a simple SystemTap script that shows method calls:
+
+    # cat rubycalls.stp
+    probe ruby.cmethod.entry
+    {
+      if (file == "factorial.rb") {
+        printf("%s => %s.%s in %s:%d\n", thread_indent(1), classname, methodname, file, line);
+      }
+    }
+    probe ruby.cmethod.return
+    {
+      if (file == "factorial.rb") {
+        printf("%s <= %s.%s in %s:%d\n", thread_indent(-1), classname, methodname, file, line);
+      }
+    }
+
+Let's just run it for now.)
+
+    # stap rubycalls.stp -c "ruby factorial.rb 4"
+    24
+     0 ruby(18989): => IO.set_encoding in factorial.rb:0
+     6 ruby(18989): <= IO.set_encoding in factorial.rb:0
+     0 ruby(18989): => IO.set_encoding in factorial.rb:0
+     5 ruby(18989): <= IO.set_encoding in factorial.rb:0
+     0 ruby(18989): => #<Class:0x00000000af8c78>.core#define_method in factorial.rb:1
+     5 ruby(18989):  => Module.method_added in factorial.rb:1
+     8 ruby(18989):  <= Module.method_added in factorial.rb:1
+    39 ruby(18989): <= #<Class:0x00000000af8c78>.core#define_method in factorial.rb:1
+     0 ruby(18989): => Range.each in factorial.rb:2
+     4 ruby(18989): <= Range.each in factorial.rb:2
+     0 ruby(18989): => Kernel.puts in factorial.rb:4
+     6 ruby(18989):  => IO.puts in factorial.rb:4
+    14 ruby(18989):   => Fixnum.to_s in factorial.rb:4
+    17 ruby(18989):   <= Fixnum.to_s in factorial.rb:4
+    21 ruby(18989):   => IO.write in factorial.rb:4
+    39 ruby(18989):   <= IO.write in factorial.rb:4
+    42 ruby(18989):   => IO.write in factorial.rb:4
+    47 ruby(18989):   <= IO.write in factorial.rb:4
+    49 ruby(18989):  <= IO.puts in factorial.rb:4
+    51 ruby(18989): <= Kernel.puts in factorial.rb:4
+
+Please note you have to run SystemTap under root account and also expect the
+first run to be a little bit slower, because SystemTap is compiling and
+inserting a kernel module under the hood.
+
+SystemTap syntax is similar to C and the easiest way of learning it is reading [SystemTap Beginners Guide](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/SystemTap_Beginners_Guide/). From the book:
+
+*SystemTap allows users to write and reuse simple scripts to deeply examine the
+activities of a running Linux system. These scripts can be designed to extract
+data, filter it, and summarize it quickly (and safely), enabling the diagnosis
+of complex performance (or even functional) problems.*
+
+*The essential idea behind a SystemTap script is to name events, and to give
+them handlers. When SystemTap runs the script, SystemTap monitors for the
+event; once the event occurs, the Linux kernel then runs the handler as a quick
+sub-routine, then resumes.*
+
+*There are several kinds of events; entering or exiting a function, timer
+expiration, session termination, etc. A handler is a series of script language
+statements that specify the work to be done whenever the event occurs. This
+work normally includes extracting data from the event context, storing them
+into internal variables, and printing results.*
+
+The following example will count method calls to quickly search for
+bottlenecks. If you don't understand how it works, head over to the Beginners
+Guide for more details.
+
+    # cat rubystack.stp
+    #!/usr/bin/stap·
+
+    global fn_calls;
+
+    probe ruby.cmethod.entry
+    {
+      fn_calls[classname, methodname] <<< 1;
+    }
+
+    probe end {
+      foreach ([classname, methodname] in fn_calls- limit 30) {
+        printf("%dx %s.%s\n", @count(fn_calls[classname, methodname]), classname, methodname);
+      }
+
+      delete fn_calls;
+    }
+
+Everytime a Ruby method is entered, counter is incremented by one in a global
+associative array. It prints top thirty counters on exit. When we run it, it's
+a surprise!
+
+    # stap rubystack.stp -c "ruby factorial.rb 42"
+    1405006117752879898543142606244511569936384000000000
+    2823x Module.===
+    1728x BasicObject.==
+    1728x Kernel.===
+    997x Symbol.to_s
+    980x Kernel.initialize_dup
+    979x Kernel.dup
+    960x Kernel.instance_variable_set
+    683x Hash.[]=
+    676x String.to_s
+    499x String.initialize_copy
+    445x Class.new
+    386x String.gsub
+    384x Array.initialize_copy
+    327x Kernel.class
+    320x Module.method_added
+    315x Array.each
+    286x Array.flatten
+    260x File.file?
+    242x #<Class:0x00000002402d90>.core#define_method
+    236x String.<=>
+    220x String.to_i
+    204x Enumerable.any?
+    179x File.join
+    179x String.strip
+    177x Regexp.=~
+    164x Kernel.respond_to?
+    164x Kernel.untaint
+    156x String.=~
+    149x Array.last
+    146x Array.compact!
+
+I'd expect multiplying operation (`Bignum.*`) but we see equality of module
+instead. Since we count *all* the method calls, we can see what Ruby needs to
+done in the backround to load such a trivial example. It's actually rubygems
+gem which ships with Ruby 2.0 that does the loading mechanics (and it's poorly
+designed in my opinion).
+
+Anyway, if you want to see the bignum thing, increase the parameter from 42 to
+let's say 500. Now another example, slightly modified example from the [SystemTap Wiki](https://sourceware.org/systemtap/wiki/RubyMarker):
+
+    # cat rubytop.stp
+    #!/usr/bin/stap
+
+    global fn_calls;
+
+    probe ruby.cmethod.entry
+    {
+      fn_calls[pid(), file, methodname, line] <<< 1;
+    }
+
+    probe timer.ms(1000) {
+      ansi_clear_screen()
+      printf("%6s %30s %6s %30s %6s\n", "PID", "FILENAME", "LINE", "FUNCTION", "CALLS")
+      foreach ([pid, filename, funcname, lineno] in fn_calls- limit 20) {
+        printf("%6d %30s %6d %30s %6d\n", pid, filename, lineno, funcname, @count(fn_calls[pid, filename, funcname, lineno]));
+      }
+      delete fn_calls;
+    }
+
+Now run the example with huge input that will cause it to loop for some time:
+
+    # stap rubytop.stp -c "ruby factorial.rb 999999999"
+
+You should see a top-like screen which refreshes every second. The initial
+page will be full of method calls while from second one you will only see
+increasing counter of the multiply method:
+
+      PID                       FILENAME   LINE                       FUNCTION CALLS
+    21185                   factorial.rb      2                              * 9904
+
+If you want to sum all calls instead, delete the `delete` statement on the
+last line of the timer probe block.
+
+SystemTap Ruby markers in RHEL 7.0 offers the following probes:
+
+    ruby.array.create
+    ruby.cmethod.entry
+    ruby.cmethod.return
+    ruby.find.require.entry
+    ruby.find.require.return
+    ruby.gc.mark.begin
+    ruby.gc.mark.end
+    ruby.gc.sweep.begin
+    ruby.gc.sweep.end
+    ruby.hash.create
+    ruby.load.entry
+    ruby.load.return
+    ruby.method.entry
+    ruby.method.return
+    ruby.object.create
+    ruby.parse.begin
+    ruby.parse.end
+    ruby.raise
+    ruby.require.entry
+    ruby.require.return
+    ruby.string.create
+
+To probe objects creation, replace `ruby.cmethod.entry` with
+`ruby.object.create`, delete the `delete fn_calls` statement and reload. It is
+also possible to attach to existing process:
+
+    # stap rubytop.stp -x 12345
+
+When using Software Collections, note Ruby does not have SystemTap support
+compiled in unfortunately. I filed a
+[RFE](https://bugzilla.redhat.com/show_bug.cgi?id=1362437) for that. And
+that's end of story.

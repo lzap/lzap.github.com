@@ -5,6 +5,7 @@ date: 2014-05-16
 tags:
 - linux
 - fedora
+- systemtap
 ---
 {{ page.title }}
 ================
