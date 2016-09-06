@@ -227,7 +227,9 @@ also possible to attach to existing process:
 
     # stap rubytop.stp -x 12345
 
-When using Software Collections, note Ruby does not have SystemTap support
-compiled in unfortunately. I filed a
-[RFE](https://bugzilla.redhat.com/show_bug.cgi?id=1362437) for that. And
-that's end of story.
+When using Software Collections, note the correct SCL enable syntax (credit to
+[Pavel Valena](https://bugzilla.redhat.com/show_bug.cgi?id=1362437) from Red Hat):
+
+    # scl enable rh-ruby22 -- stap rubystack.stp -c "ruby factorial.rb 5"
+
+That's all for now.
