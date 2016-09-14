@@ -14,8 +14,14 @@ Schedule: Thirteen seminars starting from September 19th 2016 at [KMI PřF
 UPOL](http://www.inf.upol.cz/kontakt).
 
 Time: 11:30 - 14:00
+Room: 5.003 (Atrium, 5th floor)
+Capacity: 36 seats (approx. 10 free for public)
 
-Room: TBA
+Credit info: You can gain up to 30 points in this course, 2 points for
+attendance, 1 point for home work. To pass the course you need 20 credits or
+more.
+
+Home work to be announced on this page every week.
 
 * [Syllabus](https://docs.google.com/a/zapletalovi.com/document/d/16LjrMkG-EQQFHRHGYxEp76B2Zlt4kSj5NRXhOGEpfQw/edit?usp=sharing)
 * [Presence sheet](http://goo.gl/forms/3aoY6dMMmPa3694i2)
