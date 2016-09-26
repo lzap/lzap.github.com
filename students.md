@@ -24,4 +24,7 @@ more.
 Home work to be announced on this page every week.
 
 * [Syllabus](https://docs.google.com/a/zapletalovi.com/document/d/16LjrMkG-EQQFHRHGYxEp76B2Zlt4kSj5NRXhOGEpfQw/edit?usp=sharing)
-* [Presence sheet](http://goo.gl/forms/3aoY6dMMmPa3694i2)
+* [Virtual appliance](http://outrata.inf.upol.cz/courses/pos/virtual_network.html) - image named "centos7"
+* [Local CentOS 7 ISO image](http://phoenix.inf.upol.cz/home/students/virtual/install/)
+* [Nufnuf](https://copr.fedorainfracloud.org/coprs/lzap/nufnuf/)
+* [Asciinema](https://asciinema.org/)
