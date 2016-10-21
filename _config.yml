@@ -9,5 +9,3 @@ markdown: kramdown
 highlighter: rouge
 author:
   name: Lukáš Zapletal
-gems:
-  - jekyll-seo-tag
