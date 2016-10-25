@@ -36,13 +36,13 @@ Let's create a trivial application called factorial.rb.
 And a simple SystemTap script that shows method calls:
 
     # cat rubycalls.stp
-    probe ruby.cmethod.entry
+    probe ruby.method.entry, ruby.cmethod.entry
     {
       if (file == "factorial.rb") {
         printf("%s => %s.%s in %s:%d\n", thread_indent(1), classname, methodname, file, line);
       }
     }
-    probe ruby.cmethod.return
+    probe ruby.method.return, ruby.cmethod.return
     {
       if (file == "factorial.rb") {
         printf("%s <= %s.%s in %s:%d\n", thread_indent(-1), classname, methodname, file, line);
@@ -166,21 +166,22 @@ let's say 500. Now another example, slightly modified example from the [SystemTa
 
     # cat rubytop.stp
     #!/usr/bin/stap
-
-    global fn_calls;
-
-    probe ruby.cmethod.entry
+    global fn_calls
+    probe ruby.method.entry, ruby.cmethod.entry
     {
-      fn_calls[pid(), file, methodname, line] <<< 1;
+      if (file =~ "^$IGNORED_DIR" && classname !~ "^($IGNORED_CLASSES_REGEXP)$") {
+        fn_calls[file, methodname, line] <<< 1
+      }
     }
-
     probe timer.ms(1000) {
       ansi_clear_screen()
-      printf("%6s %30s %6s %30s %6s\n", "PID", "FILENAME", "LINE", "FUNCTION", "CALLS")
-      foreach ([pid, filename, funcname, lineno] in fn_calls- limit 20) {
-        printf("%6d %30s %6d %30s %6d\n", pid, filename, lineno, funcname, @count(fn_calls[pid, filename, funcname, lineno]));
+      printf("%80s %6s %30s %6s\n", "FILENAME", "LINE", "METHOD", "CALLS")
+      foreach ([filename, funcname, lineno] in fn_calls- limit 15) {
+        printf("%80s %6d %30s %6d\n", filename, lineno, funcname, @count(fn_calls[filename, funcname, lineno]))
       }
-      delete fn_calls;
+    }
+    probe timer.ms(300000) {
+      delete fn_calls
     }
 
 Now run the example with huge input that will cause it to loop for some time:
@@ -191,8 +192,8 @@ You should see a top-like screen which refreshes every second. The initial
 page will be full of method calls while from second one you will only see
 increasing counter of the multiply method:
 
-      PID                       FILENAME   LINE                       FUNCTION CALLS
-    21185                   factorial.rb      2                              * 9904
+                        FILENAME   LINE                         METHOD CALLS
+                    factorial.rb      2                              *  9904
 
 If you want to sum all calls instead, delete the `delete` statement on the
 last line of the timer probe block.
