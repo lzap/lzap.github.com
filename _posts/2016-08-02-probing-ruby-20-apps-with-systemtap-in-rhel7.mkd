@@ -31,7 +31,7 @@ Let's create a trivial application called factorial.rb.
     def factorial n
       f = 1; for i in 1..n; f *= i; end; f
     end
-    puts factorial ARGV[1].to_i
+    puts factorial(ARGV[0].to_i)
 
 And a simple SystemTap script that shows method calls:
 
@@ -53,32 +53,39 @@ Let's just run it for now.)
 
     # stap rubycalls.stp -c "ruby factorial.rb 4"
     24
-     0 ruby(18989): => IO.set_encoding in factorial.rb:0
-     6 ruby(18989): <= IO.set_encoding in factorial.rb:0
-     0 ruby(18989): => IO.set_encoding in factorial.rb:0
-     5 ruby(18989): <= IO.set_encoding in factorial.rb:0
-     0 ruby(18989): => #<Class:0x00000000af8c78>.core#define_method in factorial.rb:1
-     5 ruby(18989):  => Module.method_added in factorial.rb:1
-     8 ruby(18989):  <= Module.method_added in factorial.rb:1
-    39 ruby(18989): <= #<Class:0x00000000af8c78>.core#define_method in factorial.rb:1
-     0 ruby(18989): => Range.each in factorial.rb:2
-     4 ruby(18989): <= Range.each in factorial.rb:2
-     0 ruby(18989): => Kernel.puts in factorial.rb:4
-     6 ruby(18989):  => IO.puts in factorial.rb:4
-    14 ruby(18989):   => Fixnum.to_s in factorial.rb:4
-    17 ruby(18989):   <= Fixnum.to_s in factorial.rb:4
-    21 ruby(18989):   => IO.write in factorial.rb:4
-    39 ruby(18989):   <= IO.write in factorial.rb:4
-    42 ruby(18989):   => IO.write in factorial.rb:4
-    47 ruby(18989):   <= IO.write in factorial.rb:4
-    49 ruby(18989):  <= IO.puts in factorial.rb:4
-    51 ruby(18989): <= Kernel.puts in factorial.rb:4
+     0 ruby(29131): => IO.set_encoding in factorial.rb:0
+     6 ruby(29131): <= IO.set_encoding in factorial.rb:0
+     0 ruby(29131): => IO.set_encoding in factorial.rb:0
+     3 ruby(29131): <= IO.set_encoding in factorial.rb:0
+     0 ruby(29131): => #<Class:0x00000002378c80>.core#define_method in factorial.rb:1
+     6 ruby(29131):  => Module.method_added in factorial.rb:1
+     9 ruby(29131):  <= Module.method_added in factorial.rb:1
+    45 ruby(29131): <= #<Class:0x00000002378c80>.core#define_method in factorial.rb:1
+     0 ruby(29131): => String.to_i in factorial.rb:4
+     2 ruby(29131): <= String.to_i in factorial.rb:4
+     0 ruby(29131): => Object.factorial in factorial.rb:1
+    19 ruby(29131):  => Range.each in factorial.rb:2
+    23 ruby(29131):  <= Range.each in factorial.rb:2
+    25 ruby(29131): <= Object.factorial in factorial.rb:3
+     0 ruby(29131): => Kernel.puts in factorial.rb:4
+     7 ruby(29131):  => IO.puts in factorial.rb:4
+    15 ruby(29131):   => Fixnum.to_s in factorial.rb:4
+    18 ruby(29131):   <= Fixnum.to_s in factorial.rb:4
+    21 ruby(29131):   => IO.write in factorial.rb:4
+    40 ruby(29131):   <= IO.write in factorial.rb:4
+    43 ruby(29131):   => IO.write in factorial.rb:4
+    48 ruby(29131):   <= IO.write in factorial.rb:4
+    50 ruby(29131):  <= IO.puts in factorial.rb:4
+    52 ruby(29131): <= Kernel.puts in factorial.rb:4
 
 Please note you have to run SystemTap under root account and also expect the
 first run to be a little bit slower, because SystemTap is compiling and
 inserting a kernel module under the hood.
 
-SystemTap syntax is similar to C and the easiest way of learning it is reading [SystemTap Beginners Guide](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/SystemTap_Beginners_Guide/). From the book:
+SystemTap syntax is similar to C and the easiest way of learning it is reading
+[SystemTap Beginners
+Guide](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/SystemTap_Beginners_Guide/).
+From the book:
 
 *SystemTap allows users to write and reuse simple scripts to deeply examine the
 activities of a running Linux system. These scripts can be designed to extract
@@ -105,7 +112,7 @@ Guide for more details.
 
     global fn_calls;
 
-    probe ruby.cmethod.entry
+    probe ruby.method.entry, ruby.cmethod.entry
     {
       fn_calls[classname, methodname] <<< 1;
     }
@@ -124,36 +131,36 @@ a surprise!
 
     # stap rubystack.stp -c "ruby factorial.rb 42"
     1405006117752879898543142606244511569936384000000000
-    2823x Module.===
-    1728x BasicObject.==
-    1728x Kernel.===
-    997x Symbol.to_s
-    980x Kernel.initialize_dup
-    979x Kernel.dup
-    960x Kernel.instance_variable_set
-    683x Hash.[]=
-    676x String.to_s
-    499x String.initialize_copy
-    445x Class.new
-    386x String.gsub
-    384x Array.initialize_copy
-    327x Kernel.class
+    2904x Module.===
+    1782x BasicObject.==
+    1782x Kernel.===
+    1027x Symbol.to_s
+    1004x Kernel.initialize_dup
+    1003x Kernel.dup
+    990x Kernel.instance_variable_set
+    695x String.to_s
+    684x Hash.[]=
+    660x Gem::Specification.default_value
+    508x String.initialize_copy
+    456x Class.new
+    396x Array.initialize_copy
+    388x String.gsub
+    336x Kernel.class
+    324x Array.each
+    322x RbConfig.expand
     320x Module.method_added
-    315x Array.each
-    286x Array.flatten
-    260x File.file?
-    242x #<Class:0x00000002402d90>.core#define_method
-    236x String.<=>
-    220x String.to_i
-    204x Enumerable.any?
-    179x File.join
-    179x String.strip
-    177x Regexp.=~
-    164x Kernel.respond_to?
-    164x Kernel.untaint
-    156x String.=~
-    149x Array.last
-    146x Array.compact!
+    292x Array.flatten
+    267x File.file?
+    244x String.<=>
+    242x #<Class:0x0000000221ad70>.core#define_method
+    229x String.to_i
+    210x Enumerable.any?
+    185x String.strip
+    184x File.join
+    181x Regexp.=~
+    169x Kernel.untaint
+    168x Kernel.respond_to?
+    161x String.=~
 
 I'd expect multiplying operation (`Bignum.*`) but we see equality of module
 instead. Since we count *all* the method calls, we can see what Ruby needs to
@@ -169,9 +176,7 @@ let's say 500. Now another example, slightly modified example from the [SystemTa
     global fn_calls
     probe ruby.method.entry, ruby.cmethod.entry
     {
-      if (file =~ "^$IGNORED_DIR" && classname !~ "^($IGNORED_CLASSES_REGEXP)$") {
-        fn_calls[file, methodname, line] <<< 1
-      }
+      fn_calls[file, methodname, line] <<< 1
     }
     probe timer.ms(1000) {
       ansi_clear_screen()
@@ -192,11 +197,38 @@ You should see a top-like screen which refreshes every second. The initial
 page will be full of method calls while from second one you will only see
 increasing counter of the multiply method:
 
-                        FILENAME   LINE                         METHOD CALLS
-                    factorial.rb      2                              *  9904
+                                            FILENAME   LINE                         METHOD  CALLS
+                                        factorial.rb      2                              * 123483
+       /usr/share/rubygems/rubygems/specification.rb   1775                            ===   3663
+       /usr/share/rubygems/rubygems/specification.rb   1775                             ==   1782
+       /usr/share/rubygems/rubygems/specification.rb   1779          instance_variable_set    660
+       /usr/share/rubygems/rubygems/specification.rb   1779                           to_s    660
+       /usr/share/rubygems/rubygems/specification.rb   1471                  default_value    660
+       /usr/share/rubygems/rubygems/specification.rb   1776                            dup    594
+       /usr/share/rubygems/rubygems/specification.rb   1776                 initialize_dup    594
+       /usr/share/rubygems/rubygems/specification.rb   1776                initialize_copy    594
+       /usr/share/rubygems/rubygems/specification.rb   1769                           to_s    330
+       /usr/share/rubygems/rubygems/specification.rb   1769          instance_variable_set    330
+                         /usr/lib64/ruby/rbconfig.rb    235                         expand    322
+                         /usr/lib64/ruby/rbconfig.rb    236                           gsub    322
+       /usr/share/rubygems/rubygems/specification.rb   1402                          file?    234
+         /usr/share/rubygems/rubygems/requirement.rb     51                            ===    226
 
-If you want to sum all calls instead, delete the `delete` statement on the
-last line of the timer probe block.
+SystemTap is flexible, you can ignore some files (or directories) completely.
+Maybe you are only interested in code that was installed in
+`/usr/share/project` and you never want to see Kernel and Bignum classes, it's
+as easy as:
+
+
+    probe ruby.method.entry, ruby.cmethod.entry
+    {
+      if (file =~ "^/usr/share/project" && classname !~ "^(Kernel|Bignum)$") {
+        fn_calls[file, methodname, line] <<< 1
+      }
+    }
+
+By default, the counter struct resets every 5 minutes (see the second timer
+probe).
 
 SystemTap Ruby markers in RHEL 7.0 offers the following probes:
 
@@ -222,9 +254,7 @@ SystemTap Ruby markers in RHEL 7.0 offers the following probes:
     ruby.require.return
     ruby.string.create
 
-To probe objects creation, replace `ruby.cmethod.entry` with
-`ruby.object.create`, delete the `delete fn_calls` statement and reload. It is
-also possible to attach to existing process:
+It is also possible to attach to existing process:
 
     # stap rubytop.stp -x 12345
 
