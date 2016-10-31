@@ -28,3 +28,4 @@ Home work to be announced on this page (Syllabus link) every week.
 * [Local CentOS 7 ISO image](http://phoenix.inf.upol.cz/home/students/virtual/install/)
 * [Nufnuf](https://copr.fedorainfracloud.org/coprs/lzap/nufnuf/)
 * [Asciinema](https://asciinema.org/)
+* [Průzkum spokojenosti](https://goo.gl/forms/1xhgI2QpFEeUqRlJ3)
