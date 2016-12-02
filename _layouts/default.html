@@ -2,29 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <!--[if lt IE 9]>
+      <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
     <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Lukáš Zapletal">
     <meta name="description" content="Lukáš Zapletal Blog Linux Life Live">
     <link rel="canonical" href="{{ site.production_url }}{{ page.url }}" />
     <link rel="alternate" type="application/atom+xml" title="Lukas Zapletal Blog" href="https://feeds.feedburner.com/LukasZapletal" />
-    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/assets/css/pygments.css" rel="stylesheet">
-    <link href="/assets/css/lzap.css" rel="stylesheet">
-    <link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon">
-    <style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-      .sidebar-nav {
-        padding: 9px 0;
-      }
-    </style>
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-    <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link href="/assets/css/pygments.css" rel="stylesheet"/>
+    <link href="/assets/css/lzap.css" rel="stylesheet"/>
+    <link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon"/>
     <link rel="openid.server" href="https://mojeid.cz/endpoint/" />
     <link rel="openid2.provider" href="https://mojeid.cz/endpoint/" />
     <link rel="openid.delegate" href="https://mojeid.cz/id/xHuFBw52XK/" />
@@ -76,5 +67,8 @@
         Licenced under <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
       </footer>
     </div>
+
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
   </body>
 </html>
