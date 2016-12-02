@@ -1,0 +1,15 @@
+---
+layout: post
+title: "Improved the blog theme"
+date: 2016-12-02
+tags:
+- blog
+---
+{{ page.title }}
+================
+
+I've improved the navbar, it should now work on mobile devices. Thanks for
+reporting this.
+
+I tried to update to Bootstrap 3 but it did not work well. I guess I will stay
+on the old version for now. Christmas time!
