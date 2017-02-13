@@ -37,10 +37,10 @@ decrease encryption strengh*. This is the Fedora 19 default crypttab file:
     $ cat /etc/crypttab
     luks-aaaaaaaa-6657-44f4-8297-bbbbbbbb1111 UUID=aaaaaaaa-6657-44f4-8297-a571e02e5492 none
 
-I added `allow-discards` option there:
+I added `discard` (used to be `allow-discards` in older versions of Fedora - updated) option there:
 
     $ cat /etc/crypttab
-    luks-aaaaaaaa-6657-44f4-8297-bbbbbbbb1111 UUID=aaaaaaaa-6657-44f4-8297-a571e02e5492 none allow-discards
+    luks-aaaaaaaa-6657-44f4-8297-bbbbbbbb1111 UUID=aaaaaaaa-6657-44f4-8297-a571e02e5492 none discard
 
 After reboot, LUKS can be checked (for discards flag) with:
 
@@ -95,10 +95,24 @@ Do not put `discard` option to swap devices as this is not required (and
 perhaps it will not work either). Swap is SSD friendly by default and
 propagates TRIM command.
 
+TRIM via systemd service
+------------------------
+
+Preferred option for those who do not want to play around with anything and
+want to discard later (when computer is at idle). To enable this option, do
+this:
+
+    systemctl enable fstrim.timer
+    systemctl start fstrim.timer
+
+This timer was not enabled on my system by default, but I am upgrading my
+Fedora twice an year and I can't tell if this is the same for new
+installations.
+
 TRIM from cron
 --------------
 
-This is the preferred option because it can be scheduled daily, weekly or
+This is my preferred option because it can be scheduled daily, weekly or
 during night if you do not turn off your laptop/server:
 
     cat /etc/cron.weekly/01-fstrim
