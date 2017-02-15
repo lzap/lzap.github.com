@@ -257,19 +257,19 @@ XTerm does support several font sizes, it is as easy as configuring something
 like:
 
     # default
-    XTerm*font: -*-terminus-medium-*-*-*-18-*-*-*-*-*-iso10646-*
+    XTerm*font: -*-terminus-medium-*-*-*-18-*-*-*-*-*-iso10646-1
     # unreadable
-    XTerm*font1: -*-terminus-medium-*-*-*-12-*-*-*-*-*-iso10646-*
+    XTerm*font1: -*-terminus-medium-*-*-*-12-*-*-*-*-*-iso10646-1
     # tiny
-    XTerm*font2: -*-terminus-medium-*-*-*-14-*-*-*-*-*-iso10646-*
+    XTerm*font2: -*-terminus-medium-*-*-*-14-*-*-*-*-*-iso10646-1
     # small
-    XTerm*font3: -*-terminus-medium-*-*-*-16-*-*-*-*-*-iso10646-*
+    XTerm*font3: -*-terminus-medium-*-*-*-16-*-*-*-*-*-iso10646-1
     # medium
-    XTerm*font4: -*-terminus-medium-*-*-*-22-*-*-*-*-*-iso10646-*
+    XTerm*font4: -*-terminus-medium-*-*-*-22-*-*-*-*-*-iso10646-1
     # large
-    XTerm*font5: -*-terminus-medium-*-*-*-24-*-*-*-*-*-iso10646-*
+    XTerm*font5: -*-terminus-medium-*-*-*-24-*-*-*-*-*-iso10646-1
     # huge
-    XTerm*font6: -*-terminus-medium-*-*-*-32-*-*-*-*-*-iso10646-*
+    XTerm*font6: -*-terminus-medium-*-*-*-32-*-*-*-*-*-iso10646-1
 
 Now use the right mouse button menu and select desired font. Work done.
 Applause!
