@@ -43,7 +43,9 @@ star and set it to iso10646. But if you don't want to bother with font
 searching, install Terminus font (every single distribution has this one) and
 use
 
-    XTerm*font: -*-terminus-medium-*-*-*-18-*-*-*-*-*-iso10646-*
+    XTerm*font: -*-terminus-medium-*-*-*-18-*-*-*-*-*-iso10646-1
+
+Make sure the last part is set to "1", this makes sure it's UNICODE font.
 
 256 colors
 ----------
