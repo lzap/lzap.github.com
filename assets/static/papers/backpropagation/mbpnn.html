@@ -1,0 +1,94 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module mbpnn</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2"></head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>mbpnn</strong></big></big></font></td
+><td align=right valign=bottom
+></td></tr></table>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="mbpnn.html#ConfigFile">ConfigFile</a>
+</font></dt><dt><font face="helvetica, arial"><a href="mbpnn.html#NN">NN</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ConfigFile">class <strong>ConfigFile</strong></a></font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="ConfigFile-__init__"><strong>__init__</strong></a>(self, filename)</dt><dd><tt>Konstruktor&nbsp;načte&nbsp;konfiguraci&nbsp;ze&nbsp;souboru&nbsp;filename&nbsp;a&nbsp;uloží&nbsp;hodnoty<br>
+do&nbsp;struktury.&nbsp;Třída&nbsp;je&nbsp;míněna&nbsp;jako&nbsp;veřejná&nbsp;struktura&nbsp;(struct).</tt></dd></dl>
+
+<dl><dt><a name="ConfigFile-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="ConfigFile-interpolate"><strong>interpolate</strong></a>(self, value, minmax)</dt><dd><tt>Metoda&nbsp;interpoluje&nbsp;hodnotu&nbsp;na&nbsp;interval&nbsp;0-1.&nbsp;Očekává&nbsp;dvojici<br>
+minmax,&nbsp;kde&nbsp;prvním&nbsp;prvkem&nbsp;je&nbsp;minumum&nbsp;a&nbsp;druhým&nbsp;maximum&nbsp;intevalu</tt></dd></dl>
+
+<dl><dt><a name="ConfigFile-readline"><strong>readline</strong></a>(self)</dt><dd><tt>Načte&nbsp;jeden&nbsp;řádek,&nbsp;stejné&nbsp;jako&nbsp;volání&nbsp;<a href="#ConfigFile-readlines">readlines</a>(...)[0].</tt></dd></dl>
+
+<dl><dt><a name="ConfigFile-readlines"><strong>readlines</strong></a>(self, lines<font color="#909090">=1</font>)</dt><dd><tt>Třída&nbsp;načte&nbsp;jeden&nbsp;nebo&nbsp;více&nbsp;řádků,&nbsp;které&nbsp;nejsou&nbsp;komentáři&nbsp;nebo<br>
+prázdnými&nbsp;řádky,&nbsp;do&nbsp;seznamu&nbsp;řetězců.&nbsp;I&nbsp;když&nbsp;se&nbsp;načítá&nbsp;jen&nbsp;jeden<br>
+řádek,&nbsp;metoda&nbsp;vrací&nbsp;seznam&nbsp;(o&nbsp;jednom&nbsp;prvku)!</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="NN">class <strong>NN</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Třída&nbsp;reprezentující&nbsp;neuronovou&nbsp;síť.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="NN-__init__"><strong>__init__</strong></a>(self, ni, nh, no)</dt><dd><tt>Konstruktor&nbsp;přebírá&nbsp;počet&nbsp;neuronů&nbsp;vstupní&nbsp;sítě,&nbsp;dále&nbsp;seznam&nbsp;počtu<br>
+neuronů&nbsp;ve&nbsp;skrytých&nbsp;vrstvách&nbsp;(jejich&nbsp;počet&nbsp;je&nbsp;dán&nbsp;počtem&nbsp;prvků<br>
+v&nbsp;tomto&nbsp;seznamu)&nbsp;a&nbsp;konečně&nbsp;počet&nbsp;neuronů&nbsp;výstupní&nbsp;vrstvy.</tt></dd></dl>
+
+<dl><dt><a name="NN-backPropagate"><strong>backPropagate</strong></a>(self, targets, N, M)</dt><dd><tt>Metoda&nbsp;pro&nbsp;zpětné&nbsp;šíření&nbsp;signálu.<br>
+&nbsp;<br>
+Očekává&nbsp;vzorek&nbsp;výstupu&nbsp;(vektor&nbsp;targets),&nbsp;koeficient&nbsp;učení&nbsp;(N)<br>
+a&nbsp;koeficient&nbsp;vlivu&nbsp;předchozího&nbsp;kroku&nbsp;(M).</tt></dd></dl>
+
+<dl><dt><a name="NN-test"><strong>test</strong></a>(self, patterns)</dt><dd><tt>Metoda&nbsp;provede&nbsp;ostestování&nbsp;na&nbsp;testovacím&nbsp;vzorku&nbsp;a&nbsp;vypíše&nbsp;výsledky<br>
+přehledně&nbsp;na&nbsp;standardní&nbsp;výstup.<br>
+&nbsp;<br>
+Očekává&nbsp;seznam&nbsp;vektorů&nbsp;se&nbsp;vstupními&nbsp;hodnotami.</tt></dd></dl>
+
+<dl><dt><a name="NN-train"><strong>train</strong></a>(self, patterns, iterations<font color="#909090">=1000</font>, N<font color="#909090">=0.5</font>, M<font color="#909090">=0.10000000000000001</font>)</dt><dd><tt>Metoda&nbsp;provádí&nbsp;vlastní&nbsp;trénování.&nbsp;Na&nbsp;vstupu&nbsp;očekává&nbsp;seznam&nbsp;vzorků,<br>
+což&nbsp;je&nbsp;pole,&nbsp;kde&nbsp;první&nbsp;prvek&nbsp;je&nbsp;vstupní&nbsp;vektor&nbsp;a&nbsp;druhý&nbsp;výstupní<br>
+vektor,&nbsp;dále&nbsp;počet&nbsp;iterací,&nbsp;koeficient&nbsp;učení&nbsp;a&nbsp;koeficient<br>
+vlivu&nbsp;z&nbsp;předchozího&nbsp;kroku.</tt></dd></dl>
+
+<dl><dt><a name="NN-update"><strong>update</strong></a>(self, inputs)</dt><dd><tt>Metoda&nbsp;pro&nbsp;dopředné&nbsp;šíření&nbsp;signálu.<br>
+&nbsp;<br>
+Na&nbsp;vstupu&nbsp;metoda&nbsp;očekává&nbsp;vektor&nbsp;vstupů,&nbsp;kterým&nbsp;je&nbsp;excitována&nbsp;vstupní<br>
+vrstva&nbsp;sítě&nbsp;a&nbsp;signál&nbsp;je&nbsp;šířen&nbsp;až&nbsp;do&nbsp;výstupní&nbsp;vrstvy.&nbsp;Výsledek&nbsp;je&nbsp;vrácen<br>
+opět&nbsp;v&nbsp;podobě&nbsp;vektoru&nbsp;(resp.&nbsp;seznamu&nbsp;reálných&nbsp;čísel).</tt></dd></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-dsigmoid"><strong>dsigmoid</strong></a>(y)</dt><dd><tt>#&nbsp;První&nbsp;derivace&nbsp;aktivační&nbsp;funkce</tt></dd></dl>
+ <dl><dt><a name="-makeMatrix"><strong>makeMatrix</strong></a>(I, J, fill<font color="#909090">=&lt;function &lt;lambda&gt;&gt;</font>)</dt><dd><tt>#&nbsp;Pomocná&nbsp;funkce&nbsp;vytvářející&nbsp;matici&nbsp;I&nbsp;x&nbsp;J&nbsp;naplněnou&nbsp;výstupem&nbsp;fce&nbsp;fill</tt></dd></dl>
+ <dl><dt><a name="-rand"><strong>rand</strong></a>(a, b)</dt><dd><tt>#&nbsp;Pomocná&nbsp;funkce&nbsp;vracející&nbsp;náhodné&nbsp;reálné&nbsp;číslo&nbsp;v&nbsp;rozmezí&nbsp;a&nbsp;&lt;=&nbsp;rand&nbsp;&lt;&nbsp;b</tt></dd></dl>
+ <dl><dt><a name="-run"><strong>run</strong></a>(filename, steps<font color="#909090">=40000</font>)</dt><dd><tt>Ukázková&nbsp;funkce&nbsp;pro&nbsp;učení&nbsp;XOR</tt></dd></dl>
+ <dl><dt><a name="-sigmoid"><strong>sigmoid</strong></a>(x)</dt><dd><tt>#&nbsp;Akticační&nbsp;funkce&nbsp;--&nbsp;v&nbsp;komentáři&nbsp;je&nbsp;také&nbsp;tanh&nbsp;místo&nbsp;obvyklého&nbsp;1/(1+e^-x)</tt></dd></dl>
+ <dl><dt><a name="-toPatterns"><strong>toPatterns</strong></a>(x)</dt></dl>
+</td></tr></table>
+</body></html>

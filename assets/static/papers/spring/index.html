@@ -1,0 +1,857 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=iso-8859-2">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0  (Linux)">
+	<META NAME="AUTHOR" CONTENT="Luk&aacute;&scaron; Zapletal">
+	<META NAME="CREATED" CONTENT="20051025;22540300">
+	<META NAME="CHANGEDBY" CONTENT="Luk&aacute;&scaron; Zapletal">
+	<META NAME="CHANGED" CONTENT="20051128;17484000">
+</HEAD>
+<BODY LANG="cs-CZ" LINK="#000080" VLINK="#800000" DIR="LTR">
+<H1 ALIGN=CENTER>Spring Framework<BR><FONT SIZE=4>tvorba obchodn&iacute;ch
+aplikac&iacute; v Javě bez J2EE</FONT></H1>
+<DL>
+	<DT>Firma Sun Microsystems dod&aacute;v&aacute; již několik let
+	programovou platformu J2EE (Java 2 Enterprise Edition). Jedn&aacute;
+	se o standardizovanou distribuovanou komponentovou technologii
+	doplněnou o mnoho knihoven a API, kter&eacute; jsou potřebn&eacute;
+	při tvorbě enterprise aplikac&iacute;. Jedn&aacute; se zejm&eacute;na
+	o technologie Servlet, JSP/JSF, JNDI, JTA, JMS a webov&eacute;
+	služby. J&aacute;dro tvoř&iacute; komponentov&aacute; technologie,
+	kterou si představ&iacute;me.</DL>
+<H2>
+Enterprise JavaBeans</H2>
+<DL>
+	<DT>Nejprve je nutno osvětlit, co je to vlastně enterprise aplikace
+	&ndash; jedn&aacute; se o softwarovou aplikaci, kterou firma
+	vyvinula, zakoupila nebo převzala, poskytuj&iacute;c&iacute;
+	strategick&eacute; služby dan&eacute; firmě. Může se jednat o
+	podnikov&eacute; libovoln&eacute; procesy (&uacute;četnictv&iacute;,
+	sklad), ERP (Enterprise Resource Planning &ndash; pl&aacute;nov&aacute;n&iacute;
+	a spr&aacute;va v&yacute;robn&iacute;ho procesu), CRM (Customer
+	Relatationship Management &ndash; spr&aacute;va vztahu se
+	z&aacute;kazn&iacute;ky). Tento pojem nevymyslela firma Sun, ale je
+	zde již řadu let. Dř&iacute;ve byly tyto aplikace &uacute;zce
+	sv&aacute;z&aacute;ny s mainframy a např&iacute;klad jazykem
+	Fortran.<DT>
+	EJB jsou komponenty, kter&eacute; se nasazuj&iacute; na aplikačn&iacute;m
+	serveru (tzv EJB kontejneru) poskytuj&iacute;c&iacute;m bezpečn&eacute;
+	a spolehliv&eacute; prostřed&iacute; nutn&yacute; pro jejich běh.
+	Tyto komponenty jsou dostupn&eacute; a instalovateln&eacute; přes
+	s&iacute;ť a jejich &uacute;lohou je poskytovat n&aacute;stroj pro
+	tvorbu enterprise aplikac&iacute;. Jen připomenu, že softwarov&aacute;
+	komponenta m&aacute;, na rozd&iacute;l od obyčejn&eacute; tř&iacute;dy
+	(např. v jazyce Java), jasně dan&eacute; rozhran&iacute;, explicitně
+	dan&eacute; z&aacute;vislosti na jin&yacute;ch komponent&aacute;ch a
+	mus&iacute; b&yacute;t možn&eacute; ji nasadit nez&aacute;visle jako
+	produkt třet&iacute; strany.<DT>
+	Komponenty je možn&eacute; představit si jako čern&eacute; skř&iacute;ňky,
+	kter&eacute; lze v syst&eacute;mu (aplikačn&iacute;m serveru)
+	vyměnit za jin&eacute; implementace (kter&eacute; si můžeme třeba
+	zakoupit od jin&eacute;ho dodavatele). Může se jednat o primitivn&iacute;
+	komponentu, kter&aacute; um&iacute; odeslat e-mail, nebo o složitou
+	komponentu schopnou předpov&iacute;dat počas&iacute; &ndash; ta by
+	se mohla skl&aacute;dat z několika (stovek) jin&yacute;ch komponent.
+	EJB  komponenty tohle v&scaron;echno splňuj&iacute; a přid&aacute;vaj&iacute;
+	někter&eacute; věci nav&iacute;c, jako jsou popisy nasazen&iacute;,
+	napojen&iacute; na st&aacute;vaj&iacute;c&iacute; komponentov&eacute;
+	technologie (CORBA) a hlavně my&scaron;lenku jazyka Javy - &bdquo;napi&scaron;
+	to jednou a provozuj kdekoli&ldquo;. Nutno ř&iacute;ci, že toto
+	Sunem prosazovan&eacute; heslo (&bdquo;Write once, run everywhere&ldquo;)
+	začala skutečně naplňovat až technologie J2EE a pr&aacute;vě EJB.<DT>
+	Jak později uvid&iacute;me, enterprise aplikace se obvykle tvoř&iacute;
+	jako v&iacute;cevrstv&eacute;. Pr&aacute;vě vrstva aplikačn&iacute;
+	logiky (business logic) je tvořena (obvykle v&iacute;ce) EJB
+	komponentami. Tyto komponenty mezi sebou pomoc&iacute; rozhran&iacute;
+	komunikuj&iacute; a je vhodn&eacute; rozli&scaron;ovat v&iacute;ce
+	typů  komponent. Business objekt se obvykle svazuje s ře&scaron;enou
+	dom&eacute;nou a jedn&aacute; se o nějak&yacute;m způsobem
+	perzistentn&iacute; element (uložen&yacute; např&iacute;klad v
+	datab&aacute;zi). Určitě by nebylo vhodn&eacute; do business objektu
+	ps&aacute;t aplikačn&iacute; logiku (i když by objektově orientovan&eacute;
+	programov&aacute;n&iacute; mohlo sv&aacute;dět k tomu prostě
+	vytvořit metodu nad objektem). Abyste mohli business objekty znovu
+	použ&iacute;vat i v jin&yacute;ch aplikac&iacute;ch, je dobr&eacute;
+	aplikačn&iacute; logiku zapouzdřit v jin&yacute;ch komponent&aacute;ch.
+	Těmito komponentami jsou takzvan&eacute; aplikačn&iacute; kontrolery
+	(vykon&aacute;vaj&iacute; nějakou akci). Pokud se budeme bavit v
+	term&iacute;nech EJB, pr&aacute;vě jsem zm&iacute;nil entity beans a
+	session beans. V aktu&aacute;ln&iacute; verzi J2EE 1.4 je&scaron;tě
+	existuj&iacute; message driven beans, kter&eacute; n&aacute;s v tuto
+	chv&iacute;li nezaj&iacute;maj&iacute;.<DT>
+	J2EE rozli&scaron;uje dva typy entity beans a dva typy session
+	beans. V prvn&iacute;m př&iacute;padě děl&iacute;me business objekty
+	na CMP (kontejner se star&aacute; o perzistenci s&aacute;m) a BMP
+	(program&aacute;tor komponenty se star&aacute; o ukl&aacute;d&aacute;n&iacute;).
+	Komponenty sessions beans s aplikačn&iacute; logikou děl&iacute;
+	J2EE na stavov&eacute; (stateful &ndash; pamatuj&iacute; si klienty)
+	a bezstavov&eacute; (stateless &ndash; nepamatuj&iacute; si sv&eacute;
+	klienty). Kontejnery J2EE jsou nav&iacute;c schopny transakčn&iacute;ho
+	zpracov&aacute;n&iacute; operac&iacute; session beanu. Př&iacute;kladem
+	prvn&iacute;ho typu je n&aacute;kupn&iacute; ko&scaron;&iacute;k,
+	druh&eacute;ho typu pak komponenta pro zas&iacute;l&aacute;n&iacute;
+	SMS zpr&aacute;v (klienta nezaj&iacute;m&aacute;, kterou z instanc&iacute;
+	kontejner vybere, pokud jich m&aacute; dostupn&yacute;ch v&iacute;c).<DT>
+	T&iacute;m bych ukončil z&aacute;kladn&iacute; přehled technologie
+	Enterprise Java Beans, kter&aacute; tvoř&iacute; j&aacute;dro J2EE.
+	K dal&scaron;&iacute;m t&eacute;matům se dostaneme při rozboru
+	Springu.</DL>
+<H2>
+Motivace pro Spring Framework</H2>
+<DL>
+	<DT>Původn&iacute; my&scaron;lenka padla v knize Roda Johnsona
+	Expert One-on-One J2EE Design and Development, kter&aacute; bohužel
+	nevy&scaron;la v če&scaron;tině ani sloven&scaron;tině. Rod v n&iacute;
+	prob&iacute;r&aacute; sice z&aacute;klady J2EE, ale poukazuje na
+	možn&eacute; probl&eacute;my v technologii jako samotn&eacute;, ale
+	zejm&eacute;na ve &scaron;patn&eacute;m aplikov&aacute;n&iacute;
+	těchto postupů.<DT>
+	Jako z&aacute;kladn&iacute; probl&eacute;m se jev&iacute; použit&iacute;
+	J2EE za situac&iacute;ch, kdy to vůbec nen&iacute; vhodn&eacute;.
+	Takov&eacute; situace lze zjistit snadno &ndash; v př&iacute;padě,
+	že nepoužit&iacute; t&eacute;to technologie v&yacute;razně sn&iacute;ž&iacute;
+	složitost probl&eacute;mu, a tedy i d&eacute;lku projektu. Nemus&iacute;
+	se jednat nutně o komplexnost samotn&eacute;ho programov&aacute;n&iacute;,
+	zt&iacute;ženo může b&yacute;t i nasazen&iacute; a přenositelnost
+	(někter&eacute; aplikačn&iacute; servery roz&scaron;iřuj&iacute;
+	specifikaci, probl&eacute;my s datab&aacute;zovou přenositelnost&iacute;).
+	V n&aacute;sleduj&iacute;c&iacute;ch odstavc&iacute;ch představ&iacute;m
+	hlavn&iacute; faktory pro vznik tohoto projektu.<DT>
+	Asi největ&scaron;&iacute;m probl&eacute;mem je <B>př&iacute;li&scaron;n&aacute;
+	komplikovanost</B> J2EE, ačkoliv to nebylo hlavn&iacute;m motorem
+	při v&yacute;voji Springu. Technologie jako takov&aacute; obsahuje
+	velk&eacute; množstv&iacute; rozhran&iacute;, kter&eacute; jsou d&aacute;le
+	roz&scaron;iřov&aacute;ny dodavateli aplikačn&iacute;ch serverů.
+	Mnoho softwarov&yacute;ch společnost&iacute; nedodržuje standardy a
+	vznikaj&iacute; tak probl&eacute;my při přenositelnosti. Technologie
+	J2EE tak&eacute; trpěla někter&yacute;mi nedostatky v n&aacute;vrhu,
+	kter&eacute; sice byly eliminov&aacute;ny v dal&scaron;&iacute;ch
+	verz&iacute;ch, ale musela b&yacute;t zachov&aacute;na zpětn&aacute;
+	kompatibilita. V&yacute;voj J2EE tak&eacute; nebyl nikterak rychl&yacute;
+	a změny, kter&eacute; firmy požadovaly, se projevovaly př&iacute;li&scaron;
+	pomalu.<DT>
+	Spring umožňuje <B>snadn&eacute; věci dělat jednodu&scaron;e</B>,
+	av&scaron;ak při zachov&aacute;n&iacute; vysok&eacute;
+	&scaron;k&aacute;lovatelnosti a roz&scaron;iřitelnosti. D&aacute;le
+	cel&eacute; rozhran&iacute; klade velk&yacute; <B>důraz na dobr&eacute;
+	praktiky</B> v programov&aacute;n&iacute; (<SPAN LANG="en-US">best</SPAN>
+	<SPAN LANG="en-US">practices</SPAN>) &ndash; např&iacute;klad
+	možnosti v testov&aacute;n&iacute;. Spring je st&aacute;le ve v&yacute;voji
+	a rychle reaguje na nov&eacute; techniky ve v&yacute;voji obchodn&iacute;ch
+	aplikac&iacute;, kter&eacute; třeba jinde je&scaron;tě nejsou
+	aplikov&aacute;ny.<DT>
+	Možnosti <B>jednoduch&yacute;ch z&aacute;sahů do samotn&eacute;ho
+	frameworku</B> jsou dal&scaron;&iacute;m krit&eacute;riem, kter&eacute;
+	by mohlo rozhodovat při volbě mezi J2EE a Springem. Spring je
+	nesm&iacute;rně modul&aacute;rn&iacute;, jedn&aacute; se o sadu
+	rozhran&iacute; s mnoha různ&yacute;mi implementacemi. V neposledn&iacute;
+	řadě je možn&eacute; zasahovat př&iacute;mo do zdrojov&eacute;ho
+	k&oacute;du (Spring jako takov&yacute; je open-source softwarem),
+	včetně možnosti vytvořit si vlastn&iacute; aplikačn&iacute; r&aacute;mec
+	nad Springem a d&aacute;le jej distribuovat, nebo se př&iacute;mo
+	&uacute;častnit v&yacute;voje a participovat se na dal&scaron;&iacute;ch
+	verz&iacute;ch.<DT>
+	Spring <B>nevyžaduje ž&aacute;dn&eacute; z&aacute;vislosti</B>.
+	Ačkoli m&aacute; distribuce Springu kolem 100 MB, vlastn&iacute;
+	j&aacute;dro nen&iacute; z&aacute;visl&eacute; na ž&aacute;dn&eacute;
+	knihovně a až s postupem projektu v&yacute;vojov&yacute; t&yacute;m
+	přid&aacute;v&aacute; nov&eacute; z&aacute;vislosti. Nen&iacute;
+	potřeba ž&aacute;dn&eacute;ho aplikačn&iacute;ho serveru, av&scaron;ak
+	ta možnost tady je.<DT>
+	D&iacute;ky vp&iacute;chnut&iacute; z&aacute;vislost&iacute; (viz
+	d&aacute;le) <B>aplikace nejsou př&iacute;mo z&aacute;visl&eacute;</B>
+	na Springu a nic program&aacute;torovi tak nebr&aacute;n&iacute;
+	aplikaci zprovoznit nad jin&yacute;mi aplikačn&iacute;mi rozhran&iacute;mi.
+	V neposledn&iacute; řadě nab&iacute;z&iacute; Spring <B>jednotnou
+	konfiguraci</B>, kter&aacute; je tak&eacute; snadno pochopiteln&aacute;.</DL>
+<H2>
+Vp&iacute;chnut&iacute; z&aacute;vislost&iacute;</H2>
+<DL>
+	<DT>Spring samotn&yacute; je postaven na my&scaron;lence Martina
+	Flowera, &scaron;pičkov&eacute;ho experta na poli objektově
+	orientovan&yacute;ch př&iacute;stupů, kterou původně nazval
+	<I>Inversion Of Control</I> převr&aacute;cen&iacute; z&aacute;vislost&iacute;),
+	ale vz&aacute;pět&iacute; tento n&aacute;vrhov&yacute; vzor
+	přejmenoval na <I>Dependency Injection</I> (vp&iacute;chnut&iacute;
+	z&aacute;vislost&iacute;). Poprv&eacute; tento n&aacute;vrhov&yacute;
+	vzor publikoval na internetu [2]. Jelikož pochopen&iacute; pojmu
+	vp&iacute;chnut&iacute; z&aacute;vislost&iacute; je pro dal&scaron;&iacute;
+	v&yacute;klad nezbytn&eacute;, r&aacute;d bych jej zde uvedl. Na
+	okraj bych je&scaron;tě uvedl, že jsem se rozhodl tento n&aacute;vrhov&yacute;
+	vzor pojmenovat jako &bdquo;vp&iacute;chnut&iacute;&ldquo;, protože
+	se s česk&yacute;m v&yacute;razem daleko l&eacute;pe pracuje.<DT>
+	Při n&aacute;vrhu jak&eacute;koliv komponentov&eacute; technologie
+	naraz&iacute;te hned na zač&aacute;tku na jeden kl&iacute;čov&yacute;
+	probl&eacute;m. Je nutn&eacute; vytv&aacute;řen&eacute; komponenty
+	nějak efektivně propojit do funkčn&iacute;ch celků. Už z definice
+	samotn&eacute; komponenty vypl&yacute;v&aacute;, že se mus&iacute;
+	jednat o samostatn&eacute; a snadno vyměniteln&eacute; jednotky. V
+	dne&scaron;n&iacute; době, kdy poč&iacute;tačov&eacute; s&iacute;tě
+	maj&iacute; hlavn&iacute; roli t&eacute;měř ve v&scaron;ech
+	odvětv&iacute;ch IT průmyslu, je tak&eacute; vhodn&eacute;, aby byly
+	komponenty dostupn&eacute; tak&eacute; přes s&iacute;ť (popř.
+	internet).<DT>
+	Je tedy nutn&eacute; vymyslet způsob, jak komponenty mezi sebou
+	skl&aacute;dat do aplikac&iacute;. Vět&scaron;ina komponentov&yacute;ch
+	technologi&iacute; využ&iacute;v&aacute; vyhled&aacute;vac&iacute;ch
+	služeb (Service Locator, viz [3]) &ndash; každ&aacute; komponenta se
+	zaregistruje do určit&eacute;ho kontextu a pokud nějak&aacute;
+	komponenta chce použ&iacute;t jinou, mus&iacute; si ji explicitně
+	přes předem dohodnutou vyhled&aacute;vac&iacute; službu naj&iacute;t.
+	V&scaron;echny komponenty musej&iacute; obvykle implementovat
+	různorod&aacute; rozhran&iacute;, aby je bylo možn&eacute; v
+	kontextu vyhledat a použ&iacute;t. Na n&aacute;sleduj&iacute;c&iacute;m
+	obr&aacute;zku je vidět, že komponenta MovieLister vytvoř&iacute;
+	instanci komponenty implementuj&iacute;c&iacute; rozhran&iacute;
+	MovieFinder (např&iacute;klad zmiňovan&yacute;m způsobem, nebo
+	jakkoli jinak).<DT>
+	<IMG SRC="spring_html_m457764dd.gif" NAME="obr&aacute;zky2" ALIGN=LEFT WIDTH=302 HEIGHT=176 BORDER=0><BR CLEAR=LEFT><BR>
+	<DT>Vp&iacute;chnut&iacute; z&aacute;vislost&iacute; v&scaron;e
+	obrac&iacute; naruby, existuje jak&yacute;si sestavovatel, kter&yacute;
+	komponenty podle určit&yacute;ch pravidel inicializuje a nějak&yacute;m
+	způsobem jim před&aacute; odkazy na ostatn&iacute; komponenty.
+	Př&iacute;klad je vidět na obr&aacute;zku.<DT>
+	<IMG SRC="spring_html_5de23164.gif" NAME="obr&aacute;zky1" ALIGN=LEFT WIDTH=446 HEIGHT=211 BORDER=0><BR CLEAR=LEFT>Zde
+	vid&iacute;me komponenty MovieLister (což je patrně komponenta
+	generuj&iacute;c&iacute; seznam filmů na z&aacute;kladě nějak&eacute;ho
+	dotazu), MovieFinder (komponenta určen&aacute; pro vyhled&aacute;v&aacute;n&iacute;
+	v datab&aacute;zi včetně implementace) a Assembler (prvek
+	zaji&scaron;ťuj&iacute;c&iacute; spr&aacute;vn&eacute; propojen&iacute;
+	komponent). Assembler tedy z&aacute;vislosti do objektů vlož&iacute;,
+	doslova vstř&iacute;kne (to inject &ndash; vp&iacute;chnout jehlou).<DT>
+	<I><B>Pozn&aacute;mka</B>: Nejedn&aacute; se tedy o ž&aacute;dnou
+	z&aacute;sadn&iacute; změnu oproti Service Locatoru, jen je to jin&yacute;
+	pohled na věc. Jako u v&scaron;eho ostatn&iacute;ho v programov&aacute;n&iacute;
+	se ned&aacute; ř&iacute;ci, že je tento př&iacute;stup lep&scaron;&iacute;
+	nebo hor&scaron;&iacute; &ndash; to je relativn&iacute;. Stejně tak
+	nelze ř&iacute;ci, jestli je lep&scaron;&iacute; Spring nebo J2EE &ndash;
+	k různ&yacute;m &uacute;čelům jsou vhodn&aacute; různ&aacute;
+	ře&scaron;en&iacute;. </I>
+	<DT>Rozli&scaron;ujeme tři typy realizace vstř&iacute;knut&iacute;:</DL>
+<UL>
+	<LI>
+	interface injection (pomoc&iacute; rozhran&iacute;)<LI>
+	setter injection (pomoc&iacute; vlastnosti objektu)<LI>
+	constructor injection (pomoc&iacute; konstruktoru)</UL>
+<DL>
+	<DT>Popis začnu tro&scaron;ku netradičně &ndash; dvěma posledn&iacute;mi.
+	Vlastn&iacute; před&aacute;n&iacute; odkazů na komponenty se prov&aacute;n&iacute;
+	př&iacute;mo v konstruktoru komponenty, respektive přes set metody
+	(přes vlastnosti objektů). Martin Flower v&scaron;e ukazuje na
+	jednoduch&eacute; knihovně PicoContainer, kterou vytvořili jeho
+	kolegov&eacute; z firmy, ve kter&eacute; Martin působ&iacute;. Jedn&aacute;
+	se o malou java knihovnu, kter&aacute; nab&iacute;z&iacute; v&scaron;echny
+	popisovan&eacute; typy vstř&iacute;knut&iacute; z&aacute;vislost&iacute;,
+	př&iacute;klady a dokumentaci. Je dostupn&aacute; jako open-source
+	software na adrese <I>http://www.picocontainer.org/</I>, kde jsou
+	odkazy i na implementace v jin&yacute;ch jazyc&iacute;ch.<DT>
+	Představme si, že m&aacute;me tř&iacute;du</DL>
+<PRE LANG=""><FONT SIZE=2><B>class MovieLister {</B></FONT>
+<FONT SIZE=2><SPAN LANG=""><B>	...</B></SPAN></FONT>
+<FONT SIZE=2><SPAN LANG=""><B>	public MovieLister(MovieFinder finder) {</B></SPAN></FONT>
+<FONT SIZE=2><SPAN LANG=""><B>		this.finder = finder;       </B></SPAN></FONT>
+<FONT SIZE=2><SPAN LANG=""><B>	}</B></SPAN></FONT>
+<FONT SIZE=2><SPAN LANG=""><B>}</B></SPAN></FONT></PRE>
+<DL>
+	<DT>
+	Tato tř&iacute;da oček&aacute;v&aacute; ve sv&eacute;m konstruktoru
+	komponentu MovieFinder, jej&iacute;ž implementace by mohla vypadat
+	n&aacute;sledovně</DL>
+<PRE LANG=""><FONT SIZE=2><B>class SQLMovieFinder implements MovieFinder {</B></FONT>
+<FONT SIZE=2><SPAN LANG=""><B>	...</B></SPAN></FONT>
+<FONT SIZE=2><SPAN LANG=""><B>	public SQLMovieFinder(String dbServer) {</B></SPAN></FONT>
+<FONT SIZE=2><SPAN LANG=""><B>		this.server = dbServer;</B></SPAN></FONT>
+<FONT SIZE=2><SPAN LANG=""><B>	}</B></SPAN></FONT>
+<FONT SIZE=2><SPAN LANG=""><B>}</B></SPAN></FONT></PRE>
+<DL>
+	<DT>
+	Parametrem je jak&eacute;si spojen&iacute; do datab&aacute;ze, kde
+	jsou uloženy informace o filmech. Nyn&iacute; stač&iacute;
+	assembleru vytvořit instance těchto tř&iacute;d a v konstruktoru
+	tř&iacute;dy MovieLister uv&eacute;st odkaz na SQLMovieFinder.
+	Nebudu se zde pou&scaron;tět do popisu, jak to děl&aacute;
+	PicoContainer, na kter&eacute;m v&scaron;e vysvětluje Martin Flower
+	ve sv&eacute; pr&aacute;ci, protože to nen&iacute; c&iacute;lem m&eacute;ho
+	textu. Zůstaneme jen u toho, že je nutn&eacute; toto dělat za běhu,
+	takže PicoContainer je schopn&yacute; pracovat se tř&iacute;dami,
+	kter&eacute; vůbec &bdquo;nezn&aacute;&ldquo;.<DT>
+	Jistě si dok&aacute;žete představit, jak by vypadalo vp&iacute;chnut&iacute;
+	pomoc&iacute; set metody. Konstruktor by v tomto př&iacute;padě
+	neměl  ž&aacute;dn&eacute; parametry a odkazy na komponenty by se
+	před&aacute;valy až po vytvořen&iacute; objektu pomoc&iacute;
+	vlastnost&iacute;. Hlavn&iacute;m př&iacute;nosem je zde možnost
+	vytv&aacute;řet instance komponent pomoc&iacute; skriptovac&iacute;ch
+	nebo značkovac&iacute;ch jazyků, např&iacute;klad XML. Mohlo by to
+	vypadat např&iacute;klad n&aacute;sledovně:</DL>
+<PRE LANG="">     <FONT SIZE=2><B>&lt;component id=&quot;MovieLister&quot; class=&quot;package.MovieLister&quot;&gt;</B></FONT>
+         <FONT SIZE=2><SPAN LANG=""><B>&lt;property name=&quot;finder&quot;&gt;</B></SPAN></FONT>
+             <FONT SIZE=2><SPAN LANG=""><B>&lt;ref local=&quot;MovieFinder&quot;/&gt;</B></SPAN></FONT>
+         <FONT SIZE=2><SPAN LANG=""><B>&lt;/property&gt;</B></SPAN></FONT>
+     <FONT SIZE=2><SPAN LANG=""><B>&lt;/component&gt;</B></SPAN></FONT>
+     <FONT SIZE=2><SPAN LANG=""><B>&lt;component id=&quot;MovieFinder&quot; class=&quot;package.ColonMovieFinder&quot;&gt;</B></SPAN></FONT>
+         <FONT SIZE=2><SPAN LANG=""><B>&lt;property name=&quot;server&quot;&gt;</B></SPAN></FONT>
+             <FONT SIZE=2><SPAN LANG=""><B>&lt;value&gt;phoenix:4398&lt;/value&gt;</B></SPAN></FONT>
+         <FONT SIZE=2><SPAN LANG=""><B>&lt;/property&gt;</B></SPAN></FONT>
+     <FONT SIZE=2><SPAN LANG=""><B>&lt;/component&gt;</B></SPAN></FONT></PRE>
+<DL>
+	<DT>
+	Třet&iacute; metodou je vp&iacute;chnut&iacute; pomoc&iacute;
+	rozhran&iacute;, kdy se pro vložen&iacute; z&aacute;vislosti vytvoř&iacute;
+	speci&aacute;ln&iacute; rozhran&iacute;, což by v tomto na&scaron;em
+	př&iacute;kladě mohla b&yacute;t např&iacute;klad metoda
+	<B>injectFinder(MovieFinder)</B>. Tento způsob umožňuje o něco vět&scaron;&iacute;
+	abstrakci, což je vykoupeno poněkud vy&scaron;&scaron;&iacute;
+	reži&iacute;.<DT>
+	Existuj&iacute; dva hlavn&iacute; (open-source) projekty založen&eacute;
+	na vp&iacute;chnut&iacute; z&aacute;vislost&iacute; a to je Apache
+	Avalon a NanoContainer. Prvn&iacute; ze jmenovan&yacute;ch se stal
+	z&aacute;kladem pro několik produktů nadace Apache Free Foundation a
+	využ&iacute;v&aacute; vp&iacute;chnut&iacute; pomoc&iacute;
+	rozhran&iacute;. NanoContainer roz&scaron;iřuje možnosti
+	PicoContaineru o skriptov&aacute;n&iacute; (z&aacute;vislosti lze
+	definovat pomoc&iacute; libovoln&eacute;ho jazyka, včetně XML),
+	nasazen&iacute; (deployment, composition skripty), vzd&aacute;len&eacute;
+	vol&aacute;n&iacute; (remoting), perzistenci objektů, AOP a webov&eacute;
+	služby. Na rozd&iacute;l od Avalonu je NanoContainer je ale st&aacute;le
+	malou knihovnou a nevyžaduje t&eacute;měř ž&aacute;dn&eacute;
+	z&aacute;vislosti.</DL>
+<H2>
+Představen&iacute; Spring Frameworku</H2>
+<DL>
+	<DT>Hlavn&iacute; my&scaron;lenka t&eacute;to knihovny (jedn&aacute;
+	se vlastně o sadu knihoven &ndash; spolu s dokumentac&iacute; se
+	jedn&aacute; o v&iacute;ce jak 100 MB dat) je ve vytvořen&iacute;
+	jednoduch&eacute;, ale &uacute;činn&eacute; komponentov&eacute;
+	technologie založen&eacute; na modern&iacute;ch postupech, a podobně
+	jako u J2EE na jazyku XML. Spring se snaž&iacute; pokr&yacute;t
+	ve&scaron;ker&eacute; oblasti spojen&eacute; s v&yacute;vojem
+	obchodn&iacute;ch aplikac&iacute; s důrazem na datab&aacute;ze, web
+	a aspektově orientovan&eacute;ho programov&aacute;n&iacute;.<DT>
+	Spring je tedy jak&eacute;si lepidlo mezi mnoha open-source
+	knihovnami a snaž&iacute; se co nejlep&scaron;&iacute;m způsobem
+	zobecnit z&aacute;kladn&iacute; API slouž&iacute;c&iacute; pro
+	programov&aacute;n&iacute; obchodn&iacute;ch aplikac&iacute;.
+	Z&aacute;kladem je komponentov&aacute; technologie, d&aacute;le pak
+	kontext aplikace (podpora konfigurace, prostředků, UI, validace,
+	adres&aacute;řov&yacute;ch služeb či zas&iacute;l&aacute;n&iacute;
+	po&scaron;ty), datab&aacute;zov&aacute; vrstva (DAO, transakce), O/R
+	mapov&aacute;n&iacute; a webov&eacute; programov&aacute;n&iacute;
+	(modely, pohledy, způsob propojen&iacute; modelů). K tomu v&scaron;emu
+	je&scaron;tě Spring přid&aacute;v&aacute; AOP.<DT>
+	<BR>
+	<DT><IMG SRC="spring_html_6e830381.gif" NAME="obr&aacute;zky3" ALIGN=LEFT WIDTH=642 HEIGHT=340 BORDER=0><BR CLEAR=LEFT><BR>
+	<DT>Jak vid&iacute;me na obr&aacute;zků, kl&iacute;čovou vrstvou je
+	j&aacute;dro nazvan&eacute; <B>Spring Core</B>, kter&eacute;
+	představuje vlastn&iacute; komponentovou technologii (paralela s
+	EJB), d&aacute;le kontejner pro tyto komponenty a potřebn&eacute;
+	n&aacute;stroje. K tomuto &uacute;čelu se využ&iacute;v&aacute;
+	popsan&aacute; technologie vp&iacute;chnut&iacute; z&aacute;vislost&iacute;.
+	Nad t&iacute;mto j&aacute;drem se nach&aacute;zej&iacute; bal&iacute;ky
+	(dokumentace je doslova takto naz&yacute;v&aacute;, protože vlastn&iacute;
+	implementace v Javě je rozdělena do pr&aacute;vě těchto bal&iacute;čků),
+	kter&eacute; bych detailněji popsal.<DT>
+	Asi nejdůležitěj&scaron;&iacute;m je <B>Spring Context</B>, kter&yacute;
+	obsahuje aplikačn&iacute; kontext a podpůrn&eacute; komponenty pro
+	tvorbu uživatelsk&eacute;ho rozhran&iacute;, pro validaci vstupů,
+	pos&iacute;l&aacute;n&iacute; zpr&aacute;v a e-mailů a v neposledn&iacute;
+	řadě se zde realizuje velmi důležit&eacute; napojen&iacute; na EJB.
+	Spring je totiž kompatibiln&iacute; s EJB a můžete v něm tyto
+	komponenty jak vytv&aacute;řet, tak použ&iacute;vat.<DT>
+	<B>Spring DAO</B> zastře&scaron;uje v&scaron;echny kl&iacute;čov&eacute;
+	datab&aacute;zov&eacute; technologie a ačkoliv by se mohla dal&scaron;&iacute;
+	DB vrstva zd&aacute;t zbytečn&aacute;, velmi brzy pozn&aacute;te, že
+	i JDBC je nutno nějak&yacute;m způsobem sjednotit (např&iacute;klad
+	velmi nejednotn&eacute; jsou v&yacute;jimky a chybov&eacute; zpr&aacute;vy
+	jednotliv&yacute;ch datab&aacute;zov&yacute;ch dodavatelů). Nemluvě
+	o to, že tento bal&iacute;k přid&aacute;v&aacute; jednotnou podporu
+	pro transakce a mnoho dal&scaron;&iacute;ch n&aacute;strojů
+	zjednodu&scaron;uj&iacute;c&iacute;ch pr&aacute;ci s datab&aacute;z&iacute;.<DT>
+	Nad t&iacute;mto bal&iacute;kem stoj&iacute; <B>ORM</B> &ndash; tedy
+	objektově relačn&iacute; mapov&aacute;n&iacute;. Spring nepouž&iacute;v&aacute;
+	ž&aacute;dnou obdobu entity java beans, jako je tomu u EJB. Je to
+	v&yacute;hodn&eacute;, protože mnoho softwarov&yacute;ch společnost&iacute;
+	vůbec entity EJB komponenty nepouž&iacute;valo a psalo si vlastn&iacute;
+	DB vrstvy. Spring tedy vkl&aacute;d&aacute; abstraktn&iacute; vrstvu
+	mezi j&aacute;dro (resp. DAO) a dodavatele ORM technologi&iacute;.
+	Se Springem se distribuuje několik adapt&eacute;rů na různ&eacute;
+	open-source ORM knihovny včetně nejpouž&iacute;vaněj&scaron;&iacute;
+	&ndash; projektu Hibernate.<DT>
+	Bal&iacute;k pro <B>AOP</B> nab&iacute;z&iacute; napojen&iacute; na
+	aspektově orientovan&eacute; programov&aacute;n&iacute; v Javě.
+	Tomuto t&eacute;matu se ve sv&yacute;ch předn&aacute;&scaron;k&aacute;ch
+	budou věnovat moji kolegov&eacute;, nicm&eacute;ně jen bych dodal,
+	že AOP jde ruku v ruce pr&aacute;vě s Dependency Injection př&iacute;stupem
+	a AOP je tedy z&aacute;kladn&iacute;m stavebn&iacute;m kamenem
+	cel&eacute;ho popisovan&eacute;ho frameworku.<DT>
+	Bal&iacute;ky <B>Spring Web</B> a <B>Web MVC</B> společně zobecňuj&iacute;
+	webov&eacute; aplikačn&iacute; rozhran&iacute;. V Javě existuje
+	obrovsk&eacute; množstv&iacute; webov&yacute;ch technologi&iacute;,
+	tedy postupů, jak&yacute;m způsobem obhospodařit webov&yacute;
+	(např. http) požadavek, poslat ho př&iacute;slu&scaron;n&yacute;m
+	komponent&aacute;m (tzv akc&iacute;m), vykonat nezbytnou činnost
+	(nad nějak&yacute;mi business) a korektně vr&aacute;tit klientovi
+	v&yacute;sledek. Jelikož vět&scaron;ina webov&yacute;ch protokolů je
+	bezstavov&aacute;, k tomuto se je&scaron;tě přid&aacute;v&aacute;
+	nutnost uchov&aacute;vat sezen&iacute;. D&iacute;ky tomuto bal&iacute;ku
+	můžete sjednotit pr&aacute;ci s webov&yacute;mi frameworky a nic v&aacute;m
+	nemůže br&aacute;nit snadno nahradit technologii Servlet technologi&iacute;
+	Struts nebo WebWork, technologii JSP technologi&iacute; JSF a
+	podobně.</DL>
+<H2>
+Spring jako komponentov&aacute; technologie</H2>
+<DL>
+	<DT>V n&aacute;sleduj&iacute;c&iacute; č&aacute;sti si přibl&iacute;ž&iacute;me
+	samotn&eacute; komponenty ve Springu. Komponenta je ve Springu
+	obyčejn&aacute; javovsk&aacute; tř&iacute;da (POJO &ndash; Plain Old
+	Java Object &ndash; star&yacute; dobr&yacute; obyčejn&yacute;
+	objekt). D&iacute;ky dostatečn&eacute; podpoře platformy Java
+	(reflexe, RMI...) nen&iacute; nutno zav&aacute;dět ž&aacute;dn&aacute;
+	specifika a jelikož je cel&yacute; framework určen pr&aacute;vě pro
+	tuto platformu Java, nen&iacute; divu, že se komponenty naz&yacute;vaj&iacute;
+	n&aacute;zvem Beans (resp. dlouze: Java Beans). Jako Bean se totiž
+	označuje libovoln&yacute; java objekt, kter&yacute; m&aacute; jednu
+	nebo v&iacute;ce vlastnost&iacute;.<DT>
+	Jak jsem se již zm&iacute;nil, Spring využ&iacute;v&aacute;
+	vp&iacute;chnut&iacute; z&aacute;vislost&iacute; a &uacute;lohu
+	assembleru přeb&iacute;r&aacute; j&aacute;dro Springu. Z&aacute;vislosti
+	komponent se nač&iacute;taj&iacute; z XML souboru, zde je kr&aacute;tk&yacute;
+	př&iacute;klad:</DL>
+<PRE LANG=""><FONT SIZE=2><B>&lt;bean id=&quot;exampleBean&quot; class=&quot;examples.ExampleBean&quot;&gt;</B></FONT>
+  <FONT SIZE=2><SPAN LANG=""><B>&lt;property name=&quot;database&quot;&gt;&lt;ref bean=&quot;db&quot;/&gt;&lt;/property&gt;</B></SPAN></FONT>
+  <FONT SIZE=2><SPAN LANG=""><B>&lt;property name=&quot;numConnections&quot;&gt;&lt;value&gt;32&lt;/value&gt;&lt;/property&gt;</B></SPAN></FONT>
+<FONT SIZE=2><SPAN LANG=""><B>&lt;/bean&gt;</B></SPAN></FONT>
+
+<FONT SIZE=2><SPAN LANG=""><B>&lt;bean id=&quot;db&quot; class=&quot;examples.DatabaseBean&quot;/&gt;</B></SPAN></FONT></PRE>
+<DL>
+	<DT>
+	K v&yacute;pisu netřeba ž&aacute;dn&yacute; koment&aacute;ř a pomalu
+	si dovol&iacute;m odkazovat na dokumentaci, kter&aacute; je ve
+	Springu poměrně rozs&aacute;hl&aacute;, &uacute;pln&aacute; a
+	přehledn&aacute; (což u mnoha open-source projektů bohužel neb&yacute;v&aacute;
+	zvykem). Spring nab&iacute;z&iacute; tak&eacute; vp&iacute;chnut&iacute;
+	pomoc&iacute; konstruktoru, stač&iacute; nahradit značku <I>property</I>
+	značkou <I>constructor-arg</I>.<DT>
+	Definičn&iacute; soubory XML maj&iacute; promy&scaron;lenou
+	strukturu a je zde my&scaron;leno na sebemen&scaron;&iacute; detail
+	&ndash; m&aacute;te možnost před&aacute;vat ve&scaron;ker&eacute;
+	možn&eacute; hodnoty (č&iacute;sla, řetězce), odkazy na jin&eacute;
+	objekty či null hodnotu. Samozřejm&aacute; je podpora java kolekc&iacute;
+	(List, Set, Map, Properties), singletonů, abstraktn&iacute;ch tř&iacute;d
+	a abstraktn&iacute;ch tov&aacute;ren. V definičn&iacute;ch souborech
+	se daj&iacute; použ&iacute;vat i pokročil&eacute; techniky jako jsou
+	runtime delegace a v&yacute;měna metody, bliž&scaron;&iacute;
+	informace jsou v dokumentaci.<DT>
+	Spring je schopn&yacute; z&aacute;vislosti vytv&aacute;řet
+	automaticky (tzv. autowiring mode). Nab&iacute;z&iacute; hned
+	několik typů autowiringu, d&iacute;ky kter&yacute;m je dokonce možno
+	aplikaci nastavit tak, že nen&iacute; nutn&eacute; při vytv&aacute;řen&iacute;
+	dal&scaron;&iacute;ch a dal&scaron;&iacute;ch komponent (a nutn&yacute;ch
+	z&aacute;vislost&iacute;) znovu zasahovat do XML konfigurace (což je
+	někdy značně zdržuj&iacute;c&iacute;). Nutno podotknout, že při
+	rozs&aacute;hlej&scaron;&iacute;ch aplikac&iacute;ch pak nemus&iacute;
+	b&yacute;t zřejm&eacute;, kter&aacute; komponenta obsahuje jinou.
+	Autowiring m&oacute;d lze nastavovat pro každ&yacute; bean zvl&aacute;&scaron;ť,
+	což je velk&aacute; v&yacute;hoda.<DT>
+	Komponenty v Beanu nemusej&iacute; povinně implementovat ž&aacute;dn&eacute;
+	metody (init, destroy a podobně). Teprve až když je nutn&eacute;
+	explicitně kontrolovat životn&iacute; cyklus komponenty, je možno
+	implementovat definovan&aacute; rozhran&iacute; (InitializingBean,
+	DisposableBean). Podobn&eacute; je to s komponentou BeanFactory, což
+	je objekt zaji&scaron;ťuj&iacute;c&iacute; čten&iacute; vlastn&iacute;
+	konfiguraci &ndash; až když ji komponenta potřebuje, implementuje
+	určit&eacute; rozhran&iacute;. Tady je z&aacute;sadn&iacute; rozd&iacute;l
+	oproti J2EE.<DT>
+	V&scaron;echny aspekty j&aacute;dra lze dobře roz&scaron;iřovat,
+	takže pokud nebudete m&iacute;t možnost pomoc&iacute; XML souboru
+	nastavit nějak&yacute; objekt, kter&yacute; nebude primitivn&iacute;m
+	typem nebo z&aacute;kladn&iacute; tř&iacute;dou Javy, můžete si
+	snadno vytvořit takzvan&yacute; PropertyEditor.</DL>
+<H2>
+Spring Context</H2>
+<DL>
+	<DT>Souč&aacute;st&iacute; frameworku je kontext aplikace
+	usnadňuj&iacute;c&iacute; někter&eacute; operace, kter&eacute; mus&iacute;
+	program&aacute;tor často ře&scaron;it. Prvn&iacute;m je API pro
+	jednotn&yacute; př&iacute;stup k prostředkům (soubor na disku, v
+	kontextu webov&eacute; aplikace, na s&iacute;ti nebo z CLASSPATH).
+	Podpora snadn&eacute; lokalizace je tak&eacute; souč&aacute;st&iacute;
+	tohoto bal&iacute;ku.<DT>
+	Podpora validace vstupů jde ruku v ruce s nav&aacute;z&aacute;n&iacute;m
+	vstupn&iacute;ch hodnot na dom&eacute;nov&eacute; objekty. K těmto
+	&uacute;čelům se použ&iacute;vaj&iacute; rozhran&iacute; DataBinder
+	a Validator. K těmto &uacute;čelům se využ&iacute;v&aacute;
+	standardn&iacute;ho API definovan&eacute;ho př&iacute;mo firmou Sun
+	pro JavaBeans, pomoc&iacute; kter&eacute;ho si Spring &bdquo;hl&iacute;d&aacute;&ldquo;
+	změny v datov&yacute;ch objektech a tyto hodnoty validuje pomoc&iacute;
+	Validator API.<DT>
+	Validace prob&iacute;h&aacute; tak, že v XML souboru stač&iacute; u
+	vlastnosti zadat dan&yacute; valid&aacute;tor a ten implementovat. V
+	něm  můžete použ&iacute;t předdefinovan&eacute; valid&aacute;tory
+	pro jednotliv&eacute; vlastnosti objektu (JavaBeanu) . Pokud n&aacute;m
+	nebude vyhovovat někter&yacute; z vestavěn&yacute;ch (např&iacute;klad
+	cel&eacute; č&iacute;slo, řetězec o minim&aacute;ln&iacute; d&eacute;lce,
+	nebo regul&aacute;rn&iacute; v&yacute;raz), můžeme definovat
+	vlastn&iacute;:<DT>
+	<BR>
+</DL>
+<PRE LANG=""><FONT SIZE=2><B>public class PersonValidator implements Validator {</B></FONT>
+        
+        <FONT SIZE=2><SPAN LANG=""><B>public boolean supports(Class clzz) {</B></SPAN></FONT>
+                <FONT SIZE=2><SPAN LANG=""><B>return Person.class.equals(clzz);</B></SPAN></FONT>
+        <FONT SIZE=2><SPAN LANG=""><B>}</B></SPAN></FONT>
+        
+        <FONT SIZE=2><SPAN LANG=""><B>public void validate(Object obj, Errors e) {</B></SPAN></FONT>
+                <FONT SIZE=2><SPAN LANG=""><B>ValidationUtils.rejectIfEmpty(e, &quot;name&quot;, &quot;name.empty&quot;);</B></SPAN></FONT>
+                <FONT SIZE=2><SPAN LANG=""><B>Person p = (Person)obj;</B></SPAN></FONT>
+                <FONT SIZE=2><SPAN LANG=""><B>if (p.getAge() &lt; 0) {</B></SPAN></FONT>
+                        <FONT SIZE=2><SPAN LANG=""><B>e.rejectValue(&quot;age&quot;, &quot;negativevalue&quot;);</B></SPAN></FONT>
+                <FONT SIZE=2><SPAN LANG=""><B>} else if (p.getAge() &gt; 110) {</B></SPAN></FONT>
+                        <FONT SIZE=2><SPAN LANG=""><B>e.rejectValue(&quot;age&quot;, &quot;tooold&quot;);</B></SPAN></FONT>
+                <FONT SIZE=2><SPAN LANG=""><B>}</B></SPAN></FONT>
+        <FONT SIZE=2><SPAN LANG=""><B>}</B></SPAN></FONT>
+<FONT SIZE=2><SPAN LANG=""><B>}</B></SPAN></FONT></PRE><H2>
+Aspektově orientovan&eacute; programov&aacute;n&iacute;</H2>
+<DL>
+	<DT>Ačkoliv AOP tvoř&iacute; ned&iacute;lnou souč&aacute;st Spring
+	Frameworku a jeho autor navrhoval v&scaron;echna rozhran&iacute;
+	tak, aby byly &bdquo;AOP-kompatibiln&iacute;&ldquo;, tak se nebudu
+	t&eacute;to č&aacute;sti př&iacute;li&scaron; věnovat. Důvodem je
+	zejm&eacute;na fakt, že bych kop&iacute;roval kolegy, kteř&iacute;
+	maj&iacute; předn&aacute;&scaron;ky na toto t&eacute;ma a jistě
+	pop&iacute;&scaron;&iacute; celou problematiku podrobněji.<DT>
+	Spring nevyuž&iacute;v&aacute; asi nejpouž&iacute;vaněj&scaron;&iacute;
+	knihovnu AspectJ, ale rozhran&iacute; AOP Alliance, kter&eacute; je
+	takt&eacute;ž poskytov&aacute;no jako open-source. Spring se totiž
+	nesnaž&iacute; pokr&yacute;t v&scaron;echny možnosti, kter&eacute;
+	AOP nab&iacute;z&iacute;, ale zaměřuje se zejm&eacute;na na tu
+	oblast, kter&aacute; je dobře využiteln&aacute; v postupech, kter&eacute;
+	Spring využ&iacute;v&aacute;. Ov&scaron;em v pl&aacute;nech pro
+	verzi 1.1 je kompletn&iacute; podpora pro AspectJ.</DL>
+<H2>
+Transakčn&iacute; zpracov&aacute;n&iacute;</H2>
+<DL>
+	<DT>V Javě existuje velk&eacute; množstv&iacute; různ&yacute;ch
+	rozhran&iacute; a standardizovan&yacute;ch API pro transakčn&iacute;
+	zpracov&aacute;n&iacute; (ať už pouze o datab&aacute;zov&eacute;
+	jako např&iacute;klad JDBC, Hibernate či iBatis, nebo v&iacute;ce
+	generick&eacute;, jako např&iacute;klad JTA). Spring opět pln&iacute;
+	&uacute;lohu jak&eacute;hosi &bdquo;lepidla&ldquo; a poskytuje
+	obecn&eacute; rozhran&iacute;, aby bylo možn&eacute; použ&iacute;t
+	libovoln&eacute; API a později jej vyměnit (např&iacute;klad JDBC a
+	v př&iacute;padě nutnosti vyměnit za JTA).<DT>
+	V EJB je nutn&eacute; striktně rozli&scaron;ovat glob&aacute;ln&iacute;
+	a lok&aacute;ln&iacute; transakce (transakce např&iacute;klad na
+	&uacute;rovni datab&aacute;zov&eacute;ho spojen&iacute;). Tak&eacute;
+	se zde použ&iacute;v&aacute; rozhran&iacute; JNDI a transakce jsou
+	obvykle z&aacute;visl&eacute; na aplikačn&iacute;m serveru (vyžaduj&iacute;
+	jeho nasazen&iacute; &ndash; CMT &ndash; Container Management
+	Transacitons). V př&iacute;padě Springu použ&iacute;v&aacute;te vždy
+	jednotn&eacute; rozhran&iacute; a nevyžaduje použit&iacute;
+	aplikačn&iacute;ho serveru, pokud to nen&iacute; nutn&eacute;.</DL>
+<PRE LANG=""><FONT SIZE=2><B>public interface PlatformTransactionManager {</B></FONT>
+
+    <FONT SIZE=2><SPAN LANG=""><B>TransactionStatus getTransaction(TransactionDefinition definition)</B></SPAN></FONT>
+        <FONT SIZE=2><SPAN LANG=""><B>throws TransactionException;</B></SPAN></FONT>
+
+    <FONT SIZE=2><SPAN LANG=""><B>void commit(TransactionStatus status) throws TransactionException;</B></SPAN></FONT>
+
+    <FONT SIZE=2><SPAN LANG=""><B>void rollback(TransactionStatus status) throws TransactionException;</B></SPAN></FONT>
+<FONT SIZE=2><SPAN LANG=""><B>}</B></SPAN></FONT></PRE>
+<DL>
+	<DT>
+	Na v&yacute;pisu vid&iacute;me API (jedn&aacute; se opět o rozhran&iacute;
+	a připom&iacute;n&aacute;m, že Spring je vlastně hlavně o
+	rozhran&iacute;ch, abstraktn&iacute;ch pomocn&yacute;ch tř&iacute;d&aacute;ch
+	a přehledn&eacute; dokumentaci). Metoda getTransaction př&iacute;mo
+	vyhled&aacute; vhodnou transakci na z&aacute;kladě jej&iacute;
+	definice, kde specifikujeme izolov&aacute;n&iacute;, timeout a
+	podobně.<DT>
+	N&aacute;sleduj&iacute;c&iacute; př&iacute;klad ukazuje použit&iacute;
+	Hibernate Transaction Manageru. Nejprve si zadefinujeme datov&yacute;
+	zdroj (spojen&iacute; na SQL datab&aacute;zi).</DL>
+<PRE LANG=""><FONT SIZE=2><B>&lt;bean id=&quot;dataSource&quot; class=&quot;org.apache.commons.dbcp.BasicDataSource&quot; destroy-method=&quot;close&quot;&gt;</B></FONT>
+  <FONT SIZE=2><SPAN LANG=""><B>&lt;property name=&quot;driverClassName&quot; value=&quot;${jdbc.driverClassName}&quot;/&gt;</B></SPAN></FONT>
+  <FONT SIZE=2><SPAN LANG=""><B>&lt;property name=&quot;url&quot; value=&quot;${jdbc.url}&quot;/&gt;</B></SPAN></FONT>
+  <FONT SIZE=2><SPAN LANG=""><B>&lt;property name=&quot;username&quot; value=&quot;${jdbc.username}&quot;/&gt;</B></SPAN></FONT>
+  <FONT SIZE=2><SPAN LANG=""><B>&lt;property name=&quot;password&quot; value=&quot;${jdbc.password}&quot;/&gt;</B></SPAN></FONT>
+<FONT SIZE=2><SPAN LANG=""><B>&lt;/bean&gt;</B></SPAN></FONT></PRE>
+<DL>
+	<DT>
+	D&aacute;le je třeba m&iacute;t nastaven&yacute; Hibernate O/R
+	mapper, o kter&eacute;m budeme je&scaron;tě mluvit.</DL>
+<PRE LANG=""><FONT SIZE=2><B>&lt;bean id=&quot;sessionFactory&quot; class=&quot;org.springframework.orm.hibernate.LocalSessionFactoryBean&quot;&gt;</B></FONT>
+  <FONT SIZE=2><SPAN LANG=""><B>&lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot;/&gt;</B></SPAN></FONT>
+  <FONT SIZE=2><SPAN LANG=""><B>&lt;property name=&quot;mappingResources&quot;&gt;</B></SPAN></FONT>
+    <FONT SIZE=2><SPAN LANG=""><B>&lt;list&gt;</B></SPAN></FONT>
+      <FONT SIZE=2><SPAN LANG=""><B>&lt;value&gt;samples/petclinic/hibernate/petclinic.hbm.xml&lt;/value&gt;</B></SPAN></FONT>
+    <FONT SIZE=2><SPAN LANG=""><B>&lt;/list&gt;</B></SPAN></FONT>
+  <FONT SIZE=2><SPAN LANG=""><B>&lt;/property&gt;</B></SPAN></FONT>
+  <FONT SIZE=2><SPAN LANG=""><B>&lt;property name=&quot;hibernateProperties&quot;&gt;</B></SPAN></FONT>
+    <FONT SIZE=2><SPAN LANG=""><B>&lt;props&gt;</B></SPAN></FONT>
+      <FONT SIZE=2><SPAN LANG=""><B>&lt;prop key=&quot;hibernate.dialect&quot;&gt;${hibernate.dialect}&lt;/prop&gt;</B></SPAN></FONT>
+    <FONT SIZE=2><SPAN LANG=""><B>&lt;/props&gt;</B></SPAN></FONT>
+  <FONT SIZE=2><SPAN LANG=""><B>&lt;/property&gt;</B></SPAN></FONT>
+<FONT SIZE=2><SPAN LANG=""><B>&lt;/bean&gt;</B></SPAN></FONT></PRE>
+<DL>
+	<DT>
+	Vytvořen&iacute; komponenty <I>txManager</I>, kter&aacute; bude
+	poskytovat transakčn&iacute; služby, je pak velmi jednoduch&eacute;.</DL>
+<PRE LANG=""><FONT SIZE=2><B>&lt;bean id=&quot;txManager&quot; class=&quot;org.spring.orm.hibernate.HibernateTransactionManager&quot;&gt;</B></FONT>
+  <FONT SIZE=2><SPAN LANG=""><B>&lt;property name=&quot;sessionFactory&quot; ref=&quot;sessionFactory&quot;/&gt;</B></SPAN></FONT>
+<FONT SIZE=2><SPAN LANG=""><B>&lt;/bean&gt;</B></SPAN></FONT></PRE>
+<DL>
+	<DT>
+	To je v&scaron;e. V&scaron;imněte si, že v&scaron;e jsou komponenty
+	(z pohledu Springu), což v EJB tak &uacute;plně neplat&iacute; (tam
+	se pracuje př&iacute;mo s rozhran&iacute;mi JNDI, JTA a podobně).
+	Stejně jako v EJB v&scaron;ak Spring rozli&scaron;uje transakce na
+	&uacute;rovni aplikace (programmatic transaction support), kde je
+	př&iacute;stup podobn&yacute; rozhran&iacute; JTA (Java Transaction
+	API) s t&iacute;m rozd&iacute;lem, že můžete implementaci nahradit
+	jinou knihovnou.<DT>
+	V př&iacute;padě, že budete potřebovat využ&iacute;t služeb
+	někter&eacute;ho z aplikačn&iacute;ch serverů, pak Spring poskytuje
+	implementace konektorů k serverům BEA WebLogic a IBM Websphere.</DL>
+<H2>
+Značkov&aacute;n&iacute; v koment&aacute;ř&iacute;ch</H2>
+<DL>
+	<DT>Jazyk Java verze 1.5 zavedl popisov&aacute;n&iacute; zdrojov&yacute;ch
+	k&oacute;dů pomoc&iacute; metadat. Jelikož Spring je vyzr&aacute;l&yacute;
+	produkt (vznikl v době, kdy byla produkčn&iacute; verze 1.4) a
+	jelikož autor Springu nechce nutit program&aacute;tory, aby
+	st&aacute;vaj&iacute;c&iacute; projekty přev&aacute;děli do nov&eacute;
+	verze jazyka Java (kter&eacute; v někter&yacute;ch př&iacute;padech
+	<B>nen&iacute; </B>zpětně kompatibiln&iacute; a vyžaduje z&aacute;sahy
+	do zdrojov&yacute;ch k&oacute;dů), využ&iacute;v&aacute; Spring
+	služeb projektů XDoclet a commons-attributtes, což jsou open-source
+	implementace Source-level Metadat.<DT>
+	Spring v&scaron;e zobecňuje do t&eacute; &uacute;rovně, že je možno
+	přistupovat k těmto implementac&iacute;m zcela nez&aacute;visle,
+	nav&iacute;c dod&aacute;v&aacute; podporu i pro Javu 1.5. Pokud se
+	tedy jedn&aacute; o star&scaron;&iacute; projekt, může využ&iacute;t
+	služeb XDocletu, v př&iacute;padě nov&eacute;ho pak např&iacute;klad
+	nativn&iacute; podpory v Javě 1.5. Např&iacute;klad platforma .NET
+	m&aacute; svoji implementaci metainformac&iacute; již od sv&yacute;ch
+	ran&yacute;ch verz&iacute;. 
+	<DT>A jak&aacute; je hlavn&iacute; v&yacute;hoda source-level
+	metadat? Program&aacute;tor z&iacute;sk&aacute;v&aacute; možnost
+	přid&aacute;vat ke tř&iacute;d&aacute;m, metod&aacute;m, vlastnostem
+	a atributům zvl&aacute;&scaron;tn&iacute; informace (takř&iacute;kaj&iacute;c
+	informace &bdquo;nav&iacute;c&ldquo; - metainformace). Typick&yacute;m
+	př&iacute;kladem může b&yacute;t označen&iacute; určit&eacute; tř&iacute;dy
+	jako DAO objekt (datab&aacute;zov&yacute; dom&eacute;nov&yacute;
+	objekt). Spring pak může vyhledat v&scaron;echny DAO objekty v
+	aplikaci a prov&eacute;st např&iacute;klad jejich převod, vytvořit
+	SQL strukturu a podobně. Na uk&aacute;zce vid&iacute;me atribut
+	PoolingAttribut, kter&yacute; označuje danou tř&iacute;du pro
+	znovupoužit&iacute;.</DL>
+<PRE LANG=""> <FONT SIZE=2><B>/** </B></FONT>
+ <FONT SIZE=2><SPAN LANG=""><B>* @@org.spring.aop.framework.autoproxy.target.PoolingAttribute(10)</B></SPAN></FONT>
+ <FONT SIZE=2><SPAN LANG=""><B>* @author Rod Johnson</B></SPAN></FONT>
+ <FONT SIZE=2><SPAN LANG=""><B>*/</B></SPAN></FONT>
+<FONT SIZE=2><SPAN LANG=""><B>public class MyClass {</B></SPAN></FONT></PRE>
+<DL>
+	<DT>
+	Zde je vidět jedna z nev&yacute;hod implementace metadat v Javě 1.5
+	&ndash; tam totiž jsou v&scaron;echna metadata uložen&aacute; ve
+	zkompilovan&eacute;m class souboru a nen&iacute; možn&eacute; je
+	dynamicky měnit. Pokud bychom např&iacute;klad chtěli bez
+	rekompilace změnit maxim&aacute;ln&iacute; počet objektů v poolu (na
+	př&iacute;kladě 10), museli bychom použ&iacute;t XDoclet. Tato
+	vlastnost by se měla objevit v Javě 6.0.</DL>
+<H2>
+DAO a objektově-relačn&iacute; mapping</H2>
+<DL>
+	<DT>Najde se jen m&aacute;lo obchodn&iacute;ch aplikac&iacute; bez
+	datab&aacute;z&iacute;, proto Spring nab&iacute;z&iacute; několik
+	metod pro př&iacute;stup k nim. Použit&aacute; technika DAO je
+	nez&aacute;visl&aacute; na tom, kter&yacute; př&iacute;stup si
+	vyberete. Spring se nesnaž&iacute; jako J2EE vytvořit vlastn&iacute;
+	vrstvu pro ukl&aacute;d&aacute;n&iacute; objektov&yacute;ch dat, ale
+	použ&iacute;v&aacute; k tomu &scaron;pičkov&eacute; open-source
+	projekty, kter&eacute; jsou ověřen&eacute; trhem i časem.<DT>
+	Ve Springu můžete použ&iacute;vat př&iacute;mo rozhran&iacute; JDBC,
+	přičemž se Spring snaž&iacute; zastře&scaron;it a sjednotit někter&eacute;
+	věci. Jednak je to vlastn&iacute; př&iacute;stup k datab&aacute;zi
+	(otevřen&iacute; spojen&iacute;) a d&aacute;le obsluha v&yacute;jimek,
+	kter&aacute; je v současn&eacute; verzi JDBC nedostatečně
+	standardizovan&aacute; a li&scaron;&iacute; se od dodavatele
+	datab&aacute;ze. Spring tak&eacute; definuje API zastře&scaron;uj&iacute;c&iacute;
+	SQL dotazy pro zjednodu&scaron;en&iacute; vytv&aacute;řen&iacute;
+	mapuj&iacute;c&iacute;ch tř&iacute;d, což jsou tř&iacute;dy
+	přev&aacute;děj&iacute;c&iacute; v&yacute;sledky vol&aacute;n&iacute;
+	JDBC vrstvy na datab&aacute;zov&eacute; objekty.<DT>
+	Hlavn&iacute; s&iacute;la Springu je bezesporu ve v&yacute;born&eacute;
+	integraci s knihovnami Hibernate, Oracle TopLink, Apache OJB nebo
+	iBatis. Poskytuj&iacute; spojen&iacute; mezi dom&eacute;nov&yacute;mi
+	objekty a relačn&iacute; datab&aacute;z&iacute;. Princip spoč&iacute;v&aacute;
+	v tom, že JavaBeans komponenty a jejich vlastnosti jsou namapov&aacute;ny
+	(pomoc&iacute; konfiguračn&iacute;ch souborů) do datab&aacute;zov&yacute;ch
+	tabulek. Knihovna samotn&aacute; se postar&aacute; o jejich spr&aacute;vn&eacute;
+	vyzvednut&iacute;, o&scaron;etřuje kolekce (spojov&aacute;n&iacute;
+	dotazů), v&yacute;jimky a cachov&aacute;n&iacute;.<DT>
+	Zde je uk&aacute;zka použit&iacute; Hibernate, což je defacto
+	standard mezi O/R mapovac&iacute;mi syst&eacute;my. Firma Sun
+	Microsystems sice vytvořila standardizovanou API JDO, ale ta při&scaron;la
+	jednak dost pozdě (projekt Hibernate je jeden z nejstar&scaron;&iacute;ch)
+	a hlavně verze 1.0 nedosahovala takov&yacute;ch kvalit a možnost&iacute;,
+	jako Hibernate.<DT>
+	Nejdř&iacute;ve je nutno nadefinovat JDBC spojen&iacute; (Hibernate
+	pracuje nad JDBC), pak velmi důležitou komponentu &ndash;
+	SessionFactory. Je to vlastně takov&aacute; &bdquo;instance&ldquo;
+	knihovny Hibernate jako takov&eacute;. V n&iacute; se prov&aacute;d&iacute;
+	hlavn&iacute; konfigurace (včetně nastaven&iacute; mapovac&iacute;ch
+	XML souborů, kter&eacute; lze pomoc&iacute; různ&yacute;ch n&aacute;strojů
+	generovat automaticky).</DL>
+<PRE LANG=""><FONT SIZE=2><B>&lt;beans&gt;</B></FONT>
+
+  <FONT SIZE=2><SPAN LANG=""><B>&lt;bean id=&quot;myDataSource&quot; class=&quot;org.apache.commons.dbcp.BasicDataSource&quot; destroy-method=&quot;close&quot;&gt;</B></SPAN></FONT>
+    <FONT SIZE=2><SPAN LANG=""><B>&lt;property name=&quot;driverClassName&quot; value=&quot;org.hsqldb.jdbcDriver&quot;/&gt;</B></SPAN></FONT>
+    <FONT SIZE=2><SPAN LANG=""><B>&lt;property name=&quot;url&quot; value=&quot;jdbc:hsqldb:hsql://localhost:9001&quot;/&gt;</B></SPAN></FONT>
+    <FONT SIZE=2><SPAN LANG=""><B>&lt;property name=&quot;username&quot; value=&quot;sa&quot;/&gt;</B></SPAN></FONT>
+    <FONT SIZE=2><SPAN LANG=""><B>&lt;property name=&quot;password&quot; value=&quot;&quot;/&gt;</B></SPAN></FONT>
+  <FONT SIZE=2><SPAN LANG=""><B>&lt;/bean&gt;</B></SPAN></FONT>
+
+  <FONT SIZE=2><SPAN LANG=""><B>&lt;bean id=&quot;mySessionFactory&quot; class=&quot;org.springframework.orm.hibernate.LocalSessionFactoryBean&quot;&gt;</B></SPAN></FONT>
+    <FONT SIZE=2><SPAN LANG=""><B>&lt;property name=&quot;dataSource&quot; ref=&quot;myDataSource/&gt;</B></SPAN></FONT>
+    <FONT SIZE=2><SPAN LANG=""><B>&lt;property name=&quot;mappingResources&quot;&gt;</B></SPAN></FONT>
+      <FONT SIZE=2><SPAN LANG=""><B>&lt;list&gt;</B></SPAN></FONT>
+        <FONT SIZE=2><SPAN LANG=""><B>&lt;value&gt;product.hbm.xml&lt;/value&gt;</B></SPAN></FONT>
+      <FONT SIZE=2><SPAN LANG=""><B>&lt;/list&gt;</B></SPAN></FONT>
+    <FONT SIZE=2><SPAN LANG=""><B>&lt;/property&gt;</B></SPAN></FONT>
+    <FONT SIZE=2><SPAN LANG=""><B>&lt;property name=&quot;hibernateProperties&quot;&gt;</B></SPAN></FONT>
+      <FONT SIZE=2><SPAN LANG=""><B>&lt;props&gt;</B></SPAN></FONT>
+        <FONT SIZE=2><SPAN LANG=""><B>&lt;prop key=&quot;hibernate.dialect&quot;&gt;net.sf.hibernate.dialect.MySQLDialect&lt;/prop&gt;</B></SPAN></FONT>
+      <FONT SIZE=2><SPAN LANG=""><B>&lt;/props&gt;</B></SPAN></FONT>
+    <FONT SIZE=2><SPAN LANG=""><B>&lt;/property&gt;</B></SPAN></FONT>
+  <FONT SIZE=2><SPAN LANG=""><B>&lt;/bean&gt;</B></SPAN></FONT>
+
+   <FONT SIZE=2><SPAN LANG=""><B>...</B></SPAN></FONT>
+<FONT SIZE=2><SPAN LANG=""><B>&lt;/beans&gt;</B></SPAN></FONT></PRE>
+<DL>
+	<DT>
+	Vlastn&iacute; dotaz v DAO je pak n&aacute;sleduj&iacute;c&iacute;:</DL>
+<PRE LANG=""><FONT SIZE=2><B>public class ProductDaoImpl implements ProductDao {</B></FONT>
+
+    <FONT SIZE=2><SPAN LANG=""><B>private SessionFactory sessionFactory;</B></SPAN></FONT>
+
+    <FONT SIZE=2><SPAN LANG=""><B>public void setSessionFactory(SessionFactory sessionFactory) {</B></SPAN></FONT>
+        <FONT SIZE=2><SPAN LANG=""><B>this.sessionFactory = sessionFactory;</B></SPAN></FONT>
+    <FONT SIZE=2><SPAN LANG=""><B>}</B></SPAN></FONT>
+
+    <FONT SIZE=2><SPAN LANG=""><B>public Collection loadProductsByCategory(String category) {</B></SPAN></FONT>
+        <FONT SIZE=2><SPAN LANG=""><B>return this.sessionFactory.getCurrentSession()</B></SPAN></FONT>
+                <FONT SIZE=2><SPAN LANG=""><B>.createQuery(&quot;from test.Product product where product.category=?&quot;)</B></SPAN></FONT>
+                <FONT SIZE=2><SPAN LANG=""><B>.setParameter(0, category)</B></SPAN></FONT>
+                <FONT SIZE=2><SPAN LANG=""><B>.list();</B></SPAN></FONT>
+    <FONT SIZE=2><SPAN LANG=""><B>}</B></SPAN></FONT>
+<FONT SIZE=2><SPAN LANG=""><B>}</B></SPAN></FONT></PRE>
+<DL>
+	<DT>
+	Transakce můžeme na v nejvy&scaron;&scaron;&iacute; &uacute;rovni
+	ře&scaron;it tak&eacute; zaj&iacute;mav&yacute;m způsobem &ndash;
+	anonymn&iacute;mi tř&iacute;dami:</DL>
+<PRE LANG=""><FONT SIZE=2><B>public class ProductServiceImpl implements ProductService {</B></FONT>
+
+    <FONT SIZE=2><SPAN LANG=""><B>private PlatformTransactionManager transactionManager;</B></SPAN></FONT>
+    <FONT SIZE=2><SPAN LANG=""><B>private ProductDao productDao;</B></SPAN></FONT>
+
+    <FONT SIZE=2><SPAN LANG=""><B>public void setTransactionManager(PlatformTransactionManager transactionManager) {</B></SPAN></FONT>
+        <FONT SIZE=2><SPAN LANG=""><B>this.transactionManager = transactionManager;</B></SPAN></FONT>
+    <FONT SIZE=2><SPAN LANG=""><B>}</B></SPAN></FONT>
+
+    <FONT SIZE=2><SPAN LANG=""><B>public void setProductDao(ProductDao productDao) {</B></SPAN></FONT>
+        <FONT SIZE=2><SPAN LANG=""><B>this.productDao = productDao;</B></SPAN></FONT>
+    <FONT SIZE=2><SPAN LANG=""><B>}</B></SPAN></FONT>
+
+    <FONT SIZE=2><SPAN LANG=""><B>public void increasePriceOfAllProductsInCategory(final String category) {</B></SPAN></FONT>
+        <FONT SIZE=2><SPAN LANG=""><B>TransactionTemplate transactionTemplate = new TransactionTemplate(this.transactionManager);</B></SPAN></FONT>
+        <FONT SIZE=2><SPAN LANG=""><B>transactionTemplate.execute(</B></SPAN></FONT>
+            <FONT SIZE=2><SPAN LANG=""><B>new TransactionCallbackWithoutResult() {</B></SPAN></FONT>
+                <FONT SIZE=2><SPAN LANG=""><B>public void doInTransactionWithoutResult(TransactionStatus status) {</B></SPAN></FONT>
+                    <FONT SIZE=2><SPAN LANG=""><B>List productsToChange = productDAO.loadProductsByCategory(category);</B></SPAN></FONT>
+                    <FONT SIZE=2><SPAN LANG=""><B>...</B></SPAN></FONT>
+                <FONT SIZE=2><SPAN LANG=""><B>}</B></SPAN></FONT>
+            <FONT SIZE=2><SPAN LANG=""><B>}</B></SPAN></FONT>
+        <FONT SIZE=2><SPAN LANG=""><B>);</B></SPAN></FONT>
+    <FONT SIZE=2><SPAN LANG=""><B>}</B></SPAN></FONT>
+<FONT SIZE=2><SPAN LANG=""><B>}</B></SPAN></FONT></PRE>
+<DL>
+	<DT>
+	Na Hibernate (i jin&eacute; mapovačn&iacute; rozhran&iacute;) může
+	program&aacute;tor přistupovat i na niž&scaron;&iacute; &uacute;rovni
+	(tj. ručně zah&aacute;jit transakci, vr&aacute;tit seznam objektů z
+	dotazu, o&scaron;etřit v&yacute;jimky, commitnout transakci).<DT>
+	Ačkoli O/R mapovac&iacute; rohzran&iacute; tvoř&iacute; z&aacute;klad
+	obchodn&iacute;ch aplikac&iacute;, nebudu se tomuto t&eacute;matu
+	nad&aacute;le věnovat a přejdu k z&aacute;věrečně a asi
+	nejzaj&iacute;mavěj&scaron;&iacute; f&aacute;zi.</DL>
+<H2>
+Webov&aacute; č&aacute;st</H2>
+<DL>
+	<DT>Webov&aacute; č&aacute;st zastře&scaron;uje kompletn&iacute; MVC
+	př&iacute;stup pro tvorbu webov&yacute;ch aplikac&iacute;. Ačkoli
+	program&aacute;torovi nic nebr&aacute;n&iacute; použ&iacute;t
+	jin&yacute;/vlastn&iacute; aplikačn&iacute; r&aacute;mec (Struts,
+	Tapestry, Velocity/Freemaker, XLST, Tiles, JasperReports), použit&iacute;
+	implementace ve Springu m&aacute; řadu v&yacute;hod:</DL>
+<UL>
+	<LI>
+	<I>čist&aacute; separace v&scaron;ech rol&iacute;</I> &ndash; v
+	mnoha MVC r&aacute;mc&iacute;ch se slučuj&iacute; pojmy jako form a
+	model, validator a model a podobně,<LI>
+	<I>jednoduch&aacute; konfigurace</I> &ndash; Spring použ&iacute;v&aacute;
+	samozřejmě na v&scaron;echno JavaBeans komponenty a s t&iacute;m je
+	spojena řada dal&scaron;&iacute;ch v&yacute;hod,<LI>
+	<I>znovupoužit&iacute; business tř&iacute;d</I> &ndash; nemus&iacute;te
+	vytv&aacute;řet dal&scaron;&iacute; objekty typu Form, ve Springu
+	použijete př&iacute;mo business komponenty,<LI>
+	<I>naz&aacute;visl&eacute; mapov&aacute;n&iacute;</I> &ndash;
+	handlery a pohledy jsou nez&aacute;visl&eacute; a můžete použ&iacute;t
+	v&iacute;ce př&iacute;stupů.</UL>
+<DL>
+	<DT>Spring obsahuje př&iacute;mou podporu JSP a tak&eacute; jakousi
+	ad-hoc podporu (zat&iacute;m) pro novou technologii JSF.<DT>
+	V&scaron;echny kl&iacute;čov&eacute; komponenty (Controller, Model,
+	View) jsou souč&aacute;st&iacute; Springu a ten nav&iacute;c
+	obsahuje mnoho připraven&yacute;ch implementac&iacute;. Typick&aacute;
+	aplikace pomoc&iacute; Spring MVC je nakonfigurovan&aacute; tak, aby
+	na straně J2EE kontejneru před&aacute;vala v&scaron;echny dotazy na
+	jeden jedin&yacute; servlet. Tento servlet pak nač&iacute;t&aacute;
+	vlastn&iacute; konfiguraci a mapov&aacute;n&iacute; z XML souborů.
+	V&scaron;echno jsou znovupoužiteln&eacute; komponenty a velkou
+	v&yacute;hodou je velk&aacute; prov&aacute;zanost s již vytvořen&yacute;mi
+	business objekty ve Springu.</DL>
+<H2>
+Dal&scaron;&iacute; technologie</H2>
+<DL>
+	<DT>Vyčerpali jsme hlavn&iacute; technologie, kter&eacute; se
+	použ&iacute;vaj&iacute; při budov&aacute;n&iacute; obchodn&iacute;ch
+	aplikac&iacute;. Spring toho v&scaron;ak nab&iacute;z&iacute; v&iacute;ce.
+	Dobrou podporu m&aacute; pro webov&eacute; služby (RMI, JAX-RPC),
+	tak&eacute; zm&iacute;něn&aacute; možnost vytv&aacute;řet EJB
+	komponenty patř&iacute; do t&eacute;to č&aacute;sti. Technologie JMS
+	je nav&iacute;c doplněna o Spring email infrastructure. Posledn&iacute;m
+	čl&aacute;nkem je JCA CCI (Java Connector Architecture &ndash;
+	Common Client Interface), což je technologie pro v&yacute;měnu
+	obchodn&iacute;ch informac&iacute; v r&aacute;mci EIS.</DL>
+<H2>
+Literatura a odkazy:</H2>
+<DL>
+	<DT>[1] Rod Jonhson: <B>Expert One-on-One J2EE Design and
+	Development</B>, Wiley Publ. 2003<DT>
+	[2] Martin Flower: <B>Inversion of Control Containers and the
+	Dependency Injection pattern</B>,
+	<I>http://www.martinfowler.com/articles/injection.html</I><DT>
+	[3] Sun Microsystems, <B>Core J2EE Patterns</B>, Sun
+	Press,<I><BR>http://java.sun.com/blueprints/corej2eepatterns/Patterns/ServiceLocator.html</I><DT>
+	[4] Das Spring Framework als Teil eines Paradigmenwechsels?
+	Vergleich der leichtgewichtigen Alternative zur traditionellen J2EE
+	Entwicklung, diplomov&aacute;
+	pr&aacute;ce.<I><BR>http://www.martinmaier.name/archives/5</I><DT>
+	[5] Sum Microsystems, J2EE Portal, ofici&aacute;ln&iacute;
+	dokumentace technologie J2EE,<BR><I>http://java.sun.com/j2ee/</I></DL>
+</BODY>
+</HTML>

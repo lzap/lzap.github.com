@@ -1,0 +1,260 @@
+(kódování ISO-8859-2)
+
+___________________
+Genetické algoritmy
+~~~~~~~~~~~~~~~~~~~
+
+EVT - evoluèní výpoèetní techniky = heuristika pro øe¹ení NP-úplných problémù
+- procházíme prostorem øe¹ení a sna¾íme se najít uspokojivé øe¹ení (s
+uspokojenou pøesností a pravdìpodobností, kterou obvykle známe)
+
+Genetické algoritmy
+G.J.Holland - biolog (1977), úplný popis v¹ak formalizoval nìjaký informatik
+
+jedinec - kandidát na øe¹ení, prvek v prostoru
+populace - G(t) = {Xt1 ... XtN}, mno¾ina jedincù, kde t = èas (generace)
+úèelová funkce - fce rozhodující o tom, kteøí jedinci jsou "kvalitnìj¹í"
+mutace - generická variabilita
+
+Algoritmus:
+
+1. výchozí polupace
+2. vyhodnotíme ji
+3. pokud jsme na¹li výsledek (nebo pøekroèili urèitý poèet krokù), pak konec
+4. jinak probìhne selekce
+5. dále reprodukce
+6. probìhne køí¾ení
+7. provedeme mutaci
+8. prvky ohodnotíme a pøejdeme ke kroku 3
+
+Toto je popis algoritmu SGA (simple genetic alg.)
+
+Sna¾íme se zachovat genetickou informaci jedince (provádíme kódování).
+Výsledkem toho kódování je chromozóm. To si mù¾eme pøedstavit jako pole genù
+(tzv. "alely" nebo také "pozice"). Geny obsahují prvky z urèité abecedy Ai.
+
+pro ka¾dou a z A platí: a je z Ai
+
+Toto kódování nazýváme genotypem. Intepretací genotypu je fenotyp. Genotyp
+tedy urèuje strukturu a kodování chromozomu a fenotyp popisuje, co který gen
+znamená (barva oèí, cukrovka...)
+
+Pø: Ai = {0, 1}, chromozom = 00011001, délka L = 8
+fenotyp by mohl být jednak nìjaký seznam genù (dvì ruce, tøi hlavy, modré
+oèi), ale klidnì i tøeba èíslo (v tomto pøípadì 25)
+
+Pøedstavme si, ¾e chceme kódovat èíslo v int. <r, s> s pøesností E.
+
+L = floor(log(abs(s-x)/E), 2)   tj. <0, 127> = 7 (7 bitù)
+
+Køí¾ení
+~~~~~~~
+Máme v¾dy 2 chromozomy (rodièe), ze kterých vytvoøíme 2 chromozomy (potomky).
+Easy, isn`t it? Volba pozice probíhá náhodnì.
+
+1-bodové: rodièe: 01100|01 = 49
+                  10001|00 = 68
+(náhodnì vyberu
+ jednu pozici "|")
+
+         potomci: 01100|00 = 48
+		          10001|01 = 69
+
+Mutace
+~~~~~~
+Roz¹iøuje prostor hledání, zamezuje tomu, abychom se k nìjakým prvkùm
+nedostali.
+
+Ohodnocení
+~~~~~~~~~~
+Klíèová je úèelová (fitness) funkce, která pøiøazuje míru kvality jedinci.
+Obvykle obor hodnot fce je v¾dy kladný.
+
+Pø: Hledání maxima, f(x).
+Hledání sqrt(c) -> y = abs(x^2 - c) -> f=1/(abs(x^2-c)+1)
+
+Selekce a reprodukce
+~~~~~~~~~~~~~~~~~~~~
+Základní princip: lep¹í jedinci mají vìt¹í pravdìpodobnost reprodukce do dal¹í
+generace.
+
+P(i) = Kt * f(Xti),   Kt - konstanta
+
+nebo také tzv prùletovým kolem
+
+P(i) = f(Xi) / sum[i=1..N]( f(xi) )
+
+Dal¹í druhy:
+
+a) turnajová
+b) podle poøadí - setøídím a vezmu "tu vlevo"
+
+Schémata a vìta o schématech
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Abecedu roz¹íøíme o znak hvìzdièky (*), uva¾ujme A`={0,1}, pak A={0,1,*}.
+Délka bude tedy 3^L.
+
+Øád schématu: o(H) = L-j (L-délka, j-poèet hvìzdièek)
+
+Ka¾dé schéma pokrývá 2^(L-o(H)) chromozomù (dá se to pìkne naznaèit v grafu).
+
+Pø: ch=(1,0), L=2
+(1,0) ... o(H)=2
+(*,0) ... o(H)=1
+(1,*) ... o(H)=1
+(*,*) ... o(H)=0
+
+Definièní délka - nejvìt¹í øád schématu (u nejvìt¹ím poètu hvìzdièek):
+d(H) = <0, (L-1)>
+
+Pø: (01**01*) ... d(H)=7             (2=5)
+
+Poèet jedincù, kteøí jsou pokryti schématem v daném èase t: m(H,t)
+
+Ptáme se, jak bude vypadat m(H, t+1):
+
+1) uvá¾íme selekci: m(H,t+1) =asi= m(H,t) * (f`(H,t)/f`(t))
+
+kde f` je prùmìr fitness populace
+
+2) køí¾ení
+
+pravdìpodobnost, ¾e dojde k rozbití (schéma se nezachová):
+Pxd(H) = d(H) / (L-1)
+
+a ¾e se nezachová
+
+Pxs(H) = 1 - Pxd(H)
+
+a zohledníme také køí¾ení schématu
+
+Pxs(H) = 1 - Px * Pxd(H)
+
+3) mutace
+
+pravdìpodobnost, ¾e alela podlehne mutaci = Pm, nás ale zajímá pravdìpodobnost
+zachování (nemutace)
+
+Pz = 1 - Pm
+
+ka¾dé schéma má specifikovaných bitù (neobs. *) tolik, kolik je øád schematu,
+tak¾e to uvá¾íme:
+
+Pz = (1 - Pm) ^ o(H) =nìkdy_se_pí¹e= 1-Pm*o(H) (proto¾e Pm je malá)
+
+Vìta o schématech:
+
+m(H,t+1) = m(H,t) * (f`(H,t)/f`(t)) * Pxs(H) * Pz
+Poèet nadprùmìrných schémat roste v dal¹ích generacích exponenciálnì.
+
+Výhody a nevýhody GA:
+~~~~~~~~~~~~~~~~~~~~~
+
+Genetické algoritmy se dají dobøe paralelizovat.
+
+Av¹ak je nutno si hrát s koeficienty a nastavením, ale je to ménì
+problematické ne¾ u neuronových sítí.
+
+Aplikace
+~~~~~~~~
+Komprese dat - sna¾íme se nalézt vhodné nastavení pro nìjaký kompresní
+algoritmus.
+Elektrotechnika - optimalizování obvodù pøi návrhu plo¹ných spojù.
+Strojírenství - optimalizace motoru Boeing.
+Identifikace zloèincù - výbìr tváøe svìdkem.
+Logistika - sklady, rozvoz zbo¾í.
+©koly - tvorba rozvrhu (sna¾ím se vylep¹it rozvrh z minulého roku).
+Ekonomika - pøedpovídání vývoje na akciových trzích (a obecnì èasových øad -
+ono to ale není moc ideální).
+Generování hudby - GenJam.
+
+______________________
+Genetické programování
+~~~~~~~~~~~~~~~~~~~~~~
+Jonh Koza, konec 80. let
+
+Analogie GA, ale neslou¾í k hledání nìjakých promìnných a výsledkù, ale
+programu. Hledáme program. Základní principy jsou stejné, ale pochopitelnì se
+to li¹í tím, jak reprezentujeme jedince.
+
+Reprezentace jedncù:
+a) stromová
+b) lineární (pou¾ívá se málo)
+
+Programy se tedy reprezentují jako stromy o uzlech (funkce nebo terminály).
+Podobnost se Schemem není èístì náhodná (výrazy v jazyku Scheme jsou toti¾
+vlastnì taky stromy :-) Seznam mù¾eme toti¾ chápat jako strom.
+
+Genotyp je tedy strom. A co je fenotyp? To je intepretace programu
+(vyhodnocená výrazu).
+
+Bohu¾el ale nemù¾eme modelovat cykly, to prostì nejde, strom musí být koneèný.
+
+Mno¾ina funkcí musí splòovat tyto po¾adavky:
+
+a) uzavøenost - v¹echny funkce musí akceptovat v¹e (nesmí nic skonèit chybou)
+b) vyjádøitelnost - mno¾ina funkcí musí být úplná, abychom byli schopni v¹e
+modelovat (napø pro boolovskou logiku nám staèí F={AND,NOT})
+c) obecnost - funkce nemusíme volit jen standardní (IF), ale mù¾eme si je
+uzpùsobit potøebám øe¹ení (NOTIF), ale tak, aby to bylo dostateèné (a
+jednoduché - èím míò, tím líp)
+
+Køí¾ení
+~~~~~~~
+Pø: rodièe: (if a b (not b)), (and (and a b) (not b))
+køí¾ení probíhá na libovolných dvou uzlech u obou rodièù
+potomci: (if (not b) b (not b)), (and (and a b) a)
+
+Mutace
+~~~~~~
+Náhodnì vybere uzel, zru¹í jej a vygeneruje náhodnì nìjaký strom.
+
+Ohodnocení
+~~~~~~~~~~
+Máme trénovací mno¾inu, jako vyhodnocení mù¾eme chápat:
+
+a) shoda ¾ádaných výstupù (poè. správných výstupù / poè. test. pøíp.)
+
+b) je to kámen úrazu GP - malé zmìny v genotypu dìlají zásadní zmìny ve
+fenotypu, rozhodnout, který funkce je lep¹í je velmi slo¾ité a obecnì
+neøe¹itelné
+
+Pø: logická funkce EQ:
+ABEQ
+00 1            (if a b (not b))
+01 0 
+10 0
+11 1
+
+nyní provedeme malou zmìnu: (if a (not b) b), výsledkem ale je:
+ABEQ
+00 0
+01 1
+10 1
+11 0
+
+chová se pøesnì opaènì, tj. fitness první fce je 100 % a druhé 0 %
+
+daleko "kvalitnìj¹í" ne¾ na¹e druhá (upravená) funkce by byla v¹ak funkce
+(true x) mající fitness 50 %
+
+co¾ ale není pravda, daleko lep¹í je zde funkce s malou zmìnou, která má v¹ak
+ohodnocení rovno nule
+
+Moc to tedy úspì¹né není a efektivní to je pouze v pøípadì, ¾e mno¾ina funkcí
+je tak silná, ¾e to je ji¾ vlastnì témìø vyøe¹eno.
+
+Podfunkce
+~~~~~~~~~
+Je mo¾né vytváøet takové struktury, které budou obsahovat nìkolik pomocných
+funkcí (specifikujeme jejich poèet). Hlavní vìtev (program) pak tyto podfunkce
+vyu¾ívá.
+
+Vyu¾ití
+~~~~~~~
+Elektrotechnika - optimalizace spojù.
+Hudba - tvorba melodií na základì generaèních úprav známých vzorkù.
+Hudba - hudební doprovod.
+
+# vim: set sw=4 ts=4 sts=4 sta et ai fenc=iso-8859-2 : #
+

@@ -1,0 +1,53 @@
+NEURONOVA SIT:
+        Pocet vrstev: 2
+        Pocet vstupu: 5
+        Vstupy: [['Teplota', '37', '42'], ['Bolest_hlavy', '0', '100'], ['Kasel', '0', '100'], ['Unava', '0', '100'], ['Nocni_poceni', '0', '100']]
+        Pocty neuronu: [4, 3]
+        Koef. uceni: 0.400000
+        Koef. vlivu pr. kroku: 0.100000
+        Trenovaci mnozina: [[[1.0, 1.0, 0.5, 0.5, 0.5], [0.0, 1.0, 0.0]], [[0.0, 1.0, 1.0, 0.20000000000000001, 0.0], [1.0, 0.0, 0.0]], [[1.0, 0.0, 1.0, 1.0, 1.0], [0.0, 0.0, 1.0]]]
+        Testovaci mnozina: [[0.24000000000000057, 0.65000000000000002, 0.29999999999999999, 0.69999999999999996, 0.20300000000000001]]
+        
+Trenuji sit [6, 4, 3]
+Chyba = 1.863700      
+Chyba = 0.028813      
+Chyba = 0.014007      
+Chyba = 0.002418      
+Chyba = 0.004022      
+Chyba = 0.003061      
+Chyba = 0.002072      
+Chyba = 0.001402      
+Chyba = 0.001071      
+Chyba = 0.001335      
+Chyba = 0.001581      
+Chyba = 0.000863      
+Chyba = 0.000502      
+Chyba = 0.000833      
+Chyba = 0.000912      
+Chyba = 0.000587      
+Chyba = 0.000395      
+Chyba = 0.000569      
+Chyba = 0.000831      
+Chyba = 0.000862      
+Chyba = 0.000648      
+Chyba = 0.000429      
+Chyba = 0.000443      
+Chyba = 0.000573      
+Chyba = 0.000506      
+Chyba = 0.000512      
+Chyba = 0.000657      
+Chyba = 0.000329      
+Chyba = 0.000295      
+Chyba = 0.000413      
+Chyba = 0.000254      
+Chyba = 0.000317      
+Chyba = 0.000432      
+Chyba = 0.000257      
+Chyba = 0.000244      
+Chyba = 0.000440      
+Chyba = 0.000457      
+Chyba = 0.000467      
+Chyba = 0.000415      
+Chyba = 0.000197      
+Testovaci vzorky ['Nachlazeni', 'Chripka', 'Zapal_plic']:
+['+0.240', '+0.650', '+0.300', '+0.700', '+0.203'] -> ['+0.657', '+0.824', '+0.063']

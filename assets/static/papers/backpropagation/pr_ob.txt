@@ -1,0 +1,38 @@
+#Vicevrstva neuronova sit
+
+#Pocet vrstev
+3
+#Pocet vstupu
+5
+#Popis vstupu
+vstup_1 -12.5 40
+vstup_2 0 0.5
+vstup_3 -1000 1000
+vstup_4 -1000 1000
+vstup_5 -1000 1000
+
+#pocet neuronu v jednotlivych vrstvach
+4 3 2
+
+#popis vystupu
+vystup_1
+vystup_2
+
+#Koeficient uceni
+0.4
+
+#Koeficient vlivu z predchoziho kroku
+0.1
+
+#Trenovaci mnozina
+
+#Pocet prvku
+2
+#Jednotlive Prvky
+-12.5 0 -1000 -1000 -1000 0 1 
+40 0.5 1000 1000 1000 1 0
+
+#Testovaci vstupy
+#pocet
+1
+10 0.3 50 20 -30

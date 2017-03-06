@@ -1,0 +1,1 @@
+Link: /var/www/servers/lukas.zapletalovi.com/stopwords.txt

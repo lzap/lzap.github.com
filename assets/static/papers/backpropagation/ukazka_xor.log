@@ -1,0 +1,56 @@
+NEURONOVA SIT:
+        Pocet vrstev: 2
+        Pocet vstupu: 2
+        Vstupy: [['x', '0', '1'], ['y', '0', '1']]
+        Pocty neuronu: [2, 1]
+        Koef. uceni: 0.500000
+        Koef. vlivu pr. kroku: 0.150000
+        Trenovaci mnozina: [[[0.0, 0.0], [0.0]], [[0.0, 1.0], [1.0]], [[1.0, 0.0], [1.0]], [[1.0, 1.0], [0.0]]]
+        Testovaci mnozina: [[0.0, 0.0], [0.0, 1.0], [1.0, 0.0], [1.0, 1.0]]
+        
+Trenuji sit [3, 2, 1]
+Chyba = 1.156406      
+Chyba = 0.015877      
+Chyba = 0.002672      
+Chyba = 0.001368      
+Chyba = 0.000911      
+Chyba = 0.000681      
+Chyba = 0.000542      
+Chyba = 0.000450      
+Chyba = 0.000718      
+Chyba = 0.000352      
+Chyba = 0.000309      
+Chyba = 0.000275      
+Chyba = 0.000246      
+Chyba = 0.003635      
+Chyba = 0.000214      
+Chyba = 0.000197      
+Chyba = 0.000183      
+Chyba = 0.000172      
+Chyba = 0.000319      
+Chyba = 0.000188      
+Chyba = 0.000143      
+Chyba = 0.000137      
+Chyba = 0.000129      
+Chyba = 0.000169      
+Chyba = 0.000464      
+Chyba = 0.000120      
+Chyba = 0.000108      
+Chyba = 0.000105      
+Chyba = 0.000107      
+Chyba = 0.000224      
+Chyba = 0.000193      
+Chyba = 0.000093      
+Chyba = 0.000088      
+Chyba = 0.000085      
+Chyba = 0.000091      
+Chyba = 0.000303      
+Chyba = 0.000206      
+Chyba = 0.000077      
+Chyba = 0.000074      
+Chyba = 0.000074      
+Testovaci vzorky ['xor_result']:
+['+0.000', '+0.000'] -> ['-0.000']
+['+0.000', '+1.000'] -> ['+0.992']
+['+1.000', '+0.000'] -> ['+0.992']
+['+1.000', '+1.000'] -> ['+0.003']

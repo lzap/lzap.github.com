@@ -1,0 +1,53 @@
+NEURONOVA SIT:
+        Pocet vrstev: 3
+        Pocet vstupu: 5
+        Vstupy: [['vstup_1', '-12.5', '40'], ['vstup_2', '0', '0.5'], ['vstup_3', '-1000', '1000'], ['vstup_4', '-1000', '1000'], ['vstup_5', '-1000', '1000']]
+        Pocty neuronu: [4, 3, 2]
+        Koef. uceni: 0.400000
+        Koef. vlivu pr. kroku: 0.100000
+        Trenovaci mnozina: [[[0.0, 0.0, 0.0, 0.0, 0.0], [0.0, 1.0]], [[1.0, 1.0, 1.0, 1.0, 1.0], [1.0, 0.0]]]
+        Testovaci mnozina: [[0.42857142857142855, 0.59999999999999998, 0.52500000000000002, 0.51000000000000001, 0.48499999999999999]]
+        
+Trenuji sit [6, 5, 3, 2]
+Chyba = 0.539927      
+Chyba = 0.001197      
+Chyba = 0.001268      
+Chyba = 0.000378      
+Chyba = 0.000279      
+Chyba = 0.000363      
+Chyba = 0.000192      
+Chyba = 0.000156      
+Chyba = 0.000136      
+Chyba = 0.000120      
+Chyba = 0.000109      
+Chyba = 0.000200      
+Chyba = 0.000108      
+Chyba = 0.000083      
+Chyba = 0.000076      
+Chyba = 0.000071      
+Chyba = 0.000067      
+Chyba = 0.000063      
+Chyba = 0.000059      
+Chyba = 0.000056      
+Chyba = 0.000072      
+Chyba = 0.000126      
+Chyba = 0.000052      
+Chyba = 0.000046      
+Chyba = 0.000044      
+Chyba = 0.000042      
+Chyba = 0.000040      
+Chyba = 0.000039      
+Chyba = 0.000037      
+Chyba = 0.000036      
+Chyba = 0.000035      
+Chyba = 0.000034      
+Chyba = 0.000033      
+Chyba = 0.000035      
+Chyba = 0.000064      
+Chyba = 0.000066      
+Chyba = 0.000032      
+Chyba = 0.000029      
+Chyba = 0.000027      
+Chyba = 0.000027      
+Testovaci vzorky ['vystup_1', 'vystup_2']:
+['+0.429', '+0.600', '+0.525', '+0.510', '+0.485'] -> ['+0.989', '+0.374']

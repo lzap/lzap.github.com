@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux/x86 (vers 1st August 2004), see www.w3.org" />
+<meta http-equiv="content-type" content=
+"text/html; charset=utf-8" />
+<title></title>
+<meta name="generator" content=
+"StarOffice/OpenOffice.org XSLT (http://xml.openoffice.org/sx2ml)" />
+<meta name="author" content="Lukáš Zapletal" />
+<meta name="created" content="2005-11-26T18:33:26" />
+<meta name="changedby" content="Lukáš Zapletal" />
+<meta name="changed" content="2005-11-26T19:30:23" />
+</head>
+<body dir="ltr">
+<h1 class="P1"><a name=
+"Implementace_v_C3_ADcevrstv_C3_A9_neuronov_C3_A9_s_C3_ADt_C4_9B_a_metody_u_C4_8Den_C3_AD_backpropagation."
+id=
+"Implementace_v_C3_ADcevrstv_C3_A9_neuronov_C3_A9_s_C3_ADt_C4_9B_a_metody_u_C4_8Den_C3_AD_backpropagation.">
+</a>Implementace vícevrstvé neuronové sítě<br />
+a metody učení backpropagation.</h1>
+<h3 class="P2"><a name=
+"Luk_C3_A1_C5_A1_Zapletal_2C_P_C5_99F_UP_v_Olomouci" id=
+"Luk_C3_A1_C5_A1_Zapletal_2C_P_C5_99F_UP_v_Olomouci"></a>Lukáš
+Zapletal, PřF UP v Olomouci</h3>
+<h4 class="Heading4"><a name="Abstrakt_3A" id=
+"Abstrakt_3A"></a>Abstrakt:</h4>
+<p class="P3"><i>I was assigned to implement multilayer neural network
+with back-propagation learning algorithm. The input was
+standardized text file (two examples) and one of my tasks was to
+create one additional example, learn the net and make some
+conclusions. I used Python language for the implementation.</i></p>
+<h4 class="Heading4"><a name="_C3_9Avod" id=
+"_C3_9Avod"></a>Úvod</h4>
+<p class="P4">Mým úkolem bylo naimplementovat vícevrstvou
+neuronovu síť v libovolném programovacím jazyce, vyzkoušet
+program na dvou příkladech a vymyslet příklad vlastní. </p>
+<h4 class="Heading4"><a name="Implementace" id=
+"Implementace"></a>Implementace</h4>
+<p class="P4">Zvolil jsem objektově-orientovaný jazyk Python,
+který je dostupný pro všechny systémy na platformě x86 (kromě
+jiných). Celý program sestává z dvou tříd a několika
+pomocných funkcí, spouští a nastavuje se z příkazové
+řádky: </p>
+<p class="P5">python mbpnn.py konfigurační_soubor.txt
+[počet_kroků], </p>
+<p class="P4">kde prvním parametrem je konfigurační soubor a
+druhým nepovinným parametrem je počet opakování (standardně
+nastaven na 40 tisíc kroků). </p>
+<p class="P4">Výstupem programu je přehled výstupních
+parametrů a všechny spočtené výstupy testovacích vstupů.
+Ukázka: </p>
+<p class="P4"><span class="SourceText">Testovaci vzorky
+['xor_result']:</span></p>
+<p class="P4"><span class="SourceText">['+0.000', '+0.000'] -&gt;
+['+0.007']</span></p>
+<p class="P4"><span class="SourceText">['+0.000', '+1.000'] -&gt;
+['+0.988']</span></p>
+<p class="P4"><span class="SourceText">['+1.000', '+0.000'] -&gt;
+['+0.988']</span></p>
+<p class="P4"><span class="SourceText">['+1.000', '+1.000'] -&gt;
+['+0.009']</span></p>
+<p class="P4">Popis tříd je dostupný v podobě jednoho HTML
+souboru. Hlavní algoritmus je ve třídě NN reprezentující
+vlastní neuronovou síť. V konstruktoru se vytvoří základní
+struktury, což je seznam počtu elementů v jednotlivých
+vrstvách (n), matice aktivačních hodnot (a), matice vah (w) a
+matice posledních změn (c). Poslední matice se používá k
+výpočtu vlivu z předchozího kroku. </p>
+<p class="P4">Metoda update provádí šíření signálu, metoda
+backPropagate pak zpětné šíření, výpočet chyby a úpravy
+vah. Obě na vstupu očekávají vektory (v případě jazyka
+Python konkrétně seznamy nebo n-tice), metoda backPropagate
+navíc obě konstanty ovlivňující proces učení. Metoda train
+pak provádí vlastní učení. Vstupem je jí počet kroků a
+zmíněné konstanty. Poslední metoda je metoda test, která
+provede otestování nad dodaným vzorkem (opět vektor) a výstup
+na obrazovku. </p>
+<p class="P4">Třída ConfigFile je zodpovědná za korektní
+načtení textového souboru s konfigurací sítě a vzorky.
+Provádí také interpolaci vstupů a třídu lze reprezentovat
+textově pro informativní účely. </p>
+<p class="P4">Formální popis všech metod a funkcí je pro
+přehlednost uveden na <a href="mbpnn.html">samostatné
+stránce</a>.</p>
+<h4 class="Heading4"><a name="Testovac_C3_AD_data" id=
+"Testovac_C3_AD_data"></a>Testovací data</h4>
+<p class="P4">Dva základní příklady (<a href="lekar.txt ">lekar.txt</a> a <a href="pr_ob.txt">pr_ob.txt</a>)
+jsem doplnil o známý problém funkce XOR (<a href="xor.txt">xor.txt</a>). Všechny tři
+soubory zpracuje program do několika tisíc kroků (tedy v
+řádech sekund), poslední problém (XOR) však vyžadoval
+odlišný přístup, který se nyní pokusím popsat. </p>
+<h4 class="Heading4"><a name=
+"Topologie_1__E2_80_93_z_C3_A1kladn_C3_AD" id=
+"Topologie_1__E2_80_93_z_C3_A1kladn_C3_AD"></a>Topologie 1 -
+základní</h4>
+<p class="P4">Základní topologie je jednoduchá. Síť je
+vytvořena podle nastavení, přičemž ke vstupní a ke všem
+skrytým vrstvám je přidán jeden neuron navíc, jako práh. Jako
+aktivační funkce je brán sigmoid, váhy jsou nastaveny náhodně
+v intervalu [-1, 1] a hodnoty jsou interpolovány na interval [0,
+1]. Již toto nastavení stačilo k velmi rychlému učení u obou
+zadaných příkladů, ale můj problém XORu konvergoval (resp.
+chyba konvergovala) velmi pomalu (nebo vůbec), v některých
+případech až za několik desítek minut. (Obvykle klesala chyba
+velmi pomalu až k nějakému prahu - tzv. brakepoint - po
+kterém již probíhala konvergence rychleji). </p>
+<h4 class="Heading4"><a name=
+"Topologie_2__E2_80_93__C3_BAprava_prahov_C3_BDch_hodnot" id=
+"Topologie_2__E2_80_93__C3_BAprava_prahov_C3_BDch_hodnot"></a>Topologie
+2 - úprava prahových hodnot</h4>
+<p class="P4">O mnoho lepšího výsledku jsem dosahoval po
+odstranění prahového neuronu z poslední skryté vrstvy.
+Topologie neuronové sítě se pak redukovala na pouhé 3-2-1
+neurony (počty neuronů v jednotlivých vrstvách). To už byla
+konvergence lepší, velmi často i úspěšná (zhruba do 50
+tisíc kroků). Stále jsem však nebyl spokojen. </p>
+<h4 class="Heading4"><a name=
+"Topologie_3__E2_80_93_pou_C5_BEit_C3_AD_jin_C3_A9_aktiva_C4_8Dn_C3_AD_funkce"
+id=
+"Topologie_3__E2_80_93_pou_C5_BEit_C3_AD_jin_C3_A9_aktiva_C4_8Dn_C3_AD_funkce">
+</a>Topologie 3 - použití jiné aktivační funkce</h4>
+<p class="P4">Řešení jsem posléze nalezl v použití jiné
+aktivační funkce, která se hodila jak pro řešení zadaných
+testovacích dat, tak i na problém XOR. Hyberbolický tangens mi
+zredukoval počet kroků až na několik tisíc. Úspěšnost při
+řešení všech zadání byla 100%. </p>
+<p class="P4">Zajímavé bylo, že nebylo nutné interpolovat vstup
+do jiného intervalu, než [0, 1]. Nejdříve jsem si myslel, že
+bude nutné použít interval jiný, jinak že nebude funkce tahn
+úspěšně konvergovat. Nebylo to však vůbec nutné. </p>
+<h4 class="Heading4"><a name=
+"Kompletn_C3_AD_uk_C3_A1zka__E2_80_93__C5_99e_C5_A1en_C3_AD_probl_C3_A9mu_XOR"
+id=
+"Kompletn_C3_AD_uk_C3_A1zka__E2_80_93__C5_99e_C5_A1en_C3_AD_probl_C3_A9mu_XOR">
+</a>Kompletní ukázka - řešení problému XOR</h4>
+<p class="P6">$ python mbpnn.py xor.txt  </p>
+<p class="P7">NEURONOVA SIT: </p>
+<p class="P7">        Pocet vrstev: 2</p>
+<p class="P7">        Pocet vstupu: 2</p>
+<p class="P7">        Vstupy: [['x', '0', '1'], ['y', '0',
+'1']]</p>
+<p class="P7">        Pocty neuronu: [2, 1]</p>
+<p class="P7">        Koef. uceni: 0.500000</p>
+<p class="P7">        Koef. vlivu pr. kroku: 0.150000</p>
+<p class="P7">        Trenovaci mnozina: [[[0.0, 0.0], [0.0]],
+[[0.0, 1.0], [1.0]], [[1.0, 0.0], [1.0]], [[1.0, 1.0], [0.0]]]</p>
+<p class="P7">        Testovaci mnozina: [[0.0, 0.0], [0.0,
+1.0], [1.0, 0.0], [1.0, 1.0]]</p>
+<p class="P7">       </p>
+<p class="P7">Trenuji sit [3, 2, 1] </p>
+<p class="P7">Chyba = 1.604523      </p>
+<p class="P7">Chyba = 0.016659      </p>
+<p class="P7">Chyba = 0.002823      </p>
+<p class="P7">Chyba = 0.001405      </p>
+<p class="P7">Chyba = 0.000924      </p>
+<p class="P8">...vynecháno... </p>
+<p class="P7">Chyba = 0.000077      </p>
+<p class="P7">Chyba = 0.000074      </p>
+<p class="P7">Chyba = 0.000071      </p>
+<p class="P7">Chyba = 0.000069      </p>
+<p class="P6">Testovaci vzorky ['xor_result']: </p>
+<p class="P6">['+0.000', '+0.000'] -&gt; ['+0.000'] </p>
+<p class="P6">['+0.000', '+1.000'] -&gt; ['+0.992'] </p>
+<p class="P6">['+1.000', '+0.000'] -&gt; ['+0.992'] </p>
+<p class="P6">['+1.000', '+1.000'] -&gt; ['-0.000'] </p>
+<h4 class="Heading4"><a name="Reference_3A" id=
+"Reference_3A"></a>Reference:</h4>
+<p class="P4">Hyberbolický tangens:
+http://de.wikipedia.org/wiki/Tanh </p>
+<p class="P4"> </p>
+</body>
+</html>
