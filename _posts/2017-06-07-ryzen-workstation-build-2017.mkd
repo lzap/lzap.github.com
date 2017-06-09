@@ -21,7 +21,7 @@ For motherboard, I was sure to get B350 chipset which matches my requirements
 and after reading my [friend's
 article](https://www.heronovo.cz/amd-ryzen-r7-1700/) there was no doubt about
 ASUS PRIME B350-PLUS that gives just enough of everything I need, including
-M.2 (4x lanes), 10G LAN and enough USB ports.
+M.2 (4x lanes), 1G LAN and enough USB ports.
 
 Now, I am going to use this as typical Linux programmer workstation with some
 decent virtualization workload. Since I am working on Red Hat Satellite 6
@@ -100,3 +100,7 @@ full-throttle fan). I expect much more smooth experience this time.
 
 Some [poor photos from my ASUS
 phone](https://plus.google.com/+Luk%C3%A1%C5%A1Zapletal/posts/VoABttp6cuM)
+
+    $ lspci | grep Intel | wc -l
+    0
+
