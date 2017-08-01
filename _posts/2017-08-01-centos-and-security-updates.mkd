@@ -11,8 +11,8 @@ tags:
 {{ page.title }}
 ================
 
-I often see articles, blog posts or even (video
-tutorials)[https://serversforhackers.com/c/automatic-security-updates-centos]
+I often see articles, blog posts or even [video
+tutorials](https://serversforhackers.com/c/automatic-security-updates-centos)
 on how to apply security-only errata in CentOS environments or set a cron job
 to do this regularly. While it can be very useful to keep components on a
 specific version and only updating those which has security fixes, it has one
