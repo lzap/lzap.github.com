@@ -4,9 +4,6 @@ title: For students
 ---
 ## Info for students
 
-Warning, this page is cached with 8 hours expiration, you may need to refresh
-it in your browser in order to get recent change.
-
 ### "KMI/SLS: Správa linuxového serveru" aka CentOS 7 course
 
 Schedule: Every Thursday at [KMI PřF UPOL](http://www.inf.upol.cz/kontakt).
@@ -21,3 +18,6 @@ Room: 5.003 (Atrium, 5th floor)
 * [Nufnuf](https://copr.fedorainfracloud.org/coprs/lzap/nufnuf/)
 * [Asciinema](https://asciinema.org/)
 * [Feedback form](https://goo.gl/forms/1xhgI2QpFEeUqRlJ3)
+
+Warning, this page is cached aggressively with 8 hours expiration, you may
+need to refresh it in your browser in order to get a recent change.
