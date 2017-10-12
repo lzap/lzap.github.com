@@ -20,8 +20,8 @@ And enable the NSS module with two "libvirt" keywords:
 
 DNS resolution just works for all my libvirt guests now. NSS will figure it
 out according to dnsmasq DHCP records (hostname entry). If that's not
-advertised by a guest, then it will construct this from VM name and libvirt
-domain set during virtual network creation (empty by default).
+advertised by a guest, then it will use VM name. For FQDN you need to rename
+your VM names to include domain too, e.g. vm1.home.lan.
 
 For more [visit documentation](http://libvirt.org/nss.html).
 
