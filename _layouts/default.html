@@ -9,14 +9,17 @@
     stats.g.doubleclick.net
     https://stats.g.doubleclick.net
     platform.twitter.com
+    https://platform.twitter.com
     syndication.twitter.com
     cdn.syndication.twimg.com
-    ; img-src www.google-analytics.com
+    https://mojeid.cz
+    ; img-src 'self'
+    www.google-analytics.com
     stats.g.doubleclick.net
     https://stats.g.doubleclick.net
-    ; style-src: https://amp.cloudflare.com 
-    ; script-src: https://amp.cloudflare.com 
-    ; connect-src: https://discovery.amp.cloudflare.com/v1/ampUrls:batchGet
+    ; style-src 'self' https://amp.cloudflare.com 
+    ; script-src 'self' https://amp.cloudflare.com 
+    ; connect-src 'self' https://discovery.amp.cloudflare.com/v1/ampUrls:batchGet
     ">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
