@@ -36,7 +36,7 @@ To create CentOS 7.4 image on LVM volume with a hostname set:
     virt-builder centos-7.4 --output /dev/vg_virt/centos \
       --root-password password:redhat --hostname centos.lan
 
-To `__________________________________________` (complete the sentence):
+To `___________________` (complete the sentence):
 
     virt-builder fedora-25 \
        --hostname client.example.com \
