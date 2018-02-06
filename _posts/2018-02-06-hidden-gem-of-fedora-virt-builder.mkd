@@ -36,7 +36,7 @@ To create CentOS 7.4 image on LVM volume with a hostname set:
     virt-builder centos-7.4 --output /dev/vg_virt/centos \
       --root-password password:redhat --hostname centos.lan
 
-To _____________________________ (complete the sentence):
+To `__________________________________________` (complete the sentence):
 
     virt-builder fedora-25 \
        --hostname client.example.com \
@@ -144,9 +144,8 @@ Keep in mind that RHEL systems are only available to redhatters, a repository
 must be configured via `/etc/virt-builder/repos.d/rhel.conf` file to have them.
 Search the intranet.
 
-This post barely scratched the surface. This utility can do more. Much more:
+This post barely scratched the surface. This utility can do more. [Much
+more](http://libguestfs.org/virt-builder.1.html).
 
-http://libguestfs.org/virt-builder.1.html
-
-Send beers to Richard W.M. Jones http://people.redhat.com/~rjones/ and his team
+Send beers to [Richard W.M. Jones](http://people.redhat.com/~rjones/) and his team
 of contributors and maintainers. Thanks folks!
