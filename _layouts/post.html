@@ -5,6 +5,8 @@ layout: default
   <div class="span9">
     {{ content }}
     <div class="span12 text-right">
+      <a class="twitter-share-button"
+        href="https://twitter.com/intent/tweet?text={{ page.title }} {{ page.url}} #lzap">Tweet</a>
       <i class="icon-book"></i>{{ page.date | date_to_long_string }}
       {% for tag in page.tags %}
         | <a href="/tags.html#{{ tag }}-ref">{{ tag }}</a>
