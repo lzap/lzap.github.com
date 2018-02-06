@@ -4,13 +4,17 @@ layout: default
 <div class="row-fluid">
   <div class="span9">
     {{ content }}
-    <div class="span12 text-right">
-      <a class="twitter-share-button"
-        href="https://twitter.com/intent/tweet?text={{ page.title }} {{ page.url}} #lzap">Tweet</a>
-      <i class="icon-book"></i>{{ page.date | date_to_long_string }}
-      {% for tag in page.tags %}
-        | <a href="/tags.html#{{ tag }}-ref">{{ tag }}</a>
-      {% endfor %}
+    <div class="row-fluid">
+      <div class="span4">
+        <a class="twitter-share-button" data-size="large" data-via="lzap"
+          href="https://twitter.com/intent/tweet?text={{ page.title }}">Tweet</a>
+      </div>
+      <div class="span8 text-right">
+        <i class="icon-book"></i>{{ page.date | date_to_long_string }}
+        {% for tag in page.tags %}
+          | <a href="/tags.html#{{ tag }}-ref">{{ tag }}</a>
+        {% endfor %}
+      </div>
     </div>
     {% include pagination.html %}
     {% include discussion.html %}
