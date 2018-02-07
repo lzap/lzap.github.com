@@ -147,5 +147,6 @@ Search the intranet.
 This post barely scratched the surface. This utility can do more. [Much
 more](http://libguestfs.org/virt-builder.1.html).
 
-Send beers to [Richard W.M. Jones](http://people.redhat.com/~rjones/) and his team
-of contributors and maintainers. Thanks folks!
+Send beer, t-shirts and flowers to [Richard W.M.
+Jones](http://people.redhat.com/~rjones/) and his team of contributors and
+maintainers. Thanks folks!
