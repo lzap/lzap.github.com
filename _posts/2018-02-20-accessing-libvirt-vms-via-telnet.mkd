@@ -25,7 +25,7 @@ can use virt-manager or virt-install to do that:
       <serial type="tcp">
         <source mode="connect" host="0.0.0.0" service="4555"/>
         <protocol type="telnet"/>
-        <target port="1"/>
+        <target port="0"/>
       </serial>
     </devices>
 
