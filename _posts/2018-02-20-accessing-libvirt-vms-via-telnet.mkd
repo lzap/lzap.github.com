@@ -16,7 +16,7 @@ networking issue and ssh is not available. The idea is to use serial console to
 get shell access. Here is how to do this properly with RHEL7 host and guest.
 
 First, create a VM with serial console configured with [remote TCP
-server](https://libvirt.org/formatdomain.html#elementsCharTCP]. There are
+server](https://libvirt.org/formatdomain.html#elementsCharTCP). There are
 multiple options, I find TCP server in 'telnet' mode the most flexible
 configuration because most scripting languages has the protocol built-in. You
 can use virt-manager or virt-install to do that:
