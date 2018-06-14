@@ -42,3 +42,8 @@ Enterprise LInux subscription or simply applying all updates. It's not that
 bad as you think, tracking security news is something that every administrator
 should do anyway to install just minimum set of updates possible for mission
 critical systems.
+
+Update 2018: It looks like there is a way to import errata information into
+local yum mirror, Spacewalk, Katello or Satellite 5 or 6:
+http://cefs.steve-meier.de/ and this is a way to load errata into CetnOS
+clients.
