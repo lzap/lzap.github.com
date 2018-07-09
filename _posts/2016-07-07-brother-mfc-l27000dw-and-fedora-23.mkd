@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Brother MFC L27000DW and Fedora 23"
+title: "Brother MFC L27000DW and Fedora 23-28"
 date: 2016-07-07
 tags:
 - linux
@@ -10,25 +10,46 @@ tags:
 ================
 
 I bought this new device in order to have network printing *and* scanning and
-it works just fine. It was a pain to get it working tho.
+it works just fine. It was a pain to get it working tho. Here is a tutorial
+which was tested in Fedora 23 through 28.
 
-Downloaded brscan4 and brscan-skey RPM packages from [Brother
-site](http://support.brother.com/g/s/id/linux/en/download_scn.html) and fed
-the DNF tool with them.
+First, I am going to use simple scan utility, it also needs a dependency
+package which somehow is not correctly listed in Fedora 28, so install these
+two guys:
 
-Then I visited printers built-in web interface and configured it for static
-IP. You can do the same on your DHCP server if you prefer to.
+    dnf -y install libnsl simple-scan
 
-And then - aaarghhh - the hidden trick which caused me headache:
+Then download brscan4 and brscan-skey RPM packages from [Brother
+site](http://support.brother.com/g/s/id/linux/en/download_scn.html) and install
+both. For scanning you only need brscan4 actually, but I installed both. Some
+tutorials also guides you to install package named
+`brother-udev-rule-type1-1.0.0-1.noarch.rpm` but you won't need it as it was
+merged into `brscan4` package.
 
-    $ brsaneconfig4 -a name=PRACOVNA model=MFC-L2700DW ip=192.168.1.105
+Brother RPM packages are known to have lame scripting, their scripts usually
+don't work in different environments. After installation check that the
+following file exist:
+`/etc/udev/rules.d/50-brother-brscan4-libsane-type1.rules` and if not fix the
+installation script `/opt/brother/scanner/brscan4/udev_config.sh`.
+
+Also check that the file `/etc/sane.d/dll.conf` contains `brscan4` line, if not
+add it or fix their script `/opt/brother/scanner/brscan4/setupSaneScan4`:
+
+    echo brother4 >> /etc/sane.d/dll.conf
+
+This was not working in my Fedora 28 in package `brscan4-0.4.5-1.x86_64.rpm` at
+all.
+
+Then visit printer's built-in web interface and configure it for static IP. You
+can do the same on your DHCP server if you prefer to.
+
+And then - aaarghhh - the hidden trick which caused me the headache:
+
+    $ brsaneconfig4 -a name=PRACOVNA model=MFC-L2700DW ip=192.168.1.111
 
 And done! Switch over to "Brother *PRACOVNA" scanner and you can scan over IP.
 I use "simple-scan" which is quick and nice tool that aims for easy scanning
 into PDF with multiple pages support. Highly recommended.
 
-To all incoming documents, payslips and letters - you will be all archived!
-
 Actually I haven't configured printing because I use Google Cloud Print which
-is build in the device, but it should not be that hard. Frankly, I tried but
-it did not work. Drop me a line in comments if you know how to do that.
+is built in the device. Frankly, I tried but it did not work.
