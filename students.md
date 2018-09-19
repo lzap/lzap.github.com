@@ -26,20 +26,26 @@ Requirements:
 
 Linux users:
 
-* Install package openssh-client (most likely already present)
-* Install package named `asciinema` or install via `sudo pip3 install asciinema`
+* OpenSSH client is most likely already present, if not install package named `openssh-client`
+* Install package named `asciinema` (via yum, dnf, apt-get, zypper etc)
 
 MacOS users:
 
 * OpenSSH is already present (command named `ssh`)
+* Have [Brew](https://brew.sh/index_cs) installed
 * Install asiinema via `brew install asciinema`
 
 Windows users:
 
 * Enable and install [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
-* Install Ubuntu environment
-* Install OpenSSH clients: `sudo apt-get install openssh-client`
-* Install asciinema: `sudo apt-get install asciinema`
+  * Run the following in Administrator PowerShell: `Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux`
+  * Restart the PC
+  * Install "Debian/GNU Linux" environment from Microsoft Store
+  * Choose UNIX username and a password
+  * Install OpenSSH clients: `sudo apt-get install openssh-client`
+  * Install asciinema: `sudo apt-get install asciinema`
+  * (commands prompt for your UNIX account password)
+* [Screencast with installation of WSL](https://www.youtube.com/watch?v=Z1behUQ9DBI)
 
 Warning, this page is cached aggressively with 8 hours expiration, you may
 need to refresh it in your browser in order to get a recent change.
