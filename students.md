@@ -47,5 +47,9 @@ Windows users:
   * (commands prompt for your UNIX account password)
 * [Screencast with installation of WSL](https://www.youtube.com/watch?v=Z1behUQ9DBI)
 
+Theses (ideas):
+
+* [Statsd HDR histogram agent for PCP (Czech)](https://docs.google.com/document/d/1iPPRge3NsS48kxqSKsrEoKHd_mHMYGJdrfAxTAncaOA/edit?usp=sharing)
+
 Warning, this page is cached aggressively with 8 hours expiration, you may
 need to refresh it in your browser in order to get a recent change.
