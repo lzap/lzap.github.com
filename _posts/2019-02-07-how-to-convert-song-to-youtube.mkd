@@ -13,6 +13,4 @@ I wrote few songs, mostly dance music (house, techno) years go. Since now I don'
 
     ffmpeg -loop 1 -i onthemoon-cover.jpg -i onthemoon.ogg -shortest -acodec copy onthemoon-video.mp4
 
-That's it, easy. Here is it.
-
-<div><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/I6qKn1AYN-Q" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+That's it, easy. Here is it: https://www.youtube.com/watch?v=I6qKn1AYN-Q
