@@ -44,8 +44,12 @@ LinuxEXPRES magazine and author of few articles about Linux and FOSS.
 * IBM DataStage Essentials V8.1
 
 ### Formal education
-* 2006: Master degree Computer Science (Palacky University in Olomouci)
-* 2004: Bachelor degree Computer Science (Palacky University in Olomouci)
+* 2017: External teacher at Palacky University in Olomouc (ongoing)
+* 2006: Master degree Computer Science (Palacky University in Olomouc)
+* 2004: Bachelor degree Computer Science (Palacky University in Olomouc)
 * 1998: Secondary technical school of mechanical engineering
 * 1994: Elementary sport school Czerviu Brothers Olomouc
 * 1990: Elementary school Hodolany Olomouc
+
+### Patents
+* https://patents.google.com/?inventor=Lukas+Zapletal
