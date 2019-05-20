@@ -1,0 +1,64 @@
+---
+layout: post
+title: "LVM cache in six easy steps"
+date: 2019-05-20
+tags:
+- linux
+- fedora
+---
+{{ page.title }}
+================
+
+This article shows how to quickly create LVM cache in six quick steps,
+and how to remove it properly.
+
+In the simple case, let's assume there is a (slow) HDD and (fast) NVMe
+SSD and the first primary partition on the slow device (`sda1`) should
+be backed by cache created on the first secondary partition of the
+fast device (`nvme0n1p5`). This is actually my workstation setup, I
+keep my root filesystem, swap, boot and EFI partition as primary
+without any caching or LVM.
+
+    PV_SLOW=/dev/sda1
+    PV_FAST=/dev/nvme0n1p5
+    VG=vg_home
+    LV_SLOW=lv_home
+    LV_FAST=lv_home_cache
+
+Here are the six steps. Physical volumes are created, volume group consisting
+both volumes, then logical backing volume, then logical cache volume (pool) and
+the final logical volume is converted (renamed) and the cache is built:
+
+    pvcreate $PV_SLOW
+    pvcreate $PV_FAST
+    vgcreate $VG $PV_SLOW $PV_FAST
+    lvcreate -l 100%PVS -n $LV_SLOW $VG $PV_SLOW
+    lvcreate --type cache-pool -l 100%PVS -n $LV_FAST $VG $PV_FAST
+    lvconvert --type cache --cachepool $LV_FAST $VG/$LV_SLOW
+
+Few extra (hidden) logical volumes are created with suffixes _cdata, _cmeta and
+_corig. I will not go into details but important thing to understand is that
+the volume that shall be used for mounting and working is named `$LV_SLOW`
+(`lv_home` in my example). So to create a filesystem do something like:
+
+    mkfs.ext4 $LV_SLOW
+
+To remove LVM cache and go back to single origin (normal) logical
+volume, just do the following:
+
+    lvconvert --uncache $VG/$LV_SLOW
+
+This will actually do the job of flushing the cache (if writeback was
+set) and renaming logical volume back. Now you can access your data
+using the very same logical volume (`$LV_SLOW`) which is cool.
+
+This is why LVM cache is better than bcache in my opinion - easy way to opt-out
+if something goes wrong (SSD dies). And today, after my Fedora 30 upgrade over
+the weekend, it went really bad due to fatal bug in GCC9/bcache/kernel:
+https://bugzilla.redhat.com/show_bug.cgi?id=1708315
+
+Lesson learned? Always read release notes prior upgrading, this was a known
+issue. Honestly, I'd probably vote for delaying the release if I could or
+implement some safety net for bcache users.
+
+At least I know how simple it is to recover files with duplicity backup tool.
