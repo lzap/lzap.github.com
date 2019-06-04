@@ -1,0 +1,34 @@
+---
+layout: post
+title: "Different yum behavior in RHEL7 and 8"
+date: 2019-06-04
+tags:
+- linux
+- rhel
+---
+{{ page.title }}
+================
+
+Beware, there is a change in behaviour in yum. Example
+
+    # yum -y install vim blahblah
+
+On RHEL7 it
+
+* installs vim,
+* informs about non-existing package blahblah,
+* error code is 0.
+
+On RHEL8 it
+
+* errors out about non-existing package blahblah,
+* vim is not installed,
+* error code is 1.
+
+This is an intentional change. As much as I hate it, I understand that it was the perfect time to do it :-)
+
+Update your scripts, this will help:
+
+    # yum -y install --skip-broken vim blahblah
+
+Take care.
