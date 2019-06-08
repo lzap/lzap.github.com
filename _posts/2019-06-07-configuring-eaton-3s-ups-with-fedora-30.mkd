@@ -19,7 +19,9 @@ USB power issues which is funny since this is a power device:
 Install and configure nut software:
 
     # dnf -y install nut
+
     # grep ^MODE /etc/ups/nut.conf
+    MODE=standalone
 
     # grep -v '^#' /etc/ups/ups.conf
     [eaton3s]
@@ -98,7 +100,7 @@ anyway):
     # systemctl enable nut-driver nut-monitor nut-server
     # systemctl status nut-driver nut-monitor nut-server
 
-To siplay battery remaining capacity and other details you can use this command line tool:
+To diplay battery remaining capacity and other details you can use this command line tool:
 
     # upsc eaton3s
     Init SSL without certificate database
