@@ -1,0 +1,86 @@
+---
+layout: post
+title: "ThinkPad X1 Carbon 6th gen on Fedora"
+date: 2019-07-23
+tags:
+- linux
+- fedora
+---
+{{ page.title }}
+================
+
+This is a quick post to have my installation notes on the record.
+
+# Step one: BIOS upgrade and settings
+
+The first step was upgrading BIOS from CD image provided by Lenovo support:
+
+    wget https://lenovo.com/blah/blah/n23ur11w.iso
+    geteltorito -o bios.img n23ur11w.iso
+    dd bs=4M if=bios.img of=/dev/sdx
+
+Make sure to have your laptop connected to AC, who knows how much power is in
+the battery. The upgrade process was quick, next up we have BIOS settings. I
+like to review them one by one but these are notable changes from the standard
+configuration:
+
+* Config > Power > Sleep State = Linux
+* Config > Network > Wake on LAN = Disabled
+* Config > Network > Wake on LAN from Dock = Disabled
+* Config > Thunderbolt (TM) 3 > Thunderbolt BIOS Assist Mode = Enabled
+* Config > Thunderbolt (TM) 3 > Wake by Thunderbolt (TM) 3 = Disabled
+* Config > Thunderbolt (TM) 3 > Security Level = No Security
+* Config > Intel AMD = Disabled
+* Security > Computrace > Current Setting = Disabled
+* Security > I/O Port Access > Fingerprint Reader = Disabled
+* Security > I/O Port Access > Wireless WAN = Disabled
+* Security > I/O Port Access > Memory Card Slot = Disabled
+
+Few notes. Since this is my very first Thunderbolt 3 laptop and I have zero
+experience with security of this thing, I turned it off effectively downgrading
+this to pre 3.0 version. Once I get familiar with how this thing works, I will
+probably enable it back. I turned off AMD and Computrace features of course, I
+don't want to be managed or tracked remotely. However I kept TPM module on and
+TXT feature off. Also Intel SGX technology was disabled by default so I kept it
+that way. Make sure to remove all fingerprint data even tho the fingerprint
+will not likely work under Linux.
+
+In the Security > I/O Port Access it is possible to disable Fingerprint Reader
+which usually don't work reliably, WAN and SD card reader to save some extra
+watts if you don't plan to use it. Some people even disable LAN but I want to
+keep the opportunity to use the adapter when needed.
+
+Now, this is important. Although you will see on various resources to disable
+Secure Boot, if you are installing Fedora or RHEL don't do that since
+bootloaders are digitally signed and the rest goes through shim "man in the
+middle". There is no need to disable this.
+
+Also the Sleep State is absolutely essential to set to "Linux" if you want to
+have this working.
+
+# Step two: Download and install Fedora 30
+
+I used Media Writer available on my existing Fedora to download and write
+Fedora 30 image onto a USB stick. It was quick and nice experience. I installed
+without LVM because I unlikely be extending or repartitioning this drive and of
+course with LUKS2 encryption.
+
+Remember to set computer name (hostname) during the installation. I forgot,
+then you can do it via `hostnamectl` or via Settings - Sharing - Name. You are
+welcome!
+
+I am bit surprised how often and quick the internal fan kicks in, it's not as
+quiet as Macbook Pro 2015 however this is much more powerful machine. Anyway,
+the installation took about two minutes - amount of time I needed to write
+those two paragraphs.
+
+# Step three: Profit
+
+Once Fedora showed up, I started Software and scheduled immediate update. This
+was actually my first time to see Fedora update reboot method in this nice
+graphical design - so cute. After successful update, I launched Software once
+again to update Corporate ME for the Intel's sneaky embedded software that was
+offered.
+
+That's all folks for today, I will probably revisit this article after few
+weeks and put more of my own experience with this laptop. Take care!
