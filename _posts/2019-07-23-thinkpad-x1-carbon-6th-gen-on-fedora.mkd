@@ -13,7 +13,14 @@ This is a quick post to have my installation notes on the record.
 
 # Step one: BIOS upgrade and settings
 
-The first step was upgrading BIOS from CD image provided by Lenovo support:
+Before I start, it is worth mentioning that it's possible to seamlessly upgrade
+BIOS and firmware of this laptop directly from Software app in Fedora, however
+I want to upgrade BIOS to the latest possible version before I even attempt to
+install the OS. You can very likely skip this step, setup BIOS as recommended,
+install Fedora and then upgrade it using a single mouse click if you want.
+
+But if you want to follow my intentionally more complicated approach, just do
+this:
 
     # wget https://lenovo.com/blah/blah/n23ur11w.iso
     # geteltorito -o bios.img n23ur11w.iso
