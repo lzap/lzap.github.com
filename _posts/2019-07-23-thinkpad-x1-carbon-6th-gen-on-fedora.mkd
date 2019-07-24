@@ -15,9 +15,9 @@ This is a quick post to have my installation notes on the record.
 
 The first step was upgrading BIOS from CD image provided by Lenovo support:
 
-    wget https://lenovo.com/blah/blah/n23ur11w.iso
-    geteltorito -o bios.img n23ur11w.iso
-    dd bs=4M if=bios.img of=/dev/sdx
+    # wget https://lenovo.com/blah/blah/n23ur11w.iso
+    # geteltorito -o bios.img n23ur11w.iso
+    # sudo dd bs=4M if=bios.img of=/dev/sdx
 
 Make sure to have your laptop connected to AC, who knows how much power is in
 the battery. The upgrade process was quick, next up we have BIOS settings. I
@@ -30,7 +30,7 @@ configuration:
 * Config > Thunderbolt (TM) 3 > Thunderbolt BIOS Assist Mode = Enabled
 * Config > Thunderbolt (TM) 3 > Wake by Thunderbolt (TM) 3 = Disabled
 * Config > Thunderbolt (TM) 3 > Security Level = No Security
-* Config > Intel AMD = Disabled
+* Config > Intel AMT = Disabled
 * Security > Computrace > Current Setting = Disabled
 * Security > I/O Port Access > Fingerprint Reader = Disabled
 * Security > I/O Port Access > Wireless WAN = Disabled
@@ -39,7 +39,7 @@ configuration:
 Few notes. Since this is my very first Thunderbolt 3 laptop and I have zero
 experience with security of this thing, I turned it off effectively downgrading
 this to pre 3.0 version. Once I get familiar with how this thing works, I will
-probably enable it back. I turned off AMD and Computrace features of course, I
+probably enable it back. I turned off AMT and Computrace features of course, I
 don't want to be managed or tracked remotely. However I kept TPM module on and
 TXT feature off. Also Intel SGX technology was disabled by default so I kept it
 that way. Make sure to remove all fingerprint data even tho the fingerprint
@@ -81,6 +81,43 @@ was actually my first time to see Fedora update reboot method in this nice
 graphical design - so cute. After successful update, I launched Software once
 again to update Corporate ME for the Intel's sneaky embedded software that was
 offered.
+
+I have decided to install
+[TLP](https://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html),
+an advanced power management for laptops. It is a set of scripts which fine
+tunes the system for longer battery life, it works together with systemd and
+udev to hook into events like system was unplugged from AC or suspended. It's
+not a daemon!
+
+    # sudo dnf install tlp
+    # sudo systemctl enable tlp tlp-sleep
+    # sudo systemctl start tlp tlp-sleep
+
+I am sticking with the default configuration (`/etc/default/tlp`), it is worth
+reviewing the pretty long file and perhaps setting up battery charging
+thresholds. Many articles will instruct you to install kernel modules in order
+to be able to set these thresholds but as of Kernel 5.1 this is no longer
+necessary because there is a new upstream kernel module (`natacpi`) which
+provides most of the features:
+
+    # sudo tlp-stat -b
+    ...
+    +++ Battery Features
+    natacpi = active (data, thresholds)
+    ...
+
+It can read battery data and set thresholds, unfortunately one nice feature
+does not work yet and that is full discharge and recalibration (discharge and
+charge to full) when connected to AC. It's a very useful command to do once per
+week to keep the battery in a good shape. This will hopefully work without any
+additional kernel module in Fedora 31, the command is:
+
+    # sudo tlp recalibrate
+
+Gnome battery applet shows me around 10-13 hours of capacity after enabling tlp
+and light use with 30% brightness which looks good. Also it's worth nothing
+that fan is completely silent when running on battery and browsing web or
+working in terminals. Good news for me.
 
 That's all folks for today, I will probably revisit this article after few
 weeks and put more of my own experience with this laptop. Take care!
