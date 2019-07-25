@@ -60,7 +60,11 @@ keep the opportunity to use the adapter when needed.
 Now, this is important. Although you will see on various resources to disable
 Secure Boot, if you are installing Fedora or RHEL don't do that since
 bootloaders are digitally signed and the rest goes through shim "man in the
-middle". There is no need to disable this.
+middle". There is no need to disable this, unless you want to compile your own
+kernel and/or kernel modules. If you are planning to use TLP's discharge
+feature, note that it will only work with `acpi_call` kernel module and only
+then you want to turn off Secure Boot. I can live without discharge feature
+myself.
 
 Also the Sleep State is absolutely essential to set to "Linux" if you want to
 have this working.
@@ -77,22 +81,25 @@ then you can do it via `hostnamectl` or via Settings - Sharing - Name. You are
 welcome!
 
 I am bit surprised how often and quick the internal fan kicks in, it's not as
-quiet as Macbook Pro 2015 however this is much more powerful machine. Anyway,
-the installation took about two minutes - amount of time I needed to write
-those two paragraphs.
+quiet as Macbook Pro 2015 however this is much more powerful machine. Edit:
+This happens only when on AC, the laptop running on battery is quiet when idle
+or browsing. What a relief!
+
+Anyway, the installation took about two minutes - amount of time I needed to
+write those three paragraphs. Storage is indeed quite fast on this laptop.
 
 # Step three: Profit
 
-Once Fedora showed up, I started Software and scheduled immediate update. This
-was actually my first time to see Fedora update reboot method in this nice
-graphical design - so cute. After successful update, I launched Software once
-again to update Corporate ME for the Intel's sneaky embedded software that was
-offered.
+Once Fedora showed up, I started the Software app and scheduled immediate
+update. This was actually my first time to see Fedora update reboot method in
+this nice graphical design - so cute. After successful update, I launched
+Software once again to update Corporate ME for the Intel's sneaky embedded
+software that was offered.
 
 I have decided to install
 [TLP](https://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html),
 an advanced power management for laptops. It is a set of scripts which fine
-tunes the system for longer battery life, it works together with systemd and
+tune the system for longer battery life, it works together with systemd and
 udev to hook into events like system was unplugged from AC or suspended. It's
 not a daemon!
 
@@ -117,14 +124,31 @@ It can read battery data and set thresholds, unfortunately one nice feature
 does not work yet and that is full discharge and recalibration (discharge and
 charge to full) when connected to AC. It's a very useful command to do once per
 week to keep the battery in a good shape. This will hopefully work without any
-additional kernel module in Fedora 31, the command is:
+additional kernel module in future Fedoras, the command is:
 
     # sudo tlp recalibrate
 
-Gnome battery applet shows me around 10-13 hours of capacity after enabling tlp
-and light use with 30% brightness which looks good. Also it's worth nothing
-that fan is completely silent when running on battery and browsing web or
-working in terminals. Good news for me.
+Gnome battery applet shows me around 9-15 hours of capacity after enabling tlp
+and light use which looks good. I need more battery cycles for better
+statistical data so I can hardly comment on battery life but so far so good.
+Also it's worth nothing that fan is completely silent when running on battery
+and browsing web or working in terminals. Good news for me.
+
+The keyboard is great, initially I struggled with the more modern ThinkPad
+keyboards but this is very close to what I always liked. Function keys have a
+slight space between groups, enter is big enough, Fn key on the right spot and
+the overall feeling is great - keys are big (for such a small one) and
+responsive.
+
+Mixed feelings are for the touchpad, it works fine however haptic feedback is a
+very nice thing and X1 only has normal "click". I enabled "touch click" or
+whatever this is called, this I use for casual evening browsing. For work of
+course, there's the beloved trackpoint. Works great, a bit stiff but it's new.
+
+Speakers are quite bad, as bad as in my $200 Chromebook. That's probably why
+Lenovo are reworking them in the upcoming 7th generation. But other than that,
+they only provide smaller battery and slight chip refresh so it was not worth
+the wait for me. I use headphones anyway.
 
 That's all folks for today, I will probably revisit this article after few
 weeks and put more of my own experience with this laptop. Take care!
