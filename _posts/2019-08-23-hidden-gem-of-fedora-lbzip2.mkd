@@ -10,7 +10,7 @@ tags:
 ================
 
 Fedora carries a nifty utility for years which is called lbzip2. What it does?
-Well, example is worth hundreds of words:
+Well, an example is worth hundreds of words:
 
     [lzap@box tmp]$ time tar -c linux-5.2.9/ | bzip2 -5 > /dev/null
 
@@ -40,7 +40,7 @@ same:
     user    1m9,684s
     sys     0m1,641s
 
-In 2014 it was proposed to replace bzip2 with lbzip2 in Fedora, but this was
+In 2014, it was proposed to replace bzip2 with lbzip2 in Fedora, but this was
 not approved. The question is - is it time right now? Sure, the original bzip2
 is from 1996 thus if we are not there yet can we probably implement
 "alternatives" for bzip2 so users can easily switch between one or another to
