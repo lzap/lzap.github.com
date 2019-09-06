@@ -29,6 +29,10 @@ LinuxEXPRES magazine and author of few articles about Linux and FOSS.
 * 2000: Faculty Hospital Olomouc, IT (http://www.fnol.cz)
 * 1998: Bach systems s.r.o., Visual Basic developer (http://www.bach.cz)
 
+### Mentorship
+* Google Summer of Code 2019,
+  [Performance Co-Pilot PMDA statsd](https://github.com/performancecopilot/pcp/tree/master/src/pmdas/statsd)
+
 ### Professional certificates
 * Red Hat Certified Engineer
 * Red Hat Certified System Administrator
