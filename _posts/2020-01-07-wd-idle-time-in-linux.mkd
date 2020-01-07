@@ -30,6 +30,8 @@ in 30s for the 129-255 range. Example:
 Here is the snag, I had to do some math to be able to figure out the correct
 value. So I created a table for you, so you don't have to! Enjoy.
 
+<!--more-->
+
 <table class="blueTable">
     <thead>
         <tr>
