@@ -30,6 +30,8 @@ in 30s for the 129-255 range. Example:
 Here is the snag, I had to do some math to be able to figure out the correct
 value. So I created a table for you, so you don't have to! Enjoy.
 
+<div class="datatable-begin"></div>
+
 | Val | Seconds  | Minutes |
 |-----|----------|---------|
 | 1   | 0,10     |
@@ -287,5 +289,7 @@ value. So I created a table for you, so you don't have to! Enjoy.
 | 253 | 3 762,80 | 62,71 |
 | 254 | 3 792,80 | 63,21 |
 | 255 | 3 822,80 | 63,71 |
+
+<div class="datatable-end"></div>
 
 That's all. Good luck not breaking your drive! :-)
