@@ -2,6 +2,7 @@
 layout: post
 title: "Values for WD idle time in Linux"
 date: 2020-01-07
+datatable: true
 tags:
 - linux
 - fedora
