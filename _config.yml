@@ -7,5 +7,6 @@ production_url: https://lukas.zapletalovi.com
 enforce_ssl: lukas.zapletalovi.com
 markdown: kramdown
 highlighter: rouge
+excerpt_separator: <!--more-->
 author:
   name: Lukáš Zapletal

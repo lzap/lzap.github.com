@@ -4,9 +4,9 @@ title: Blog
 ---
 <div class="row-fluid">
   <div class="span9">
-    {% for post in site.posts limit:5 %}
+    {% for post in site.posts limit:10 %}
     <div>
-      <div>{{ post.content }}</div>
+      <div>{{ post.excerpt }}</div>
       <div class="entryactions">
         <div class="row-fluid">
           <div class="span6">

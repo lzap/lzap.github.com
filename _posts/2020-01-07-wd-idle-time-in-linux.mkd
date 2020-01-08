@@ -32,6 +32,7 @@ value. So I created a table for you, so you don't have to! Enjoy.
 
 <!--more-->
 
+<p>
 <table class="blueTable">
     <thead>
         <tr>
@@ -1318,5 +1319,9 @@ value. So I created a table for you, so you don't have to! Enjoy.
         </tr>
     </tbody>
 </table>
+</p>
+
+Alternatively, the same can be achieved via `smartctl` tool. Read my next
+article about how to do that.
 
 That's all. Good luck not breaking your drive! :-)
