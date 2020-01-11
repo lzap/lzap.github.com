@@ -6,12 +6,12 @@ title: Contact
 
 * irc: *lzap* @ freenode: #theforeman-dev #theforeman #fedora-devel
 * e-mail: lukas-a_t-zapletalovi-dot-com or lzap-a_t_redhat-dot-com
-* skype: lukas-podtrzitko-zapletal (offline)
+* skype: lukas-underscore-zapletal (offline)
 * paypal: lukas-dot-zapletal-a_t-gmail-dot-com
 * int. bank (USD): CZ5830300000001036270031 / BIC AIRACZPP
 * czech bank: 1036270015 / 3030 (IBAN CZ0530300000001036270015 / BIC AIRACZPP)
-* office tel: 00_420_532294361 (the best one to use)
-* private tel: 00_420_587407032 (redirected to my handy)
+* office tel: 00_420_532294361
+* handy: email me first
 
 ## Public keys
 
