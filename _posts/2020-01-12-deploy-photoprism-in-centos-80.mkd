@@ -1,0 +1,87 @@
+---
+layout: post
+title: "Deploy PhotoPrism in CentOS 8.0"
+date: 2020-01-12
+tags:
+- linux
+- fedora
+---
+{{ page.title }}
+================
+
+[PhotoPrism](https://photoprism.org/) is a great web photo library which can be
+deployed at your home. It has some unique features like tagging photo using
+TensorFlow, however the most appealing features for me are slick interface,
+easy use and administration, support for RAW/HEIC formats (reading), ability to
+configure "read only" mode (my originals are never touched) and "photo stream"
+approach (all photos in one huge pile with search/tagging capabilities).
+
+This is a tutorial how to deploy this app on CenOS 8.0. Warning: when 8.1 is
+out, you may want to deploy it in root-less container for better security.
+Unfortunately, root-less containers are missing a key feature (port mapping) in
+CentOS 8.0. Make sure to keep SELinux turned on in enforcing tho.
+
+Installation was super smooth, in my case my photos are stored on 8th gen Intel
+NUC on the internal 2TB drive mounted as `/mnt/int/photos/phone` and I have a
+separate LVM volume on NVMe SSD for thumbnails mounted as
+`/mnt/fast/photoprism-cache`:
+
+	dnf install podman-docker
+	docker run -d \
+	  --name photoprism \
+	  -p 2342:2342 \
+	  -v /mnt/int/photos/phone:/home/photoprism/Pictures/Originals \
+	  -v /mnt/fast/photoprism-cache:/home/photoprism/.cache/photoprism \
+	  photoprism/photoprism
+
+Make sure user with UID 1000 or GID 1000 can access the photo folder for
+reading and cache folder for read/write. Then access your server via
+`http://nuc.home.lan:2342`, go to Settings (password is set to "photoprism" by
+default) and initiate reindex process. Unfortunately, user mapping can be only
+done in rootles mode, so the only option is to really make user 1000 to access
+those folders.
+
+By default, the application creates several previews in various sizes with JPEG
+quality 95. Expect the cache to be slightly bigger than expected, particularly
+if you use HEIC format from iPhone for the originals. Maximum preview size can
+be tuned via this trick:
+
+	docker exec photoprism /bin/bash -c \
+	  "echo 'thumb-size: 1080' >> .config/photoprism/photoprism.yml"
+	docker exec photoprism /bin/bash -c \
+	  "echo 'thumb-quality: 85' >> .config/photoprism/photoprism.yml"
+	docker restart photoprism
+
+Now here comes a trick, as a SELinux engineer this I exactly knew what to do
+but I can imagine this can bite: the policy have dontaudit rule for containers
+which prevents the application from accessing the originals. The trick is to
+disable dontaudit rules:
+
+	semodule -BD
+
+Then the required rule can be easily found. In my case my photos are labeled
+with `public_content_rw_t` as described in my [previous
+article](/2020/01/samba-and-nfs-shared-folder-on-centos8.html). Therefore I
+needed to compile a custom rule:
+
+	dnf install policycoreutils-devel
+	sepolgen-ifgen
+	audit2allow -RaM photoprism
+	semodule -i photoprism.pp
+	semodule -B
+	
+I suggest you to review the .pp file before loading if you understand SELinux,
+in my case the rule is `miscfiles_manage_public_files(container_t)`. You don't
+want to add any rule that's not needed.
+
+That's all, the module is active from now on. This will persist restarts.
+SELinux is easy if you know what to do. Granted those dontaudit rules can be
+tricky as the denials won't appear until you temporarily diable this behavior.
+
+I am really looking forward to new developments of this software. I would love
+to see WebP previews support to save some more space on the cache volume,
+Android and iOS client apps are in development but they are not available yet
+on app stores (I don't have iOS development account yet I would love to start
+testing it). Browsing photos on my iPad is really exciting. I really hope the
+authors get pricing model right and develop a sustainable offering for both DYI
+and regular users.
