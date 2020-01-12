@@ -74,6 +74,11 @@ NFS and Samba can access read and write it:
     semanage fcontext -a -t public_content_rw_t "/mnt/int(/.*)?"
     restorecon -RvvF /mnt/int
 
+Both services also need to be allowed to write content:
+
+    setsebool -P allow_smbd_anon_write=1
+    setsebool -P allow_nfsd_anon_write=1
+
 Configuration of NFSv4 in RHEL 8 (CentOS 8) is super easy. If you remember the
 pain of configuring firewalls with with older NFS versions like me, you want to
 disable those services completely. This step is optional if you want to allow
