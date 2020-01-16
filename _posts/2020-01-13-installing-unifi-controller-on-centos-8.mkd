@@ -9,6 +9,12 @@ tags:
 {{ page.title }}
 ================
 
+This tutorial covers installation of UniFi from RPMFusion repository on OpenJDK
+with MongoDB from official community repository. It kinda works, but I've hit
+few bugs here and there, therefore I'd suggest you to use "tarball"
+installation with Oracle JDK instead. I plan to do new blogpost on this topic
+soon - search my blog.
+
 First, enable PowerTools CentOS repository:
 
     dnf install dnf-plugins-core
@@ -37,9 +43,9 @@ edition](https://www.mongodb.com/download-center/community):
 
     dnf -y install https://repo.mongodb.org/yum/redhat/8/mongodb-org/4.2/x86_64/RPMS/mongodb-org-server-4.2.2-1.el8.x86_64.rpm
 
-Enable and start the service:
+Enable and start the unifi service. Note the mongod service does not need to be started, unifi process starts its own instance:
 
-    systemctl enable --now mongod unifi
+    systemctl enable --now unifi
 
 Beware, logs are in non-standard location:
 
