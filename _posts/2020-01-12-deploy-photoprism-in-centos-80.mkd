@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Deploy PhotoPrism in CentOS 8.0"
+title: "Deploy PhotoPrism in CentOS 8.0 and 8.1"
 date: 2020-01-12
 tags:
 - linux
@@ -16,22 +16,22 @@ easy use and administration, support for RAW/HEIC formats (reading), ability to
 configure "read only" mode (my originals are never touched) and "photo stream"
 approach (all photos in one huge pile with search/tagging capabilities).
 
-This is a tutorial how to deploy this app on CenOS 8.0. Warning: when 8.1 is
-out, you may want to deploy it in root-less container for better security.
-Unfortunately, root-less containers are missing a key feature (port mapping) in
-CentOS 8.0. Make sure to keep SELinux turned on in enforcing tho.
+This is a tutorial how to deploy this app on CenOS 8.0. For CentOS 8.1 use the
+same commands but do not run the container as root but as a regular user.
+Ideally the user with UID and GID of 1000 so there is no custom mapping needed.
+Make sure to keep SELinux turned on in enforcing tho.
 
 Installation was super smooth, in my case my photos are stored on 8th gen Intel
 NUC on the internal 2TB drive mounted as `/mnt/int/photos/phone` and I have a
 separate LVM volume on NVMe SSD for thumbnails mounted as
-`/mnt/fast/photoprism-cache`:
+`/mnt/fast/thumbs`:
 
 	dnf install podman-docker
 	docker run -d \
 	  --name photoprism \
 	  -p 2342:2342 \
 	  -v /mnt/int/photos/phone:/home/photoprism/Pictures/Originals \
-	  -v /mnt/fast/photoprism-cache:/home/photoprism/.cache/photoprism \
+	  -v /mnt/fast/thumbs:/home/photoprism/.cache/photoprism \
 	  photoprism/photoprism
 
 Make sure user with UID 1000 or GID 1000 can access the photo folder for
@@ -41,10 +41,23 @@ default) and initiate reindex process. Unfortunately, user mapping can be only
 done in rootles mode, so the only option is to really make user 1000 to access
 those folders.
 
+One trick before you proceed, if you don't want PhotoPrism to convert HEIC/RAW
+files into the originals folder increasing the overall size of the originals,
+use overlay fs:
+
+    mount -t overlay overlay -o lowerdir=/mnt/int/data/photo,upperdir=/mnt/int/photo_ovl/upper,workdir=/mnt/int/photo_ovl/work /mnt/int/photo_ovl/merged
+
+This command creates an overlay folder `/mnt/int/photo_ovl/merged` with source
+`/mnt/int/data/photo`. The other two named `work` and `upper` must be just
+empty directories. Then use the `/mnt/int/photo_ovl/merged` foder for the `-v`
+docker option to use it. All files created by PhotoPrism will not be stored in
+the original folder but in the upper overlay which can be removed at any point.
+
 By default, the application creates several previews in various sizes with JPEG
 quality 95. Expect the cache to be slightly bigger than expected, particularly
-if you use HEIC format from iPhone for the originals. Maximum preview size can
-be tuned via this trick:
+if you use HEIC format from iPhone or RAWs for the originals (correction: these
+are actually not stored into the cache folder but in the originals folder).
+Maximum preview size can be tuned via this trick:
 
 	docker exec photoprism /bin/bash -c \
 	  "echo 'thumb-size: 1080' >> .config/photoprism/photoprism.yml"
