@@ -87,4 +87,15 @@ stick with it until Fedora 33 upgrade. My firmware files are from March 2nd
 2020 (commit 0148cfefcbf98898ca65bb26d9d7d638b30e211d) as the current ones in Rawhide
 are sligtly older (linux-firmware-20200122-105.fc32.src.rpm).
 
+As a reminder, to exclude some packages from updates, simply add the following
+line to DNF configuration:
+
+    cat >/etc/dnf/dnf.conf <<EOF
+    exclude=kernel* linux-firmware
+    END
+
+Remember to remove the line when upgrading to Fedora 32 at the end of May 2020!
+This release is expected to have kernel 5.6.0 final release, or higher. For
+sure it will have firmware files updated as well.
+
 Until next time!
