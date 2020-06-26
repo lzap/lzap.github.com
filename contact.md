@@ -10,8 +10,7 @@ title: Contact
 * paypal: lukas-dot-zapletal-a_t-gmail-dot-com
 * int. bank (USD): CZ5830300000001036270031 / BIC AIRACZPP
 * czech bank: 1036270015 / 3030 (IBAN CZ0530300000001036270015 / BIC AIRACZPP)
-* office tel: 00_420_532294361
-* handy: email me first
+* office phone: 00_420_538_880_807
 
 ## Public keys
 
