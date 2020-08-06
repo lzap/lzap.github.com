@@ -1,0 +1,14 @@
+---
+layout: post
+title: "Dropping Feedburner   update RSS ATOM URL"
+date: 2020-08-06
+tags:
+- linux
+- fedora
+---
+{{ page.title }}
+================
+
+Hey, I am dropping Google Feedburner, please [update the URL](https://lukas.zapletalovi.com/atom.xml) of the feed if you are reading this in your RSS. The new URL is:
+
+    https://lukas.zapletalovi.com/atom.xml
