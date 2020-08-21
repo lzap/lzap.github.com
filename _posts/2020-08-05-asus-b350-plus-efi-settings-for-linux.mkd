@@ -44,6 +44,9 @@ but I am lazy to test this and I want to live on the safe side:
     #!/bin/sh
     /usr/local/bin/ryzen-stabilizator --disable-c6 --disable-boosting --disable-aslr -enable-psicworkaround
 
+The author of this tool suggests to set Power Supply Idle Control to Typical
+Current Idle, however I was not able to find this setting in my firmware.
+
 I will update this blogpost on the fly if I encounter any other instability of
 my setup in the future. Overall, I am quite happy with AMD-only hardware. Sure,
 it's not as stable as Intel, but I am glad there's a competition again in the
