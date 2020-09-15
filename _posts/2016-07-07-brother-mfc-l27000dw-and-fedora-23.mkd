@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Brother MFC L27000DW and Fedora 23-28"
+title: "Brother MFC L27000DW and Fedora 22-32"
 date: 2016-07-07
 tags:
 - linux
@@ -11,11 +11,21 @@ tags:
 
 I bought this new device in order to have network printing *and* scanning and
 it works just fine. It was a pain to get it working tho. Here is a tutorial
-which was tested in Fedora 23 through 28.
+which was tested in Fedora 23 through 32.
 
-First, I am going to use simple scan utility, it also needs a dependency
-package which somehow is not correctly listed in Fedora 28, so install these
-two guys:
+Brother providers some printing drivers, however I could not get them working.
+Using Gnome, the printer was detected over USB or IPP but it never worked. The
+way you can actually add this printer is to connect to cups via
+`https://localhost:631/`, login as a regular user (root will no longer work in
+modern distributions) and add new printer. Then use the web interface to add a
+printer, mine appeared twice but I selected the option named "Brother
+MFC-L2700DW series (fully driverless)" which indeed worked just fine. No
+drivers needed, cups probably talks to cups running on the printer directly.
+Whatever, I don't care.
+
+Now, scanning. I am going to use simple scan utility, it also needs a
+dependency package which somehow is not correctly listed in Fedora 28, so
+install these two guys:
 
     dnf -y install libnsl simple-scan
 
