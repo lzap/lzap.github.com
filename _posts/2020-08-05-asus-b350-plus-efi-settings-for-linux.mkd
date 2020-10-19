@@ -37,8 +37,8 @@ using Fastboot.
 I also have
 [ryzen-stabilizator](https://github.com/qrwteyrutiyoup/ryzen-stabilizator)
 script during the boot to turn off few more CPU flags to prevent from random
-MCE freezing. This has probably been fixed and workarounded in Linux kernel,
-but I am lazy to test this and I want to live on the safe side:
+MCE freezing. It looks like after a month of testing, I haven't experienced
+freeze without this but I am sticking with it for now:
 
     # cat /etc/rc.d/rc.local
     #!/bin/sh
@@ -46,6 +46,10 @@ but I am lazy to test this and I want to live on the safe side:
 
 The author of this tool suggests to set Power Supply Idle Control to Typical
 Current Idle, however I was not able to find this setting in my firmware.
+Finally, my graphics card is constantly waking up my screen every 30 seconds,
+there seem to be some problem with power with the latest drivers or firmware.
+The workaround is to add `amdgpu.runpm=0` on the kernel commands line. This GPU
+draws 6 watts on idle anyway with fans completely turned off.
 
 I will update this blogpost on the fly if I encounter any other instability of
 my setup in the future. Overall, I am quite happy with AMD-only hardware. Sure,
