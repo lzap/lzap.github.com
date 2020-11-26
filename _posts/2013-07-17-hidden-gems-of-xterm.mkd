@@ -9,18 +9,12 @@ tags:
 {{ page.title }}
 ================
 
-Hey guys. I know I am not good in updating my blog currently, but I have some
-news to share. I became father few weeks ago. Two months actually. That is the
-reason why I don't update my blog so often. Don't expect a big change in this
-regard anytime soon :)
-
-But I wanted to write something at least. Last week I migrated from urxvt to
-xterm, because I noticed that beginning last year (2012), xterm can finally
-open URLs nicely. This feature was a blocker for me, since I read all my
-e-mails in mutt and I hate copying links.
+Last week I migrated from urxvt to xterm, because I noticed that beginning last
+year (2012), xterm can finally open URLs nicely. This feature was a blocker for
+me, since I read all my e-mails in mutt and I hate copying links.
 
 During migration, I noticed several nice features of xterm so I decided to
-write a blog post about some. Let's start.
+write a blog post about few of them. Let's start.
 
 Unicode support
 ---------------
@@ -52,7 +46,8 @@ Make sure the last part is set to "1", this makes sure it's UNICODE font.
 
 By default xterm does support 256 colors. In any modern distribution, it will
 likely start in the 256 colors mode, so you really do not need to change
-anything. To see what is your status just do this:
+anything. To see what is your status, just execute the following command within
+xterm:
 
     # echo $TERM
     xterm-256color
@@ -60,9 +55,13 @@ anything. To see what is your status just do this:
 Note: *Never* set TERM variable manually, always let your terminal set it.
 Overriding this variable means there is something wrong with your xterm setup.
 
-Looking for decent colors for xterm? Visit
-http://web.archive.org/web/20090130061234/http://phraktured.net/terminal-colors/
-or use something like:
+Color scheme
+------------
+
+Update 2020: All colors can be set in the configuration file. This is very
+subjective, it's better to browse or generate your own color scheme. A good
+resource is [terminal.sexy](https://terminal.sexy) interactive site - export
+selected scheme in Xresources format. An example:
 
     *background: rgb:00/00/00
     *foreground: rgb:ff/ff/ff
@@ -87,13 +86,13 @@ Comfortable menu
 ----------------
 
 Do you miss menu from Gnome-terminal or Konsole? I don't. Actually when I was
-using those, the first thing I usually did was to hide those. Xterm has menu
+using those, the first thing I usually did was to hide those. Xterm has a menu
 as well!
 
 Just hit Control key and left click, right click or click with middle button
 and you have plenty of options there. You can toggle scrollbar, redraw window
 or send signals to the console. There are many options and lots of them are
-quite useful. I will go through few in the next paragraphs.
+quite useful. I will go through a few of them in the next paragraphs.
 
 Configurable pointer and cursor
 -------------------------------
@@ -127,26 +126,24 @@ Truetype fonts
 --------------
 
 Xterm does support truetype fonts, although I do not use them. They look ugly
-in my opinion and rendering of these is slower (you can measure it). If you
-want to use it, configure Terminus font (see above) and find TrueType Fonts
-option in the right-click menu. Terminal swaps between bitmap Terminus font
-and TrueType Terminus font. See the difference? That's why I recommend bitmap
-Terminus for everybody.
+in my opinion and rendering of these is slower (e.g. when outputting a large
+text file). If you want to preview Truetype fonts, just use the item from the
+right-click menu.
 
 You have been warned, if you really like to use xft fonts, here is an example:
 
     xterm*faceName: Inconsolata:size=10:antialias=false
 
 If you want antialias, just delete that particular part. But if you like your
-eyes, please don't do that.
+eyes, don't do that.
 
 Copy and paste
 --------------
 
-Linux geeks already know PRIMARY and CLIPBOARD and how to work with them. New
-users can be confused. Xterm is a typical X Window application and users are
-supposed to select text into PRIMARY selection and paste it using middle mouse
-click (or Control+Shift).
+Linux geeks already know the PRIMARY selection and the CLIPBOARD and how to
+work with them. New users can be confused. Xterm is a typical X Window
+application and users are supposed to select text into PRIMARY selection and
+paste it using middle mouse click (or Control+Shift).
 
 You can also configure xterm to copy text to CLIPBOARD with Select to
 Clipboard VT menu option, then you can use Control + V in Firefox or Chrome.
@@ -162,21 +159,19 @@ Left and right selection
 ------------------------
 
 Some users prefer to select portions of text using left button for beginning
-and right button for end. I sometimes use this when I want to be absolutely
-sure with the selection (selecting e.g. ssh key) or I want to select something
-really big (click, scroll, click). Learn this, it is nice feature.
-
-Xterm supports that plus you can still use double clicking and dragging which
-is ordinary behavior. More about that in the next paragraph.
+and right button for end as an alternative to dragging. I sometimes use this
+when I want to be absolutely sure with the selection (selecting e.g. ssh key)
+or I want to select something really big (click, scroll, click). Learn this, it
+is nice feature.
 
 Triple click
 ------------
 
-This is important thing. By default clicking in xterm works in the following
+This is an important thing. By default clicking in xterm works in the following
 way:
 
  * one click - nothing (you can drag or use the other button to select)
- * double click - select word (only really something like a-zA-Z and \_)
+ * double click - select word (alphanums plus few characters in the default configuration)
  * triple click - whole line
 
 When working with files (/some/filename) or links (https://www.xyz.com)
@@ -206,26 +201,29 @@ will talk about this down the article.
 Open URL
 --------
 
-*Best feature ever*. I was waiting for this one for years. There is new event
+*Best feature ever*. I waited for years for this one. There is a new event
 called exec-formatted which allows you to execute arbitrary commands. If you
 make a PRIMARY selection before that, you can open URLs in browser easily. Do
 this:
 
-    *VT100*translations: #override Shift <Btn1Up>: exec-formatted("google-chrome '%t'", PRIMARY)
+    XTerm*translations: #override Shift <Btn1Up>: exec-formatted("xdg-open '%t'", PRIMARY)  select-start() select-end()
 
-And then select a link and Alt + click on the selection *once again*. This is
+And then select a link and Shift + click on the selection *once again*. This is
 important - let me repeat this:
 
  * hover above a link
  * triple click it to select it (see above)
- * Alt + click it to open it
+ * Shift + click it to open it
 
 I recommend to setup word boundaries as described above if you want to use
 double clicking and dragging to select links. But triple click is the best
 solution so far.
 
-You can map *meta* key instead of *shift*, but I prefer the latter because
-this is good configuration for both handed people.
+Update 2020: In the previous version of the article, the command was causing
+the terminal to "freeze" until another mouse click. I was actually working for
+many years and I got used to this, but Jean Terrier showed me how to configure
+this properly. If you are returning reader, please update your configuration
+with the improved translation as shown above. Thank you!
 
 Search history
 --------------
@@ -243,18 +241,19 @@ do something like:
 
     XTerm*translations: #override \n\
       Ctrl <Key>slash: print-everything() \n\
-      Shift <Btn1Up>: exec-formatted("google-chrome '%t'", PRIMARY)
+      Shift <Btn1Up>: exec-formatted("firefox '%t'", PRIMARY)
 
 Multiple font sizes
 -------------------
 
 You know that - you are presenting some stuff to colleagues on a video
-conference in your brand-new xterm configuration when somebody asks you to
+conference using your brand-new xterm configuration when somebody asks you to
 make the font bigger. If you don't know there is a "hidden" menu using the
 Control key (see above), you are lost.
 
-XTerm does support several font sizes, it is as easy as configuring something
-like:
+So when that happens, use Control + click and find a font size like Large or
+Huge. XTerm does support several font sizes, it is as easy as configuring
+something like:
 
     # default
     XTerm*font: -*-terminus-medium-*-*-*-18-*-*-*-*-*-iso10646-1
@@ -270,9 +269,6 @@ like:
     XTerm*font5: -*-terminus-medium-*-*-*-24-*-*-*-*-*-iso10646-1
     # huge
     XTerm*font6: -*-terminus-medium-*-*-*-32-*-*-*-*-*-iso10646-1
-
-Now use the right mouse button menu and select desired font. Work done.
-Applause!
 
 One important note for users with bitmap fonts: Always select sizes which the
 fonts are prepared for. If you don't stick with this rule, you will end up
@@ -291,7 +287,9 @@ differ in you distribution - this is Fedora 19):
     ter-x28n.pcf.gz -xos4-terminus-medium-r-normal--28-280-72-72-c-140-iso10646-1
     ter-x32n.pcf.gz -xos4-terminus-medium-r-normal--32-320-72-72-c-160-iso10646-1
 
-Note there are keyboard shortcuts for font size, more about them later on.
+As you can see sizes for the Terminus font are 12, 14, 16, 18, 20, 22, 24, 28
+and 32. Note there are keyboard shortcuts for font size, more about them later
+on.
 
 Buffer history
 --------------
@@ -300,9 +298,6 @@ The buffer history defaults to one thousand lines, which is a little bit low.
 To change that, use something like:
 
     XTerm*SaveLines: 9000
-
-By the way, I have 4 gigabytes of memory on my laptop. Quite enough to save
-even more.
 
 Scrolling
 ---------
@@ -385,10 +380,7 @@ All events and mapping is documented in the manual page. Read it.
 Default settings
 ----------------
 
-If you want to investigate what else you can re-configure, make a coffee.
-Really. Because there is plenty of other things you can do, just browse to
-/usr/share/X11/app-defaults (this is Fedora 19) and see what you can do.
-As always, read the man page!
+There's much more, I recommend reading through the man page.
 
     $ rpm -ql xterm
     /usr/bin/koi8rxterm
@@ -423,5 +415,4 @@ As always, read the man page!
     /usr/share/pixmaps/xterm_32x32.xpm
     /usr/share/pixmaps/xterm_48x48.xpm
 
-And there's more. Much more. Why don't you go ahead and try xterm *right
-now*!
+Just go ahead and try xterm *right now*! Cheers.
