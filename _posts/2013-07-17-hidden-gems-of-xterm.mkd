@@ -221,9 +221,10 @@ solution so far.
 
 Update 2020: In the previous version of the article, the command was causing
 the terminal to "freeze" until another mouse click. I was actually working for
-many years and I got used to this, but Jean Terrier showed me how to configure
-this properly. If you are returning reader, please update your configuration
-with the improved translation as shown above. Thank you!
+many years and I got used to this, but Jean Terrier pointed me to [this
+post](https://pbrisbin.com/posts/selecting_urls_via_keyboard_in_xterm/), which
+entails a solution. If you are a returning reader, please update your
+configuration with the improved config line above. Thank you!
 
 Search history
 --------------
