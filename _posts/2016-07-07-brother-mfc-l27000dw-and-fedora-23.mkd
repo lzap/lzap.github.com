@@ -15,6 +15,13 @@ which was tested in Fedora 20 through 33.
 
 ## Printing over network
 
+Add the printer using IPP protocol:
+
+    lpadmin -p Printer -E -v ipp://printer.home.lan -m everywhere
+
+
+## Printing over USB
+
 Download all four RPM packages from the [Brother
 site](https://support.brother.com/g/b/downloadlist.aspx?c=cz&lang=cs&prod=mfcl2700dw_us_eu_as&os=127&flang=English)
 and install them. Do not install Driver Install Tool because it does not work
