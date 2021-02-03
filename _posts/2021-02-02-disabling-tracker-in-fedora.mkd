@@ -12,15 +12,20 @@ tags:
 I have realized that one of the tracker processes is dying every few seconds on
 my Fedora 33, I got ton of ABRT reports and system log filled with stacktraces.
 Bugs happen, however I don't actually utilize this tool very much. Searching in
-contacts, files, browser history, photos, documents of files is nothing I use,
-maybe except accessing specific settings by typing "mouse". But I can live with
-that.
+contacts, files, browser history, photos, documents of files is nothing I use.
+There are also other Gnome features which might stop working such as Boxes
+offering ISO files, audio player suggesting music or File browser's advanced
+features like tagging of files.
+
+So think twice before you turn off Tracker daemon. I use command line a lot,
+that's where I search for files, start virtual machines, listen music or even
+watch video content. You have been warned!
 
 To turn off tracking open up Settings - Search (or just type "search") and turn
 it off globally. It's possible to turn off specific locations like contacts or
 calendar if you want.
 
-Then, delete tracker database completely and stop the service:
+Then, delete tracker database completely:
 
 	$ tracker reset -r
 	CAUTION: This process may irreversibly delete data.
@@ -40,5 +45,7 @@ Then, delete tracker database completely and stop the service:
 	  Removing journal:'/home/lzap/.local/share/tracker/data/tracker-store.journal'
 	  Removing db-version file:'/home/lzap/.cache/tracker/db-version.txt'
 
-That's all. Searching for applications still works fine of course even if you
-turn it off completely. Cheers!
+That's all. Searching for applications via "Windows" key will keep working,
+this feature I use a lot.
+
+To enable tracker back, just go to the Settings and enable it. Cheers!
