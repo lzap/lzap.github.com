@@ -25,8 +25,12 @@ For some reason, unifi has hardcoded path to java alternatives symlink which did
 
 	# dnf reinstall java-1.8.0-openjdk-headless
 
-And enable the services:
+And enable the service:
 
-	# systemctl enable --now mongod unifi
+	# systemctl enable --now unifi
+
+Beware, mongo service does not need to be started, unifi service spawns it's own process:
+
+	# systemctl disable --now mongod
 
 You're done! Visit https://nuc.home.lan:8443 to manage your site.
