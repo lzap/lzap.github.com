@@ -34,6 +34,11 @@ feature of btrfs to mark files and directories to be compressed. A great
 candidate is `/usr` which contains most of the system including binaries or
 documentation.
 
+One mount option is actually useful which Anaconda does not set by default and
+that is `noatime`. Writing access times for copy on write file system can be
+very inefficient. Note this option implies `nodiratime` so it's not necessary
+to set both.
+
 To enable compression for `/usr` simply mark this directory to be compressed.
 There are several compression algorithms available: zlib (slowest, best ratio),
 zstd (decent ratio, good performance) and lzo (best performance, worse ratio).
@@ -81,10 +86,8 @@ on files or directories.  Unfortunately, you can't set compression algorithm
 that way - btrfs will default to slower `zlib`.
 
 Remember: Do not compress everything, specifically directory `/var` should
-definitely not be compressed.
-
-If you happened to accidentally mark files within `/var` to be compressed, you
-can fix this with:
+definitely not be compressed. If you happened to accidentally mark files
+within `/var` to be compressed, you can fix this with:
 
 	# find /var -exec btrfs property set {} compression "" \;
 
