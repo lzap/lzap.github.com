@@ -19,6 +19,12 @@ Add the printer using IPP protocol:
 
     lpadmin -p Printer -E -v ipp://printer.home.lan -m everywhere
 
+It is possible to find printer's URL via Bonjour:
+
+    lpinfo --include-schemes dnssd -v
+    network dnssd://tiskarna.home.lan._ipp._tcp.local./?uuid=e3248000-80ce-11db-8000-30055c97b111
+
+and then add this via CUPS web interface (IPP printer).
 
 ## Printing over USB
 
@@ -48,7 +54,7 @@ Install the scanning RPMs from the Brother drivers page (see above). I am going
 to use simple scan utility, it also needs a dependency package which somehow is
 not correctly listed in some Fedora versions, so install these two guys:
 
-    dnf -y install libnsl simple-scan
+    dnf -y install libnsl simple-scan sane-backends
 
 Then visit printer's built-in web interface and configure it for static IP. You
 can do the same on your DHCP server if you prefer to.
@@ -75,5 +81,8 @@ add it or fix their script `/opt/brother/scanner/brscan4/setupSaneScan4`:
     echo brother4 >> /etc/sane.d/dll.conf
 
 This was not working in my Fedora 28 in package `brscan4-0.4.5-1.x86_64.rpm` at
-all. This seems to be fixed with `brscan4-0.4.9-1.x86_64`.
+all. This seems to be fixed with `brscan4-0.4.9-1.x86_64`. Most likely `sane-backends` package was not installed.
 
+### MacOS support
+
+This printer works out of box via Bonjour (AirPrint) for printing. It does feature also WSD (Windows "remote scanning" protocol) but I could not [get it working](https://github.com/alexpevzner/sane-airscan) in Linux. For Mac, there is the official [Image Capture](https://support.brother.com/g/b/faqend.aspx?c=ca&lang=en&prod=dcp9040cn_all&faqid=faq00000717_003) utility which works over network and also works on Apple Silicon.
