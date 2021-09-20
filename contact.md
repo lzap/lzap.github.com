@@ -9,6 +9,7 @@ title: Contact
 * skype: lukas-underscore-zapletal (offline)
 * paypal: lukas-dot-zapletal-a_t-gmail-dot-com
 * int. bank (USD): CZ5830300000001036270031 / BIC AIRACZPP
+* int. bank (EUR): LT373250026820679532 / BIC REVOLT21 (Revolut)
 * czech bank: 1036270015 / 3030 (IBAN CZ0530300000001036270015 / BIC AIRACZPP)
 * office phone: 00_420_538_880_807
 
