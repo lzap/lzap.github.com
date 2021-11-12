@@ -9,13 +9,13 @@ tags:
 {{ page.title }}
 ================
 
-I have migrated my grandparents to Fedora Silverlight, previously they used
+I have migrated my grandparents to Fedora Silverblue, previously they used
 CentOS. I was impressed how everything worked well and I like where Fedora is
 going overall. Less pre-installed software, I am hoping for more packages to be
 dropped - Evolution backend, on-line accounts, Maps and others. Overall, it
 works great.
 
-Setting up Fedora Silverlight was easy, installation smooth. Then I had to
+Setting up Fedora Silverblue was easy, installation smooth. Then I had to
 ensure screen does not lock (they hate this):
 
     gsettings set org.gnome.desktop.screensaver lock-enabled false
