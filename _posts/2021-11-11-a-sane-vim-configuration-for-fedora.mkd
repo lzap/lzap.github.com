@@ -114,9 +114,8 @@ A quick overview what I consider a good and clean plugin set:
 
 There are other fuzzy-finder plugins like Command-T or my faviourite (very
 fast) fzf.vim. Thing is, fzf.vim is not in Fedora and I want the smallest
-possible configuration. CtrlP will do just fine, although, it might be slower
-on large projects. In that case I recommend `fzf` and `fzf.vim`. But hold it on
-for now and try with CtrlP if you are new to this!
+possible configuration. CtrlP will do just fine and it is much more easier to
+configure as it requires nothing.
 
 If I were to choose absolute minimum configuration it would be:
 
@@ -124,6 +123,7 @@ If I were to choose absolute minimum configuration it would be:
 	let mapleader=","
 	let maplocalleader="_"
 	let g:ctrlp_map = '<leader><leader>'
+	let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 	set exrc
 	set secure
 
@@ -140,6 +140,7 @@ my detail explanation below:
 
 	" fuzzy searching
 	let g:ctrlp_map = '<leader><leader>'
+	let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 	nnoremap <leader>b :CtrlPBuffer<cr>
 	nnoremap <leader>t :CtrlPTag<cr>
 	nnoremap <leader>f :CtrlPBufTag<cr>
@@ -195,6 +196,12 @@ Vim. It opens with Ctrl-P combination which is a bit weird to me, I know that
 some famous editors use it (VSCode I think).  Thing is, these are already
 important Vim keybindings I do not want to override.  So the winner for me is
 leader+leader (comma pressed twice).
+
+The `ctrlp_user_command` just changes how CtrlP is getting the file list,
+instead the build-in recursive file lister (glob) it uses `git ls-files` which
+is usually better as it ignores things from `.gitignore` so things like
+`node_modules` or other irrelevant directories which can slow down the listing
+are not in the way.
 
 Leader+b/t/f/q/m to open list of buffers, tags, tags from current file, quick
 fix buffer and most recently used files is very useful too. Specifically, once
