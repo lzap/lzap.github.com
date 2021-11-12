@@ -16,19 +16,14 @@ recent reinstallation of my Fedora laptop brought me to the idea to start a new
 Vim configuration from scratch. Here is an example:
 
     :command WQ wq
+    :command Wq wq
 
 Typical configuration statement from my old config, it creates a "WQ" command
 that acts like "wq" which is "write and quit". It is there just in case I
-accidentaly type it in which happens a lot to Vim user. Good if you want to
-develop muscle memory to incorrectly type ":wq" as ":WQ" or ":Wq" which also
-had a special treatment in my old config. This is just one example of about a
-hundred I accumulated over the years. I probably don't need or even use most of
-these.
-
-I am not huge fan of heavily customized Vim configs which are recommended to
-you through countless blockposts, medium posts, youtube videos or articles.
-Thing is, when you login to a server that has a "vanilla" vim, things can be
-hard for people who got used to the custom plugins and other fancy stuff.
+accidentaly type it incorrectly in which happens a lot to Vim user. Good if you
+want to develop muscle memory to incorrectly type ":wq" as ":WQ" or ":Wq". Is
+it really necessary? Probably not.  This is just one example of about a hundred
+I accumulated over the years. I probably don't need or even use most of these.
 
 For this reason, I've decided to come up with a "sane" Vim configuration.
 Minimum possible configuration changes and only plugins which ship with Fedora
@@ -36,15 +31,24 @@ Minimum possible configuration changes and only plugins which ship with Fedora
 install these plugins from your OS package manager, manually or via a Vim
 plugin manager.
 
+Before we start, there's the elephant in the room: Vim or Neovim (fork of Vim)
+question. Well, this is up to you, everything that is in this post should work
+for both, however, I only tested with Vim. My goal is to show that you can
+achieve alot with just "vanilla" Vim/Neovim without ton of plugins. All the
+skill will come handy when you logon to a server where only vi is available. It
+can be either an old UNIX system, Linux server with minimum software installed
+for better security, an interative shell in a container or an embedded system
+where space is precious.
+
 Here is all the software I want to use from now on:
 
 	# dnf install --allowerasing vim-default-editor \
 		vim-enhanced \
 		vim-ctrlp \
 		vim-powerline \
-		vim-syntastic \
 		vim-trailing-whitespace \
 		vim-fugitive \
+		vim-syntastic \
 		vim-syntastic-ansible \
 		vim-syntastic-asciidoc \
 		vim-syntastic-c \
@@ -60,10 +64,6 @@ Here is all the software I want to use from now on:
 		vim-syntastic-json \
 		vim-syntastic-llvm \
 		vim-syntastic-lua \
-		vim-syntastic-nasm \
-		vim-syntastic-objc \
-		vim-syntastic-objcpp \
-		vim-syntastic-ocaml \
 		vim-syntastic-perl \
 		vim-syntastic-perl6 \
 		vim-syntastic-php \
@@ -86,6 +86,14 @@ Here is all the software I want to use from now on:
 		vim-syntastic-yaml \
 		ctags
 
+I hope I did not scare you, it is really just few plugins + many syntastic
+modules for syntax checking of various languages.  I could simply write
+`vim-syntastic-*` but this would pull and install over 4 GB of content and it
+would also install Emacs as a dependency, which is an overkill. For this
+reason, I hand-selectected some syntastic plugins which are relevant for me -
+make sure to review the list, remove what you won't need and add what you can
+utilize.
+
 Do not worry about the `--allowerasing` option, just review the installation
 transaction prior confirming. This option is there to tell the package manager
 to replace existing package `nano-default-editor` with `vim-default-editor`. It
@@ -95,13 +103,7 @@ environment variable to `vim` and this is a must have if you want to use Vim
 this on other distributions or OSes - just make sure your EDITOR shell variable
 is correctly set.
 
-Now, you could install `vim-syntastic-*` but this would pull and install over 4
-GB of content and it would also install Emacs as a dependency, which is
-unaccept^W^W, I mean an overkill. For this reason, I hand-selectected some
-syntastic plugins which are relevant for me - make sure to review the list,
-remove what you won't need and add what you can utilize.
-
-A quick overview what I consider a good plugin set:
+A quick overview what I consider a good and clean plugin set:
 
 * ctrlp - smallest possible fuzzy-finder plugin (pure Vimscript)
 * fugitive - a must have tool for git
@@ -111,9 +113,10 @@ A quick overview what I consider a good plugin set:
 * ctags - not a Vim plugin but a very much needed tool
 
 There are other fuzzy-finder plugins like Command-T or my faviourite (very
-fast) fzf.vim. Thing is, fzf.vim is not in Fedora and I want the smallest possible
-configuration. CtrlP will do just fine, although, it might be slower on large
-projects. In that case I recommend `fzf`.
+fast) fzf.vim. Thing is, fzf.vim is not in Fedora and I want the smallest
+possible configuration. CtrlP will do just fine, although, it might be slower
+on large projects. In that case I recommend `fzf` and `fzf.vim`. But hold it on
+for now and try with CtrlP if you are new to this!
 
 If I were to choose absolute minimum configuration it would be:
 
@@ -188,47 +191,62 @@ Now, the fuzzy finder is a plugin I cannot live without. Opening files via
 commands like `:Ex` or `:e` or `:tabe` is okayish on a server when you need to
 open like 20 files a day. When coding, we usually need to open hundreds of
 them. As I said, CtrlP does the job nicely, it is small, no dependencies, pure
-Vim. It opens with Ctrl-P combination and I hate this, what I like to bind is
-leader-leader (comma pressed twice). Much faster than Ctrl-P or Ctrl-T for the
-other popular plugin, also these are already important Vim keybindings I do not
-want to override.
+Vim. It opens with Ctrl-P combination which is a bit weird to me, I know that
+some famous editors use it (VSCode I think).  Thing is, these are already
+important Vim keybindings I do not want to override.  So the winner for me is
+leader+leader (comma pressed twice).
 
-Leader b/t/f/q/m to open list of buffers, tags, tags from current file, quick
-fix buffer and most recently used files are also useful. Specifically, once you
-generated a taglist with ctags, this is essentially "Go To Definition" for
+Leader+b/t/f/q/m to open list of buffers, tags, tags from current file, quick
+fix buffer and most recently used files is very useful too. Specifically, once
+you generated a taglist with ctags, this is essentially "Go To Definition" for
 hundreds of programming languages - no plugins needed! This is all built-in
-Vim.
+Vim. Now to put thigs straign, when I type leader+b it means pressing comma and
+then pressing b key, not together like with Control or Shift.
 
-Buffers management is important skill for mastering Vim, what I usually end up
-with is having too many buffers and I need to do `:bdelete` way too often.
-Well, `<leader>d` seems like a good option to do that faster. I also like to be
-able to close quickfix window so there is the Leader-q combination for that
-too. I use this very often when browsing search results.
+Although Vim supports tabs these days, buffer management is an important skill
+for mastering Vim, what I usually end up with is having too many buffers and I
+need to do `:bdelete` way too often.  Well, leader+d seems like a good option
+to do that faster. I also like to be able to close quickfix window so there is
+the leader+q combination for that too. I use this very often when browsing
+search results.
 
 Speaking about searching, it is as important as opening files. I want to be
 able grep the codebase, for that there is the awesome `:Ggrep` command from
 fugitive plugin which uses `git grep` which by design ignores junk files and
 only searches what's in git. Since Shift-K is a free key in Vim, it is a great
 fit for automatically grepping the term under cursor. And finally, being able
-to enter arbitrary search pattern via Leader-g is also nice.
+to enter arbitrary search pattern via leader+g is also nice. Note this opens a
+window which is called Quickfix window where you can navigate the results, go
+to next occurance, previous, last, first and more. The same window is used for
+output from compilators or other tools so get familiar with it. I suggest
+further reading in the documentation if this is new to you.
 
 By the way, searching via `/` key is smart sensitive, meaning if all characters
 are lower case, Vim searches ignoring case. By default it highlights results
-and I think I typed `:noh` about million of times, that's why I have Leader+s
-to toggle this. I suggest to read more about searching in the manual later on.
+and I think I typed `:noh` (turn of highlighting) about a million times, that's
+why I have leader+s to toggle this. I suggest to read more about searching in
+the manual later on too.
 
-Leader+c to generate ctags file for better navigation is useful when I am doing
-a longer coding session and I want to jump across the codebase. Ctags supports
-hundreds of languages and Vim can use all this knowledge to navigate it. More
-about it later.
+Searching and grepping is next. The fugitive plugin has you covered. Use the
+command `:Ggrep pattern` to do a git grep, results will go into the Quickfix
+window. Then simply navigate through the results via quick fix commands (`:cn`,
+`:cp` etc) or simply use `:CtrlPQuickfix` (or leader+q) to scroll them
+visually. What is cool about the CtrlP quick fix integration is you can further
+search the results just by typing to match filenames or content as well, if it
+makes sense. Searching the results of a search.
+
+Leader+c to generate ctags file for better navigation is useful when I am
+dealing with a new codebase or doing some longer coding session with lots of
+jumps around. Ctags supports hundreds of languages and Vim can use all this
+knowledge to navigate it. More about how to configure it later. Note we already
+discussed leader+t to open fuzzy search for all tags, remember? It is the very
+same thing.
 
 Being able to override any other setting in projects by creating `.vimrc` file
 in a project directory is a good idea to do. Just put it in the (global)
 `.gitignore` to make sure you don't need to edit thousands of git ignore files
-in each project.
-
-Such a project `.vimrc` could be something like (for C/C++ project with GNU
-Makefile):
+in each project.  Such a project `.vimrc` could be something like (for C/C++
+project with GNU Makefile):
 
 	" coding style
 	set tabstop=4
@@ -243,7 +261,7 @@ Makefile):
 
 As you can see, I typically map F2-F10 keys to compile, run, test and similar
 actions. There is plenty of them available and some systems even have F11+ keys.
-The sky is the limit!
+The sky is the limit.
 
 As mentioned earlier, is a good idea to ignore both `.vimrc` and `tags`
 (generated by `ctags`) globally so there is no need to update every each
@@ -255,11 +273,11 @@ As mentioned earlier, is a good idea to ignore both `.vimrc` and `tags`
 	/tags
 	/TAGS
 
-There are actually few more statements which are only relevant for those with
-non-US keyboard layouts (I am on Czech). I need to use dead keys for many
-characters and it is simply not possible and I'd rather type the command
-instead of doing those hard-to-reach combinations. Here is a solution to the
-problem:
+There are actually few more statements in my personal config which are only
+relevant for those with non-US keyboard layouts (I am on Czech). I need to use
+dead keys for many characters and it is simply not possible and I'd rather type
+the command instead of doing those hard-to-reach combinations. Here is a
+solution to the problem:
 
 	" CTRL-] is hard on my keyboard layout
 	map <C-K> <C-]>
@@ -283,7 +301,6 @@ directories:
 	--exclude=.git
 	--exclude=BUILD
 	--exclude=.svn
-	--exclude=*.js
 	--exclude=vendor/*
 	--exclude=node_modules/*
 	--exclude=db/*
@@ -303,33 +320,15 @@ directories:
 	--exclude=\*.pdb
 
 One thing I must mention is that there are two main ctag projects, Exuberant
-Ctags and Universal Ctags. The latter is more modern fork, if your distribution
-have it, use that. If you are on Fedora 35+ all you need to know that you are
-now on Universal Ctags.
+Ctags and Universal Ctags. The latter is a more modern fork, if your
+distribution have it, use that. If you are on Fedora 35+ all you need to know
+that you are now on Universal Ctags.
 
-You probably heard a lot about Neovim, the new fork of Vim. Do you need it? I
-think it should be obvious that my approach and recommendation is a big NO.
-What Neovim developers and community want is a modern VSCode-like experience
-and I think they could be more happy to just use VSCode with some decent Vim
-emulation plugin than trying to rewrite software from 1988 that is a new
-generation of software ("vi") from 1976. Vim works just fine if you are willing
-to accept its pholosophy and design.
-
-One last thing is grepping, I am used to the awesome `ag` command (The Silver
-Searcher) and `fzf.vim` has a special support for it. Luckily, the fugitive
-plugin has you covered. Use the command `:Ggrep pattern` to do a git grep,
-results will go into quickfix window and I suggest to read more about it as it
-is extremely powerful feature that works across many tools (compilers, linkers,
-checkers, searching tools). Then simply navigate through the results via quick
-fix commands (`:cn`, `:cp` etc) or simply use `:CtrlPQuickfix` (or `<leader>q`)
-to scroll them visually. What is cool about the CtrlP quick fix integration is
-you can further search the results just by typing to match filenames or content
-as well!
-
-Here is a quick tip - you may need to change your default Vim configuration a
-lot, use the following alias so you don't need to search the history all the
-time. Trust me, when a Vim user searches history for "vim", nothing is
-relevant:
+Here is a final quick tip - you may need to change your default Vim
+configuration a lot while finding the sweetspot of what I presented you here
+and your own taste. Use the following alias so you don't need to search the
+history all the time. Trust me, when a Vim user searches history for "vim",
+nothing is relevant:
 
     alias vim-vimrc='vim ~/.vim/_vimrc'
 
