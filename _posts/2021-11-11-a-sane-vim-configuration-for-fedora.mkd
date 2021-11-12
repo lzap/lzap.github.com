@@ -45,7 +45,7 @@ Here is all the software I want to use from now on:
 	# dnf install --allowerasing vim-default-editor \
 		vim-enhanced \
 		vim-ctrlp \
-		vim-powerline \
+		vim-airline \
 		vim-trailing-whitespace \
 		vim-fugitive \
 		vim-syntastic \
@@ -105,10 +105,10 @@ is correctly set.
 
 A quick overview what I consider a good and clean plugin set:
 
-* ctrlp - smallest possible fuzzy-finder plugin (pure Vimscript)
+* ctrlp - smallest possible fuzzy-finder plugin (pure vimscript)
 * fugitive - a must have tool for git
 * trailing-whitespace - shows and fixes, well, trailing whitespace
-* powerline - one of the two "fancy" status lines
+* airline - an improved status line (pure vimscript)
 * syntastic - excellent plugin that highlights typos or syntax errors after save
 * ctags - not a Vim plugin but a very much needed tool
 
@@ -319,6 +319,11 @@ directories:
 	--exclude=\*.dll
 	--exclude=\*.pdb
 
+I must not forget about vim-airline plugin, out of the two in Fedora this one
+is light, no external dependencies are needed and it works out of box with all
+my fonts. You can customize it, there are themes and such things. I just happen
+to like the default setting.
+
 One thing I must mention is that there are two main ctag projects, Exuberant
 Ctags and Universal Ctags. The latter is a more modern fork, if your
 distribution have it, use that. If you are on Fedora 35+ all you need to know
@@ -330,7 +335,7 @@ and your own taste. Use the following alias so you don't need to search the
 history all the time. Trust me, when a Vim user searches history for "vim",
 nothing is relevant:
 
-    alias vim-vimrc='vim ~/.vim/_vimrc'
+    alias vim-vimrc='vim ~/.vimrc'
 
 There you have it, maybe this can help you navigating through the rich world of
 Vim. My advice is: do not use ton of plugins, learn "vanilla" Vim. It is a VERY
