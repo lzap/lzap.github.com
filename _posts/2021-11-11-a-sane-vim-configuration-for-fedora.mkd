@@ -97,7 +97,7 @@ utilize.
 Do not worry about the `--allowerasing` option, just review the installation
 transaction prior confirming. This option is there to tell the package manager
 to replace existing package `nano-default-editor` with `vim-default-editor`. It
-is a small package that drops a shell confiration files to set EDITOR
+is a small package that drops a shell configuration files to set EDITOR
 environment variable to `vim` and this is a must have if you want to use Vim
 (e.g. with git). This is a special thing for Fedora, you will not need to do
 this on other distributions or OSes - just make sure your EDITOR shell variable
