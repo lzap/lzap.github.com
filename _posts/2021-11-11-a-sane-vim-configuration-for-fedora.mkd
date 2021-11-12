@@ -10,31 +10,96 @@ tags:
 ================
 
 I use vim on everyday basis from 1997 or something like that. My configuration
-is quite old, clunky, contains things for DOS and Windows even and I should
-have totally cleaned it up. It still works fine, however, recent reinstallation
-of my Fedora laptop brought me to the idea to start a new Vim configuration
-from scratch.
+is quite old and clunky. Some parts, mostly for MS-DOS, are long gone but it is
+definitely far from being nice and clean. I mean, it still works fine, however,
+recent reinstallation of my Fedora laptop brought me to the idea to start a new
+Vim configuration from scratch. Here is an example:
 
-I am not huge fan of heavily-customized Vim configs. Those configurations you
-can find in many blogposts, youtube videos or github config repositories. Thing
-is, when you login to a server that has a "vanilla" vim, things can be hard for
-people who got used to the custom plugins and other fancy stuff.
+    :command WQ wq
+
+Typical configuration statement from my old config, it creates a "WQ" command
+that acts like "wq" which is "write and quit". It is there just in case I
+accidentaly type it in which happens a lot to Vim user. Good if you want to
+develop muscle memory to incorrectly type ":wq" as ":WQ" or ":Wq" which also
+had a special treatment in my old config. This is just one example of about a
+hundred I accumulated over the years. I probably don't need or even use most of
+these.
+
+I am not huge fan of heavily customized Vim configs which are recommended to
+you through countless blockposts, medium posts, youtube videos or articles.
+Thing is, when you login to a server that has a "vanilla" vim, things can be
+hard for people who got used to the custom plugins and other fancy stuff.
 
 For this reason, I've decided to come up with a "sane" Vim configuration.
 Minimum possible configuration changes and only plugins which ship with Fedora
-34+. Here it is.
+34+. By the way, if you are not Fedora user, continue reading. You can always
+install these plugins from your OS package manager, manually or via a Vim
+plugin manager.
 
-If you want to check this out, install Vi, make it the default editor, install
-the enhanced package (provides `vim`) and some plugins:
+Here is all the software I want to use from now on:
 
-    dnf install -y vim-default-editor \
+    dnf install --allowerasing vim-default-editor \
       vim-enhanced \
+      vim-ctrlp \
       vim-powerline \
       vim-syntastic \
       vim-trailing-whitespace \
       vim-fugitive \
-      vim-ctrlp \
+      vim-syntastic-ansible \
+      vim-syntastic-asciidoc \
+      vim-syntastic-c \
+      vim-syntastic-cpp \
+      vim-syntastic-cs \
+      vim-syntastic-css
+      vim-syntastic-eruby \
+      vim-syntastic-go \
+      vim-syntastic-haml \
+      vim-syntastic-help \
+      vim-syntastic-html \
+      vim-syntastic-java \
+      vim-syntastic-json \
+      vim-syntastic-llvm \
+      vim-syntastic-lua \
+      vim-syntastic-nasm \
+      vim-syntastic-objc \
+      vim-syntastic-objcpp \
+      vim-syntastic-ocaml \
+      vim-syntastic-perl \
+      vim-syntastic-perl6 \
+      vim-syntastic-php \
+      vim-syntastic-po \
+      vim-syntastic-pod \
+      vim-syntastic-puppet \
+      vim-syntastic-python \
+      vim-syntastic-rst \
+      vim-syntastic-ruby \
+      vim-syntastic-sass \
+      vim-syntastic-scss \
+      vim-syntastic-sh \
+      vim-syntastic-spec \
+      vim-syntastic-text \
+      vim-syntastic-vala \
+      vim-syntastic-vim \
+      vim-syntastic-xhtml \
+      vim-syntastic-xml \
+      vim-syntastic-xslt \
+      vim-syntastic-yaml \
       ctags
+
+Do not worry about the `--allowerasing` option, just review the installation
+transaction prior confirming. This option is there to tell the package manager
+to replace existing package `nano-default-editor` with `vim-default-editor`. It
+is a small package that drops a shell confiration files to set EDITOR
+environment variable to `vim` and this is a must have if you want to use Vim
+(e.g. with git). This is a special thing for Fedora, you will not need to do
+this on other distributions or OSes - just make sure your EDITOR shell variable
+is correctly set.
+
+Now, you could install `vim-syntastic-*` but this would pull and install over 4
+GB of content and it would also install Emacs as a dependency, which is
+unaccept^W^W, I mean an overkill. For this reason, I hand-selectected some
+syntastic plugins which are relevant for me - make sure to review the list,
+remove what you won't need and add what you can utilize.
 
 A quick overview what I consider a good plugin set:
 
@@ -43,50 +108,99 @@ A quick overview what I consider a good plugin set:
 * trailing-whitespace - shows and fixes, well, trailing whitespace
 * powerline - one of the two "fancy" status lines
 * syntastic - excellent plugin that highlights typos or syntax errors after save
+* ctags - not a Vim plugin but a very much needed tool
 
 There are other fuzzy-finder plugins like Command-T or my faviourite (very
-fast) fzf.vim. Thing is, fzf is not in Fedora and I want the smallest possible
+fast) fzf.vim. Thing is, fzf.vim is not in Fedora and I want the smallest possible
 configuration. CtrlP will do just fine, although, it might be slower on large
 projects. In that case I recommend `fzf`.
 
 The default Vim configuration then becomes:
 
     cat ~/.vimrc
-    " load per-project setting from .vimrc
-    set exrc
-    set secure
     " map leader to comma and comma-comma to CtrlP
     let mapleader=","
+    let maplocalleader="_"
     let g:ctrlp_map = '<leader><leader>'
-    " leader + b/t/f/m for more functions
+    " leader + b/t/f/m/q for more functions
     nnoremap <leader>b :CtrlPBuffer<cr>
     nnoremap <leader>t :CtrlPTag<cr>
     nnoremap <leader>f :CtrlPBufTag<cr>
+    nnoremap <leader>q :CtrlPQuickfix<cr>
     nnoremap <leader>m :CtrlPMRU<cr>
     " leader g to generate ctags
     nnoremap <leader>g :!ctags -R .<cr><cr>
+    " do not pollute working directory
+    set directory=/tmp
+    set backupdir=~/.vimbackup
+    " searching
+    set smartcase
+    :noremap <leader>s :set hlsearch! hlsearch?<cr>
+    " load per-project setting from .vimrc
+    set exrc
+    set secure
 
 If you think this is very minimalistic, well, it is because I basically need
 few things:
 
-* Having my leader key mapped to comma instead of the default backslash. It is
+Having my leader key mapped to comma instead of the default backslash. It is
 the closest free key in Vim when your hands are in writing position. Also this
-key is same in most keyboard layouts while `\` varies per model or layout.
+key is same in most keyboard layouts while `\` varies per model or layout. I
+rarely use local leader but underscore looks like a good fit. If you want to
+learn more: https://vim.fandom.com/wiki/Unused_keys
 
-* Leader-leader (comma pressed twice) to open CtrlP fuzzy file finder. Much
+Leader-leader (comma pressed twice) to open CtrlP fuzzy file finder. Much
 faster than Ctrl-P or Ctrl-T, also these are already important Vim keybindings
-I do not want to override!
+I do not want to override.
 
-* Leader b/t/f/m to open list of buffers, tags, tags from current file and most
-recently used files. These are extremely useful features of CtrlP (or
-similar) plugins!
+Leader b/t/f/q/m to open list of buffers, tags, tags from current file, quick
+fix buffer and most recently used files. These are extremely useful features of
+CtrlP (or similar) plugins!
 
-* Leader-g to generate ctags file for better navigation. Ctags supports
- hundreds of languages and Vim can use all this knowledge to navigate it.
+Leader-g to generate ctags file for better navigation. Ctags supports hundreds
+of languages and Vim can use all this knowledge to navigate it.
 
-* Being able to override any other setting in projects by creating `.vimrc`
+One of the many settings I want to keep from my old config is using `/tmp` for
+swap and creating backups in a separate directory in my home which you need to
+create with `mkdir ~/.vimbackup`. Now, it is important to understand that Vim
+creates a copy called "swap file" when you start editing and all the unsaved
+work is saved in this file. So even if there is a power outage, your swap will
+contain most of the unsaved work. I prefer using tmpfs as all my laptops and
+servers are protected with UPS and I am used to save quite often. Also, most of
+the times you will utilize swap files when your ssh connection is lost rather
+than thank to a power outage. Swap files can be quite big for large files and I
+value my SSD wear so I am making the decision here, if you are unsure change
+this to `/var/tmp` which is safer.
+
+Searching is case sensitive by default, you can set it to be insensitive or
+better: smart. When a pattern does contain a capital letter it is gonna be
+sensitive, otherwise insensitive. I like this. Note by default Vim will not
+move the cursor to the first occurance (toggle with `incsearch`) and it will
+not highlight all results (`hlsearch`). I toggle this a lot so I think mapping
+to `<leader>s` is resonable thing to do.
+
+Being able to override any other setting in projects by creating `.vimrc`
 file. The idea is to put this into (global) `.gitignore` and have a unique
 setup per git repository.
+
+There are actually few more statements which are only relevant for those with
+non-US keyboard layouts (I am on Czech). I need to use dead keys for many
+characters and it is simply not possible and I'd rather type the command
+instead of doing those hard-to-reach combinations. Here is a solution to the
+problem:
+
+    " CTRL-^ is hard on my keyboard layout
+    nnoremap <F1> :b#<cr>
+    " CTRL-] is hard on my keyboard layout
+    map <s-k> <C-]>
+    map <C-K> <C-]>
+
+Function keys are all free in Vim, except F1 which is bound to help. I don't
+need help, not that I would already know everything about Vim. Not at all. But
+I can simply type `:help` if needed. And F1 is cruical key, so close to the Esc
+key. I like to use buffer swapping (`:b#`) for that. The more you work with
+buffers the more you will need this. If you haven't used Ctrl-^ I suggest to
+get used to it.
 
 I find CtrlP (or fzf.vim or Command-T) very useful not only for opening files,
 but also for browsing buffers and tags. This is very often overlooked features
@@ -103,13 +217,11 @@ Makefile):
     " include and autocomplete path
     let &path.="/usr/local/include"
     " function keys to build and run the project
-    nnoremap <F1> :wall!<CR>:make!<cr><cr>
-    nnoremap <F2> :!LD_LIBRARY_PATH=/usr/local/lib ./project<cr><cr>
+    nnoremap <F2> :wall!<cr>:make!<cr><cr>
+    nnoremap <F3> :!LD_LIBRARY_PATH=/usr/local/lib ./project<cr><cr>
 
-As you can see, I typically map F1-F12 keys to compile, run, test and similar
-actions. These are all free keys in Vim, well, except F1 which is help. I don't
-need help, not that I would already know everything about Vim. Not at all. But
-I can simply type `:help` if needed.
+As you can see, I typically map F2-F10 keys to compile, run, test and similar
+actions. There is plenty of them available and some systems even have F11+ keys.
 
 It is a good idea to ignore both `.vimrc` and `tags` (generated by `ctags`)
 globally so there is no need to update every each `.gitignore`:
@@ -149,6 +261,35 @@ directories:
     --exclude=\*.dll
     --exclude=\*.pdb
 
+You probably heard a lot about Neovim, the new fork of Vim. Do you need it? I
+think it should be obvious that my approach and recommendation is a big NO.
+What Neovim developers and community want is a modern VSCode-like experience
+and I think they could be more happy to just use VSCode with some decent Vim
+emulation plugin than trying to rewrite software from 1988 that is a new
+generation of software ("vi") from 1976. Vim works just fine if you are willing
+to accept its pholosophy and design.
+
+One last thing is grepping, I am used to the awesome `ag` command (The Silver
+Searcher) and `fzf.vim` has a special support for it. Luckily, the fugitive
+plugin has you covered. Use the command `:Ggrep pattern` to do a git grep,
+results will go into quickfix window and I suggest to read more about it as it
+is extremely powerful feature that works across many tools (compilers, linkers,
+checkers, searching tools). Then simply navigate through the results via quick
+fix commands (`:cn`, `:cp` etc) or simply use `:CtrlPQuickfix` (or `<leader>q`)
+to scroll them visually. What is cool about the CtrlP quick fix integration is
+you can further search the results just by typing to match filenames or content
+as well!
+
+Here is a quick tip - you may need to change your default Vim configuration a
+lot, use the following alias so you don't need to search the history all the
+time. Trust me, when a Vim user searches history for "vim", nothing is
+relevant:
+
+    alias vim-vimrc='vim ~/.vim/_vimrc'
+
 There you have it, maybe this can help you navigating through the rich world of
 Vim. My advice is: do not use ton of plugins, learn "vanilla" Vim. It is a VERY
-capable editor.
+capable editor. And this article is valid for other Linux distributions or
+operating systems as well, however, you will need to figure out installation of
+these plugins either via OS package manager (`apt-get` or `homebrew`) or via
+one of the Vim plugin managers.
