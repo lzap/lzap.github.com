@@ -38,53 +38,53 @@ plugin manager.
 
 Here is all the software I want to use from now on:
 
-    dnf install --allowerasing vim-default-editor \
-      vim-enhanced \
-      vim-ctrlp \
-      vim-powerline \
-      vim-syntastic \
-      vim-trailing-whitespace \
-      vim-fugitive \
-      vim-syntastic-ansible \
-      vim-syntastic-asciidoc \
-      vim-syntastic-c \
-      vim-syntastic-cpp \
-      vim-syntastic-cs \
-      vim-syntastic-css
-      vim-syntastic-eruby \
-      vim-syntastic-go \
-      vim-syntastic-haml \
-      vim-syntastic-help \
-      vim-syntastic-html \
-      vim-syntastic-java \
-      vim-syntastic-json \
-      vim-syntastic-llvm \
-      vim-syntastic-lua \
-      vim-syntastic-nasm \
-      vim-syntastic-objc \
-      vim-syntastic-objcpp \
-      vim-syntastic-ocaml \
-      vim-syntastic-perl \
-      vim-syntastic-perl6 \
-      vim-syntastic-php \
-      vim-syntastic-po \
-      vim-syntastic-pod \
-      vim-syntastic-puppet \
-      vim-syntastic-python \
-      vim-syntastic-rst \
-      vim-syntastic-ruby \
-      vim-syntastic-sass \
-      vim-syntastic-scss \
-      vim-syntastic-sh \
-      vim-syntastic-spec \
-      vim-syntastic-text \
-      vim-syntastic-vala \
-      vim-syntastic-vim \
-      vim-syntastic-xhtml \
-      vim-syntastic-xml \
-      vim-syntastic-xslt \
-      vim-syntastic-yaml \
-      ctags
+	# dnf install --allowerasing vim-default-editor \
+		vim-enhanced \
+		vim-ctrlp \
+		vim-powerline \
+		vim-syntastic \
+		vim-trailing-whitespace \
+		vim-fugitive \
+		vim-syntastic-ansible \
+		vim-syntastic-asciidoc \
+		vim-syntastic-c \
+		vim-syntastic-cpp \
+		vim-syntastic-cs \
+		vim-syntastic-css
+		vim-syntastic-eruby \
+		vim-syntastic-go \
+		vim-syntastic-haml \
+		vim-syntastic-help \
+		vim-syntastic-html \
+		vim-syntastic-java \
+		vim-syntastic-json \
+		vim-syntastic-llvm \
+		vim-syntastic-lua \
+		vim-syntastic-nasm \
+		vim-syntastic-objc \
+		vim-syntastic-objcpp \
+		vim-syntastic-ocaml \
+		vim-syntastic-perl \
+		vim-syntastic-perl6 \
+		vim-syntastic-php \
+		vim-syntastic-po \
+		vim-syntastic-pod \
+		vim-syntastic-puppet \
+		vim-syntastic-python \
+		vim-syntastic-rst \
+		vim-syntastic-ruby \
+		vim-syntastic-sass \
+		vim-syntastic-scss \
+		vim-syntastic-sh \
+		vim-syntastic-spec \
+		vim-syntastic-text \
+		vim-syntastic-vala \
+		vim-syntastic-vim \
+		vim-syntastic-xhtml \
+		vim-syntastic-xml \
+		vim-syntastic-xslt \
+		vim-syntastic-yaml \
+		ctags
 
 Do not worry about the `--allowerasing` option, just review the installation
 transaction prior confirming. This option is there to tell the package manager
@@ -115,50 +115,62 @@ fast) fzf.vim. Thing is, fzf.vim is not in Fedora and I want the smallest possib
 configuration. CtrlP will do just fine, although, it might be slower on large
 projects. In that case I recommend `fzf`.
 
-The default Vim configuration then becomes:
+If I were to choose absolute minimum configuration it would be:
 
-    cat ~/.vimrc
-    " map leader to comma and comma-comma to CtrlP
-    let mapleader=","
-    let maplocalleader="_"
-    let g:ctrlp_map = '<leader><leader>'
-    " leader + b/t/f/m/q for more functions
-    nnoremap <leader>b :CtrlPBuffer<cr>
-    nnoremap <leader>t :CtrlPTag<cr>
-    nnoremap <leader>f :CtrlPBufTag<cr>
-    nnoremap <leader>q :CtrlPQuickfix<cr>
-    nnoremap <leader>m :CtrlPMRU<cr>
-    " leader g to generate ctags
-    nnoremap <leader>g :!ctags -R .<cr><cr>
-    " do not pollute working directory
-    set directory=/tmp
-    set backupdir=~/.vimbackup
-    " searching
-    set smartcase
-    :noremap <leader>s :set hlsearch! hlsearch?<cr>
-    " load per-project setting from .vimrc
-    set exrc
-    set secure
+	# cat ~/.vimrc
+	let mapleader=","
+	let maplocalleader="_"
+	let g:ctrlp_map = '<leader><leader>'
+	set exrc
+	set secure
 
-If you think this is very minimalistic, well, it is because I basically need
-few things:
+But that is probably too extreme, so here is slightly bigger configuration with
+my detail explanation below:
 
-Having my leader key mapped to comma instead of the default backslash. It is
-the closest free key in Vim when your hands are in writing position. Also this
-key is same in most keyboard layouts while `\` varies per model or layout. I
-rarely use local leader but underscore looks like a good fit. If you want to
+	" leaders
+	let mapleader=","
+	let maplocalleader="_"
+
+	" be SSD friendly (read fore more)
+	set directory=/tmp
+	set backupdir=~/.vimbackup
+
+	" fuzzy searching
+	let g:ctrlp_map = '<leader><leader>'
+	nnoremap <leader>b :CtrlPBuffer<cr>
+	nnoremap <leader>t :CtrlPTag<cr>
+	nnoremap <leader>f :CtrlPBufTag<cr>
+	nnoremap <leader>q :CtrlPQuickfix<cr>
+	nnoremap <leader>m :CtrlPMRU<cr>
+
+	" buffers and quickfix
+	function! ToggleQuickFix()
+	    if empty(filter(getwininfo(), 'v:val.quickfix'))
+		copen
+	    else
+		cclose
+	    endif
+	endfunction
+	nnoremap <leader>w :call ToggleQuickFix()<cr>
+	nnoremap <leader>d :bd<cr>
+
+	" searching ang grepping
+	nnoremap <leader>g :copen<cr>:Ggrep! <SPACE>
+	nnoremap K :Ggrep "\b<C-R><C-W>\b"<cr>:cw<cr>
+	nnoremap <leader>s :set hlsearch! hlsearch?<cr>
+
+	" ctags generation
+	nnoremap <leader>c :!ctags -R .<cr><cr>
+
+	" per-project configs
+	set exrc
+	set secure
+
+I like having my leader key mapped to comma instead of the default backslash.
+It is the closest free key in Vim when your hands are in writing position. Also
+this key is same in most keyboard layouts while `\` varies per model or layout.
+I rarely use local leader but underscore looks like a good fit. If you want to
 learn more: https://vim.fandom.com/wiki/Unused_keys
-
-Leader-leader (comma pressed twice) to open CtrlP fuzzy file finder. Much
-faster than Ctrl-P or Ctrl-T, also these are already important Vim keybindings
-I do not want to override.
-
-Leader b/t/f/q/m to open list of buffers, tags, tags from current file, quick
-fix buffer and most recently used files. These are extremely useful features of
-CtrlP (or similar) plugins!
-
-Leader-g to generate ctags file for better navigation. Ctags supports hundreds
-of languages and Vim can use all this knowledge to navigate it.
 
 One of the many settings I want to keep from my old config is using `/tmp` for
 swap and creating backups in a separate directory in my home which you need to
@@ -172,16 +184,76 @@ than thank to a power outage. Swap files can be quite big for large files and I
 value my SSD wear so I am making the decision here, if you are unsure change
 this to `/var/tmp` which is safer.
 
-Searching is case sensitive by default, you can set it to be insensitive or
-better: smart. When a pattern does contain a capital letter it is gonna be
-sensitive, otherwise insensitive. I like this. Note by default Vim will not
-move the cursor to the first occurance (toggle with `incsearch`) and it will
-not highlight all results (`hlsearch`). I toggle this a lot so I think mapping
-to `<leader>s` is resonable thing to do.
+Now, the fuzzy finder is a plugin I cannot live without. Opening files via
+commands like `:Ex` or `:e` or `:tabe` is okayish on a server when you need to
+open like 20 files a day. When coding, we usually need to open hundreds of
+them. As I said, CtrlP does the job nicely, it is small, no dependencies, pure
+Vim. It opens with Ctrl-P combination and I hate this, what I like to bind is
+leader-leader (comma pressed twice). Much faster than Ctrl-P or Ctrl-T for the
+other popular plugin, also these are already important Vim keybindings I do not
+want to override.
 
-Being able to override any other setting in projects by creating `.vimrc`
-file. The idea is to put this into (global) `.gitignore` and have a unique
-setup per git repository.
+Leader b/t/f/q/m to open list of buffers, tags, tags from current file, quick
+fix buffer and most recently used files are also useful. Specifically, once you
+generated a taglist with ctags, this is essentially "Go To Definition" for
+hundreds of programming languages - no plugins needed! This is all built-in
+Vim.
+
+Buffers management is important skill for mastering Vim, what I usually end up
+with is having too many buffers and I need to do `:bdelete` way too often.
+Well, `<leader>d` seems like a good option to do that faster. I also like to be
+able to close quickfix window so there is the Leader-q combination for that
+too. I use this very often when browsing search results.
+
+Speaking about searching, it is as important as opening files. I want to be
+able grep the codebase, for that there is the awesome `:Ggrep` command from
+fugitive plugin which uses `git grep` which by design ignores junk files and
+only searches what's in git. Since Shift-K is a free key in Vim, it is a great
+fit for automatically grepping the term under cursor. And finally, being able
+to enter arbitrary search pattern via Leader-g is also nice.
+
+By the way, searching via `/` key is smart sensitive, meaning if all characters
+are lower case, Vim searches ignoring case. By default it highlights results
+and I think I typed `:noh` about million of times, that's why I have Leader+s
+to toggle this. I suggest to read more about searching in the manual later on.
+
+Leader+c to generate ctags file for better navigation is useful when I am doing
+a longer coding session and I want to jump across the codebase. Ctags supports
+hundreds of languages and Vim can use all this knowledge to navigate it. More
+about it later.
+
+Being able to override any other setting in projects by creating `.vimrc` file
+in a project directory is a good idea to do. Just put it in the (global)
+`.gitignore` to make sure you don't need to edit thousands of git ignore files
+in each project.
+
+Such a project `.vimrc` could be something like (for C/C++ project with GNU
+Makefile):
+
+	" coding style
+	set tabstop=4
+	set softtabstop=4
+	set shiftwidth=4
+	set noexpandtab
+	" include and autocomplete path
+	let &path.="/usr/local/include"
+	" function keys to build and run the project
+	nnoremap <F2> :wall!<cr>:make!<cr><cr>
+	nnoremap <F3> :!LD_LIBRARY_PATH=/usr/local/lib ./project<cr><cr>
+
+As you can see, I typically map F2-F10 keys to compile, run, test and similar
+actions. There is plenty of them available and some systems even have F11+ keys.
+The sky is the limit!
+
+As mentioned earlier, is a good idea to ignore both `.vimrc` and `tags`
+(generated by `ctags`) globally so there is no need to update every each
+`.gitignore`:
+
+	# git config --global core.excludesfile ~/.gitignore
+	# cat ~/.gitignore
+	/.vimrc
+	/tags
+	/TAGS
 
 There are actually few more statements which are only relevant for those with
 non-US keyboard layouts (I am on Czech). I need to use dead keys for many
@@ -189,11 +261,10 @@ characters and it is simply not possible and I'd rather type the command
 instead of doing those hard-to-reach combinations. Here is a solution to the
 problem:
 
-    " CTRL-^ is hard on my keyboard layout
-    nnoremap <F1> :b#<cr>
-    " CTRL-] is hard on my keyboard layout
-    map <s-k> <C-]>
-    map <C-K> <C-]>
+	" CTRL-] is hard on my keyboard layout
+	map <C-K> <C-]>
+	" CTRL-^ is hard on my keyboard layout
+	nnoremap <F1> :b#<cr>
 
 Function keys are all free in Vim, except F1 which is bound to help. I don't
 need help, not that I would already know everything about Vim. Not at all. But
@@ -202,64 +273,39 @@ key. I like to use buffer swapping (`:b#`) for that. The more you work with
 buffers the more you will need this. If you haven't used Ctrl-^ I suggest to
 get used to it.
 
-I find CtrlP (or fzf.vim or Command-T) very useful not only for opening files,
-but also for browsing buffers and tags. This is very often overlooked features
-of these plugins while it can bring huge benefits on the table.
-
-Such a project `.vimrc` could be something like (for C/C++ project with GNU
-Makefile):
-
-    " coding style
-    set tabstop=4
-    set softtabstop=4
-    set shiftwidth=4
-    set noexpandtab
-    " include and autocomplete path
-    let &path.="/usr/local/include"
-    " function keys to build and run the project
-    nnoremap <F2> :wall!<cr>:make!<cr><cr>
-    nnoremap <F3> :!LD_LIBRARY_PATH=/usr/local/lib ./project<cr><cr>
-
-As you can see, I typically map F2-F10 keys to compile, run, test and similar
-actions. There is plenty of them available and some systems even have F11+ keys.
-
-It is a good idea to ignore both `.vimrc` and `tags` (generated by `ctags`)
-globally so there is no need to update every each `.gitignore`:
-
-    git config --global core.excludesfile ~/.gitignore
-    cat ~/.gitignore
-    /.vimrc
-    /tags
-    /TAGS
-
 Now, getting familiar with `ctags` is a key thing to be successful with Vim.
 This tool supports hundreds of languages and it can easily create tags for
 files you do not want to create, therefore I suggest to ignore typical junk
 directories:
 
-    cat ~/.ctags.d/local.ctags
-    --recurse=yes
-    --exclude=.git
-    --exclude=BUILD
-    --exclude=.svn
-    --exclude=*.js
-    --exclude=vendor/*
-    --exclude=node_modules/*
-    --exclude=db/*
-    --exclude=log/*
-    --exclude=test/*
-    --exclude=tests/*
-    --exclude=\*.min.\*
-    --exclude=\*.swp
-    --exclude=\*.bak
-    --exclude=\*.pyc
-    --exclude=\*.class
-    --exclude=\*.sln
-    --exclude=\*.csproj
-    --exclude=\*.csproj.user
-    --exclude=\*.cache
-    --exclude=\*.dll
-    --exclude=\*.pdb
+	# cat ~/.ctags.d/local.ctags
+	--recurse=yes
+	--exclude=.git
+	--exclude=BUILD
+	--exclude=.svn
+	--exclude=*.js
+	--exclude=vendor/*
+	--exclude=node_modules/*
+	--exclude=db/*
+	--exclude=log/*
+	--exclude=test/*
+	--exclude=tests/*
+	--exclude=\*.min.\*
+	--exclude=\*.swp
+	--exclude=\*.bak
+	--exclude=\*.pyc
+	--exclude=\*.class
+	--exclude=\*.sln
+	--exclude=\*.csproj
+	--exclude=\*.csproj.user
+	--exclude=\*.cache
+	--exclude=\*.dll
+	--exclude=\*.pdb
+
+One thing I must mention is that there are two main ctag projects, Exuberant
+Ctags and Universal Ctags. The latter is more modern fork, if your distribution
+have it, use that. If you are on Fedora 35+ all you need to know that you are
+now on Universal Ctags.
 
 You probably heard a lot about Neovim, the new fork of Vim. Do you need it? I
 think it should be obvious that my approach and recommendation is a big NO.
