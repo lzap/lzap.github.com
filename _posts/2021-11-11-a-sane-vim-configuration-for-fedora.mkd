@@ -134,6 +134,9 @@ my detail explanation below:
 	let mapleader=","
 	let maplocalleader="_"
 
+	" filetype and intent
+	filetype plugin indent on
+
 	" be SSD friendly (read fore more)
 	set directory=/tmp
 	set backupdir=~/.vimbackup
@@ -175,6 +178,12 @@ It is the closest free key in Vim when your hands are in writing position. Also
 this key is same in most keyboard layouts while `\` varies per model or layout.
 I rarely use local leader but underscore looks like a good fit. If you want to
 learn more: https://vim.fandom.com/wiki/Unused_keys
+
+Next up it is the very important filetype command. See, Vim comes with
+"batteries included", version 8.2 contains syntax highlighting for 644
+languagues, 251 filetype definitions (ftplugins) and intentation rules for 138
+languages. However, indentation is not enabled by default perhaps to deliver a
+consistent editing experience for all. I like to enable it!
 
 One of the many settings I want to keep from my old config is using `/tmp` for
 swap and creating backups in a separate directory in my home which you need to
@@ -310,6 +319,7 @@ directories:
 	--exclude=.svn
 	--exclude=vendor/*
 	--exclude=node_modules/*
+	--exclude=public/webpack/*
 	--exclude=db/*
 	--exclude=log/*
 	--exclude=test/*
@@ -350,3 +360,5 @@ capable editor. And this article is valid for other Linux distributions or
 operating systems as well, however, you will need to figure out installation of
 these plugins either via OS package manager (`apt-get` or `homebrew`) or via
 one of the Vim plugin managers.
+
+Edit: I corrected some issues with the configuration file (2021-11-15).
