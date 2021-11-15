@@ -130,6 +130,7 @@ If I were to choose absolute minimum configuration it would be:
 But that is probably too extreme, so here is slightly bigger configuration with
 my detail explanation below:
 
+	" vim: nowrap sw=2 sts=2 ts=2 et:
 	" leaders
 	let mapleader=","
 	let maplocalleader="_"
@@ -139,7 +140,7 @@ my detail explanation below:
 
 	" incompatible plugins
 	if has('syntax') && has('eval')
-		packadd! matchit
+	  packadd! matchit
 	end
 
 	" be SSD friendly (can be dangerous!)
@@ -157,11 +158,11 @@ my detail explanation below:
 
 	" buffers and quickfix
 	function! ToggleQuickFix()
-	    if empty(filter(getwininfo(), 'v:val.quickfix'))
-		copen
-	    else
-		cclose
-	    endif
+	  if empty(filter(getwininfo(), 'v:val.quickfix'))
+	    copen
+	  else
+	    cclose
+	  endif
 	endfunction
 	nnoremap <leader>w :call ToggleQuickFix()<cr>
 	nnoremap <leader>d :bd<cr>
