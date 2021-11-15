@@ -137,7 +137,12 @@ my detail explanation below:
 	" filetype and intent
 	filetype plugin indent on
 
-	" be SSD friendly (read fore more)
+	" incompatible plugins
+	if has('syntax') && has('eval')
+		packadd! matchit
+	end
+
+	" be SSD friendly (can be dangerous!)
 	set directory=/tmp
 	set backupdir=~/.vimbackup
 
@@ -183,7 +188,13 @@ Next up it is the very important filetype command. See, Vim comes with
 "batteries included", version 8.2 contains syntax highlighting for 644
 languagues, 251 filetype definitions (ftplugins) and intentation rules for 138
 languages. However, indentation is not enabled by default perhaps to deliver a
-consistent editing experience for all. I like to enable it!
+consistent editing experience for all. I like to enable it.
+
+Vim even comes with some extra plugins which makes some feature incompatible,
+one of these is quite useful. It is the matchit plugin which makes `%` key
+which finds matching paren to work with some languages. Typically, you can find
+beginning or end of a block (`begin` and `end`) or HTML matching tags and
+similar.
 
 One of the many settings I want to keep from my old config is using `/tmp` for
 swap and creating backups in a separate directory in my home which you need to
@@ -299,13 +310,19 @@ solution to the problem:
 	map <C-K> <C-]>
 	" CTRL-^ is hard on my keyboard layout
 	nnoremap <F1> :b#<cr>
+	nnoremap <F2> :bp<cr>
+	nnoremap <F3> :bn<cr>
+	" I hate entering Ex mode by accient
+	map Q <Nop>
 
 Function keys are all free in Vim, except F1 which is bound to help. I don't
 need help, not that I would already know everything about Vim. Not at all. But
 I can simply type `:help` if needed. And F1 is cruical key, so close to the Esc
-key. I like to use buffer swapping (`:b#`) for that. The more you work with
-buffers the more you will need this. If you haven't used Ctrl-^ I suggest to
-get used to it.
+key. I like to use buffer swapping (`:b#`) for that as well as F2-F3 for
+next/previous. The more you work with buffers the more you will need this. If
+you haven't used Ctrl-^ I suggest to get used to it. Oh, have you ever entered
+the Ex mode with the ugly `type :visual`? Many begginners had no idea how to
+quit Vim from that mode, for me it is just disturbing as I rarely use it. 
 
 Now, getting familiar with `ctags` is a key thing to be successful with Vim.
 This tool supports hundreds of languages and it can easily create tags for
@@ -360,5 +377,3 @@ capable editor. And this article is valid for other Linux distributions or
 operating systems as well, however, you will need to figure out installation of
 these plugins either via OS package manager (`apt-get` or `homebrew`) or via
 one of the Vim plugin managers.
-
-Edit: I corrected some issues with the configuration file (2021-11-15).
