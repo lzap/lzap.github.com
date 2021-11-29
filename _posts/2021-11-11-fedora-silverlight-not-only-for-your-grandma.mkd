@@ -6,8 +6,8 @@ tags:
 - linux
 - fedora
 ---
-{{ page.title }}
-================
+Fedora Silverblue: not only for your grandma
+============================================
 
 I have migrated my grandparents to Fedora Silverblue, previously they used
 CentOS. I was impressed how everything worked well and I like where Fedora is
