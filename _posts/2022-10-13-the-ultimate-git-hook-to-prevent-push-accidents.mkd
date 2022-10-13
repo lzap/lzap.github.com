@@ -9,12 +9,14 @@ tags:
 {{ page.title }}
 ================
 
-So you pushed something, huh? I have a simple solution for that, a global hook that checks:
+So you pushed something that you did not mean to, huh? I have a simple solution
+for that, a *global git hook* that checks:
 
-* A push is not being made into `upstream` remote.
+* A push is not being made into a remote named `upstream`.
 * A push is made into remote URL containing your username.
-* A push is not being made into branch named `main`, `master` or `develop`.
+* A push is not being made into branch named `main` or `master`.
 * If you still want to push, you can use `--no-verify` git option to force it.
+* Or create `.noverify` empty file within a git repository to disable this.
 * Everything is just a single and *global* POSIX-compatible shell git hook.
 
 Let me explain.
