@@ -1,0 +1,11 @@
+---
+type: "post"
+aliases:
+- /2010/04/jak-prepinat-jvm-v-ubuntu.html
+date: "2010-04-21T00:00:00Z"
+tags:
+- oldblog
+title: Jak přepínat JVM v Ubuntu
+---
+
+Potřeboval jsem více instalací Java VM v mém Ubuntu (Dapper Drake). Pomohl příkaz<br /><br />sudo update-alternatives --config java<br />kterým můžete vybírat nainstalované implementace (Sun, GCJ). Zajímavé bylo, že tyto skripty nenastavovaly JAVA_HOME, což je pro mne trošku nepochopitelná věc. Musel jsem si hodnotu nastavit v .bashrc.

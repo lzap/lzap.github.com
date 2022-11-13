@@ -1,0 +1,11 @@
+---
+type: "post"
+aliases:
+- /2010/04/fundamentalni-nastaveni-pro.html
+date: "2010-04-21T00:00:00Z"
+tags:
+- oldblog
+title: Fundamentální nastavení pro Debian/Ubuntu server
+---
+
+Jelikož se počet mnou spravovaných serverů přehoupl přes desítku, vytvořil jsem si skript, který mi nastaví základní nastavení, které předpokládám na každém unixovém systému, na kterém musím pracovat. Jedná se o nainstalování základních programů (vim, mc), sadu aliasů (apt-get, ls-la, log) a nastavení brief režimu v obou panelech Midnight Commanderu. Skript je zde: http://lukas.zapletalovi.com/assets/static/settings.sh<br /><br />Můžete jej na svém serveru spustit přímo z netu:<br /><br />wget -q --output-document=- http://lukas.zapletalovi.com/assets/static/settings.sh | bash<br /><br />(za předpokladu, že máte nainstalován wget a bash – jakože asi jo)

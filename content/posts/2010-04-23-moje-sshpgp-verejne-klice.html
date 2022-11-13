@@ -1,0 +1,11 @@
+---
+type: "post"
+aliases:
+- /2010/04/moje-sshpgp-verejne-klice.html
+date: "2010-04-23T00:00:00Z"
+tags:
+- oldblog
+title: Moje SSH/PGP veřejné klíče
+---
+
+<ul><li><a href="http://lukas.zapletalovi.com/assets/static/authorized_keys.txt">http://lukas.zapletalovi.com/assets/static/authorized_keys.txt</a></li><li><a href="http://lukas.zapletalovi.com/assets/static/pgp_block.txt">http://lukas.zapletalovi.com/assets/static/pgp_block.txt</a></li></ul><br />Skript na přidání. Klíč nutno poté zkontrolovat!<br /><br /><blockquote><span class="Apple-style-span" style="font-family: 'Courier New', Courier, monospace;">mkdir ~/.ssh 2&gt;/dev/null; \</span></blockquote><blockquote><span class="Apple-style-span" style="font-family: 'Courier New', Courier, monospace;">wget -q --output-document=- http://lukas.zapletalovi.com/assets/static/authorized_keys.txt &gt;&gt; \</span></blockquote><blockquote><span class="Apple-style-span" style="font-family: 'Courier New', Courier, monospace;">~/.ssh/authorized_keys &amp;&amp; \</span></blockquote><blockquote><span class="Apple-style-span" style="font-family: 'Courier New', Courier, monospace;">chmod 755 ~/.ssh &amp;&amp; \</span></blockquote><blockquote><span class="Apple-style-span" style="font-family: 'Courier New', Courier, monospace;">chmod 600 ~/.ssh/authorized_keys</span></blockquote><br /><i>Tento zápisek vznikl převodem z mého starého blogu. Ne všechny texty byly takto převedeny, kompletní archiv již není k dispozici.</i>

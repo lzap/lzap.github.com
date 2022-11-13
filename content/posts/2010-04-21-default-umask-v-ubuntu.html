@@ -1,0 +1,11 @@
+---
+type: "post"
+aliases:
+- /2010/04/default-umask-v-ubuntu.html
+date: "2010-04-21T00:00:00Z"
+tags:
+- oldblog
+title: Default umask v Ubuntu
+---
+
+V distribuci Ubuntu je default umask nastaven na 022, což znamená, že vámi vytvořené soubory může kdokoliv číst. Pokud například nechcete, aby vaše soubory v domovském adresáři mohl číst kolega (pokud máte víc účtů), nastavte hodnotu na 027 (tj. default rwr—) a to v souborech /etc/login.defs, /etc/profile. Z nějakého důvodu mi to však nezabíralo, tak jsem to nastavil ještě v ~/.bash_profile – možná by pomohl restart X.
