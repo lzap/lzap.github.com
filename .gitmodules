@@ -1,3 +1,4 @@
 [submodule "themes/gokarna"]
 	path = themes/gokarna
 	url = https://github.com/lzap/gokarna.git
+	branch = my-changes
