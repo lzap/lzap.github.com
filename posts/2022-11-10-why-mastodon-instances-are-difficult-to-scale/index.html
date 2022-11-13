@@ -1,0 +1,85 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Why Mastodon instances are difficult to scale</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora,mastodon"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2022-11-10-why-mastodon-instances-are-difficult-to-scale/"><meta property="og:type" content="website"><meta property="og:title" content="Why Mastodon instances are difficult to scale"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Why Mastodon instances are difficult to scale"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2022-11-10-why-mastodon-instances-are-difficult-to-scale/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2022-11-10-why-mastodon-instances-are-difficult-to-scale/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2022-11-10-why-mastodon-instances-are-difficult-to-scale/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Why Mastodon instances are difficult to scale</h1><small role=doc-subtitle></small><p class=post-date>November 10, 2022</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/mastodon>mastodon</a></li></ul></div><div class=post-content><p><p>Mastodon, the free, open-source social network server based on ActivityPub is
+written in Ruby on Rails and the network is experiencing influx of new users.
+Mastodon administrators are finding how difficult and costly is to scale Ruby
+on Rails applications the hard way. I&rsquo;ve spent a deacde working on a large Ruby
+on Rails project, much larger than Mastodon. Let me quickly describe what is
+going on. Disclaimer: This post is solely based on my experience with scaling
+other Ruby on Rails applications, take this with a grain of salt. Also, I&rsquo;d
+appreciate comments at <code>@lukas@zapletalovi.com</code>.</p><p>People often think that Ruby on Rails is slow because Ruby is slow, according
+to various <a href=https://benchmarksgame-team.pages.debian.net/benchmarksgame/index.html>benchmarks</a>
+and <a href=https://programming-language-benchmarks.vercel.app>shootouts</a>. Well,
+while Ruby is not fast at all, it is not the primary reason why that is. See,
+most web applications, including Mastodon, do not perform CPU-intensive
+tasks. Most of the time, CPU is actually waiting for data to be read or
+written from network (client, database, redis) or disk (cache). Even if you
+upgrade to the most recent Ruby 3.2, which is the fastest of all Ruby
+versions, it won&rsquo;t help at all.</p><p>Backend software these days need to respond to many of HTTP requests, when a
+service is under load we are speaking about hundreds or even thousands of
+requests per second. A single process (instance of software running on an
+operating system) with naive implementation can handle as much as one request.
+To be able to handle more, requests must be dealt concurrently, which is a very
+complex topic but let&rsquo;s keep in simple. The solution is to create multiple
+execution threads that can run concurrently on the program level and ideally in
+parallel on the operating system level to utilize as much CPU resources
+available.</p><p>There is a little problem in Ruby (and Python and many other interpreted
+languages) called &ldquo;global interpreter lock&rdquo;, also known as
+<a href=https://en.wikipedia.org/wiki/Global_interpreter_lock>GIL</a> which limits the
+amount of parallelism reachable through concurrency of a single interpreter
+process with multiple threads. In short, while GIL allows some parallelism when
+threads are waiting for I/O (input and output, e.g. writing data into database)
+in theory, in practice it does not scale. Most applications have the sweet spot
+of 5-15 threads per process when the most performance can be achieved. This
+highly depends on the hardware or virtual machine (CPU type, number of cores,
+hyper-threading).</p><p>Don&rsquo;t be mistaken that other languages do not have this problem, even server
+software written in C (e.g. Apache httpd 2.x) is known to have scalability
+issues with many threads. For example the ThreadsPerChild Apache setting is set
+to 64 by default (25 on Windows, whoops). But performance is not the only
+concern, isolation and security is also at stake here.</p><p>Mastodon, like many other Ruby on Rails applications, needs to schedule
+backround tasks. The backend API communicates with some kind of job scheduler
+through ActiveJob API and one or more backend worker instances pick the tasks
+and perform the work (e.g. delivering emails, updating database). The same
+problem applies - one worker process can effectively run only the mentioned
+5-15 threads, but there can be thousands of jobs in the queue.</p><p>What to do? It is farily simple. You spawn multiple processes which are simply
+&ldquo;copies&rdquo; of the main process doing the same work. This is what Apache httpd
+does too, so it can&rsquo;t be wrong. So roughly speaking, 10 processes can handle
+150 tasks concurrently. That is a decent number, is it?. Well, there&rsquo;s a snag.</p><p>Ruby and Ruby on Rails specifically are not light on memory. Ruby itself
+suffers from memory fragmentation problem, another complex topic but in short:
+when Ruby allocates a memory, it is quite unlikely to ever return it back. And
+Ruby on Rails is designed to be rather memory hungry, particularly its
+ActiveRecord DAO API. One process of the application I have experience with
+consumes 300 MB after start, and then it grew up to 500 MB during operation as
+other parts of the app load up. Mastodon is not as big, but we are speaking
+about hundreds of MBs per process after hours of operation. There is a way to
+workaround the memory problem on some operating systems and that is copy on
+write concept, but in practice that does only help a little after application
+is started.</p><p>And that is only ideal state. Programmers are humans, they make mistakes and
+one very common mistake is a memory leak. These memory leaks together with Ruby
+fragmentation makes process memory consumption to steadily grow up until the
+point that the process must be restarted. Most Ruby applications servers do
+have some kind of memory limiter feature which triggers automatic restart of
+the process when a threshold is reached.</p><p>Once a hardware or a VM runs out of memory, the OS starts
+<a href=https://en.wikipedia.org/wiki/Memory_paging#Terminology>swapping</a> that starts
+killing the whole instance and everything is getting slower up to the point
+that the application is unusable.</p><p>Now, Ruby has multiple implementations. The one that Mastodon runs on is called
+CRuby and it has all of these problems I described in my post. There is also
+JRuby, a JVM-based Ruby implementation which is substationally faster and does
+not suffer from GIL. But there are drawbacks: it is not compatible with Ruby on
+Rails and while some older versions of RoR can run on JRuby, most applications
+won&rsquo;t due to bugs in dependencies which are only tested against CRuby. Also,
+JRuby is even more memory hungry than CRuby from my experience.</p><p>So there you have it: Ruby on Rails requires multiple processes as the
+application grow, these processes require substantial amount of memory which
+only grow with time. Memory is a precious resource, so Mastodon instances can
+burn a lot of money along the way. Be prepared for this!</p><p>Wait a moment, you just said that Ruby and Ruby on Rails sucks! That is totally
+not what I mean. This is a wonderful platform that enables millions of people
+to rapidly develop web applications and operate them, many major sites are
+written in Ruby on Rails including github.com and even twitter.com started as a
+RoR app. And there&rsquo;s hey.com and basecamp.com and they all run buttery smooth.
+Like everything in life, it has some highlights and drawbacks. And the major
+drawback of Ruby on Rails is that it is not easy to operate at all.</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

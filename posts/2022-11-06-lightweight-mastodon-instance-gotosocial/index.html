@@ -1,0 +1,79 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Lightweight Mastodon instance: gotosocial</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2022-11-06-lightweight-mastodon-instance-gotosocial/"><meta property="og:type" content="website"><meta property="og:title" content="Lightweight Mastodon instance: gotosocial"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Lightweight Mastodon instance: gotosocial"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2022-11-06-lightweight-mastodon-instance-gotosocial/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2022-11-06-lightweight-mastodon-instance-gotosocial/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2022-11-06-lightweight-mastodon-instance-gotosocial/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Lightweight Mastodon instance: gotosocial</h1><small role=doc-subtitle></small><p class=post-date>November 6, 2022</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li></ul></div><div class=post-content><p><p>If you need a lightweight Mastodon instance, I have a tip for you:
+<a href=https://docs.gotosocial.org/en/latest/>GoToSocial</a> is an ActivityPub backend
+written in Go, no dependencies needed, lightweight (well, 50MB binary) and can
+store data in either SQLite3 or Postgres.</p><p>The setup is well documented, you can download pre-built binary, create an
+empty directory, configure database connection and just run it. It has a
+built-in support for Let&rsquo;s Encrypt, however, if you already have a domain with
+existing web server and Let&rsquo;s Encrypt certificate, you can turn this feature off.</p><p>This was my case as I am running my domain on Apache2 httpd with
+<a href=/2021/03/letsencrypt-a-fedora-server.html>acme-tiny</a>. On top of that, I also
+wanted my instance running at <code>social.zapletalovi.com</code> available via redirect
+from <code>zapletalovi.com</code> so my Mastodon account has a shorter name of
+<code>@lukas@zapletalovi.com</code>. I thought I&rsquo;d share the httpd configuration in case
+you need to do the same:</p><pre><code>    # cat /etc/httpd/conf.d/social.conf
+    &lt;VirtualHost *:80&gt;
+      ServerName social.zapletalovi.com
+
+      RewriteEngine On
+      RewriteCond %{HTTP:Upgrade} websocket [NC]
+      RewriteCond %{HTTP:Connection} upgrade [NC]
+      RewriteRule ^/?(.*) &quot;ws://localhost:8080/$1&quot; [P,L]
+
+      ProxyPreserveHost On
+      ProxyPassMatch ^/.well-known !
+      ProxyPass / http://localhost:8080/
+      ProxyPassReverse / http://localhost:8080/
+
+      Alias /.well-known/acme-challenge/ &quot;/var/www/challenges/&quot;
+    &lt;/VirtualHost&gt;
+</code></pre><p>The first section is HTTP config of the main site, the rewrite and proxy rules
+are from the project configuration. I had to add ProxyPassMatch with Alias for
+challenges from acme-tiny.</p><pre><code>    &lt;VirtualHost *:443&gt;
+      ServerName social.zapletalovi.com
+
+      RewriteEngine On
+      RewriteCond %{HTTP:Upgrade} websocket [NC]
+      RewriteCond %{HTTP:Connection} upgrade [NC]
+      RewriteRule ^/?(.*) &quot;ws://localhost:8080/$1&quot; [P,L]
+
+      SSLEngine On
+      SSLCertificateFile /var/lib/acme/certs/social.zapletalovi.com.crt
+      SSLCertificateKeyFile /etc/pki/tls/private/social.zapletalovi.com.key
+
+      ProxyPreserveHost On
+      ProxyPass / http://localhost:8080/
+      ProxyPassReverse / http://localhost:8080/
+
+      RequestHeader set &quot;X-Forwarded-Proto&quot; expr=https
+    &lt;/VirtualHost&gt;
+</code></pre><p>This is the HTTPS configuration as mentioned in the project documentation. Note
+there are no acme-challenge aliases necessary as they are valid only for HTTP.
+Do not forget to add SSL certificate and key. Note httpd will fail to start if
+those files do not exist and are not valid SSL certs, that can be only done
+after acme-tiny generates it.</p><pre><code>    &lt;VirtualHost *:80&gt;
+      ServerName zapletalovi.com
+      Redirect 301 /.well-known/webfinger https://social.zapletalovi.com/.well-known/webfinger
+      Redirect 301 /.well-known/nodeinfo https://social.zapletalovi.com/.well-known/nodeinfo
+    &lt;/VirtualHost&gt;
+</code></pre><p>This HTTP section allows Mastodon instances to perform redirection.</p><pre><code>    &lt;VirtualHost *:443&gt;
+      ServerName zapletalovi.com
+      Redirect 301 /.well-known/webfinger https://social.zapletalovi.com/.well-known/webfinger
+      Redirect 301 /.well-known/nodeinfo https://social.zapletalovi.com/.well-known/nodeinfo
+
+      SSLEngine On
+      SSLCertificateFile /var/lib/acme/certs/zapletalovi.com.crt
+      SSLCertificateKeyFile /etc/pki/tls/private/zapletalovi.com.key
+    &lt;/VirtualHost&gt;
+</code></pre><p>And finaly the same but for HTTPS.</p><p>So there you have it, I really like gotosocial. If you want to try it, keep in
+mind that it is only a backend, there is no user-facing UI except the profile
+page and user settings page. Service operations can be done via CLI, API and a
+small admin UI which I have&rsquo;t even tried. To access your feed, you can use any
+UI or mobile app. There are two recommended, from which I have chosen
+<a href=https://pinafore.social>Pinafore</a>, a static JavaScript web application which
+is very fast, intuitive and works on mobile too.</p><p>Oh, it&rsquo;s alpha version. You have been warned!</p><p>Follow me at <a href=https://social.zapletalovi.com/@lukas>@lukas@zapletalovi.com</a>. Cheers.</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

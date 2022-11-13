@@ -1,0 +1,59 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Backup your keys from Authy to cleartext</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2020-10-19-backup-your-keys-from-authy-to-cleartext/"><meta property="og:type" content="website"><meta property="og:title" content="Backup your keys from Authy to cleartext"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Backup your keys from Authy to cleartext"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2020-10-19-backup-your-keys-from-authy-to-cleartext/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2020-10-19-backup-your-keys-from-authy-to-cleartext/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2020-10-19-backup-your-keys-from-authy-to-cleartext/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Backup your keys from Authy to cleartext</h1><small role=doc-subtitle></small><p class=post-date>October 19, 2020</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li></ul></div><div class=post-content><p><p>I&rsquo;ve been using <a href=https://www.authy.com>Authy</a> for my 2FA and I am happy with
+it, it&rsquo;s on my iPhone, iPad, Apple Watch and also Fedora desktop. But the
+desktop app is quite slow, it&rsquo;s Chrome web app wrapped as a Snap Linux
+application in the end. When I want my token, I want it NOW, instantly in my
+clipboard. So I started seeking a cli utility. There is no official app from
+Authy, so I have decided to export my keys in clear text.</p><p>There are some tutorials on how to do this in browser console, however I am not
+particularly strong in JavaScript and it did not work out for me. But I&rsquo;ve
+stumbled upon <a href=https://github.com/alexzorin/authy>authy-export</a> command line
+app which was written in Go. When you run it for the first time, it registers
+as another Authy application asking for your phone number and confirmation in
+the Authy app. Then it prints all tokens in the QR code URL format in exchange
+for your &ldquo;backup password&rdquo;. It works flawlessly:</p><pre><code>$ authy-export
+Please provide your Authy TOTP backup password: ************
+Here are your authenticator tokens:
+
+otpauth://totp/Twitter:@lzap?digits=6&amp;secret=ABC334XZL5K21J7
+...
+</code></pre><p>The token then can be used to show tokens. There are multiple command-line
+applications but if you want raw experience, then oathtool is in every major
+Linux distribution:</p><pre><code>$ oathtool --totp -b ABC334XZL5K21J7
+123456
+</code></pre><p>If you want something more convinient I suggest
+<a href=https://github.com/pcarrier/gauth>gauth</a> which after configuration looks like
+this:</p><pre><code>$ gauth
+           prev   curr   next
+AWS        315306 135387 483601
+Airbnb     563728 339206 904549
+Google     453564 477615 356846
+Github     911264 548790 784099
+[=======                      ]
+</code></pre><p>I created a short Ruby script which converts auth-export output to gauth
+configuration file:</p><pre><code>#!/usr/bin/env ruby
+require 'uri'
+require 'cgi'
+require 'open3'
+require 'base64'
+
+STDIN.each_line do |line|
+  begin
+    uri = URI.parse(line)
+    name = uri.path[1..-1].gsub(':', ' ')
+    params = CGI.parse(uri.query)
+    puts &quot;#{name}:#{params['secret'][0]}&quot;
+  rescue RuntimeError
+    # pass
+  end
+end
+</code></pre><p>To use just redirect output to input:</p><pre><code>$ authy-export | ./authy2gauth &gt; ~/.config/gauth.csv
+</code></pre><p>With all of this, one can easily synchronize Authy tokens into gauth
+configuration and use both tools. I highly suggest to also make <code>gauth.csv</code>
+part of your daily backup.</p><p>A sidenote: to display the QR code on the console do something like:</p><pre><code>$ echo -n &quot;ootpauth://totp/Twitter:@lzap?digits=6&amp;secret=ABC334XZL5K21J7&quot; | qrencode -t UTF8
+</code></pre><p>Finally, &ldquo;ABC334XZL5K21J7&rdquo; is NOT my secret. Do not bother. Have fun! :-)</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

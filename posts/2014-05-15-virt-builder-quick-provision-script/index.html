@@ -1,0 +1,131 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Virt builder quick provision script</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2014-05-15-virt-builder-quick-provision-script/"><meta property="og:type" content="website"><meta property="og:title" content="Virt builder quick provision script"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Virt builder quick provision script"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2014-05-15-virt-builder-quick-provision-script/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2014-05-15-virt-builder-quick-provision-script/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2014-05-15-virt-builder-quick-provision-script/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Virt builder quick provision script</h1><small role=doc-subtitle></small><p class=post-date>May 15, 2014</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li></ul></div><div class=post-content><p><p>Until now, I was using <a href=https://github.com/lzap/snap-guest>snap-guest</a> tool
+together with Foreman to spawn my development/test virtual machines. I have
+been carefully monitoring
+(virt-builder)[http://libguestfs.org/virt-builder.1.html] tool in recent
+Fedoras and it looks like the version from Fedora 20 is finally usable for my
+scenarios (thanks Rich for fixing some annoying bugs for me).</p><p>Therefore I am happy to announce new tool called
+<a href=https://github.com/lzap/bin-public/blob/master/fvb>fvb</a> which stands for
+Foreman-virt-builder. This little script is based around two little commands
+virt-builder/virt-install and it has grown to something bigger over last
+couple of months. The usage is simple:</p><pre><code>fvb --install-deps
+</code></pre><p>The above command should install all required dependencies on Red Hat systems.
+Note Fedora 20+ is <em>required</em> to get this working since this needs some latest
+and greatest features from virt-builder.</p><pre><code>fvb -n my-nightly-foreman -f
+fvb -n rc-foreman -- &quot;FOREMAN_REPO=rc&quot; &quot;MYVAR=value&quot;
+fvb -n stable-foreman -- &quot;FOREMAN_REPO=releases/1.4&quot;
+fvb -n bz981123 -- &quot;KOJI_BUILD=http://mykoji.blah/taskinfo?taskID=97281&quot;
+fvb -n my-own-script --script fb-xyz.bats -- BATS_REPOOWNER=lzap BATS_BRANCH=test
+</code></pre><p>You may notice download of <code>centos-6.xz</code> file into <code>~/.cache/virt-builder</code>.
+This will only happen once, or when new CentOS minor release is uploaded. The
+template image is handled by virt-builder project itself.</p><p>The script works the following way:</p><ul><li>Generates MAC address from hypervisor hostname and guest hostname (hash) so
+it does not change when you provision again.</li><li>Removes existing guest from libvirt (if <code>--force</code> is given).</li><li>Generates random IP address.</li><li>Allocates DHCP and DNS entry with the MAC and IP in libvirt network
+(&ldquo;default&rdquo;) overwriting existing entries. This is compatible with virsh
+Foreman provider (and also works the similar way).</li><li>Installs your public SSH key on the image.</li><li>Creates a new VM image based on CentOS6 using virt-builder.</li><li>Configures a firstboot script:<ul><li>install git</li><li>install bats framework</li><li>install foreman-bats scripts</li><li>run script provided by <code>--script</code> option (by default
+fb-install-foreman.bats)</li></ul></li><li>Spawns the new image with virt-install (with nested kvm enabled if
+possible).</li><li>Refreshes dnsmasq configuration.</li><li>Waits until DHCP daemon (dnsmasq) returns the IP address.</li><li>Calls fortune command.</li></ul><h2 id=dnsmasq-configuration-optional>Dnsmasq configuration (optional)</h2><p>By default dnsmasq is installed on Fedora and Red Hat systems, but the daemon
+is turned off and it is only used by libvirt. What I usually do is I have it
+configured as a caching DNS daemon on my laptop. It not only speeds up DNS
+queries (web browsing is <em>much</em> faster on all connections), but it also allows
+me to redirect DNS queries for different domains to different DNS servers. For
+example:</p><pre><code># grep -v ^# /etc/dnsmasq.conf | sort -u
+bind-interfaces
+cache-size=500
+conf-dir=/etc/dnsmasq.d
+listen-address=127.0.0.1
+resolv-file=/etc/resolv.dnsmasq
+
+# cat /etc/resolv.conf
+nameserver 127.0.0.1
+domain redhat.com
+
+# cat /etc/resolv.dnsmasq
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+
+# cat /etc/dnsmasq.d/local.lan
+addn-hosts=/var/lib/libvirt/dnsmasq/default.addnhosts
+</code></pre><p>In the configuration above, you can see that dnsmasq is configured to read
+nameservers from a separate file (<code>/etc/resolv.dnsmasq</code>) where it has Google
+DNS public servers and to respond on localhost and to act like a simple DNS
+caching daemon. The system is configured to take advantage of that.</p><p>The last bit is configuration for local.lan domain (default <code>--domain</code> for fvb
+script). Libvirt keeps host names in this file and since this is in dnsmasq
+format, we can read it directly.</p><p>What does it mean? Well, if you configure everything according to this, once
+you spawn a VM called &ldquo;test&rdquo;, the box named &ldquo;test.local.lan&rdquo; will be
+immediately available, so you can do this:</p><pre><code>ssh root@test.local.lan
+</code></pre><p>Or even visit this:</p><pre><code>http://test.local.lan
+</code></pre><p>That&rsquo;s kinda cool, isn&rsquo;t it?</p><h2 id=notes-to-redhatters>Notes to redhatters</h2><p>If you are not a redhatter, skip to the next section. If you want this setup,
+make sure you have something like this:</p><pre><code># cat /etc/dnsmasq.d/redhat.com
+server=/redhat.com/9.8.7.1
+server=/redhat.com/9.8.7.2
+server=/www.redhat.com/8.8.8.8
+server=/vpn-concentrator-1.redhat.com/8.8.8.8
+server=/vpn-concentrator-2.redhat.com/8.8.8.8
+</code></pre><p>This configuration adds separate handling for redhat.com domain which goes to
+internal servers (these are dummy values). Also note that I want to use public
+DNS for vpn concentrators and web site (so I am able to connect initially and
+also the site works when not connected).</p><p>This way you can enjoy advantage of fvb script, fast public DNS lookups and
+fast internal lookups.</p><h2 id=what-next>What next?</h2><p>The fvb script is just a little prototype. It <a href=https://github.com/lzap/bin-public/blob/master/fvb>lives
+here</a> and I might move it
+into a separate repository eventually.</p><p>The script can be used for anything, you can provide different distribution
+(use <code>virt-builder -l</code> to list all the base images available to you) and
+provide any command with <code>--script</code> that should be executed. For example to
+deploy Katello Foreman plugin (which we sometimes call &ldquo;foretello&rdquo;), do:</p><pre><code>fvb -n knightly --script 'git clone https://github.com/Katello/katello-deploy.git &amp;&amp; cd katello-deploy &amp;&amp; ./setup.rb centos6'
+</code></pre><p>The script accepts any shell variables and values after the <code>--</code> option, so
+you are able to pass anything to your own scripts when needed.</p><p>Please send me patches and comments. If you like it, I can rename the project
+and generalize it a bit so it is useful for others as well.</p><h2 id=nested-virtualization>Nested virtualization</h2><p>I have one extra trick for you. If you do</p><pre><code>echo “options kvm-intel nested=1″ | sudo tee /etc/modprobe.d/kvm-intel.conf
+</code></pre><p>on the <em>host</em> machine and restart, you should be able to use KVM inside KVM.
+The fvb script spawns machines with required nesting options turned on, so you
+can configure Foreman/Katello for provisioning there.</p><h2 id=help>Help</h2><pre><code>usage: fvb options -- VARIABLE1=value1 ...
+
+Script for building images with Foreman preinstalled using virt-builder and
+bats suite on local libvirt host. The script also modifies dnsmasq
+configuration and sends SIGHUP to refresh so the hostname is instantly
+available. The root password is &quot;redhat&quot; but you should have your public
+ssh key installed by default.
+
+OPTIONS:
+  --help | -h
+        Show this message
+
+  --name | -n
+        Image name, default: nightly
+
+  --distro | -d
+        Distribution base image for virt-builder, default: centos-6
+
+  --force | -f
+        Overwrite target image and VM if they exist
+
+  --no-sudo
+        Do not use sudo for building and running VM - you will need to
+        set --image-dir accordingly too when running under regular user.
+
+  --image-dir [path]
+        Target images path
+        Default: /var/lib/libvirt/images
+
+  --domain [domain]
+        Domain suffix like &quot;mycompany.com&quot;, default: local.lan
+
+  --subnet [subnet]
+        Subnet to be used for writing DHCP/DNS configuration
+        Default: 192.168.122 (note there is no suffix or period)
+
+  --pub-key [key]
+        Install this public ssh key
+        Default: /home/you/.ssh/id_rsa.pub
+
+  --script [name]
+        BATS script to execute during first boot (can be any shell command)
+        Default: fb-install-foreman.bats
+
+  --install-deps
+        Install required dependencies
+</code></pre><p>Next time!</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

@@ -1,0 +1,40 @@
+#Vicevrstva neuronova sit pro rozpoznavani nemoci
+
+#Pocet vrstev
+2	
+#Pocet vstupu
+5
+#Popis vstupu
+Teplota 37 42
+Bolest_hlavy 0 100
+Kasel 0 100
+Unava 0 100
+Nocni_poceni 0 100
+
+#pocet neuronu v jednotlivych vrstvach
+4 3
+
+#popis vystupu
+Nachlazeni
+Chripka
+Zapal_plic
+
+#Koeficient uceni
+0.4
+
+#Koeficient vlivu z predchoziho kroku
+0.1
+
+#Trenovaci mnozina
+
+#Pocet prvku
+3
+#Jednotlive Prvky
+42 100 50  50  50    0 1 0
+37 100 100 20  0     1 0 0
+42 0   100 100 100   0 0 1
+
+#Testovaci vstupy
+#pocet
+1
+38.2 65 30 70 20.3

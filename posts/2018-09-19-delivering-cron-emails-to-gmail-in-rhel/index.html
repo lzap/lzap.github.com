@@ -1,0 +1,64 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Delivering cron and logwatch emails to gmail in RHEL</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora,rhel"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2018-09-19-delivering-cron-emails-to-gmail-in-rhel/"><meta property="og:type" content="website"><meta property="og:title" content="Delivering cron and logwatch emails to gmail in RHEL"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Delivering cron and logwatch emails to gmail in RHEL"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2018-09-19-delivering-cron-emails-to-gmail-in-rhel/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2018-09-19-delivering-cron-emails-to-gmail-in-rhel/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2018-09-19-delivering-cron-emails-to-gmail-in-rhel/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Delivering cron and logwatch emails to gmail in RHEL</h1><small role=doc-subtitle></small><p class=post-date>September 19, 2018</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/rhel>rhel</a></li></ul></div><div class=post-content><p><p>One of my servers has no real DNS name, there is no MX record and I can hardly
+confiture postfix for e-mail delivery. While relaying e-mails to another SMTP
+server is an option, it&rsquo;s actually not needed to configure MTA in order to get
+emails delivered from cron and logwatch. One can use MUA called <em>mailx</em> to do
+the job.</p><p>The goal is to avoid more complex configuration of <code>postfix</code> or (jeeeez)
+<code>sendmail</code>, so this is an alternative approach. I am not telling you this is
+the best thing you should do. It just works for few of my Linux servers. This
+will work both on RHEL6 and RHEL7 and probably even older or newer versions.
+And of course CentOS as well.</p><p>Vixie cron, the default cron in RHEL, uses <code>sendmail</code> command for all emails.
+This is actually part of <code>postfix</code> package, delivery is handled by the MTA
+which I actually wanted to avoid. In this tutorial, we will configure vixie
+cron in RHEL7 to send e-mails via mailx user agent. First of all, get <code>mailx</code>
+installed:</p><pre><code># yum -y install mailx
+</code></pre><p>Then edit either <code>/etc/mail.rc</code> or <code>/root/.mailrc</code> as follows:</p><pre><code># cat /root/.mailrc
+set name=&quot;Server1234&quot;
+set from=&quot;username@gmail.com&quot;
+set smtp=smtps://smtp.gmail.com
+set smtp-auth=login
+set smtp-auth-user=username@gmail.com
+set smtp-auth-password=mysecretpassword
+set ssl-verify=ignore
+set nss-config-dir=/etc/pki/nssdb
+</code></pre><p>Make sure that <code>from</code> address is same as <code>smtp-auth-user</code> address, gmail
+servers will insist on this. Server certificate is ignored, you may want to
+install it into the NSS database. We are ready to send a test e-mail:</p><pre><code># mailx -r username@gmail.com username@gmail.com
+Subject: Test
+
+This is a test
+.
+EOT
+</code></pre><p>There will be a warning on the standard error about unkonwn certificate. I
+suggest to put google server CA into the NSS database, but it&rsquo;s harmless and
+you can keep it as is if you don&rsquo;t mind man-in-the-middle.</p><pre><code>Error in certificate: Peer's certificate issuer is not recognized.
+</code></pre><p>Now, create a wrapper script that will explicitly set from and to addresses:</p><pre><code># cat /usr/local/sbin/mailx-r
+#!/bin/sh
+exec mailx -r username@gmail.com username@gmail.com
+</code></pre><p>Make sure the script is executable. Finally, set it via crond command line
+option:</p><pre><code># cat /etc/sysconfig/crond
+CRONDARGS=&quot;-m /usr/local/sbin/mailx-r&quot;
+</code></pre><p>And restart crond:</p><pre><code># service crond restart
+</code></pre><p>You are now receiving e-mails from cron, congratulations. The next step I
+usually do is installing logwatch. Since it also uses <code>sendmail</code> we want to
+disable it and run it manually from our own cron script feeding the output to
+the <code>mailx</code> command:</p><pre><code># yum -y install logwatch
+</code></pre><p>Disable the built-in daily report because this one uses <code>sendmail</code>. While it
+could be possible to change this via some configuration option, I actually like
+my very own cron script.</p><pre><code># cat /etc/logwatch/conf/logwatch.conf
+DailyReport = no
+</code></pre><p>Now, create your own script and feed the output into mailx. For a weekly report
+do something like:</p><pre><code># cat /etc/cron.weekly/logwatch
+#!/bin/bash
+logwatch --print --range 'between -7 days and today' | mailx -s &quot;Logwatch from XYZ&quot; -r username@gmail.com username@gmail.com 2&gt;/dev/null
+</code></pre><p>For a daily report do this:</p><pre><code># cat /etc/cron.daily/logwatch
+#!/bin/bash
+logwatch --print --range yesterday | mailx -s &quot;Logwatch from XYZ&quot; -r username@gmail.com username@gmail.com 2&gt;/dev/null
+</code></pre><p>Make sure the cron script is executable and test it first. That&rsquo;s all, enjoy
+all the e-mails!</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

@@ -1,0 +1,91 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>HTTP UEFI Boot with TianoCore libvirt</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2022-11-05-http-uefi-boot-with-tianocore-libvirt/"><meta property="og:type" content="website"><meta property="og:title" content="HTTP UEFI Boot with TianoCore libvirt"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="HTTP UEFI Boot with TianoCore libvirt"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2022-11-05-http-uefi-boot-with-tianocore-libvirt/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2022-11-05-http-uefi-boot-with-tianocore-libvirt/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2022-11-05-http-uefi-boot-with-tianocore-libvirt/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>HTTP UEFI Boot with TianoCore libvirt</h1><small role=doc-subtitle></small><p class=post-date>November 5, 2022</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li></ul></div><div class=post-content><p><p>One of the new features in EFI 2.x is &ldquo;HTTP Boot&rdquo; also known as &ldquo;UEFI HTTP
+Boot&rdquo; or &ldquo;UEFI Boot&rdquo;. Let&rsquo;s explore how you can use it in your environment, I
+will show everything on a Fedora server running KVM/QEMU with Open Virtual
+Machine Firmware (OVFM) TianoCore implementation.</p><p>First, we will need a Linux environment, that is in my case Fedora 35 Server
+Edition with libvirt installed. To serve HTTP files, I will use Apache2 httpd
+and iPXE as the bootloader, but this should also work with Grub2:</p><pre><code>    # dnf -y install @virtualization httpd ipxe-bootimgs-x86
+    # systemctl enable --now libvirtd httpd
+</code></pre><p>Next up, we need to setup DHCP to answer to HTTPBoot and iPXE clients with two
+different HTTP addresses. To do that, use the <code>virsh</code> command which will start
+the editor loaded with bunch of XML:</p><pre><code>    # virsh net-edit default
+</code></pre><p>Edit the XML and add <code>xmlns</code> attribute to the <code>network</code> tag and then the whole
+<code>dnsmasq:options</code> section:</p><pre><code>&lt;network xmlns:dnsmasq='http://libvirt.org/schemas/network/dnsmasq/1.0'&gt;
+  &lt;name&gt;default&lt;/name&gt;
+  &lt;uuid&gt;9f3e4377-3d33-42df-b34c-7880295d24ee&lt;/uuid&gt;
+  &lt;forward mode='nat'/&gt;
+  &lt;bridge name='virbr0' zone='trusted' stp='on' delay='0'/&gt;
+  &lt;mac address='52:54:00:7a:00:01'/&gt;
+  &lt;ip address='192.168.122.1' netmask='255.255.255.0'&gt;
+    &lt;dhcp&gt;
+      &lt;range start='192.168.122.2' end='192.168.122.254'/&gt;
+    &lt;/dhcp&gt;
+  &lt;/ip&gt;
+  &lt;dnsmasq:options&gt;
+    &lt;dnsmasq:option value='dhcp-vendorclass=set:efi-http,HTTPClient:Arch:00016'/&gt;
+    &lt;dnsmasq:option value='dhcp-option-force=tag:efi-http,60,HTTPClient'/&gt;
+    &lt;dnsmasq:option value='dhcp-match=set:ipxe,175'/&gt;
+    &lt;dnsmasq:option value='dhcp-boot=tag:efi-http,&amp;quot;http://192.168.122.1/boot/ipxe-x86_64.efi&amp;quot;'/&gt;
+    &lt;dnsmasq:option value='dhcp-boot=tag:ipxe,&amp;quot;http://192.168.122.1/boot/menu.ipxe&amp;quot;'/&gt;
+  &lt;/dnsmasq:options&gt;
+&lt;/network&gt;
+</code></pre><p>It might look a bit cryptic, but what it really does is configuring the DHCP
+service (dnsmasq) that is launched by libvirt daemon automatically to answer
+with two different HTTP URLs depending on &ldquo;who asks&rdquo;. If it&rsquo;s HTTPClient (UEFI
+firmware), then <code>ipxe-x86_64.efi</code> file will be returned. If it&rsquo;s iPXE (the
+bootloader), then <code>menu.ipxe</code> which is a configuration (script). For all other
+requests, just network information (IP, router, DNS) will be returned.</p><p>I also suggest to set the <code>zone</code> of the bridge interface to <code>trusted</code> so all
+connections are enabled. Or alternatively, you need to set up firewall to allow
+DHCP and HTTP services for the zone you have your libvirt bridge in.</p><p>Save and exit, now very important: every time you change this configuration you
+need to restart the network. Make sure to power off all VMs on that network
+(all connections will be lost anyway):</p><pre><code># virsh net-destroy default; virsh net-start default
+</code></pre><p>Now, let&rsquo;s prepare boot files and configuration by creating a directory:</p><pre><code># mkdir -p /var/www/html/boot/f36
+# cp /usr/share/ipxe/ipxe-x86_64.efi /var/www/html/boot
+# cd /var/www/html/boot/f36
+# curl https://download.fedoraproject.org/pub/fedora/linux/releases/36/Server/x86_64/os/images/pxeboot/vmlinuz
+# curl https://download.fedoraproject.org/pub/fedora/linux/releases/36/Server/x86_64/os/images/pxeboot/initrd.img
+# cd -
+</code></pre><p>Create a menu which is a iPXE script. This bootloader has very rich scripting
+capabilities, for my testing I will simply start up Anaconda:</p><pre><code># cat menu.ipxe
+#!ipxe
+echo &quot;Booting Fedora 36 Anaconda...&quot;
+kernel http://192.168.122.1/boot/f36/vmlinuz initrd=initrd.img inst.repo=https://download.fedoraproject.org/pub/fedora/linux/releases/36/Server/x86_64/os/ ip=dhcp
+initrd http://192.168.122.1/boot/f36/initrd.img
+boot
+</code></pre><p>If you want to automate installation, feel free to add <code>inst.ks</code> option with a
+path to a kickstart file. The whole directory should look something like:</p><pre><code># find /var/www/html/boot/
+/var/www/html/boot/
+/var/www/html/boot/ipxe-x86_64.efi
+/var/www/html/boot/f36
+/var/www/html/boot/f36/vmlinuz
+/var/www/html/boot/f36/initrd.img
+/var/www/html/boot/menu.ipxe
+</code></pre><p>If you have SELinux in enforcing mode like I do, double check contexts of these files.</p><p>Let&rsquo;s create a new VM, I use Cockpit Virtual Machines plugin, creating new VM
+is super easy. Make sure not to launch the VM immediately, but click on &ldquo;Create
+and Edit&rdquo; and before starting it up for the first time, change the firmware
+from BIOS to UEFI. If you create a VM with BIOS firmware, you cannot easily
+change it back, at least not via Cockpit so pay special attention.</p><p>Now, very important: When you create a new EFI VM, the firmware will be
+configured in SecureBoot by default. In this mode, only HTTPS protocol is
+allowed. All HTTP requests will end up with &ldquo;Access denied&rdquo; cryptic error. You
+have two options, turn off SecureBoot if you want to use HTTP, or enroll server
+CA certificate into the firmware and change the libvirt network configuration
+to HTTPS. In this case, make sure the server uses the correct hostname which
+matches the X509 CN and DNS resolves it correctly.</p><p>For my testing, I will simply turn off SecureBoot as it&rsquo;s good enough:</p><ul><li>Power on the EFI VM.</li><li>Focus the console by clicking it quickly.</li><li>Keep pressing Escape key over and over again.</li><li>A firmware screen should come up.</li><li>Navigate to Device Manager - Secure Boot Configuration.</li><li>Uncheck Attempt Secure Boot. Save your changes via Reset option.</li></ul><p>To enroll X509 CA, you will need to create a floppy, copy the file and insert
+it into the firmware. For more info:
+<a href=https://github.com/tianocore/tianocore.github.io/wiki/HTTP-Boot>https://github.com/tianocore/tianocore.github.io/wiki/HTTP-Boot</a></p><p>It is also possible to hardcode the HTTP URL of the bootloader directly into
+the firmware, this will work both with HTTP with SecureBoot disabled, or with
+HTTPS if you enroll the X509 CA certificate. But this is out of scope of this
+post.</p><p>Also note that the default boot order in the firmware is: UEFI PXE IPv4, UEFI
+PXE IPv6 and only then HTTP Boot IPv4 is attempted. If you do not want to wait,
+change the boot order so UEFI HTTP Boot is the first. That&rsquo;s all, start your VM
+and it should boot up. This is the full sequence:</p><ul><li>A EFI VM starts up and TianoCore firmware loads up.</li><li>A DHCP request is made with HTTPClient identifier</li><li>Dnsmasq configured via libvirt answers with <code>http://192.168.122.1/boot/ipxe-x86_64.efi</code> address.</li><li>Bootloader is downloaded via HTTP and started up.</li><li>A new DHCP request is made, this time with iPXE identifier.</li><li>Dnsmasq configured via libvirt answers with <code>http://192.168.122.1/boot/menu.ipxe</code> address.</li><li>The bootloader downloads and interprets the script.</li><li>Linux kernel and initram disk are downloaded and loaded.</li><li>Linux boots up, initializes network, another DHCP request is made.</li><li>Anaconda installer starts up, kickstart is loaded and the installation can start up.</li></ul><p>If you need to debug DHCP server, add the following entries to the libvirt XML
+file:</p><pre><code>    &lt;dnsmasq:option value='log-queries'/&gt;
+    &lt;dnsmasq:option value='log-dhcp'/&gt;
+    &lt;dnsmasq:option value='log-debug'/&gt;
+</code></pre><p>To debug Apache2, just tail <code>/var/log/httpd/access_log</code>. That is all for today!</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

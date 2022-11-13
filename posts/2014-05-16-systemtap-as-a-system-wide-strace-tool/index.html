@@ -1,0 +1,59 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>SystemTap as a system wide strace tool</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora,systemtap"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2014-05-16-systemtap-as-a-system-wide-strace-tool/"><meta property="og:type" content="website"><meta property="og:title" content="SystemTap as a system wide strace tool"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="SystemTap as a system wide strace tool"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2014-05-16-systemtap-as-a-system-wide-strace-tool/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2014-05-16-systemtap-as-a-system-wide-strace-tool/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2014-05-16-systemtap-as-a-system-wide-strace-tool/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>SystemTap as a system wide strace tool</h1><small role=doc-subtitle></small><p class=post-date>May 16, 2014</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/systemtap>systemtap</a></li></ul></div><div class=post-content><p><p>I needed to find a process that was searching for several file patterns. I
+could use strace tool but since this one was a Apache2 module, I would need to
+hack startup scripts and probably create a wrapper script. There was another
+way of doing that - using SystemTap.</p><p>My problem was simple - I wanted to see process name, pid and full absolute
+path for a filename pattern. The goal was set, with little bit of googling, I
+was able to write this (not ideal and hacky) SystemTap script:</p><pre><code>$ cat syscall_open.stp
+#!/usr/bin/env stap
+#
+# System-wide strace-like tool for catching file open syscalls.
+#
+# Usage: stap syscall_open filename_regexp
+#
+global myfilename
+probe syscall.open {
+  myfilename = filename
+}
+probe syscall.open.return {
+  if (myfilename =~ @1) {
+    printf (&quot;%s(%d) opened %s -&gt; %d\n&quot;, execname(), pid(), myfilename, $return)
+  }
+}
+</code></pre><p>Before we can use SystemTap, we need to install those packages (this is for
+RHEL6/CentOS6). Note you <em>do need</em> debug info packages, otherwise this will
+not work (enable them via subscription-manager or in repo files):</p><pre><code>$ yum -y install systemtap systemtap-runtime kernel-debuginfo-`uname -r` \
+    kernel-debuginfo-common-`uname -i`-`uname -r` kernel-devel-`uname -r`
+</code></pre><p>Usage is super simple, you can either make it executable or to see more
+verbose output just do:</p><pre><code>$ stap -v syscall_open.stp native_support.so
+</code></pre><p>This is effective for the whole system, after Apache2 httpd server restart and
+first access, I was able to find why the heck mod_passenger searches on wrong
+paths:</p><pre><code>ruby(4257) opened &quot;/usr/lib/ruby/gems/1.8/gems/passenger-4.0.18/lib/native/passenger_native_support.so&quot; -&gt; -2
+ruby(4257) opened &quot;/opt/rh/ruby193/root/usr/local/share/ruby/site_ruby/native/passenger_native_support.so&quot; -&gt; -2
+ruby(4257) opened &quot;/opt/rh/ruby193/root/usr/local/lib64/ruby/site_ruby/native/passenger_native_support.so&quot; -&gt; -2
+ruby(4257) opened &quot;/opt/rh/ruby193/root/usr/share/ruby/vendor_ruby/native/passenger_native_support.so&quot; -&gt; -2
+ruby(4257) opened &quot;/opt/rh/ruby193/root/usr/lib64/ruby/vendor_ruby/native/passenger_native_support.so&quot; -&gt; -2
+ruby(4257) opened &quot;/opt/rh/ruby193/root/usr/share/rubygems/native/passenger_native_support.so&quot; -&gt; -2
+ruby(4257) opened &quot;/opt/rh/ruby193/root/usr/share/ruby/native/passenger_native_support.so&quot; -&gt; -2
+ruby(4257) opened &quot;/opt/rh/ruby193/root/usr/lib64/ruby/native/passenger_native_support.so&quot; -&gt; -2
+ruby(4257) opened &quot;/usr/share/foreman/.passenger/native_support/4.0.18/ruby-1.9.3-x86_64-linux/passenger_native_support.so&quot; -&gt; -2
+ruby(4257) opened &quot;/usr/share/foreman/.passenger/native_support/4.0.18/ruby-1.9.3-x86_64-linux/passenger_native_support.so.rb&quot; -&gt; -2
+ruby(4257) opened &quot;/usr/share/foreman/.passenger/native_support/4.0.18/ruby-1.9.3-x86_64-linux/passenger_native_support.so.so&quot; -&gt; -2
+ruby(4282) opened &quot;/usr/lib/ruby/gems/1.8/gems/passenger-4.0.18/lib/native/passenger_native_support.so&quot; -&gt; -2
+ruby(4282) opened &quot;/opt/rh/ruby193/root/usr/local/share/ruby/site_ruby/native/passenger_native_support.so&quot; -&gt; -2
+ruby(4282) opened &quot;/opt/rh/ruby193/root/usr/local/lib64/ruby/site_ruby/native/passenger_native_support.so&quot; -&gt; -2
+ruby(4282) opened &quot;/opt/rh/ruby193/root/usr/share/ruby/vendor_ruby/native/passenger_native_support.so&quot; -&gt; -2
+ruby(4282) opened &quot;/opt/rh/ruby193/root/usr/lib64/ruby/vendor_ruby/native/passenger_native_support.so&quot; -&gt; -2
+ruby(4282) opened &quot;/opt/rh/ruby193/root/usr/share/rubygems/native/passenger_native_support.so&quot; -&gt; -2
+ruby(4282) opened &quot;/opt/rh/ruby193/root/usr/share/ruby/native/passenger_native_support.so&quot; -&gt; -2
+ruby(4282) opened &quot;/opt/rh/ruby193/root/usr/lib64/ruby/native/passenger_native_support.so&quot; -&gt; -2
+ruby(4282) opened &quot;/usr/share/foreman/.passenger/native_support/4.0.18/ruby-1.9.3-x86_64-linux/passenger_native_support.so&quot; -&gt; -2
+ruby(4282) opened &quot;/usr/share/foreman/.passenger/native_support/4.0.18/ruby-1.9.3-x86_64-linux/passenger_native_support.so.rb&quot; -&gt; -2
+ruby(4282) opened &quot;/usr/share/foreman/.passenger/native_support/4.0.18/ruby-1.9.3-x86_64-linux/passenger_native_support.so.so&quot; -&gt; -2
+</code></pre><p>SystemTap is awesome tool. It helps me every week :-)</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

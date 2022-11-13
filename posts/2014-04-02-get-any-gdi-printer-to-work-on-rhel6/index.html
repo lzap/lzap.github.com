@@ -1,0 +1,81 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Get any GDI printer to work on RHEL6</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2014-04-02-get-any-gdi-printer-to-work-on-rhel6/"><meta property="og:type" content="website"><meta property="og:title" content="Get any GDI printer to work on RHEL6"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Get any GDI printer to work on RHEL6"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2014-04-02-get-any-gdi-printer-to-work-on-rhel6/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2014-04-02-get-any-gdi-printer-to-work-on-rhel6/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2014-04-02-get-any-gdi-printer-to-work-on-rhel6/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Get any GDI printer to work on RHEL6</h1><small role=doc-subtitle></small><p class=post-date>April 2, 2014</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li></ul></div><div class=post-content><p><p>I was happy enough to get an old Konica Minolta 163 copy machine and printer.
+These devices can deliver black and white printouts at low prices. But this
+one is GDI only printer without overpriced network/cpu extension PCL card.
+What to do now?</p><p>Well, I have one license of Windows XP running in libvirt in the house. Oh, by
+the way Microsoft support is ending this month, <em>what will I do</em>? :-)
+Seriously, how about connecting the machine to my host machine (RHEL6) and
+passing the USB device into Windows so I can share the printer and print (via
+Google Cloud Print as well). The plan is set.</p><p>And it works just like that. Using virt-manager, you can assign the USB
+device, install drivers (I&rsquo;d recommend to install drivers FIRST after my
+experience) and start printing. Remember to download GDI drivers and not PCL
+for this one otherwise it will not work. But there is a snag.</p><p>If you turn off your printer, the connection is lost. When I turn on the
+printer back, Windows cannot see it online and the USB device is gone. The
+only solution is to detach and reattach the USB device in virt-manager. Okay.
+Let&rsquo;s script this, first find the device and vendor USB ID:</p><pre><code># lsusb | grep Minolta
+Bus 002 Device 004: ID 132b:204c Konica Minolta
+</code></pre><p>Create a libvirt XML definition:</p><pre><code># cat /var/lib/libvirt/minolta.xml
+&lt;hostdev mode=&quot;subsystem&quot; type=&quot;usb&quot; managed=&quot;yes&quot;&gt;
+    &lt;source&gt;
+        &lt;vendor id=&quot;0x132b&quot;/&gt;
+        &lt;product id=&quot;0x204c&quot;/&gt;
+    &lt;/source&gt;
+&lt;/hostdev&gt;
+</code></pre><p>And reattach with this:</p><pre><code># virsh detach-device GUEST_NAME /var/lib/libvirt/minolta.xml
+# virsh attach-device GUEST_NAME /var/lib/libvirt/minolta.xml
+</code></pre><p>Once you have this working and you are tired with typing command after you
+turn your printer on, then use udev to do this automatically. Warning: This is
+tuned for RHEL6/CentOS6 and it may not work on your Ubuntu/Debian depending of
+the version of your distribution:</p><pre><code># cat /etc/udev/rules.d/90-libvirt-usb.rules
+ACTION==&quot;add&quot;, \
+    SUBSYSTEM==&quot;usb&quot;, \
+    ENV{ID_VENDOR_ID}==&quot;132b&quot;, \
+    ENV{ID_MODEL_ID}==&quot;204c&quot;, \
+    RUN+=&quot;/usr/bin/virsh attach-device GUEST_NAME /var/lib/libvirt/minolta.xml&quot;
+ACTION==&quot;remove&quot;, \
+    SUBSYSTEM==&quot;usb&quot;, \
+    ENV{ID_VENDOR_ID}==&quot;132b&quot;, \
+    ENV{ID_MODEL_ID}==&quot;204c&quot;, \
+    RUN+=&quot;/usr/bin/virsh detach-device GUEST_NAME /var/lib/libvirt/minolta.xml&quot;
+ACTION==&quot;add&quot;, \
+    SUBSYSTEM==&quot;usb&quot;, \
+    ENV{ID_VENDOR_ID}==&quot;132b&quot;, \
+    ENV{ID_MODEL_ID}==&quot;204c&quot;, \
+    RUN+=&quot;/bin/logger Attaching USB device to KVM guest&quot;
+ACTION==&quot;remove&quot;, \
+    SUBSYSTEM==&quot;usb&quot;, \
+    ENV{ID_VENDOR_ID}==&quot;132b&quot;, \
+    ENV{ID_MODEL_ID}==&quot;204c&quot;, \
+    RUN+=&quot;/bin/logger Detaching USB device to KVM guest&quot;
+</code></pre><p>After you create this file, do not forget to reload udev rules with</p><pre><code>udevadm control --reload-rules
+</code></pre><p>The two last add and remove commands in the file above are only for monitoring
+purposes. I want some clear messages in my syslog:</p><pre><code>kernel: usb 2-1: USB disconnect, device number 3
+logger: Detaching USB device to KVM guest
+kernel: usb 2-1: new full speed USB device number 4 using uhci_hcd
+kernel: usb 2-1: New USB device found, idVendor=132b, idProduct=204c
+kernel: usb 2-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+kernel: usb 2-1: Product: KONICA MINOLTA 163
+kernel: usb 2-1: Manufacturer: KONICA MINOLTA
+kernel: usb 2-1: SerialNumber: 02145339
+kernel: usb 2-1: configuration #1 chosen from 1 choice
+logger: Attaching USB device to KVM guest
+</code></pre><p>Of course you can see more detailed udev output using</p><pre><code>udevadm monitor --property --kernel --udev
+</code></pre><p>One additional remark - for this particular printer, I had troubles with USB
+2.0, so I disabled it completely leaving USB 1.1. Transfer bandwidth does not
+matter much for GDI printing I guess. Maybe it was wrong cable (I tried two
+USB cables), anyway it works just fine.</p><p>Also, I turned off CUPS on my host system and disabled usblp driver (it was
+acquiring the device via udev which was useless - I don&rsquo;t use LP on the host):</p><pre><code>service cups stop
+chkconfig cups off
+
+# cat /etc/modprobe.d/blacklist.conf
+blacklist ehci_hcd
+blacklist usblp
+</code></pre><p>That&rsquo;s all. You can use this approach to get any winprinter working on Linux
+(RHEL6) via libvirt (kvm/qemu). All you really need is a valid Windows license
+and Linux box with libvirt.</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

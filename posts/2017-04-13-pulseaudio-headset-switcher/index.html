@@ -1,0 +1,54 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>PulseAudio headset switcher</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2017-04-13-pulseaudio-headset-switcher/"><meta property="og:type" content="website"><meta property="og:title" content="PulseAudio headset switcher"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="PulseAudio headset switcher"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2017-04-13-pulseaudio-headset-switcher/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2017-04-13-pulseaudio-headset-switcher/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2017-04-13-pulseaudio-headset-switcher/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>PulseAudio headset switcher</h1><small role=doc-subtitle></small><p class=post-date>April 13, 2017</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li></ul></div><div class=post-content><p><p>From time to time I encounter an embarrasing moment on meeting when new
+headset does not work. I purchased new one which only made some noise instead.
+I will return this back, but in the meantime I found a Logitech USB headset in
+my closet and it works pretty well, so I think I am gonna stick with it.</p><p>I created few aliases that will help me to switch PulseAudio default input and
+output to headset and back and forth. My aliases also switch all existing
+streams, which is great if I open up BlueJeans or WebEx before making the
+change.</p><p>This switches input and output to headset, volume is about 90 % for output,
+100 % for input, unmutes input and says &ldquo;Speak&rdquo;:</p><pre><code>auheadset
+</code></pre><p>This puts everything back to laptop default soundcard setting full output
+volume and zero input volume:</p><pre><code>aunormal
+</code></pre><p>This mutes the card and says &ldquo;Mute&rdquo;:</p><pre><code>aumute
+</code></pre><p>And this unmutes it and says &ldquo;Speak&rdquo;:</p><pre><code>auspeak
+</code></pre><p>I have some key bindings in my i3 window manager to do mute/unmute using
+keyboard shortcut. I have to say this is finally a setup that works. Here is
+the script you need to put into your .bashrc:</p><pre><code>export MY_NORMAL_OUTPUT=alsa_output.pci-0000_00_1b.0.analog-stereo
+export MY_NORMAL_INTPUT=alsa_input.pci-0000_00_1b.0.analog-stereo
+export MY_HEADSET_OUTPUT=alsa_output.usb-Logitech_Logitech_USB_Headset-00.analog-stereo
+export MY_HEADSET_INPUT=alsa_input.usb-Logitech_Logitech_USB_Headset-00.analog-mono
+alias auvolup=&quot;pactl set-sink-volume $MY_HEADSET_OUTPUT +10% &amp;&amp; pactl play-sample blip&quot;
+alias auvoldown=&quot;pactl set-sink-volume $MY_HEADSET_OUTPUT -10% &amp;&amp; pactl play-sample blip&quot;
+alias auvolfull=&quot;pactl set-sink-volume $MY_HEADSET_OUTPUT 65536 &amp;&amp; pactl play-sample blip&quot;
+alias aumute=&quot;pactl set-source-mute $MY_HEADSET_INPUT yes &amp;&amp; pactl play-sample mute&quot;
+alias auspeak=&quot;pactl set-source-mute $MY_HEADSET_INPUT no &amp;&amp; pactl play-sample speak&quot;
+function pacmd-set-output-input {
+  pacmd set-default-sink $1
+  echo &quot;Default output set $1 (volume $3)&quot;
+  pacmd set-default-source $2
+  echo &quot;Default intput set $2 (volume $4)&quot;
+  pacmd set-sink-volume $1 $3
+  pacmd set-source-volume $2 $4
+  pacmd list-sink-inputs | grep index | while read line; do
+    INDEX=$(echo $line | cut -f2 -d' ')
+    echo &quot;Moving $INDEX to $1&quot;
+    pacmd move-sink-input $INDEX $1
+  done
+  pactl play-sample blip
+  echo &quot;Done, all set to $5&quot;
+  [[ &quot;$5&quot; == &quot;HEADSET&quot; ]] &amp;&amp; auspeak
+}
+alias aunormal=&quot;pacmd-set-output-input $MY_NORMAL_OUTPUT $MY_NORMAL_INTPUT 65536 0 NORMAL&quot;
+alias auheadset=&quot;pacmd-set-output-input $MY_HEADSET_OUTPUT $MY_HEADSET_OUTPUT 40000 65536 HEADSET&quot;
+</code></pre><p>You need to edit <code>MY_*</code> variables, use <code>pactl list</code> to find your device names.</p><p>You also want to put this in your startup script of your WM or somewhere else
+where it is loaded just once when PulseAudio starts. In the worst case you can
+put this into your .bashrc as well, but it will slow down your shell start.</p><pre><code>pactl upload-sample ~/.i3/blip.wav blip
+pactl upload-sample ~/.i3/mute.wav mute
+pactl upload-sample ~/.i3/speak.wav speak
+</code></pre><p>I found USB headset to be much more cleaner than integrated laptop sound card.</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

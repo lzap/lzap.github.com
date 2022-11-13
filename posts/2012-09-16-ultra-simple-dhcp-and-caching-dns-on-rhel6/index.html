@@ -1,0 +1,53 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Ultra simple DHCP and caching DNS on RHEL6</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2012-09-16-ultra-simple-dhcp-and-caching-dns-on-rhel6/"><meta property="og:type" content="website"><meta property="og:title" content="Ultra simple DHCP and caching DNS on RHEL6"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Ultra simple DHCP and caching DNS on RHEL6"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2012-09-16-ultra-simple-dhcp-and-caching-dns-on-rhel6/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2012-09-16-ultra-simple-dhcp-and-caching-dns-on-rhel6/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2012-09-16-ultra-simple-dhcp-and-caching-dns-on-rhel6/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Ultra simple DHCP and caching DNS on RHEL6</h1><small role=doc-subtitle></small><p class=post-date>September 16, 2012</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li></ul></div><div class=post-content><p><p>I had to configure DHCP and DNS caching server on a small LAN today, but I
+needed to change several A DNS entries for specific services that has
+different IP addresses externally and internally.</p><p>It turns out it is not possible to do this easily with BIND. The only way to
+do this is to create zone with all the setting and zone transfer. It looks
+like overkill to me.</p><p>When I was googling this, I stumbled upon <a href=http://www.thekelleys.org.uk/dnsmasq/doc.html>dnsmasq</a>.</p><p>It is a trivial DHCP/DNS/BOOTP/TFTP/PXE server with several nice features and
+one of these is ability to change DNS records. Since it is ideal for my case,
+I have decided to shut down dhcpd and named and use it. It turned out it was a
+great decision.</p><p>Installation is super easy, it&rsquo;s part of RHEL 6 base channels.</p><pre><code>yum -y install dnsmasq
+</code></pre><p>It&rsquo;s a very small package.</p><pre><code># rpm -ql dnsmasq
+/etc/dbus-1/system.d/dnsmasq.conf
+/etc/dnsmasq.conf
+/etc/dnsmasq.d
+/etc/rc.d/init.d/dnsmasq
+/usr/sbin/dnsmasq
+/usr/share/doc/dnsmasq-2.48
+...
+/usr/share/man/man8/dnsmasq.8.gz
+/var/lib/dnsmasq
+</code></pre><p>That does not mean it has little features. In fact, it has this nice set of
+killer features and I really love how all the services it provides are
+integrated. For example one can easily bind DHCP client names and DNS records,
+integration between DHCP and booting protocols is also very nice.</p><p>To see all of the features read the /etc/dnsmasq.conf file. All lines are
+commented, but fully documented. You don&rsquo;t even need to turn on anything,
+dnsmasq provides sane defaults. To get basic behavior, just start it:</p><pre><code>service dnsmasq start
+chkconfig dnsmasq on
+</code></pre><p>It will read your /etc/resolv.conf to retrieve nameservers, it will determine
+your network and start serving as DNS caching daemon and DHCP service for that
+network. Please note it listens on <em>all</em> interfaces by default.</p><p>In my case, I only uncommented few options:</p><pre><code># grep -v '^#' /etc/dnsmasq.conf | sed '/^$/d'
+address=/some.server.net/10.0.0.100
+</code></pre><p>Yeah, I need to return different IP addresses for few DNS queries. In this
+case, I want some.server.net to be resolved as 10.0.0.100. Dnsmasq is also
+able to read /etc/hosts if you want that, but you need to explicitly enable
+this.</p><pre><code>expand-hosts
+domain=lan
+</code></pre><p>I want to all the DHCP clients to have &ldquo;lan&rdquo; extension, therefore computer
+that is named &ldquo;alpha&rdquo; is added as &ldquo;alpha.lan&rdquo; in DNS. By default they are
+added without any extension I guess.</p><pre><code>dhcp-host=jirka,10.0.0.30,infinite
+</code></pre><p>I want machine which says it&rsquo;s named &ldquo;jirka&rdquo; to have this address for infinite
+time. Dnsmasq is very powerful in this, you can create various rules using
+dhcp-host and it is also able to read /etc/hosts to read static IP
+definitions from there.</p><pre><code>dhcp-range=10.0.0.20,10.0.0.99,999h
+</code></pre><p>This is my DHCP range, I like long lease times in this network.</p><pre><code>dhcp-option=42,0.0.0.0
+</code></pre><p>And I have ntpd daemon that is opened for LAN requests, therefore I am giving
+this (maybe odd) option so clients can synchronize time against the server
+itself.</p><p>Okay, today I found this little-big-daemon is super useful. For small LANs
+with few computers, it&rsquo;s a swiss knife for every single administrator.</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

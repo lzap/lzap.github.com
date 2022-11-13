@@ -1,0 +1,48 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Letsencrypt a Fedora server</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2021-03-31-letsencrypt-a-fedora-server/"><meta property="og:type" content="website"><meta property="og:title" content="Letsencrypt a Fedora server"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Letsencrypt a Fedora server"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2021-03-31-letsencrypt-a-fedora-server/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2021-03-31-letsencrypt-a-fedora-server/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2021-03-31-letsencrypt-a-fedora-server/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Letsencrypt a Fedora server</h1><small role=doc-subtitle></small><p class=post-date>March 31, 2021</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li></ul></div><div class=post-content><p><p>I was looking for a simple letsencrypt tutorial for my home server running
+Fedora but it looks like the official (and quite capable) certbot is not
+availble in Fedora repos. So I have decided to go a more simple route of using
+acme-tiny shell script which is present and does the same, at least if you are
+running Apache httpd.</p><p>First off, install Apache httpd, SSL support and acme script itself:</p><pre><code># dnf install httpd mod_ssl acme-tiny
+</code></pre><p>Let&rsquo;s assume that the Apache server is already serving some files and is
+available on the desired domain via HTTP (not HTTPS yet):</p><pre><code># systemctl enable --now httpd
+# curl -s http://home.zapletalovi.com | grep -o &quot;Test Page&quot;
+Test Page
+</code></pre><p>We are almost there, trust me. Generate a new certificate request. OpenSSL tool
+will ask several questions like name, organization and this stuff. Make sure
+that the Common Name (CN) is correct.</p><pre><code># cd /etc/pki/tls
+# ln -s /var/lib/acme/csr .
+# openssl req -new -nodes -keyout private/home.zapletalovi.com.key -out csr/home.zapletalovi.com.csr
+# chmod 0400 private/home.zapletalovi.com.key
+</code></pre><p>The next step is the actual communication with the authority, putting the
+challenge hash into <code>/var/www/challenges</code> directory which is exported by Apache
+httpd and downloading the signed request:</p><pre><code># systemctl start acme-tiny
+</code></pre><p>See system journal for any errors. If you encounter one, just start the script
+manually but make sure to use acme user account not root:</p><pre><code># su acme -s /bin/bash
+# /usr/libexec/acme-tiny/sign
+</code></pre><p>And that&rsquo;s really all! You should have your certificate signed by letsencrypt
+now. Configure the desired software to use the new certificate and the key from
+the following paths:</p><pre><code># find /var/lib/acme /etc/pki/tls/private
+/var/lib/acme
+/var/lib/acme/certs
+/var/lib/acme/certs/home.zapletalovi.com.crt
+/var/lib/acme/csr
+/var/lib/acme/csr/home.zapletalovi.com.csr
+/var/lib/acme/private
+/var/lib/acme/private/account.key
+/etc/pki/tls/private/home.zapletalovi.com.key
+</code></pre><p>For example I want to actually configure the Apache httpd itself:</p><pre><code># grep zapletalovi /etc/httpd/conf.d/ssl.conf
+SSLCertificateFile /var/lib/acme/certs/home.zapletalovi.com.crt
+SSLCertificateKeyFile /etc/pki/tls/private/home.zapletalovi.com.key
+</code></pre><p>If you are like me and running under SELinux enforcing, make sure that the
+newly generated certificates have the proper label:</p><pre><code># semanage fcontext -a -f a -t cert_t '/var/lib/acme/certs(/.*)?'
+# restorecon -rv /var/lib/acme/certs
+</code></pre><p>The final and the most important step - enable systemd timer which will
+automatically extend the certificate for you:</p><pre><code># systemctl enable --now acme-tiny.timer
+</code></pre><p>That was easy.</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

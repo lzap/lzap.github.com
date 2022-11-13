@@ -1,0 +1,83 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Booting S390x libvirt VMs over network</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2021-02-02-booting-s390x-libvirt-vms-over-network/"><meta property="og:type" content="website"><meta property="og:title" content="Booting S390x libvirt VMs over network"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Booting S390x libvirt VMs over network"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2021-02-02-booting-s390x-libvirt-vms-over-network/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2021-02-02-booting-s390x-libvirt-vms-over-network/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2021-02-02-booting-s390x-libvirt-vms-over-network/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Booting S390x libvirt VMs over network</h1><small role=doc-subtitle></small><p class=post-date>February 2, 2021</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li></ul></div><div class=post-content><p><p>I am exploring S390x provisioning support for Foreman and it looks like network
+booting S390x virtual machines could be a good start. Foreman can be used with
+or without libvirt compute resource to either run and customize an image via
+SSH finish template or booting from network.</p><p>In QEMU environment, s390-ccw firmware is utilized to boot the operating system
+which is not as flexible as on Intel, but thanks to the recent work of Red Hat
+and IBM engineers in 2018 it offers two ways of booting from network via
+DHCP/BOOTP protocols.</p><p>The older method requires kernel and init RAM disk to be <a href=https://github.com/ibm-s390-tools/s390-tools/blob/master/netboot/mk-s390image>concatenated and
+sligthly
+modified</a>.
+Then it&rsquo;s just matter of configuring DHCP to return the filename option so the
+firmware can download it via TFTP and load into the memory. This would require
+calling an external script from Foreman once kernel and image are downloaded
+from the installation media.</p><p>The newer method from 2018 (qemu 3.0 and newer) is radically more simple, the
+firmware has a limited PXELinux configuration file parser which can recognize
+both kernel and init RAM disk and download them separately performing the
+required concatenation on the fly. There are several options available, the
+simplest one is to return the configuration file directly in the filename DHCP
+option.</p><p>Configuring dnsmasq, which is controlled by libvirt, is easy. Add <code>&lt;tftp></code> and
+<code>&lt;bootp></code> elements and restart the network:</p><pre><code># virsh net-edit default
+&lt;network&gt;
+  &lt;!-- ... --&gt;
+  &lt;ip address=&quot;192.168.122.1&quot; netmask=&quot;255.255.255.0&quot;&gt;
+    &lt;tftp root=&quot;/var/lib/tftpboot&quot;/&gt;
+    &lt;dhcp&gt;
+      &lt;!-- ... --&gt;
+      &lt;bootp file=&quot;pxelinux.cfg&quot;/&gt;
+    &lt;/dhcp&gt;
+  &lt;/ip&gt;
+&lt;/network&gt;
+</code></pre><p>Then create a PXELinux configuration file, make sure it starts with <code># pxelinux</code>; a magic string preventing executing this as it was a linux kernel.</p><pre><code># cat /var/lib/tftpboot/pxelinux.cfg
+# pxelinux
+default linux
+label linux
+kernel kernel.img
+initrd initrd.img
+append ip=dhcp inst.repo=http://download.xxx.com/RHEL-8.4.0/BaseOS/s390x/os
+</code></pre><p>A second more flexible option is to return a directory via the DHCP filename
+option, the firmware then searches <code>pxelinux.cfg/</code> subdirectory using the
+PXELinux pattern: UUID, MAC address and finally <code>default</code> fallback
+configuration file. In that case:</p><pre><code># virsh net-edit default
+&lt;network&gt;
+  &lt;!-- ... --&gt;
+  &lt;ip address=&quot;192.168.122.1&quot; netmask=&quot;255.255.255.0&quot;&gt;
+    &lt;tftp root=&quot;/var/lib/tftpboot&quot;/&gt;
+    &lt;dhcp&gt;
+      &lt;!-- ... --&gt;
+      &lt;bootp file=&quot;/&quot;/&gt;
+    &lt;/dhcp&gt;
+  &lt;/ip&gt;
+&lt;/network&gt;
+</code></pre><p>The PXELinux configuration is the same, it don&rsquo;t even need to have the <code># pxelinux</code> magic header. Keep in mind that the parser ignores most of the
+statements, there will be no menu, it will automatically pick the first option.
+But that&rsquo;s good enough to automate installations via Foreman where PXELinux is
+fully supported.</p><p>To see it in action:</p><pre><code># virsh start test --console
+Domain test started
+Connected to domain test
+Escape character is ^]
+done
+  Using IPv4 address: 192.168.122.207
+  Using TFTP server: 192.168.122.1
+  Bootfile name: '/'
+Trying pxelinux.cfg files...
+  Receiving data:  0 KBytes
+  TFTP: Received /pxelinux.cfg/default (297 bytes)
+Loading pxelinux.cfg entry 'linux'
+  Receiving data:  5000 KBytes
+  TFTP: Received kernel.img (5000 KBytes)
+  Receiving data:  40063 KBytes
+  TFTP: Received initrd.img (40063 KBytes)
+Network loading done, starting kernel...
+
+[    0.114133] Linux version 4.18.0-147.el8.s390x (mockbuild@s390-016.build.eng.bos.redhat.com) (gcc version 8.3.1 20190507 (Red Hat 8.3.1-4) (GCC
+)) #1 SMP Thu Sep 26 16:13:34 UTC 2019
+[    0.114135] setup: Linux is running under KVM in 64-bit mode
+</code></pre><p>And Linux on S390x is booting up from the network! I haven&rsquo;t tried this end to
+end with Foreman yet, but it looks promising. Later, lads.</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

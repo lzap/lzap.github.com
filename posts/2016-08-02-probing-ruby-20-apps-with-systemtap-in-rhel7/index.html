@@ -1,0 +1,203 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Probing Ruby 2.0 apps with SystemTap in RHEL7</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora,systemtap"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2016-08-02-probing-ruby-20-apps-with-systemtap-in-rhel7/"><meta property="og:type" content="website"><meta property="og:title" content="Probing Ruby 2.0 apps with SystemTap in RHEL7"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Probing Ruby 2.0 apps with SystemTap in RHEL7"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2016-08-02-probing-ruby-20-apps-with-systemtap-in-rhel7/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2016-08-02-probing-ruby-20-apps-with-systemtap-in-rhel7/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2016-08-02-probing-ruby-20-apps-with-systemtap-in-rhel7/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Probing Ruby 2.0 apps with SystemTap in RHEL7</h1><small role=doc-subtitle></small><p class=post-date>August 2, 2016</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/systemtap>systemtap</a></li></ul></div><div class=post-content><p><p>Few years ago, I wrote an article about SystemTap and Ruby in RHEL6. When RHEL
+7.0 was released, things changed. It has Ruby 2.0 and the Ruby SystemTap API
+changed as well, therefore I am updating my old article today according to new
+changes.</p><p>Imagine you have a Ruby application that has some performance issues on a
+production server and it&rsquo;s running RHEL 7.0 or newer. With SystemTap, you can
+easily peek into the running application and investigate bottlenecks or count
+memory objects. If you know DTrace from other operating systems, welcome home.</p><p>Installation of SystemTap is easy and straightforward and for our purposes we
+do not need to install kernel devel and debug info packages.</p><pre><code># yum -y install systemtap systemtap-runtime ruby
+</code></pre><p>Let&rsquo;s create a trivial application called factorial.rb.</p><pre><code># cat factorial.rb
+def factorial n
+  f = 1; for i in 1..n; f *= i; end; f
+end
+puts factorial(ARGV[0].to_i)
+</code></pre><p>And a simple SystemTap script that shows method calls:</p><pre><code># cat rubycalls.stp
+probe ruby.method.entry, ruby.cmethod.entry
+{
+  if (file == &quot;factorial.rb&quot;) {
+    printf(&quot;%s =&gt; %s.%s in %s:%d\n&quot;, thread_indent(1), classname, methodname, file, line);
+  }
+}
+probe ruby.method.return, ruby.cmethod.return
+{
+  if (file == &quot;factorial.rb&quot;) {
+    printf(&quot;%s &lt;= %s.%s in %s:%d\n&quot;, thread_indent(-1), classname, methodname, file, line);
+  }
+}
+</code></pre><p>Let&rsquo;s just run it for now.)</p><pre><code># stap rubycalls.stp -c &quot;ruby factorial.rb 4&quot;
+24
+ 0 ruby(29131): =&gt; IO.set_encoding in factorial.rb:0
+ 6 ruby(29131): &lt;= IO.set_encoding in factorial.rb:0
+ 0 ruby(29131): =&gt; IO.set_encoding in factorial.rb:0
+ 3 ruby(29131): &lt;= IO.set_encoding in factorial.rb:0
+ 0 ruby(29131): =&gt; #&lt;Class:0x00000002378c80&gt;.core#define_method in factorial.rb:1
+ 6 ruby(29131):  =&gt; Module.method_added in factorial.rb:1
+ 9 ruby(29131):  &lt;= Module.method_added in factorial.rb:1
+45 ruby(29131): &lt;= #&lt;Class:0x00000002378c80&gt;.core#define_method in factorial.rb:1
+ 0 ruby(29131): =&gt; String.to_i in factorial.rb:4
+ 2 ruby(29131): &lt;= String.to_i in factorial.rb:4
+ 0 ruby(29131): =&gt; Object.factorial in factorial.rb:1
+19 ruby(29131):  =&gt; Range.each in factorial.rb:2
+23 ruby(29131):  &lt;= Range.each in factorial.rb:2
+25 ruby(29131): &lt;= Object.factorial in factorial.rb:3
+ 0 ruby(29131): =&gt; Kernel.puts in factorial.rb:4
+ 7 ruby(29131):  =&gt; IO.puts in factorial.rb:4
+15 ruby(29131):   =&gt; Fixnum.to_s in factorial.rb:4
+18 ruby(29131):   &lt;= Fixnum.to_s in factorial.rb:4
+21 ruby(29131):   =&gt; IO.write in factorial.rb:4
+40 ruby(29131):   &lt;= IO.write in factorial.rb:4
+43 ruby(29131):   =&gt; IO.write in factorial.rb:4
+48 ruby(29131):   &lt;= IO.write in factorial.rb:4
+50 ruby(29131):  &lt;= IO.puts in factorial.rb:4
+52 ruby(29131): &lt;= Kernel.puts in factorial.rb:4
+</code></pre><p>Please note you have to run SystemTap under root account and also expect the
+first run to be a little bit slower, because SystemTap is compiling and
+inserting a kernel module under the hood.</p><p>SystemTap syntax is similar to C and the easiest way of learning it is reading
+<a href=https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/SystemTap_Beginners_Guide/>SystemTap Beginners
+Guide</a>.
+From the book:</p><p><em>SystemTap allows users to write and reuse simple scripts to deeply examine the
+activities of a running Linux system. These scripts can be designed to extract
+data, filter it, and summarize it quickly (and safely), enabling the diagnosis
+of complex performance (or even functional) problems.</em></p><p><em>The essential idea behind a SystemTap script is to name events, and to give
+them handlers. When SystemTap runs the script, SystemTap monitors for the
+event; once the event occurs, the Linux kernel then runs the handler as a quick
+sub-routine, then resumes.</em></p><p><em>There are several kinds of events; entering or exiting a function, timer
+expiration, session termination, etc. A handler is a series of script language
+statements that specify the work to be done whenever the event occurs. This
+work normally includes extracting data from the event context, storing them
+into internal variables, and printing results.</em></p><p>The following example will count method calls to quickly search for
+bottlenecks. If you don&rsquo;t understand how it works, head over to the Beginners
+Guide for more details.</p><pre><code># cat rubystack.stp
+#!/usr/bin/stap·
+
+global fn_calls;
+
+probe ruby.method.entry, ruby.cmethod.entry
+{
+  fn_calls[classname, methodname] &lt;&lt;&lt; 1;
+}
+
+probe end {
+  foreach ([classname, methodname] in fn_calls- limit 30) {
+    printf(&quot;%dx %s.%s\n&quot;, @count(fn_calls[classname, methodname]), classname, methodname);
+  }
+
+  delete fn_calls;
+}
+</code></pre><p>Everytime a Ruby method is entered, counter is incremented by one in a global
+associative array. It prints top thirty counters on exit. When we run it, it&rsquo;s
+a surprise!</p><pre><code># stap rubystack.stp -c &quot;ruby factorial.rb 42&quot;
+1405006117752879898543142606244511569936384000000000
+2904x Module.===
+1782x BasicObject.==
+1782x Kernel.===
+1027x Symbol.to_s
+1004x Kernel.initialize_dup
+1003x Kernel.dup
+990x Kernel.instance_variable_set
+695x String.to_s
+684x Hash.[]=
+660x Gem::Specification.default_value
+508x String.initialize_copy
+456x Class.new
+396x Array.initialize_copy
+388x String.gsub
+336x Kernel.class
+324x Array.each
+322x RbConfig.expand
+320x Module.method_added
+292x Array.flatten
+267x File.file?
+244x String.&lt;=&gt;
+242x #&lt;Class:0x0000000221ad70&gt;.core#define_method
+229x String.to_i
+210x Enumerable.any?
+185x String.strip
+184x File.join
+181x Regexp.=~
+169x Kernel.untaint
+168x Kernel.respond_to?
+161x String.=~
+</code></pre><p>I&rsquo;d expect multiplying operation (<code>Bignum.*</code>) but we see equality of module
+instead. Since we count <em>all</em> the method calls, we can see what Ruby needs to
+done in the backround to load such a trivial example. It&rsquo;s actually rubygems
+gem which ships with Ruby 2.0 that does the loading mechanics (and it&rsquo;s poorly
+designed in my opinion).</p><p>Anyway, if you want to see the bignum thing, increase the parameter from 42 to
+let&rsquo;s say 500. Now another example, slightly modified example from the <a href=https://sourceware.org/systemtap/wiki/RubyMarker>SystemTap Wiki</a>:</p><pre><code># cat rubytop.stp
+#!/usr/bin/stap
+global fn_calls
+probe ruby.method.entry, ruby.cmethod.entry
+{
+  fn_calls[file, methodname, line] &lt;&lt;&lt; 1
+}
+probe timer.ms(1000) {
+  ansi_clear_screen()
+  printf(&quot;%80s %6s %30s %6s\n&quot;, &quot;FILENAME&quot;, &quot;LINE&quot;, &quot;METHOD&quot;, &quot;CALLS&quot;)
+  foreach ([filename, funcname, lineno] in fn_calls- limit 15) {
+    printf(&quot;%80s %6d %30s %6d\n&quot;, filename, lineno, funcname, @count(fn_calls[filename, funcname, lineno]))
+  }
+}
+probe timer.ms(300000) {
+  delete fn_calls
+}
+</code></pre><p>Now run the example with huge input that will cause it to loop for some time:</p><pre><code># stap rubytop.stp -c &quot;ruby factorial.rb 999999999&quot;
+</code></pre><p>You should see a top-like screen which refreshes every second. The initial
+page will be full of method calls while from second one you will only see
+increasing counter of the multiply method:</p><pre><code>                                        FILENAME   LINE                         METHOD  CALLS
+                                    factorial.rb      2                              * 123483
+   /usr/share/rubygems/rubygems/specification.rb   1775                            ===   3663
+   /usr/share/rubygems/rubygems/specification.rb   1775                             ==   1782
+   /usr/share/rubygems/rubygems/specification.rb   1779          instance_variable_set    660
+   /usr/share/rubygems/rubygems/specification.rb   1779                           to_s    660
+   /usr/share/rubygems/rubygems/specification.rb   1471                  default_value    660
+   /usr/share/rubygems/rubygems/specification.rb   1776                            dup    594
+   /usr/share/rubygems/rubygems/specification.rb   1776                 initialize_dup    594
+   /usr/share/rubygems/rubygems/specification.rb   1776                initialize_copy    594
+   /usr/share/rubygems/rubygems/specification.rb   1769                           to_s    330
+   /usr/share/rubygems/rubygems/specification.rb   1769          instance_variable_set    330
+                     /usr/lib64/ruby/rbconfig.rb    235                         expand    322
+                     /usr/lib64/ruby/rbconfig.rb    236                           gsub    322
+   /usr/share/rubygems/rubygems/specification.rb   1402                          file?    234
+     /usr/share/rubygems/rubygems/requirement.rb     51                            ===    226
+</code></pre><p>SystemTap is flexible, you can ignore some files (or directories) completely.
+Maybe you are only interested in code that was installed in
+<code>/usr/share/project</code> and you never want to see Kernel and Bignum classes, it&rsquo;s
+as easy as:</p><pre><code>probe ruby.method.entry, ruby.cmethod.entry
+{
+  if (file =~ &quot;^/usr/share/project&quot; &amp;&amp; classname !~ &quot;^(Kernel|Bignum)$&quot;) {
+    fn_calls[file, methodname, line] &lt;&lt;&lt; 1
+  }
+}
+</code></pre><p>By default, the counter struct resets every 5 minutes (see the second timer
+probe).</p><p>SystemTap Ruby markers in RHEL 7.0 offers the following probes:</p><pre><code>ruby.array.create
+ruby.cmethod.entry
+ruby.cmethod.return
+ruby.find.require.entry
+ruby.find.require.return
+ruby.gc.mark.begin
+ruby.gc.mark.end
+ruby.gc.sweep.begin
+ruby.gc.sweep.end
+ruby.hash.create
+ruby.load.entry
+ruby.load.return
+ruby.method.entry
+ruby.method.return
+ruby.object.create
+ruby.parse.begin
+ruby.parse.end
+ruby.raise
+ruby.require.entry
+ruby.require.return
+ruby.string.create
+</code></pre><p>It is also possible to attach to existing process:</p><pre><code># stap rubytop.stp -x 12345
+</code></pre><p>When using Software Collections, note the correct SCL enable syntax (credit to
+<a href="https://bugzilla.redhat.com/show_bug.cgi?id=1362437">Pavel Valena</a> from Red Hat):</p><pre><code># scl enable rh-ruby22 -- stap rubystack.stp -c &quot;ruby factorial.rb 5&quot;
+</code></pre><p>That&rsquo;s all for now.</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

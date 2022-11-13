@@ -1,0 +1,223 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Hidden gems of xterm</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2013-07-17-hidden-gems-of-xterm/"><meta property="og:type" content="website"><meta property="og:title" content="Hidden gems of xterm"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Hidden gems of xterm"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2013-07-17-hidden-gems-of-xterm/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2013-07-17-hidden-gems-of-xterm/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2013-07-17-hidden-gems-of-xterm/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Hidden gems of xterm</h1><small role=doc-subtitle></small><p class=post-date>July 17, 2013</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li></ul></div><div class=post-content><p><p>Last week I migrated from urxvt to xterm, because I noticed that beginning last
+year (2012), xterm can finally open URLs nicely. This feature was a blocker for
+me, since I read all my e-mails in mutt and I hate copying links.</p><p>During migration, I noticed several nice features of xterm so I decided to
+write a blog post about few of them. Let&rsquo;s start.</p><h2 id=unicode-support>Unicode support</h2><p>Xterm supports UTF-8 by default, you really do not need to do anything except
+starting it with -u8 option or using uxterm wrapper (which essentially does
+the same thing).</p><p>If you want to start xterm always in unicode, just add this to .Xresources or
+.Xdefaults (for sake of simplicity I will always refer only to .Xdefaults):</p><pre><code>XTerm*utf8: 1
+</code></pre><p>There is one thing, you need to set correct codepage for your font which is
+iso10646. Google this, if you want more information, but in short - ISO 10646
+is &ldquo;simplified&rdquo; Unicode.</p><p>You can use xfontsel to select appropriate font, just choose the second latest
+star and set it to iso10646. But if you don&rsquo;t want to bother with font
+searching, install Terminus font (every single distribution has this one) and
+use</p><pre><code>XTerm*font: -*-terminus-medium-*-*-*-18-*-*-*-*-*-iso10646-1
+</code></pre><p>Make sure the last part is set to &ldquo;1&rdquo;, this makes sure it&rsquo;s UNICODE font.</p><h2 id=256-colors>256 colors</h2><p>By default xterm does support 256 colors. In any modern distribution, it will
+likely start in the 256 colors mode, so you really do not need to change
+anything. To see what is your status, just execute the following command within
+xterm:</p><pre><code># echo $TERM
+xterm-256color
+</code></pre><p>Note: <em>Never</em> set TERM variable manually, always let your terminal set it.
+Overriding this variable means there is something wrong with your xterm setup.</p><h2 id=color-scheme>Color scheme</h2><p>Update 2020: All colors can be set in the configuration file. This is very
+subjective, it&rsquo;s better to browse or generate your own color scheme. A good
+resource is <a href=https://terminal.sexy>terminal.sexy</a> interactive site - export
+selected scheme in Xresources format. An example:</p><pre><code>*background: rgb:00/00/00
+*foreground: rgb:ff/ff/ff
+*color0:     rgb:00/00/00
+*color1:     rgb:d3/62/65
+*color2:     rgb:ae/ce/91
+*color3:     rgb:e7/e1/8c
+*color4:     rgb:7a/7a/b0
+*color5:     rgb:96/3c/59
+*color6:     rgb:41/81/79
+*color7:     rgb:be/be/be
+*color8:     rgb:66/66/66
+*color9:     rgb:ef/81/71
+*color10:    rgb:e5/f7/79
+*color11:    rgb:ff/f7/96
+*color12:    rgb:41/86/be
+*color13:    rgb:ef/9e/be
+*color14:    rgb:71/be/be
+*color15:    rgb:ff/ff/ff
+</code></pre><h2 id=comfortable-menu>Comfortable menu</h2><p>Do you miss menu from Gnome-terminal or Konsole? I don&rsquo;t. Actually when I was
+using those, the first thing I usually did was to hide those. Xterm has a menu
+as well!</p><p>Just hit Control key and left click, right click or click with middle button
+and you have plenty of options there. You can toggle scrollbar, redraw window
+or send signals to the console. There are many options and lots of them are
+quite useful. I will go through a few of them in the next paragraphs.</p><h2 id=configurable-pointer-and-cursor>Configurable pointer and cursor</h2><p>You can configure color of your pointer and even cursor (blinking and color):</p><pre><code>XTerm*pointerColor: white
+XTerm*pointerColorBackground: black
+XTerm*cursorColor: yellow
+XTerm*cursorBlink: true
+</code></pre><p>Some of these are available in the VT menu (Control + middle click) so you can
+change them on the fly.</p><h2 id=show-alternate-screen>Show Alternate Screen</h2><p>So you are running a vim or less program and the previous content is all
+covered. How to show it so you are able to copy something from there? Well,
+you can use Show Alternate Screen from the VT Menu (Control + middle click)
+and you are there. Click again and guess what, you are back.</p><h2 id=file-logging>File logging</h2><p>You can enable logging in the main menu (Control + left click) which saves all
+the session to a file. Note this feature might not be available on all
+platforms as it is considered as a high security risk.</p><h2 id=truetype-fonts>Truetype fonts</h2><p>Xterm does support truetype fonts, although I do not use them. They look ugly
+in my opinion and rendering of these is slower (e.g. when outputting a large
+text file). If you want to preview Truetype fonts, just use the item from the
+right-click menu.</p><p>You have been warned, if you really like to use xft fonts, here is an example:</p><pre><code>xterm*faceName: Inconsolata:size=10:antialias=false
+</code></pre><p>If you want antialias, just delete that particular part. But if you like your
+eyes, don&rsquo;t do that.</p><h2 id=copy-and-paste>Copy and paste</h2><p>Linux geeks already know the PRIMARY selection and the CLIPBOARD and how to
+work with them. New users can be confused. Xterm is a typical X Window
+application and users are supposed to select text into PRIMARY selection and
+paste it using middle mouse click (or Control+Shift).</p><p>You can also configure xterm to copy text to CLIPBOARD with Select to
+Clipboard VT menu option, then you can use Control + V in Firefox or Chrome.
+If you really like this, you can set this permanently:</p><pre><code>XTerm*selectToClipboard: true
+</code></pre><p>If you are enabling this, re-think this once again. Having PRIMARY <em>and</em>
+CLIPBOARD is a good thing and once you get used to it, it&rsquo;s like having two
+clipboards.</p><h2 id=left-and-right-selection>Left and right selection</h2><p>Some users prefer to select portions of text using left button for beginning
+and right button for end as an alternative to dragging. I sometimes use this
+when I want to be absolutely sure with the selection (selecting e.g. ssh key)
+or I want to select something really big (click, scroll, click). Learn this, it
+is nice feature.</p><h2 id=triple-click>Triple click</h2><p>This is an important thing. By default clicking in xterm works in the following
+way:</p><ul><li>one click - nothing (you can drag or use the other button to select)</li><li>double click - select word (alphanums plus few characters in the default configuration)</li><li>triple click - whole line</li></ul><p>When working with files (/some/filename) or links (<a href=https://www.xyz.com>https://www.xyz.com</a>)
+selecting is difficult. It is easy to change the behavior. The following
+setting changes what xterm considers as characters:</p><pre><code>XTerm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
+</code></pre><p>Good complementary configuration is to select links with triple click:</p><pre><code>XTerm*on3Clicks: regex [[:alpha:]]+://([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]][[:xdigit:]]))+
+</code></pre><p>I usually leave out the protocol part as optional, therefore both filesystem
+paths and URL links do work.</p><pre><code>XTerm*on3Clicks: regex ([[:alpha:]]+://)?([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]][[:xdigit:]]))+
+</code></pre><p>And additionally you can configure more regular expressions like:</p><pre><code>XTerm*on4Clicks: regex ...
+XTerm*on5Clicks: regex ...
+</code></pre><p>Depends on what do you really do in your terminals. But what you definitely
+want to set is the charClass which helps with selecting links or filenames. We
+will talk about this down the article.</p><h2 id=open-url>Open URL</h2><p><em>Best feature ever</em>. I waited for years for this one. There is a new event
+called exec-formatted which allows you to execute arbitrary commands. If you
+make a PRIMARY selection before that, you can open URLs in browser easily. Do
+this:</p><pre><code>XTerm*translations: #override Shift &lt;Btn1Up&gt;: exec-formatted(&quot;xdg-open '%t'&quot;, PRIMARY)  select-start() select-end()
+</code></pre><p>And then select a link and Shift + click on the selection <em>once again</em>. This is
+important - let me repeat this:</p><ul><li>hover above a link</li><li>triple click it to select it (see above)</li><li>Shift + click it to open it</li></ul><p>I recommend to setup word boundaries as described above if you want to use
+double clicking and dragging to select links. But triple click is the best
+solution so far.</p><p>Update 2020: In the previous version of the article, the command was causing
+the terminal to &ldquo;freeze&rdquo; until another mouse click. I was actually working for
+many years and I got used to this, but Jean Terrier pointed me to <a href=https://pbrisbin.com/posts/selecting_urls_via_keyboard_in_xterm/>this
+post</a>, which
+entails a solution. If you are a returning reader, please update your
+configuration with the improved config line above. Thank you!</p><h2 id=search-history>Search history</h2><p>While there is no support for history search in XTerm, it is possible to
+configure it in a way that when you hit a sequence (in this example Ctrl+/) it
+will spawn another xterm instance with history of the calling terminal in a
+less program. The new window is entitled &ldquo;History&rdquo;:</p><pre><code>XTerm*printerCommand: xterm -T History -e sh -c 'less -r &lt;&amp;3' 3&lt;&amp;0
+XTerm*translations: #override Ctrl &lt;Key&gt;slash: print-everything()
+</code></pre><p>Sidenote: If you want to combine multiple translation statements, you need to
+do something like:</p><pre><code>XTerm*translations: #override \n\
+  Ctrl &lt;Key&gt;slash: print-everything() \n\
+  Shift &lt;Btn1Up&gt;: exec-formatted(&quot;firefox '%t'&quot;, PRIMARY)
+</code></pre><h2 id=multiple-font-sizes>Multiple font sizes</h2><p>You know that - you are presenting some stuff to colleagues on a video
+conference using your brand-new xterm configuration when somebody asks you to
+make the font bigger. If you don&rsquo;t know there is a &ldquo;hidden&rdquo; menu using the
+Control key (see above), you are lost.</p><p>So when that happens, use Control + click and find a font size like Large or
+Huge. XTerm does support several font sizes, it is as easy as configuring
+something like:</p><pre><code># default
+XTerm*font: -*-terminus-medium-*-*-*-18-*-*-*-*-*-iso10646-1
+# unreadable
+XTerm*font1: -*-terminus-medium-*-*-*-12-*-*-*-*-*-iso10646-1
+# tiny
+XTerm*font2: -*-terminus-medium-*-*-*-14-*-*-*-*-*-iso10646-1
+# small
+XTerm*font3: -*-terminus-medium-*-*-*-16-*-*-*-*-*-iso10646-1
+# medium
+XTerm*font4: -*-terminus-medium-*-*-*-22-*-*-*-*-*-iso10646-1
+# large
+XTerm*font5: -*-terminus-medium-*-*-*-24-*-*-*-*-*-iso10646-1
+# huge
+XTerm*font6: -*-terminus-medium-*-*-*-32-*-*-*-*-*-iso10646-1
+</code></pre><p>One important note for users with bitmap fonts: Always select sizes which the
+fonts are prepared for. If you don&rsquo;t stick with this rule, you will end up
+with slow and ugly resampled fonts which is something you don&rsquo;t want to see.
+In my case, make sure the sizes match installed fonts (the directory can
+differ in you distribution - this is Fedora 19):</p><pre><code>grep medium /usr/share/fonts/terminus/fonts.dir | grep iso10646
+ter-x12n.pcf.gz -xos4-terminus-medium-r-normal--12-120-72-72-c-60-iso10646-1
+ter-x14n.pcf.gz -xos4-terminus-medium-r-normal--14-140-72-72-c-80-iso10646-1
+ter-x16n.pcf.gz -xos4-terminus-medium-r-normal--16-160-72-72-c-80-iso10646-1
+ter-x18n.pcf.gz -xos4-terminus-medium-r-normal--18-180-72-72-c-100-iso10646-1
+ter-x20n.pcf.gz -xos4-terminus-medium-r-normal--20-200-72-72-c-100-iso10646-1
+ter-x22n.pcf.gz -xos4-terminus-medium-r-normal--22-220-72-72-c-110-iso10646-1
+ter-x24n.pcf.gz -xos4-terminus-medium-r-normal--24-240-72-72-c-120-iso10646-1
+ter-x28n.pcf.gz -xos4-terminus-medium-r-normal--28-280-72-72-c-140-iso10646-1
+ter-x32n.pcf.gz -xos4-terminus-medium-r-normal--32-320-72-72-c-160-iso10646-1
+</code></pre><p>As you can see sizes for the Terminus font are 12, 14, 16, 18, 20, 22, 24, 28
+and 32. Note there are keyboard shortcuts for font size, more about them later
+on.</p><h2 id=buffer-history>Buffer history</h2><p>The buffer history defaults to one thousand lines, which is a little bit low.
+To change that, use something like:</p><pre><code>XTerm*SaveLines: 9000
+</code></pre><h2 id=scrolling>Scrolling</h2><p>I don&rsquo;t like scrollbars in terminals, they just eat space. I already know how
+many lines are scrolled up, because I am working there! You can hide scrollbar
+and just use Shift+PageUp or PageDown to scroll.</p><pre><code>XTerm*ScrollBar: false
+</code></pre><p>If you want your terminal to scroll down anytime you press a key, use this
+setting:</p><pre><code>XTerm*ScrollKey: true
+</code></pre><h2 id=secure-keyboard>Secure keyboard</h2><p>If you enable this option in menu (or via command line), xterm will try to do
+its best to make sure there is no other application trying to log keys. Nifty
+feature not only for security fans.</p><h2 id=bell-blinking>Bell blinking</h2><p>If you want, for some reason, your screen to blink on bell, just find the menu
+item and enable that. You can even make it urgent. Settings are:</p><pre><code>XTerm*visualbell: true
+XTerm*bellIsUrgent: true
+</code></pre><h2 id=fullscreen-toggle>Fullscreen Toggle</h2><p>Xterm by default uses Alt + Enter for fullscreen toggle which can conflict
+with Midnight Commander feature. If you want to disable this, you can simply
+disable fullscreen mode:</p><pre><code>XTerm*fullscreen: never
+</code></pre><p>You can still put the window into the fullscreen mode using your window
+manager tho.</p><h2 id=rich-keyboard-shortcuts>Rich keyboard shortcuts</h2><p>I already showed several keys, xterm has some additional keys which you can
+even remap.</p><pre><code>                 Shift &lt;KeyPress&gt; Prior:scroll-back(1,halfpage) \n\
+                  Shift &lt;KeyPress&gt; Next:scroll-forw(1,halfpage) \n\
+                Shift &lt;KeyPress&gt; Select:select-cursor-start() \
+                                        select-cursor-end(SELECT, CUT_BUFFER0) \n\
+                Shift &lt;KeyPress&gt; Insert:insert-selection(SELECT, CUT_BUFFER0) \n\
+                        Alt &lt;Key&gt;Return:fullscreen() \n\
+               &lt;KeyRelease&gt; Scroll_Lock:scroll-lock() \n\
+           Shift~Ctrl &lt;KeyPress&gt; KP_Add:larger-vt-font() \n\
+           Shift Ctrl &lt;KeyPress&gt; KP_Add:smaller-vt-font() \n\
+           Shift &lt;KeyPress&gt; KP_Subtract:smaller-vt-font() \n\
+                       ~Meta &lt;KeyPress&gt;:insert-seven-bit() \n\
+                        Meta &lt;KeyPress&gt;:insert-eight-bit() \n\
+                       !Ctrl &lt;Btn1Down&gt;:popup-menu(mainMenu) \n\
+                       ~Meta &lt;Btn1Down&gt;:select-start() \n\
+                     ~Meta &lt;Btn1Motion&gt;:select-extend() \n\
+                       !Ctrl &lt;Btn2Down&gt;:popup-menu(vtMenu) \n\
+                 ~Ctrl ~Meta &lt;Btn2Down&gt;:ignore() \n\
+                        Meta &lt;Btn2Down&gt;:clear-saved-lines() \n\
+                   ~Ctrl ~Meta &lt;Btn2Up&gt;:insert-selection(SELECT, CUT_BUFFER0) \n\
+                       !Ctrl &lt;Btn3Down&gt;:popup-menu(fontMenu) \n\
+                 ~Ctrl ~Meta &lt;Btn3Down&gt;:start-extend() \n\
+                     ~Meta &lt;Btn3Motion&gt;:select-extend() \n\
+                        Ctrl &lt;Btn4Down&gt;:scroll-back(1,halfpage,m) \n\
+                             &lt;Btn4Down&gt;:scroll-back(5,line,m)     \n\
+                        Ctrl &lt;Btn5Down&gt;:scroll-forw(1,halfpage,m) \n\
+                                &lt;BtnUp&gt;:select-end(SELECT, CUT_BUFFER0) \n\
+                              &lt;BtnDown&gt;:ignore()
+</code></pre><p>All events and mapping is documented in the manual page. Read it.</p><h2 id=default-settings>Default settings</h2><p>There&rsquo;s much more, I recommend reading through the man page.</p><pre><code>$ rpm -ql xterm
+/usr/bin/koi8rxterm
+/usr/bin/resize
+/usr/bin/uxterm
+/usr/bin/xterm
+/usr/share/X11/app-defaults/KOI8RXTerm
+/usr/share/X11/app-defaults/KOI8RXTerm-color
+/usr/share/X11/app-defaults/UXTerm
+/usr/share/X11/app-defaults/UXTerm-color
+/usr/share/X11/app-defaults/XTerm
+/usr/share/X11/app-defaults/XTerm-color
+/usr/share/applications/xterm.desktop
+/usr/share/doc/xterm-293
+/usr/share/doc/xterm-293/16colors.txt
+/usr/share/doc/xterm-293/README.i18n
+/usr/share/doc/xterm-293/THANKS
+/usr/share/doc/xterm-293/ctlseqs.txt
+/usr/share/doc/xterm-293/xterm.log.html
+/usr/share/icons/hicolor/48x48/apps/xterm-color.png
+/usr/share/icons/hicolor/scalable/apps/xterm-color.svg
+/usr/share/man/man1/koi8rxterm.1.gz
+/usr/share/man/man1/resize.1.gz
+/usr/share/man/man1/uxterm.1.gz
+/usr/share/man/man1/xterm.1.gz
+/usr/share/pixmaps/filled-xterm_32x32.xpm
+/usr/share/pixmaps/filled-xterm_48x48.xpm
+/usr/share/pixmaps/mini.xterm_32x32.xpm
+/usr/share/pixmaps/mini.xterm_48x48.xpm
+/usr/share/pixmaps/xterm-color_32x32.xpm
+/usr/share/pixmaps/xterm-color_48x48.xpm
+/usr/share/pixmaps/xterm_32x32.xpm
+/usr/share/pixmaps/xterm_48x48.xpm
+</code></pre><p>Just go ahead and try xterm <em>right now</em>! Cheers.</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

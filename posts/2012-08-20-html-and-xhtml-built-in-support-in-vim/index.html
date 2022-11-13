@@ -1,0 +1,52 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>HTML and XHTML built in support in Vim</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora,vim"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2012-08-20-html-and-xhtml-built-in-support-in-vim/"><meta property="og:type" content="website"><meta property="og:title" content="HTML and XHTML built in support in Vim"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="HTML and XHTML built in support in Vim"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2012-08-20-html-and-xhtml-built-in-support-in-vim/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2012-08-20-html-and-xhtml-built-in-support-in-vim/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2012-08-20-html-and-xhtml-built-in-support-in-vim/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>HTML and XHTML built in support in Vim</h1><small role=doc-subtitle></small><p class=post-date>August 20, 2012</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/vim>vim</a></li></ul></div><div class=post-content><p><p>For some reason, everytime I read something about Vim and (X)HTML support,
+guys are referring to many weird plugins and extra tools, which is often
+outdated.</p><p>Many folks do not know, that Vim 7+ has <strong>decent support for XML/XHTML/HTML
+languages</strong> (<strong>no plugins needed</strong>!) with possibilities to extend it with any
+XML-based language you want. What you can do is to use DTD/RNG converters that
+prepares Vim definition which is used to give you omni completion.</p><p>For example, my Vim installation contains support for HTML4 and XHTML
+languages by default:</p><pre><code>    $ rpm -ql vim vim-common | grep xml
+    /usr/share/vim/vim73/autoload/xml
+    /usr/share/vim/vim73/autoload/xml/html32.vim
+    /usr/share/vim/vim73/autoload/xml/html401f.vim
+    /usr/share/vim/vim73/autoload/xml/html401s.vim
+    /usr/share/vim/vim73/autoload/xml/html401t.vim
+    /usr/share/vim/vim73/autoload/xml/html40f.vim
+    /usr/share/vim/vim73/autoload/xml/html40s.vim
+    /usr/share/vim/vim73/autoload/xml/html40t.vim
+    /usr/share/vim/vim73/autoload/xml/xhtml10f.vim
+    /usr/share/vim/vim73/autoload/xml/xhtml10s.vim
+    /usr/share/vim/vim73/autoload/xml/xhtml10t.vim
+    /usr/share/vim/vim73/autoload/xml/xhtml11.vim
+    /usr/share/vim/vim73/autoload/xml/xsd.vim
+    /usr/share/vim/vim73/autoload/xml/xsl.vim
+    /usr/share/vim/vim73/autoload/xmlcomplete.vim
+    /usr/share/vim/vim73/compiler/xmllint.vim
+    /usr/share/vim/vim73/compiler/xmlwf.vim
+    /usr/share/vim/vim73/ftplugin/xml.vim
+    /usr/share/vim/vim73/indent/xml.vim
+    /usr/share/vim/vim73/syntax/docbkxml.vim
+    /usr/share/vim/vim73/syntax/xml.vim
+</code></pre><p>There is nothing to google, nothing to install. It just works.
+Vim documentation is better resource than Google most times.</p><p>The trick is Vim&rsquo;s autoloading feature. You need to make sure the file you are
+opening has the proper DOCTYPE definition which is correct. So use that for
+HTML and XHTML files, then Vim 7+ will automatically enable XML/HTML omni
+completion for you. Example for HTML4:</p><pre><code>    &lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;
+        &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+    &lt;html&gt;
+    &lt;/html&gt;
+</code></pre><p>Now try to insert body tag, type &ldquo;bo&rdquo; and hit Ctrl X O. Bang. Try to add an
+attribute, type &ldquo;on&rdquo; and hit it again. Bingo.</p><p>You can use Ctrl X O and other features:</p><pre><code>    - after &quot;&lt;&quot; complete the tag name, depending on context
+    - inside of a tag complete proper attributes
+    - when an attribute has a limited number of possible values help to complete
+      them
+    - complete names of entities (defined in |xml-omni-datafile| and in the
+      current file with &quot;&lt;!ENTITY&quot; declarations)
+    - when used after &quot;&lt;/&quot; CTRL-X CTRL-O will close the last opened tag
+</code></pre><p>More info (and possible user customization with own XML definitioins) here:</p><p><a href=http://vimdoc.sourceforge.net/htmldoc/insert.html#ft-xml-omni>http://vimdoc.sourceforge.net/htmldoc/insert.html#ft-xml-omni</a></p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

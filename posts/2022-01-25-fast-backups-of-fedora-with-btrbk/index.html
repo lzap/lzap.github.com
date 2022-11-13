@@ -1,0 +1,80 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Fast backups of Fedora with btrbk</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2022-01-25-fast-backups-of-fedora-with-btrbk/"><meta property="og:type" content="website"><meta property="og:title" content="Fast backups of Fedora with btrbk"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Fast backups of Fedora with btrbk"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2022-01-25-fast-backups-of-fedora-with-btrbk/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2022-01-25-fast-backups-of-fedora-with-btrbk/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2022-01-25-fast-backups-of-fedora-with-btrbk/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Fast backups of Fedora with btrbk</h1><small role=doc-subtitle></small><p class=post-date>January 25, 2022</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li></ul></div><div class=post-content><p><p>Last year, I did full reinstall of my workstation in order to change from XFS
+to BTRFS file system, which is now the default in Fedora Workstation. The plans
+were simple - I wanted to achieve fast backups. And one year later, I finally
+got to setting it up. Here is how to do it.</p><p>Scenario is simple, a host with BTRFS filesystem, a USB drive connected and
+also formatted as BTRFS for ultra-fast snapshots/backups. To follow this
+tutorial, you NEED to have BTRFS on the system itself and on the USB drive,
+when not sure use this command to find out:</p><pre><code># mount | grep btrfs
+/dev/sda5 on / type btrfs (rw,noatime,seclabel,ssd,space_cache,subvolid=256,subvol=/root)
+</code></pre><p>You can still use the USB drive for other things (regular files), but I like to
+have a dedicated USB HDD just for BTRFS backups - this filesystem does not
+perform the best on traditional (spinning) drives. For small workloads it will
+do just fine tho. Let&rsquo;s go. Install btrbk utility which is a nice backup
+script based on BTRFS tools:</p><pre><code># dnf -y install btrbk
+</code></pre><p>The tool was updated only recently (Fedora Rawhide / 36) so if you run into any
+issue, try to upgrade it to the latest version from Rawhide (it is just a
+single Perl script). Let&rsquo;s prepare the USB drive:</p><pre><code># cfdisk /dev/sdX
+# mkfs.btrfs /dev/sdX1
+
+# grep backup /etc/fstab
+/dev/sdX1 /mnt/backup btrfs noatime,compress=zstd:3 0 0
+
+# mount -a
+</code></pre><p>Compression is recommended, zstd with 3 ratio performs faster than most of USB
+HDD drives, it will transparently compress blocks (which are compressable).
+Let&rsquo;s create directories for BTRFS snapshots:</p><pre><code># mkdir /btrbk /mnt/backup/{root,home}
+</code></pre><p>Configure btrbk. This is an example of a very simple configuration: keep
+snapshots on the source drive 2 days back, keep snapshots on the USB drive
+(/mnt/backup) for 3 months, on both drives create snapshots in the /btrbk
+directory and when USB drive is not mounted do not proceed (ondemand). Here is
+it:</p><pre><code># cat /etc/btrbk/btrbk.conf
+snapshot_preserve_min      2d
+target_preserve_min        3m
+archive_preserve_min       9m
+snapshot_create ondemand
+snapshot_dir btrbk
+volume /
+  subvolume .
+  target /mnt/backup/root
+volume /home
+  subvolume .
+  target /mnt/backup/home
+</code></pre><p>Since I have root and home as two separate physical drives, your configuration
+for default Fedora installation might be different:</p><pre><code># cat /etc/btrbk/btrbk.conf
+snapshot_preserve_min      2d
+target_preserve_min        3m
+archive_preserve_min       9m
+snapshot_create ondemand
+snapshot_dir btrbk
+volume /
+  subvolume root
+  subvolume home
+  target /mnt/backup/root
+</code></pre><p>I haven&rsquo;t tested this, let me know @lzap on Twitter if that works or not.
+Anyways, now try it as dry-run (harmless):</p><pre><code># btrbk dryrun
+</code></pre><p>If there are no problems, run the first backup manually:</p><pre><code># btrbk run
+</code></pre><p>It will take a while as all the data needs to be trasnferred. Subsequent
+backups will typically take few seconds if there were no significant changes on
+the volume. Now, let&rsquo;s create a cron job that will daily mount the drive,
+perform the backup, unmount it and puts the USB drive to sleep immediately:</p><pre><code># cat /etc/cron.daily/backup.sh
+#!/bin/bash
+mount /mnt/backup || true
+btrbk -q run
+sync
+umount /mnt/backup
+sdparm -C stop -r /dev/sdX
+</code></pre><p>All you need to do at this point is to set the executable flag and wait:</p><pre><code># chmod +x /etc/cron.daily/backup.sh
+</code></pre><p>Wait! :) You probably want to know how to restore from backups. Well, I have
+some good news for you, you will use just the regular copy utility:</p><pre><code># cp -a /mnt/backup/root/ROOT.20220125/etc/hosts /etc/hosts
+</code></pre><p>For each day or backup, btrbk creates a new subdirectory so pick the date
+correctly. Data is shared across the directories, having three months of copies
+back does not mean the data is in 90 copies (unless you change them every day).
+Also, everything is compressed too. And blazing fast! That is the beauty of
+BTRFS backups.</p><p>Have fun backing up your Fedora!</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

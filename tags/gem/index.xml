@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>gem on Lukáš Zapletal</title><link>http://blog.zapletalovi.com/tags/gem/</link><description>Recent content in gem on Lukáš Zapletal</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 21 Jun 2011 00:00:00 +0000</lastBuildDate><atom:link href="http://blog.zapletalovi.com/tags/gem/index.xml" rel="self" type="application/rss+xml"/><item><title>Uninstall all the gems</title><link>http://blog.zapletalovi.com/posts/2011-06-21-uninstall-all-gems/</link><pubDate>Tue, 21 Jun 2011 00:00:00 +0000</pubDate><guid>http://blog.zapletalovi.com/posts/2011-06-21-uninstall-all-gems/</guid><description>From time to time I need to uninstall all my gems within RVM gemset. I googled a nice command for this:
+# gem list | cut -d" " -f1 | xargs gem uninstall -aIx
+Then I usually go for:
+# gem install bundler &amp;&amp; bundle install
+Easy peasy. Kudos to geekystuff.net. Thanks.</description></item></channel></rss>

@@ -1,0 +1,88 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>ThinkPad X1 Carbon 6th gen on Fedora</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2019-07-23-thinkpad-x1-carbon-6th-gen-on-fedora/"><meta property="og:type" content="website"><meta property="og:title" content="ThinkPad X1 Carbon 6th gen on Fedora"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="ThinkPad X1 Carbon 6th gen on Fedora"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2019-07-23-thinkpad-x1-carbon-6th-gen-on-fedora/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2019-07-23-thinkpad-x1-carbon-6th-gen-on-fedora/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2019-07-23-thinkpad-x1-carbon-6th-gen-on-fedora/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>ThinkPad X1 Carbon 6th gen on Fedora</h1><small role=doc-subtitle></small><p class=post-date>July 23, 2019</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li></ul></div><div class=post-content><p><p>This is a quick post to have my installation notes on the record.</p><h1 id=step-one-bios-upgrade-and-settings>Step one: BIOS upgrade and settings</h1><p>Before I start, it is worth mentioning that it&rsquo;s possible to seamlessly upgrade
+BIOS and firmware of this laptop directly from Software app in Fedora, however
+I want to upgrade BIOS to the latest possible version before I even attempt to
+install the OS. You can very likely skip this step, setup BIOS as recommended,
+install Fedora and then upgrade it using a single mouse click if you want.</p><p>But if you want to follow my intentionally more complicated approach, just do
+this:</p><pre><code># wget https://lenovo.com/blah/blah/n23ur11w.iso
+# geteltorito -o bios.img n23ur11w.iso
+# sudo dd bs=4M if=bios.img of=/dev/sdx
+</code></pre><p>Make sure to have your laptop connected to AC, who knows how much power is in
+the battery. The upgrade process was quick, next up we have BIOS settings. I
+like to review them one by one but these are notable changes from the standard
+configuration:</p><ul><li>Config > Power > Sleep State = Linux</li><li>Config > Network > Wake on LAN = Disabled</li><li>Config > Network > Wake on LAN from Dock = Disabled</li><li>Config > Thunderbolt (TM) 3 > Thunderbolt BIOS Assist Mode = Enabled</li><li>Config > Thunderbolt (TM) 3 > Wake by Thunderbolt (TM) 3 = Disabled</li><li>Config > Thunderbolt (TM) 3 > Security Level = No Security</li><li>Config > Intel AMT = Disabled</li><li>Security > Computrace > Current Setting = Disabled</li><li>Security > I/O Port Access > Fingerprint Reader = Disabled</li><li>Security > I/O Port Access > Wireless WAN = Disabled</li><li>Security > I/O Port Access > Memory Card Slot = Disabled</li></ul><p>Few notes. Since this is my very first Thunderbolt 3 laptop and I have zero
+experience with security of this thing, I turned it off effectively downgrading
+this to pre 3.0 version. Once I get familiar with how this thing works, I will
+probably enable it back. I turned off AMT and Computrace features of course, I
+don&rsquo;t want to be managed or tracked remotely. However I kept TPM module on and
+TXT feature off. Also Intel SGX technology was disabled by default so I kept it
+that way. Make sure to remove all fingerprint data even tho the fingerprint
+will not likely work under Linux.</p><p>In the Security > I/O Port Access it is possible to disable Fingerprint Reader
+which usually don&rsquo;t work reliably, WAN and SD card reader to save some extra
+watts if you don&rsquo;t plan to use it. Some people even disable LAN but I want to
+keep the opportunity to use the adapter when needed.</p><p>Now, this is important. Although you will see on various resources to disable
+Secure Boot, if you are installing Fedora or RHEL don&rsquo;t do that since
+bootloaders are digitally signed and the rest goes through shim &ldquo;man in the
+middle&rdquo;. There is no need to disable this, unless you want to compile your own
+kernel and/or kernel modules. If you are planning to use TLP&rsquo;s discharge
+feature, note that it will only work with <code>acpi_call</code> kernel module and only
+then you want to turn off Secure Boot. I can live without discharge feature
+myself.</p><p>Also the Sleep State is absolutely essential to set to &ldquo;Linux&rdquo; if you want to
+have this working.</p><h1 id=step-two-download-and-install-fedora-30>Step two: Download and install Fedora 30</h1><p>I used Media Writer available on my existing Fedora to download and write
+Fedora 30 image onto a USB stick. It was quick and nice experience. I installed
+without LVM because I unlikely be extending or repartitioning this drive and of
+course with LUKS2 encryption.</p><p>Remember to set computer name (hostname) during the installation. I forgot,
+then you can do it via <code>hostnamectl</code> or via Settings - Sharing - Name. You are
+welcome!</p><p>I am bit surprised how often and quick the internal fan kicks in, it&rsquo;s not as
+quiet as Macbook Pro 2015 however this is much more powerful machine. Edit:
+This happens only when on AC, the laptop running on battery is quiet when idle
+or browsing. What a relief!</p><p>Anyway, the installation took about two minutes - amount of time I needed to
+write those three paragraphs. Storage is indeed quite fast on this laptop.</p><h1 id=step-three-profit>Step three: Profit</h1><p>Once Fedora showed up, I started the Software app and scheduled immediate
+update. This was actually my first time to see Fedora update reboot method in
+this nice graphical design - so cute. After successful update, I launched
+Software once again to update Corporate ME for the Intel&rsquo;s sneaky embedded
+software that was offered.</p><p>I have decided to install
+<a href=https://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html>TLP</a>,
+an advanced power management for laptops. It is a set of scripts which fine
+tune the system for longer battery life, it works together with systemd and
+udev to hook into events like system was unplugged from AC or suspended. It&rsquo;s
+not a daemon!</p><pre><code># sudo dnf install tlp
+# sudo systemctl enable tlp tlp-sleep
+# sudo systemctl start tlp tlp-sleep
+</code></pre><p>I am sticking with the default configuration (<code>/etc/default/tlp</code>), it is worth
+reviewing the pretty long file and perhaps setting up battery charging
+thresholds. Many articles will instruct you to install kernel modules in order
+to be able to set these thresholds but as of Kernel 5.1 this is no longer
+necessary because there is a new upstream kernel module (<code>natacpi</code>) which
+provides most of the features:</p><pre><code># sudo tlp-stat -b
+...
++++ Battery Features
+natacpi = active (data, thresholds)
+...
+</code></pre><p>It can read battery data and set thresholds, unfortunately one nice feature
+does not work yet and that is full discharge and recalibration (discharge and
+charge to full) when connected to AC. It&rsquo;s a very useful command to do once per
+week to keep the battery in a good shape. This will hopefully work without any
+additional kernel module in future Fedoras, the command is:</p><pre><code># sudo tlp recalibrate
+</code></pre><p>Gnome battery applet shows me around 9-15 hours of capacity after enabling tlp
+and light use which looks good. I need more battery cycles for better
+statistical data so I can hardly comment on battery life but so far so good.
+Also it&rsquo;s worth nothing that fan is completely silent when running on battery
+and browsing web or working in terminals. Good news for me.</p><p>The keyboard is great, initially I struggled with the more modern ThinkPad
+keyboards but this is very close to what I always liked. Function keys have a
+slight space between groups, enter is big enough, Fn key on the right spot and
+the overall feeling is great - keys are big (for such a small one) and
+responsive.</p><p>Mixed feelings are for the touchpad, it works fine however haptic feedback is a
+very nice thing and X1 only has normal &ldquo;click&rdquo;. I enabled &ldquo;touch click&rdquo; or
+whatever this is called, this I use for casual evening browsing. For work of
+course, there&rsquo;s the beloved trackpoint. Works great, a bit stiff but it&rsquo;s new.</p><p>Speakers are quite bad, as bad as in my $200 Chromebook. That&rsquo;s probably why
+Lenovo are reworking them in the upcoming 7th generation. But other than that,
+they only provide smaller battery and slight chip refresh so it was not worth
+the wait for me. I use headphones anyway.</p><p>That&rsquo;s all folks for today, I will probably revisit this article after few
+weeks and put more of my own experience with this laptop. Take care!</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

@@ -1,0 +1,121 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Hidden gem of Fedora: virt-builder</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora,rhel,centos"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2018-02-06-hidden-gem-of-fedora-virt-builder/"><meta property="og:type" content="website"><meta property="og:title" content="Hidden gem of Fedora: virt-builder"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Hidden gem of Fedora: virt-builder"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2018-02-06-hidden-gem-of-fedora-virt-builder/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2018-02-06-hidden-gem-of-fedora-virt-builder/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2018-02-06-hidden-gem-of-fedora-virt-builder/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Hidden gem of Fedora: virt-builder</h1><small role=doc-subtitle></small><p class=post-date>February 6, 2018</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/rhel>rhel</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/centos>centos</a></li></ul></div><div class=post-content><p><p>Or I should say hidden gem of Fedora, CentOS and RHEL. This fantastic tool is
+part of package named libguestfs-tools-c and it&rsquo;s fast image builder. To create
+Fedora 27 10GB image with root password set to &ldquo;redhat&rdquo;:</p><pre><code>virt-builder fedora-27 --size=10G \
+  --root-password password:redhat
+</code></pre><p>To start the image use libvirt utility:</p><pre><code>virt-install --import --name fedora --ram 2048 \
+  --disk path=fedora-27.img,format=raw --os-variant fedora27
+</code></pre><p>To start Fedora 25 and immediately install Xfce desktop:</p><pre><code>virt-builder fedora-25 --install &quot;@Xfce Desktop&quot;
+</code></pre><p>To build Debian Wheezy image, update it and inject your SSH key to root:</p><pre><code>virt-builder debian-7 --update --ssh-inject root:~/.ssh/id_rsa.pub
+</code></pre><p>To create CentOS 7.4 image on LVM volume with a hostname set:</p><pre><code>virt-builder centos-7.4 --output /dev/vg_virt/centos \
+  --root-password password:redhat --hostname centos.lan
+</code></pre><p>To <code>___________________</code> (complete the sentence):</p><pre><code>virt-builder fedora-25 \
+   --hostname client.example.com \
+   --update \
+   --install puppet \
+   --append-line '/etc/puppet/puppet.conf:[agent]' \
+   --append-line '/etc/puppet/puppet.conf:server = puppetmaster.example.com/' \
+   --run-command 'systemctl enable puppet' \
+   --selinux-relabel
+</code></pre><p>To list available images do:</p><pre><code>[lzap@box ~]$ virt-builder -l
+centos-6                 x86_64     CentOS 6.6
+centos-7.0               x86_64     CentOS 7.0
+centos-7.1               x86_64     CentOS 7.1
+centos-7.2               aarch64    CentOS 7.2 (aarch64)
+centos-7.2               x86_64     CentOS 7.2
+centos-7.3               x86_64     CentOS 7.3
+centos-7.4               x86_64     CentOS 7.4
+cirros-0.3.1             x86_64     CirrOS 0.3.1
+cirros-0.3.5             x86_64     CirrOS 0.3.5
+debian-6                 x86_64     Debian 6 (Squeeze)
+debian-7                 sparc64    Debian 7 (Wheezy) (sparc64)
+debian-7                 x86_64     Debian 7 (wheezy)
+debian-8                 x86_64     Debian 8 (jessie)
+debian-9                 x86_64     Debian 9 (stretch)
+fedora-18                x86_64     Fedora® 18
+fedora-19                x86_64     Fedora® 19
+fedora-20                x86_64     Fedora® 20
+fedora-21                aarch64    Fedora® 21 Server (aarch64)
+fedora-21                armv7l     Fedora® 21 Server (armv7l)
+fedora-21                ppc64      Fedora® 21 Server (ppc64)
+fedora-21                ppc64le    Fedora® 21 Server (ppc64le)
+fedora-21                x86_64     Fedora® 21 Server
+fedora-22                aarch64    Fedora® 22 Server (aarch64)
+fedora-22                armv7l     Fedora® 22 Server (armv7l)
+fedora-22                i686       Fedora® 22 Server (i686)
+fedora-22                x86_64     Fedora® 22 Server
+fedora-23                aarch64    Fedora® 23 Server (aarch64)
+fedora-23                armv7l     Fedora® 23 Server (armv7l)
+fedora-23                i686       Fedora® 23 Server (i686)
+fedora-23                ppc64      Fedora® 23 Server (ppc64)
+fedora-23                ppc64le    Fedora® 23 Server (ppc64le)
+fedora-23                x86_64     Fedora® 23 Server
+fedora-24                aarch64    Fedora® 24 Server (aarch64)
+fedora-24                armv7l     Fedora® 24 Server (armv7l)
+fedora-24                i686       Fedora® 24 Server (i686)
+fedora-24                x86_64     Fedora® 24 Server
+fedora-25                aarch64    Fedora® 25 Server (aarch64)
+fedora-25                armv7l     Fedora® 25 Server (armv7l)
+fedora-25                i686       Fedora® 25 Server (i686)
+fedora-25                ppc64      Fedora® 25 Server (ppc64)
+fedora-25                ppc64le    Fedora® 25 Server (ppc64le)
+fedora-25                x86_64     Fedora® 25 Server
+fedora-26                aarch64    Fedora® 26 Server (aarch64)
+fedora-26                armv7l     Fedora® 26 Server (armv7l)
+fedora-26                i686       Fedora® 26 Server (i686)
+fedora-26                ppc64      Fedora® 26 Server (ppc64)
+fedora-26                ppc64le    Fedora® 26 Server (ppc64le)
+fedora-26                x86_64     Fedora® 26 Server
+fedora-27                aarch64    Fedora® 27 Server (aarch64)
+fedora-27                armv7l     Fedora® 27 Server (armv7l)
+fedora-27                i686       Fedora® 27 Server (i686)
+fedora-27                ppc64      Fedora® 27 Server (ppc64)
+fedora-27                ppc64le    Fedora® 27 Server (ppc64le)
+fedora-27                x86_64     Fedora® 27 Server
+freebsd-11.1             x86_64     FreeBSD 11.1
+scientificlinux-6        x86_64     Scientific Linux 6.5
+ubuntu-10.04             x86_64     Ubuntu 10.04 (Lucid)
+ubuntu-12.04             x86_64     Ubuntu 12.04 (Precise)
+ubuntu-14.04             x86_64     Ubuntu 14.04 (Trusty)
+ubuntu-16.04             x86_64     Ubuntu 16.04 (Xenial)
+rhel-3.9                 x86_64     Red Hat Enterprise Linux 3.9
+rhel-4.9                 x86_64     Red Hat Enterprise Linux 4.9
+rhel-5.10                x86_64     Red Hat Enterprise Linux 5.10
+rhel-5.11                x86_64     Red Hat Enterprise Linux 5.11
+rhel-5.11                i686       Red Hat Enterprise Linux 5.11 (i686)
+rhel-6.1                 x86_64     Red Hat Enterprise Linux 6.1
+rhel-6.2                 x86_64     Red Hat Enterprise Linux 6.2
+rhel-6.3                 x86_64     Red Hat Enterprise Linux 6.3
+rhel-6.4                 x86_64     Red Hat Enterprise Linux 6.4
+rhel-6.5                 x86_64     Red Hat Enterprise Linux 6.5
+rhel-6.6                 x86_64     Red Hat Enterprise Linux 6.6
+rhel-6.7                 x86_64     Red Hat Enterprise Linux 6.7
+rhel-6.8                 x86_64     Red Hat Enterprise Linux 6.8
+rhel-6.8                 i686       Red Hat Enterprise Linux 6.8 (i686)
+rhel-7.0                 x86_64     Red Hat Enterprise Linux 7.0
+rhel-7.1                 x86_64     Red Hat Enterprise Linux 7.1
+rhel-7.1                 ppc64      Red Hat Enterprise Linux 7.1 (ppc64)
+rhel-7.1                 ppc64le    Red Hat Enterprise Linux 7.1 (ppc64le)
+rhel-7.2                 x86_64     Red Hat Enterprise Linux 7.2
+rhel-7.2                 aarch64    Red Hat Enterprise Linux 7.2 for aarch64
+rhel-7.2                 ppc64le    Red Hat Enterprise Linux 7.2 (ppc64le)
+rhel-7.3                 x86_64     Red Hat Enterprise Linux 7.3
+rhel-7.3                 aarch64    Red Hat Enterprise Linux 7.3 for aarch64
+rhel-7.3                 ppc64      Red Hat Enterprise Linux 7.3 (ppc64)
+rhel-7.3                 ppc64le    Red Hat Enterprise Linux 7.3 (ppc64le)
+rhel-7.4                 x86_64     Red Hat Enterprise Linux 7.4
+rhel-7.4                 aarch64    Red Hat Enterprise Linux 7.4 for aarch64
+rhel-7.4                 ppc64      Red Hat Enterprise Linux 7.4 (ppc64)
+rhel-7.4                 ppc64le    Red Hat Enterprise Linux 7.4 (ppc64le)
+</code></pre><p>Keep in mind that RHEL systems are only available to redhatters, a repository
+must be configured via <code>/etc/virt-builder/repos.d/rhel.conf</code> file to have them.
+Search the intranet.</p><p>This post barely scratched the surface. This utility can do more. <a href=http://libguestfs.org/virt-builder.1.html>Much
+more</a>.</p><p>Send beer, t-shirts and flowers to <a href=http://people.redhat.com/~rjones/>Richard W.M.
+Jones</a> and his team of contributors and
+maintainers. Thanks folks!</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

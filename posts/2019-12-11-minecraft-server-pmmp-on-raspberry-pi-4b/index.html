@@ -1,0 +1,86 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Minecraft server PMMP on Raspberry Pi 4B</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,minecraft"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2019-12-11-minecraft-server-pmmp-on-raspberry-pi-4b/"><meta property="og:type" content="website"><meta property="og:title" content="Minecraft server PMMP on Raspberry Pi 4B"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Minecraft server PMMP on Raspberry Pi 4B"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2019-12-11-minecraft-server-pmmp-on-raspberry-pi-4b/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2019-12-11-minecraft-server-pmmp-on-raspberry-pi-4b/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2019-12-11-minecraft-server-pmmp-on-raspberry-pi-4b/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Minecraft server PMMP on Raspberry Pi 4B</h1><small role=doc-subtitle></small><p class=post-date>December 11, 2019</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/minecraft>minecraft</a></li></ul></div><div class=post-content><p><p>I&rsquo;ve purchased the new Raspberry Pi 4B (4GB model) with a slick Flirc case
+which is also a passive-cooled alu case and it looks good on my table. The idea
+is to run Minecraft server for Windows 10, iOS, Android, XBox and PS4 edition
+(which launched yesterday).</p><p>First things first, wihich server software to install. Microsoft has an alpha
+build of Bedrock Server but unfortunately builds are only for x86_64 (Windows
+and Linux), this is ARM. Second option was some custom-made Java version and
+the third was quite popular one (many forks) written in PHP. That sounds fine,
+name&rsquo;s Pocketmine MP (PMMP, <a href=https://pmmp.io/)>https://pmmp.io/)</a>. I&rsquo;ve picked the latter.</p><p>While I waited for my Raspberry, I tried to install it on my Turris home router
+which is powered by an ARMv7 (32 bit) CPU. After PHP installation from OpenWRT
+repositories, the application refused to start requiring 64bit processor. So I
+gave up at this point. When RPi arrived, I was impressed with the case - it
+looks really cool. The RPi 4B gets quite hot, with the case which also works as
+a small passive cooler it&rsquo;s 45 degrees C while idle and during compilation it
+did not work over 60 degrees. Granted I&rsquo;ve switched off bluetooth, wifi and GPU
+has nothing to do as this is all headless.</p><p>At the time of writing (December 2019), Raspbian already had 64bit kernel to
+choose from but all userspace is still 32bits. There was an option to install
+Minecraft in a chroot, but I&rsquo;ve chosen a different option. After 11 years, I&rsquo;ve
+decided to return to Gentoo which I used as a user and a casual packager. There
+is <a href=https://github.com/sakaki-/gentoo-on-rpi-64bit>someone maintaining</a> Gentoo
+build for Raspberry Pi 3 and 4(B) including optimizations, 3rd party portage
+mirror with weekly binary builds. Great work right there!</p><p>Installation was super smooth, I&rsquo;ve followed the README, downloaded &ldquo;lite&rdquo;
+image (about 700 MB), booted up and it all worked like charm! I secured it, set
+SSH keys and disabled WiFi, BT and decreased graphics memory:</p><pre><code># passwd
+... (set new strong root password! ...
+
+# userdel -r demouser
+
+# cat /boot/config.txt
+...
+dtoverlay=disable-wifi
+dtoverlay=disable-bt
+gpu_mem=16
+#start_x=1
+...
+</code></pre><p>Warning: If you don&rsquo;t have experience with administrating Linux servers, make
+sure to issue the <code>userdel</code> command to delete the default user with publicly
+known password. If you want to expose the server via SSH, this would be a
+seroius security threat! Also pick a good root password. I also recommend to
+disable password authentication and use SSH keys instead (not covered in this
+article).</p><p>Update was very fast because the maintainer deployed a binary portage tree, so
+no compilation for the base system:</p><pre><code># genup
+</code></pre><p>Kudos! Then I&rsquo;ve installed few more programs I usually need. A good editor,
+screen utility and Midnight Commander is also handy sometimes. None of these
+are needed to run Minecraft servers, use <code>nano</code> editor if you like (actually
+I&rsquo;d suggest you to avoid <code>vim</code> if you don&rsquo;t know it at this point):</p><pre><code># emerge vim app-misc/screen app-misc/mc
+</code></pre><p>I tried to install PHP 7.4 from Gentoo tree but Minecraft MP sever did not like
+it. So I went the official way of compiling PHP and libraries using their
+script, which worked surpringlisly smooth. First, create a regular user because
+it&rsquo;s really bad idea to run the software under root account:</p><pre><code># useradd -m minecraft
+# passwd minecraft
+</code></pre><p>Log in over SSH as minecraft, all commands from now on are under this user
+(note <code>$</code>). The working and home directory should be:</p><pre><code>$ pwd
+/home/minecraft
+</code></pre><p>I&rsquo;ve followed the <a href=https://pmmp.readthedocs.io/en/rtfd/installation.html>official instructions</a>:</p><pre><code>$ curl -sL https://get.pmmp.io | bash -s -
+</code></pre><p>It has downloaded <code>PocketMine-MP.phar</code> and <code>start.sh</code> script, executed it,
+detected it needs to download PHP and then it failed to download binary beacuse
+the project doesn&rsquo;t provide aarch64 rpi binaries yet. It also created an empty
+<code>compile.sh</code> script and executed it apparently not resulting in any
+compilation. Now comes the trick, I&rsquo;ve checked out their build script from git
+and executed it. I&rsquo;ve used <code>screen</code> because compilation was slow and I left it
+over night (with Screen you can detach via Ctrl+a d and attach back via <code>screen -rd</code> command):</p><pre><code>$ git clone https://github.com/pmmp/php-build-scripts
+$ cd php-build-scripts
+$ ./compile.sh
+</code></pre><p>I dettached, signed off and powered off my laptop. The next morning I connected
+back, moved the resulting <code>bin</code> directory up and exited the screen session:</p><pre><code>$ screen -rd
+$ mv ./bin ..
+$ exit
+$ cd ..
+</code></pre><p>The server is now ready for the initial launch. It asks few questions and start
+itself:</p><pre><code>$ ./start.sh
+[*] PocketMine-MP set-up wizard
+[*] Please select a language
+...
+</code></pre><p>Hope it helps. Looking forward to new adventures with my son and his friends!
+Cheers. I am out.</p><p>ps - I&rsquo;ve realied there are no mobs in the PocketMine-MP as of 2019. There are
+some plugins with rather experimental support, but I am giving up. Running the
+official Minecraft server on RPi4 is possible, but the server crashes too often
+because the CPU can&rsquo;t keep up with the high tick rate. I&rsquo;ve purchased an 8th
+gen Intel NUC and decided to replace my Synology with it.</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

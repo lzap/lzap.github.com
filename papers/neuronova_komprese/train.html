@@ -1,0 +1,227 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-2" >
+<title>train.py</title>
+<style type="text/css">
+    h1 {    color: green;
+            position: center;
+        }
+    .python_code {  font-family: terminus, monospace;
+                font-size: 16pt;
+                }
+    .py_key {color: black;}
+    .py_num color: black;{}
+    .py_str { color: #00AA00;}
+    .py_op {color: black; }
+    .py_com { color: red;}
+    .py_res { color: #FF7700;}
+    .py_def { color: blue;}
+    .py_brk { color: black;}
+</style>
+</head>
+<body>
+<h1>#### Source code for train.py ####</h1>
+<hr>
+<pre class="python_code" id="pycode"><span class="py_com">#!/usr/bin/python
+</span><span class="py_com"># -*- coding: iso-8859-2 -*-
+</span>
+<span class="py_res">from</span><span class="py_key"> rgbimg</span><span class="py_res"> import</span><span class="py_op">*</span>
+<span class="py_res">from</span><span class="py_key"> snns</span><span class="py_res"> import</span><span class="py_key"> krui</span><span class="py_op">, </span><span class="py_key">util</span>
+<span class="py_res">from</span><span class="py_key"> sys</span><span class="py_res"> import</span><span class="py_key"> argv</span>
+
+<span class="py_key">ImageBoundsError</span><span class="py_op"> = </span><span class="py_str">"Image width or size not divisible by 8"</span>
+<span class="py_key">InternalError</span><span class="py_op"> = </span><span class="py_str">"Internal error"</span>
+
+<span class="py_res">class</span><span class="py_def"> image</span><span class="py_op">: </span>
+
+	<span class="py_str">"""Nahrává obrázek ve formátu RGBA (SGI .rgb). Čísla jsou uložena v
+	řetězci ARGB"""</span>
+	<span class="py_res">def</span><span class="py_def"> load</span><span class="py_brk">(</span><span class="py_key">self</span><span class="py_op">, </span><span class="py_key">file</span><span class="py_brk">)</span><span class="py_op">: </span>
+		<span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_data</span><span class="py_op"> = </span><span class="py_brk">[</span><span class="py_brk">]</span>
+		<span class="py_brk">(</span><span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_width</span><span class="py_op">, </span><span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_height</span><span class="py_brk">)</span><span class="py_op"> = </span><span class="py_key">sizeofimage</span><span class="py_brk">(</span><span class="py_key">file</span><span class="py_brk">)</span>
+		<span class="py_res">print</span><span class="py_str"> "Obrázek načten, rozměry:"</span><span class="py_op">, </span><span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_width</span><span class="py_op">, </span><span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_height</span>
+		<span class="py_res">if</span><span class="py_key"> self</span><span class="py_op">.</span><span class="py_key">_width</span><span class="py_op">%</span><span class="py_num">8</span><span class="py_op"> != </span><span class="py_num">0</span><span class="py_res"> or</span><span class="py_key"> self</span><span class="py_op">.</span><span class="py_key">_height</span><span class="py_op">%</span><span class="py_num">8</span><span class="py_op"> != </span><span class="py_num">0</span><span class="py_op">: </span>
+			<span class="py_res">raise</span><span class="py_key"> ImageBoundsError</span>
+
+		<span class="py_key">rawdata</span><span class="py_op"> = </span><span class="py_key">longimagedata</span><span class="py_brk">(</span><span class="py_key">file</span><span class="py_brk">)</span>
+		<span class="py_key">i</span><span class="py_op"> = </span><span class="py_num">0</span>
+		<span class="py_res">for</span><span class="py_key"> x</span><span class="py_res"> in</span><span class="py_key"> rawdata</span><span class="py_op">: </span>
+			<span class="py_key">x</span><span class="py_op"> = </span><span class="py_key">ord</span><span class="py_brk">(</span><span class="py_key">x</span><span class="py_brk">)</span>
+			<span class="py_res">if</span><span class="py_brk"> (</span><span class="py_key">i</span><span class="py_op">+</span><span class="py_num">1</span><span class="py_brk">)</span><span class="py_op">%</span><span class="py_num">4</span><span class="py_op"> == </span><span class="py_num">0</span><span class="py_op">: </span>
+				<span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_data</span><span class="py_op">.</span><span class="py_key">append</span><span class="py_brk">(</span><span class="py_key">x</span><span class="py_brk">)</span>
+			<span class="py_key">i</span><span class="py_op"> += </span><span class="py_num">1</span>
+	
+	<span class="py_res">def</span><span class="py_def"> store</span><span class="py_brk">(</span><span class="py_key">self</span><span class="py_op">, </span><span class="py_key">file</span><span class="py_brk">)</span><span class="py_op">: </span>
+		<span class="py_key">data</span><span class="py_op"> = </span><span class="py_str">""</span>
+		<span class="py_res">for</span><span class="py_key"> x</span><span class="py_res"> in</span><span class="py_key"> self</span><span class="py_op">.</span><span class="py_key">_data</span><span class="py_op">: </span>
+			<span class="py_key">data</span><span class="py_op"> += </span><span class="py_key">chr</span><span class="py_brk">(</span><span class="py_num">255</span><span class="py_brk">)</span><span class="py_op">+</span><span class="py_key">chr</span><span class="py_brk">(</span><span class="py_key">x</span><span class="py_brk">)</span><span class="py_op">*</span><span class="py_num">3</span>
+		<span class="py_res">if</span><span class="py_key"> len</span><span class="py_brk">(</span><span class="py_key">data</span><span class="py_brk">)</span><span class="py_op"> != </span><span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_width</span><span class="py_op">*</span><span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_height</span><span class="py_op">*</span><span class="py_num">4</span><span class="py_op">: </span>
+			<span class="py_res">raise</span><span class="py_key"> InternalError</span>
+		<span class="py_key">longstoimage</span><span class="py_brk">(</span><span class="py_key">data</span><span class="py_op">, </span><span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_width</span><span class="py_op">, </span><span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_height</span><span class="py_op">, </span><span class="py_num">1</span><span class="py_op">, </span><span class="py_key">file</span><span class="py_brk">)</span>
+
+	<span class="py_res">def</span><span class="py_def"> blank</span><span class="py_brk">(</span><span class="py_key">self</span><span class="py_brk">)</span><span class="py_op">: </span>
+		<span class="py_res">for</span><span class="py_key"> i</span><span class="py_res"> in</span><span class="py_key"> xrange</span><span class="py_brk">(</span><span class="py_key">len</span><span class="py_brk">(</span><span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_data</span><span class="py_brk">)</span><span class="py_brk">)</span><span class="py_op">: </span>
+			<span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_data</span><span class="py_brk">[</span><span class="py_key">i</span><span class="py_brk">]</span><span class="py_op"> = </span><span class="py_num">0</span>
+
+	<span class="py_res">def</span><span class="py_def"> getBlock</span><span class="py_brk">(</span><span class="py_key">self</span><span class="py_op">, </span><span class="py_key">index</span><span class="py_brk">)</span><span class="py_op">: </span>
+		<span class="py_key">result</span><span class="py_op"> = </span><span class="py_brk">[</span><span class="py_brk">]</span>
+		<span class="py_key">wb</span><span class="py_op"> = </span><span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_width</span><span class="py_op">/</span><span class="py_num">8</span>
+		<span class="py_key">v</span><span class="py_op"> = </span><span class="py_brk">(</span><span class="py_key">index</span><span class="py_op">/</span><span class="py_key">wb</span><span class="py_brk">)</span><span class="py_op">*</span><span class="py_num">8</span><span class="py_op">*</span><span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_width</span><span class="py_com"> # nad blokem</span>
+		<span class="py_key">h</span><span class="py_op"> = </span><span class="py_brk">(</span><span class="py_key">index</span><span class="py_op">%</span><span class="py_key">wb</span><span class="py_brk">)</span><span class="py_op">*</span><span class="py_num">8</span><span class="py_com"> # zleva</span>
+		<span class="py_res">for</span><span class="py_key"> y</span><span class="py_res"> in</span><span class="py_key"> xrange</span><span class="py_brk">(</span><span class="py_num">8</span><span class="py_brk">)</span><span class="py_op">: </span>
+			<span class="py_res">for</span><span class="py_key"> x</span><span class="py_res"> in</span><span class="py_key"> xrange</span><span class="py_brk">(</span><span class="py_num">8</span><span class="py_brk">)</span><span class="py_op">: </span>
+				<span class="py_key">result</span><span class="py_op">.</span><span class="py_key">append</span><span class="py_brk">(</span><span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_data</span><span class="py_brk">[</span><span class="py_key">v</span><span class="py_op">+</span><span class="py_key">h</span><span class="py_op">+</span><span class="py_key">x</span><span class="py_op">+</span><span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_width</span><span class="py_op">*</span><span class="py_key">y</span><span class="py_brk">]</span><span class="py_brk">)</span>
+		<span class="py_res">return</span><span class="py_key"> result</span>
+
+	<span class="py_res">def</span><span class="py_def"> getBlockCount</span><span class="py_brk">(</span><span class="py_key">self</span><span class="py_brk">)</span><span class="py_op">: </span>
+		<span class="py_res">return</span><span class="py_key"> len</span><span class="py_brk">(</span><span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_data</span><span class="py_brk">)</span><span class="py_op">/</span><span class="py_num">64</span>
+
+	<span class="py_res">def</span><span class="py_def"> setBlock</span><span class="py_brk">(</span><span class="py_key">self</span><span class="py_op">, </span><span class="py_key">index</span><span class="py_op">, </span><span class="py_key">block</span><span class="py_brk">)</span><span class="py_op">: </span>
+		<span class="py_key">wb</span><span class="py_op"> = </span><span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_width</span><span class="py_op">/</span><span class="py_num">8</span>
+		<span class="py_key">v</span><span class="py_op"> = </span><span class="py_brk">(</span><span class="py_key">index</span><span class="py_op">/</span><span class="py_key">wb</span><span class="py_brk">)</span><span class="py_op">*</span><span class="py_num">8</span><span class="py_op">*</span><span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_width</span><span class="py_com"> # nad blokem</span>
+		<span class="py_key">h</span><span class="py_op"> = </span><span class="py_brk">(</span><span class="py_key">index</span><span class="py_op">%</span><span class="py_key">wb</span><span class="py_brk">)</span><span class="py_op">*</span><span class="py_num">8</span><span class="py_com"> # zleva</span>
+		<span class="py_key">b</span><span class="py_op"> = </span><span class="py_num">0</span>
+		<span class="py_res">for</span><span class="py_key"> y</span><span class="py_res"> in</span><span class="py_key"> xrange</span><span class="py_brk">(</span><span class="py_num">8</span><span class="py_brk">)</span><span class="py_op">: </span>
+			<span class="py_res">for</span><span class="py_key"> x</span><span class="py_res"> in</span><span class="py_key"> xrange</span><span class="py_brk">(</span><span class="py_num">8</span><span class="py_brk">)</span><span class="py_op">: </span>
+				<span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_data</span><span class="py_brk">[</span><span class="py_key">v</span><span class="py_op">+</span><span class="py_key">h</span><span class="py_op">+</span><span class="py_key">x</span><span class="py_op">+</span><span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_width</span><span class="py_op">*</span><span class="py_key">y</span><span class="py_brk">]</span><span class="py_op"> = </span><span class="py_key">block</span><span class="py_brk">[</span><span class="py_key">b</span><span class="py_brk">]</span>
+				<span class="py_key">b</span><span class="py_op"> += </span><span class="py_num">1</span>
+
+	<span class="py_res">def</span><span class="py_def"> __iter__</span><span class="py_brk">(</span><span class="py_key">self</span><span class="py_brk">)</span><span class="py_op">: </span>
+		<span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_ix</span><span class="py_op"> = </span><span class="py_num">0</span>
+		<span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_blocks</span><span class="py_op"> = </span><span class="py_key">self</span><span class="py_op">.</span><span class="py_key">getBlockCount</span><span class="py_brk">(</span><span class="py_brk">)</span>
+		<span class="py_res">return</span><span class="py_key"> self</span>
+
+	<span class="py_res">def</span><span class="py_def"> next</span><span class="py_brk">(</span><span class="py_key">self</span><span class="py_brk">)</span><span class="py_op">: </span>
+		<span class="py_res">if</span><span class="py_key"> self</span><span class="py_op">.</span><span class="py_key">_ix</span><span class="py_op">&gt;=</span><span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_blocks</span><span class="py_op">: </span>
+			<span class="py_res">raise</span><span class="py_key"> StopIteration</span>
+		<span class="py_key">block</span><span class="py_op"> = </span><span class="py_key">self</span><span class="py_op">.</span><span class="py_key">getBlock</span><span class="py_brk">(</span><span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_ix</span><span class="py_brk">)</span>
+		<span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_ix</span><span class="py_op"> = </span><span class="py_key">self</span><span class="py_op">.</span><span class="py_key">_ix</span><span class="py_op">+</span><span class="py_num">1</span>
+		<span class="py_res">return</span><span class="py_key"> block</span>
+
+<span class="py_com"># pomocne funkce
+</span><span class="py_res">def</span><span class="py_def"> pix2real</span><span class="py_brk">(</span><span class="py_key">p</span><span class="py_brk">)</span><span class="py_op">: </span>
+	<span class="py_res">return</span><span class="py_key"> p</span><span class="py_op">*</span><span class="py_brk">(</span><span class="py_num">2.0</span><span class="py_op">/</span><span class="py_num">255.0</span><span class="py_brk">)</span><span class="py_op">-</span><span class="py_num">1.0</span>
+
+<span class="py_res">def</span><span class="py_def"> real2pix</span><span class="py_brk">(</span><span class="py_key">r</span><span class="py_brk">)</span><span class="py_op">: </span>
+	<span class="py_res">return</span><span class="py_key"> int</span><span class="py_brk">(</span><span class="py_key">r</span><span class="py_op">*</span><span class="py_num">128.0</span><span class="py_op">+</span><span class="py_num">127.5</span><span class="py_brk">)</span>
+
+<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">setLearnFunc</span><span class="py_brk">(</span><span class="py_str">'BackpropBatch'</span><span class="py_brk">)</span>
+<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">setUpdateFunc</span><span class="py_brk">(</span><span class="py_str">'Topological_Order'</span><span class="py_brk">)</span>
+<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">setUnitDefaults</span><span class="py_brk">(</span><span class="py_num">1</span><span class="py_op">, </span><span class="py_num">0</span><span class="py_op">, </span><span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">INPUT</span><span class="py_op">, </span><span class="py_num">0</span><span class="py_op">, </span><span class="py_num">1</span><span class="py_op">, </span><span class="py_str">'Act_TanH'</span><span class="py_op">, </span><span class="py_str">'Out_Identity'</span><span class="py_brk">)</span>
+
+<span class="py_res">print</span><span class="py_str"> "Nahrávám obrázek"</span>
+
+<span class="py_key">im</span><span class="py_op"> = </span><span class="py_key">image</span><span class="py_brk">(</span><span class="py_brk">)</span>
+<span class="py_key">im</span><span class="py_op">.</span><span class="py_key">load</span><span class="py_brk">(</span><span class="py_str">"beerfox2.rgb"</span><span class="py_brk">)</span>
+<span class="py_res">print</span><span class="py_str"> "Velikost:"</span><span class="py_op">, </span><span class="py_key">len</span><span class="py_brk">(</span><span class="py_key">im</span><span class="py_op">.</span><span class="py_key">_data</span><span class="py_brk">)</span>
+
+<span class="py_res">print</span><span class="py_str"> "Konstruuji síť"</span>
+
+<span class="py_key">vnejsi_vrstvy</span><span class="py_op"> = </span><span class="py_num">8</span><span class="py_op">*</span><span class="py_num">8</span>
+<span class="py_key">vnitrni_vrstva</span><span class="py_op"> = </span><span class="py_num">4</span><span class="py_op">*</span><span class="py_num">4</span>
+
+<span class="py_com"># vstupni vrstva 8x8 (64 neuronu)
+</span><span class="py_key">pos</span><span class="py_op"> = </span><span class="py_brk">[</span><span class="py_num">0</span><span class="py_op">, </span><span class="py_num">0</span><span class="py_op">, </span><span class="py_num">0</span><span class="py_brk">]</span>
+<span class="py_key">inputs</span><span class="py_op"> = </span><span class="py_brk">[</span><span class="py_brk">]</span>
+<span class="py_res">for</span><span class="py_key"> i</span><span class="py_res"> in</span><span class="py_key"> range</span><span class="py_brk">(</span><span class="py_num">1</span><span class="py_op">, </span><span class="py_key">vnejsi_vrstvy</span><span class="py_op">+</span><span class="py_num">1</span><span class="py_brk">)</span><span class="py_op">: </span>
+	<span class="py_key">pos</span><span class="py_brk">[</span><span class="py_num">0</span><span class="py_brk">]</span><span class="py_op"> = </span><span class="py_key">i</span>
+	<span class="py_key">num</span><span class="py_op"> = </span><span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">createDefaultUnit</span><span class="py_brk">(</span><span class="py_brk">)</span>
+	<span class="py_key">inputs</span><span class="py_op">.</span><span class="py_key">append</span><span class="py_brk">(</span><span class="py_key">num</span><span class="py_brk">)</span>
+	<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">setUnitName</span><span class="py_brk">(</span><span class="py_key">num</span><span class="py_op">, </span><span class="py_str">'Input_%i'</span><span class="py_op">%</span><span class="py_key">i</span><span class="py_brk">)</span>
+	<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">setUnitPosition</span><span class="py_brk">(</span><span class="py_key">num</span><span class="py_op">, </span><span class="py_key">pos</span><span class="py_brk">)</span>
+
+<span class="py_com"># skryta vrstva 4x4 (16 neuronu)
+</span><span class="py_key">pos</span><span class="py_brk">[</span><span class="py_num">1</span><span class="py_brk">]</span><span class="py_op"> = </span><span class="py_num">2</span>
+<span class="py_key">hidden</span><span class="py_op"> = </span><span class="py_brk">[</span><span class="py_brk">]</span>
+<span class="py_res">for</span><span class="py_key"> i</span><span class="py_res"> in</span><span class="py_key"> range</span><span class="py_brk">(</span><span class="py_num">1</span><span class="py_op">, </span><span class="py_key">vnitrni_vrstva</span><span class="py_op">+</span><span class="py_num">1</span><span class="py_brk">)</span><span class="py_op">: </span>
+	<span class="py_key">pos</span><span class="py_brk">[</span><span class="py_num">0</span><span class="py_brk">]</span><span class="py_op"> = </span><span class="py_key">i</span><span class="py_op">+</span><span class="py_num">3</span>
+	<span class="py_key">num</span><span class="py_op"> = </span><span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">createDefaultUnit</span><span class="py_brk">(</span><span class="py_brk">)</span>
+	<span class="py_key">hidden</span><span class="py_op">.</span><span class="py_key">append</span><span class="py_brk">(</span><span class="py_key">num</span><span class="py_brk">)</span>
+	<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">setUnitName</span><span class="py_brk">(</span><span class="py_key">num</span><span class="py_op">, </span><span class="py_str">'Hidden_%i'</span><span class="py_op">%</span><span class="py_key">i</span><span class="py_brk">)</span>
+	<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">setUnitTType</span><span class="py_brk">(</span><span class="py_key">num</span><span class="py_op">, </span><span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">HIDDEN</span><span class="py_brk">)</span>
+	<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">setUnitPosition</span><span class="py_brk">(</span><span class="py_key">num</span><span class="py_op">, </span><span class="py_key">pos</span><span class="py_brk">)</span>
+	<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">setCurrentUnit</span><span class="py_brk">(</span><span class="py_key">num</span><span class="py_brk">)</span>
+	<span class="py_res">for</span><span class="py_key"> src</span><span class="py_res"> in</span><span class="py_key"> inputs</span><span class="py_op">: </span>
+		<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">createLink</span><span class="py_brk">(</span><span class="py_key">src</span><span class="py_op">, </span><span class="py_num">0</span><span class="py_brk">)</span>
+
+<span class="py_com"># vystupni vrstva 8x8 (64)
+</span><span class="py_key">pos</span><span class="py_brk">[</span><span class="py_num">1</span><span class="py_brk">]</span><span class="py_op"> = </span><span class="py_num">4</span>
+<span class="py_key">outputs</span><span class="py_op"> = </span><span class="py_brk">[</span><span class="py_brk">]</span>
+<span class="py_res">for</span><span class="py_key"> i</span><span class="py_res"> in</span><span class="py_key"> range</span><span class="py_brk">(</span><span class="py_num">1</span><span class="py_op">, </span><span class="py_key">vnejsi_vrstvy</span><span class="py_op">+</span><span class="py_num">1</span><span class="py_brk">)</span><span class="py_op">: </span>
+	<span class="py_key">pos</span><span class="py_brk">[</span><span class="py_num">0</span><span class="py_brk">]</span><span class="py_op"> = </span><span class="py_key">i</span>
+	<span class="py_key">num</span><span class="py_op"> = </span><span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">createDefaultUnit</span><span class="py_brk">(</span><span class="py_brk">)</span>
+	<span class="py_key">outputs</span><span class="py_op">.</span><span class="py_key">append</span><span class="py_brk">(</span><span class="py_key">num</span><span class="py_brk">)</span>
+	<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">setUnitName</span><span class="py_brk">(</span><span class="py_key">num</span><span class="py_op">, </span><span class="py_str">'Output_%i'</span><span class="py_op">%</span><span class="py_key">i</span><span class="py_brk">)</span>
+	<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">setUnitTType</span><span class="py_brk">(</span><span class="py_key">num</span><span class="py_op">, </span><span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">OUTPUT</span><span class="py_brk">)</span>
+	<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">setUnitPosition</span><span class="py_brk">(</span><span class="py_key">num</span><span class="py_op">, </span><span class="py_key">pos</span><span class="py_brk">)</span>
+	<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">setCurrentUnit</span><span class="py_brk">(</span><span class="py_key">num</span><span class="py_brk">)</span>
+	<span class="py_res">for</span><span class="py_key"> src</span><span class="py_res"> in</span><span class="py_key"> hidden</span><span class="py_op">: </span>
+		<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">createLink</span><span class="py_brk">(</span><span class="py_key">src</span><span class="py_op">, </span><span class="py_num">0</span><span class="py_brk">)</span>
+
+<span class="py_res">print</span><span class="py_str"> "Vytvářím vzorky pro SNNS"</span>
+
+<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">deleteAllPatterns</span><span class="py_brk">(</span><span class="py_brk">)</span>
+<span class="py_key">patset</span><span class="py_op"> = </span><span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">allocNewPatternSet</span><span class="py_brk">(</span><span class="py_brk">)</span>
+<span class="py_res">for</span><span class="py_key"> block</span><span class="py_res"> in</span><span class="py_key"> im</span><span class="py_op">: </span>
+	<span class="py_res">for</span><span class="py_key"> i</span><span class="py_res"> in</span><span class="py_key"> xrange</span><span class="py_brk">(</span><span class="py_key">vnejsi_vrstvy</span><span class="py_brk">)</span><span class="py_op">: </span>
+		<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">setUnitActivation</span><span class="py_brk">(</span><span class="py_key">inputs</span><span class="py_brk">[</span><span class="py_key">i</span><span class="py_brk">]</span><span class="py_op">, </span><span class="py_key">pix2real</span><span class="py_brk">(</span><span class="py_key">block</span><span class="py_brk">[</span><span class="py_key">i</span><span class="py_brk">]</span><span class="py_brk">)</span><span class="py_brk">)</span>
+		<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">setUnitActivation</span><span class="py_brk">(</span><span class="py_key">outputs</span><span class="py_brk">[</span><span class="py_key">i</span><span class="py_brk">]</span><span class="py_op">, </span><span class="py_key">pix2real</span><span class="py_brk">(</span><span class="py_key">block</span><span class="py_brk">[</span><span class="py_key">i</span><span class="py_brk">]</span><span class="py_brk">)</span><span class="py_brk">)</span>
+	<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">newPattern</span><span class="py_brk">(</span><span class="py_brk">)</span>
+
+<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">initializeNet</span><span class="py_brk">(</span><span class="py_op">-</span><span class="py_num">1</span><span class="py_op">, </span><span class="py_num">1</span><span class="py_brk">)</span>
+<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">shufflePatterns</span><span class="py_brk">(</span><span class="py_num">1</span><span class="py_brk">)</span>
+<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">DefTrainSubPat</span><span class="py_brk">(</span><span class="py_brk">)</span>
+
+<span class="py_key">pruch_1</span><span class="py_op"> = </span><span class="py_key">int</span><span class="py_brk">(</span><span class="py_key">argv</span><span class="py_brk">[</span><span class="py_num">1</span><span class="py_brk">]</span><span class="py_brk">)</span>
+<span class="py_key">pruch_2</span><span class="py_op"> = </span><span class="py_key">int</span><span class="py_brk">(</span><span class="py_key">argv</span><span class="py_brk">[</span><span class="py_num">2</span><span class="py_brk">]</span><span class="py_brk">)</span>
+
+<span class="py_res">print</span><span class="py_str"> "Fáze učení (%d+%d průchodů)"</span><span class="py_op">%</span><span class="py_brk">(</span><span class="py_key">pruch_1</span><span class="py_op">, </span><span class="py_key">pruch_2</span><span class="py_brk">)</span>
+
+<span class="py_key">i</span><span class="py_op"> = </span><span class="py_num">0</span>
+<span class="py_com"># první fáze učení
+</span><span class="py_res">while</span><span class="py_key"> i</span><span class="py_op">&lt;</span><span class="py_key">pruch_1</span><span class="py_op">: </span>
+	<span class="py_key">res</span><span class="py_op"> = </span><span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">learnAllPatterns</span><span class="py_brk">(</span><span class="py_num">0.3</span><span class="py_op">, </span><span class="py_num">0.1</span><span class="py_brk">)</span>
+	<span class="py_res">if</span><span class="py_res"> not</span><span class="py_key"> i</span><span class="py_op">%</span><span class="py_num">100</span><span class="py_op">: </span><span class="py_res"> print</span><span class="py_str"> "Fáze 1, chyba v cyklu %d:"</span><span class="py_op">%</span><span class="py_key">i</span><span class="py_op">, </span><span class="py_key">res</span><span class="py_brk">[</span><span class="py_num">0</span><span class="py_brk">]</span>
+	<span class="py_key">i</span><span class="py_op"> = </span><span class="py_key">i</span><span class="py_op">+</span><span class="py_num">1</span>
+
+<span class="py_com"># druhá fáze (jemnější)
+</span><span class="py_key">i</span><span class="py_op"> = </span><span class="py_num">0</span>
+<span class="py_res">while</span><span class="py_key"> i</span><span class="py_op">&lt;</span><span class="py_key">pruch_2</span><span class="py_op">: </span>
+	<span class="py_key">res</span><span class="py_op"> = </span><span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">learnAllPatterns</span><span class="py_brk">(</span><span class="py_num">0.03</span><span class="py_op">, </span><span class="py_num">0.1</span><span class="py_brk">)</span>
+	<span class="py_res">if</span><span class="py_res"> not</span><span class="py_key"> i</span><span class="py_op">%</span><span class="py_num">100</span><span class="py_op">: </span><span class="py_res"> print</span><span class="py_str"> "Fáze 2, chyba v cyklu %d:"</span><span class="py_op">%</span><span class="py_key">i</span><span class="py_op">, </span><span class="py_key">res</span><span class="py_brk">[</span><span class="py_num">0</span><span class="py_brk">]</span>
+	<span class="py_key">i</span><span class="py_op"> = </span><span class="py_key">i</span><span class="py_op">+</span><span class="py_num">1</span>
+
+<span class="py_res">print</span><span class="py_str"> "Rekonstruuji původní obrázek"</span>
+
+<span class="py_key">im</span><span class="py_op">.</span><span class="py_key">blank</span><span class="py_brk">(</span><span class="py_brk">)</span>
+
+<span class="py_res">for</span><span class="py_key"> p</span><span class="py_res"> in</span><span class="py_key"> xrange</span><span class="py_brk">(</span><span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">getNoOfPatterns</span><span class="py_brk">(</span><span class="py_brk">)</span><span class="py_brk">)</span><span class="py_op">: </span>
+	<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">setPatternNo</span><span class="py_brk">(</span><span class="py_key">p</span><span class="py_op">+</span><span class="py_num">1</span><span class="py_brk">)</span>
+	<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">showPattern</span><span class="py_brk">(</span><span class="py_num">1</span><span class="py_brk">)</span><span class="py_op">; </span>
+	<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">updateNet</span><span class="py_brk">(</span><span class="py_brk">)</span>
+	<span class="py_key">block</span><span class="py_op"> = </span><span class="py_brk">[</span><span class="py_brk">]</span>
+	<span class="py_res">for</span><span class="py_key"> u</span><span class="py_res"> in</span><span class="py_key"> xrange</span><span class="py_brk">(</span><span class="py_num">64</span><span class="py_op">+</span><span class="py_num">16</span><span class="py_op">+</span><span class="py_num">1</span><span class="py_op">, </span><span class="py_num">64</span><span class="py_op">*</span><span class="py_num">2</span><span class="py_op">+</span><span class="py_num">16</span><span class="py_op">+</span><span class="py_num">1</span><span class="py_brk">)</span><span class="py_op">: </span>
+		<span class="py_key">block</span><span class="py_op">.</span><span class="py_key">append</span><span class="py_brk">(</span><span class="py_key">real2pix</span><span class="py_brk">(</span><span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">getUnitActivation</span><span class="py_brk">(</span><span class="py_key">u</span><span class="py_brk">)</span><span class="py_brk">)</span><span class="py_brk">)</span>
+	<span class="py_key">im</span><span class="py_op">.</span><span class="py_key">setBlock</span><span class="py_brk">(</span><span class="py_key">p</span><span class="py_op">, </span><span class="py_key">block</span><span class="py_brk">)</span>
+
+<span class="py_res">print</span><span class="py_str"> "Zapisuji výsledný obrázek na disk"</span>
+
+<span class="py_key">im</span><span class="py_op">.</span><span class="py_key">store</span><span class="py_brk">(</span><span class="py_str">"compressed.rgb"</span><span class="py_brk">)</span>
+
+<span class="py_res">print</span><span class="py_str"> "Vytvářím soubor vzorků pro SNNS"</span>
+<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">saveNewPatterns</span><span class="py_brk">(</span><span class="py_str">'image.pat'</span><span class="py_op">, </span><span class="py_key">patset</span><span class="py_brk">)</span>
+<span class="py_res">print</span><span class="py_str"> "Vytvářím soubor sítě pro SNNS"</span>
+<span class="py_key">krui</span><span class="py_op">.</span><span class="py_key">saveNet</span><span class="py_brk">(</span><span class="py_str">'image.net'</span><span class="py_op">, </span><span class="py_str">'image'</span><span class="py_brk">)</span>
+
+<span class="py_com"># konec
+</span></pre>
+<hr>
+[Created with py2html Ver:0.62]
+<p>
+      <a href="http://validator.w3.org/check/referer"><img border="0"
+          src="http://www.w3.org/Icons/valid-html401"
+          alt="Valid HTML 4.01!" height="31" width="88"></a>
+</p></body>
+</html>

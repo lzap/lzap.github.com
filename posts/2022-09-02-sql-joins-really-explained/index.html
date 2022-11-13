@@ -1,0 +1,130 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>SQL joins really explained</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora,really"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2022-09-02-sql-joins-really-explained/"><meta property="og:type" content="website"><meta property="og:title" content="SQL joins really explained"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="SQL joins really explained"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2022-09-02-sql-joins-really-explained/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2022-09-02-sql-joins-really-explained/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2022-09-02-sql-joins-really-explained/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>SQL joins really explained</h1><small role=doc-subtitle></small><p class=post-date>September 2, 2022</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/really>really</a></li></ul></div><div class=post-content><p><p>I&rsquo;ve got asked how SQL joins <em>really</em> work. Let me explain <em>real quick</em>,
+imagine a database of student with a simple (1:N) relationship, a city students
+are from. I will use the tiny SQLite3 database system, you can do this too:</p><pre><code>$ sqlite3 joins.sqlite3
+SQLite version 3.36.0 2021-06-18 18:36:39
+Enter &quot;.help&quot; for usage hints.
+</code></pre><p>Create tables city and student:</p><pre><code>sqlite&gt; create table city (id integer, name text);
+sqlite&gt; create table student (id integer, name text, city_id integer);
+</code></pre><p>Insert few rows:</p><pre><code>sqlite&gt; insert into city (id, name) values (1, 'Prague'), (2, 'New York');
+sqlite&gt; insert into student (id, name, city_id) values (1, 'John', 1), (2, 'Eve', 1), (3, 'Mary', 2);
+</code></pre><p>We have three students from two cities in total, each student having an id of
+city they are from:</p><pre><code>sqlite&gt; select * from city;
+1|Prague
+2|New York
+
+sqlite&gt; select * from student;
+1|John|1
+2|Eve|1
+3|Mary|2
+</code></pre><p>Now, it&rsquo;s possible to select rows from more than one table, in that case
+database systems return what is technically called <em>cartesian product</em> which is
+nothing else than &ldquo;all options possible&rdquo;. Because select statement always
+returns one table, it has to do it that way. Number of rows is the total number
+of rows from one table multiplied by number from the other table: <code>2*3=6</code>:</p><pre><code>sqlite&gt; select * from student, city;
+1|John|1|1|Prague
+1|John|1|2|New York
+2|Eve|1|1|Prague
+2|Eve|1|2|New York
+3|Mary|2|1|Prague
+3|Mary|2|2|New York
+</code></pre><p>The order of tables in the select statement does not matter, it&rsquo;s the same
+result with different column order:</p><pre><code>sqlite&gt; select * from city, student;
+1|Prague|1|John|1
+1|Prague|2|Eve|1
+1|Prague|3|Mary|2
+2|New York|1|John|1
+2|New York|2|Eve|1
+2|New York|3|Mary|2
+</code></pre><p>It is possible to use where clause the same way as in other statements, to
+limit the result. Let&rsquo;s filter out only those rows where city <code>id</code> equals
+student&rsquo;s <code>city_id</code> column:</p><pre><code>sqlite&gt; select * from student, city where city.id = student.city_id;
+1|John|1|1|Prague
+2|Eve|1|1|Prague
+3|Mary|2|2|New York
+</code></pre><p>This is typically what we want! Because equality is <em>commutative</em>, technically
+speaking, you can swap the columns in the where clause only to get the very
+same result:</p><pre><code>sqlite&gt; select * from student, city where student.city_id = city.id;
+1|John|1|1|Prague
+2|Eve|1|1|Prague
+3|Mary|2|2|New York
+</code></pre><p>Now here is a thing, <em>inner join</em> is exactly that, but with different syntax:</p><pre><code>sqlite&gt; select * from student inner join city on city.id = student.city_id;
+1|John|1|1|Prague
+2|Eve|1|1|Prague
+3|Mary|2|2|New York
+</code></pre><p>Swapping columns in the where clause does not change the result either:</p><pre><code>sqlite&gt; select * from student inner join city on student.city_id = city.id;
+1|John|1|1|Prague
+2|Eve|1|1|Prague
+3|Mary|2|2|New York
+</code></pre><p>The same goes for from/join clauses, it really does not matter which table goes
+first in the from or join statements, the only thing that changes is column
+order, results are exactly the same:</p><pre><code>sqlite&gt; select * from city inner join student on student.city_id = city.id;
+1|Prague|1|John|1
+1|Prague|2|Eve|1
+2|New York|3|Mary|2
+
+sqlite&gt; select * from student inner join city on student.city_id = city.id;
+1|John|1|1|Prague
+2|Eve|1|1|Prague
+3|Mary|2|2|New York
+</code></pre><p>To recap, the following are all <em>inner join</em> statements giving you the same
+results:</p><pre><code>sqlite&gt; select * from student, city where city.id = student.city_id;
+sqlite&gt; select * from student, city where student.city_id = city.id;
+sqlite&gt; select * from student inner join city on city.id = student.city_id;
+sqlite&gt; select * from student inner join city on student.city_id = city.id;
+sqlite&gt; select * from city inner join student on student.city_id = city.id;
+sqlite&gt; select * from student inner join city on student.city_id = city.id;
+</code></pre><p>Which one to choose from when you want to do an inner join? It&rsquo;s up to you, all
+relational database systems I know will work the same. The final touch is to
+select only the columns you want. Here is our list of students and their home
+cities:</p><pre><code>sqlite&gt; select student.name,city.name from student, city where city.id = student.city_id;
+John|Prague
+Eve|Prague
+Mary|New York
+</code></pre><p>But how about <em>left join</em> and <em>right join</em>? Well, they only matter if you have
+null values in the database, which is not this case:</p><pre><code>sqlite&gt; select * from student inner join city on city.id = student.city_id;
+1|John|1|1|Prague
+2|Eve|1|1|Prague
+3|Mary|2|2|New York
+
+sqlite&gt; select * from student left join city on city.id = student.city_id;
+1|John|1|1|Prague
+2|Eve|1|1|Prague
+3|Mary|2|2|New York
+</code></pre><p>Let&rsquo;s set city for the student with id of 2 to null:</p><pre><code>sqlite&gt; update student set city_id = null where id = 2;
+
+sqlite&gt; select * from student;
+1|John|1
+2|Eve|
+3|Mary|2
+</code></pre><p>Let&rsquo;s do the inner join using one of the syntaxes I explained above and notice
+the student is no longer there because Eve has null value for their <code>city_id</code>:</p><pre><code>sqlite&gt; select * from student, city where city.id = student.city_id;
+1|John|1|1|Prague
+3|Mary|2|2|New York
+</code></pre><p>The thing is, null equals to nothing, therefore a student with null city id
+will never match. The solution? <em>Left join</em> will make the system to join rows
+from the left table (the word after <code>from</code>) even if there are no matches from
+the right table (the word after <code>join</code>):</p><pre><code>sqlite&gt; select * from student left join city on city.id = student.city_id;
+1|John|1|1|Prague
+2|Eve|||
+3|Mary|2|2|New York
+</code></pre><p>See, student number 2 is now included (compare with the inner join above).
+Since they have <code>city_id</code> set to null, they would have been filtered out. Very
+often, that&rsquo;s probably not what we want to do. When you swap tables in the
+statement, it does not work:</p><pre><code>sqlite&gt; select * from city left join student on city.id = student.city_id;
+1|Prague|1|John|1
+2|New York|3|Mary|2
+</code></pre><p>This is where the right join comes, it will do the same thing, but from other
+side. Unfortunately, SQLite does not support right joins. Why? Because you
+don&rsquo;t need both, you can always do it one way. Most database systems, however,
+supports both directions. It&rsquo;s just most of programmers tend to stick just with
+one direction for life, I am a left-joiner as well as SQLite3 author I guess.</p><p>Instead of looking at diagrams with two potatoes, remember this: <em>inner join</em> filters from <em>product</em> of both tables leaving out rows with null values, <em>left join</em> leaves rows with null values from the <em>left</em> table and <em>right join</em> does exactly the same, but from the <em>right</em> side.</p><p>There are also special joins: <em>outer join</em> and <em>full join</em> but I am not going
+to explain them in this article as they are less useful in practice.</p><p>Bonus takeaway: If you don&rsquo;t have any null values in your join columns (typically
+named <code>id</code> for primary keys or <code>something_id</code> of <code>id_something</code> for foreign
+keys), you can just use <em>inner join</em> and you are good.</p><p>Cheers!</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

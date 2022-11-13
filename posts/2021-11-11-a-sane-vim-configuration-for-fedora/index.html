@@ -1,0 +1,253 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>A sane vim configuration for Fedora</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2021-11-11-a-sane-vim-configuration-for-fedora/"><meta property="og:type" content="website"><meta property="og:title" content="A sane vim configuration for Fedora"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="A sane vim configuration for Fedora"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2021-11-11-a-sane-vim-configuration-for-fedora/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2021-11-11-a-sane-vim-configuration-for-fedora/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2021-11-11-a-sane-vim-configuration-for-fedora/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>A sane vim configuration for Fedora</h1><small role=doc-subtitle></small><p class=post-date>November 11, 2021</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li></ul></div><div class=post-content><p><p>When you start Vim with the <code>--clean</code> option, it shows up in &ldquo;vanilla&rdquo; mode. No
+plugins, no configuration, just back to the roots. I have collected a ton of
+configuration statements over the years some of them dating from MS-DOS or
+Windows 3.1. Here is the deal: I am going to start from scratch to find a good
+starting-point configuration with just plugins which are available in Fedora 35.
+Will I survive a week of coding? Let&rsquo;s find out!</p><p>Let&rsquo;s set the rules: Minimum possible configuration statements and only plugins
+which ship with Fedora 35+. By the way, if you are not Fedora user, continue
+reading. You can always install these plugins from your OS package manager,
+manually or via a Vim plugin manager.</p><p>Before we start, there&rsquo;s the elephant in the room: Vim or Neovim (fork of Vim)
+question. Well, this is up to you, everything that is in this post should work
+for both, however, I only tested with Vim. All the skill will come handy when
+you logon to a server where only vi is available. It can be either an old UNIX
+system, Linux server with minimum software installed for better security, an
+interative shell in a container or an embedded system where space is precious.</p><p>Without further ado, here is what I distilled to the absolute bare minimum to
+be effective with Vim for coding:</p><pre><code># dnf install --allowerasing vim-default-editor \
+	vim-enhanced \
+	vim-ctrlp \
+	vim-airline \
+	vim-trailing-whitespace \
+	vim-fugitive \
+	vim-ale \
+	ctags
+</code></pre><p>Do not worry about the <code>--allowerasing</code> option, just review the installation
+transaction prior confirming. This option is there to tell the package manager
+to replace existing package <code>nano-default-editor</code> with <code>vim-default-editor</code>. It
+is a small package that drops a shell configuration files to set EDITOR
+environment variable to <code>vim</code> and this is a must have if you want to use Vim
+(e.g. with git). This is a special thing for Fedora, you will not need to do
+this on other distributions or OSes - just make sure your EDITOR shell variable
+is correctly set.</p><p>A quick overview what I consider a good and clean plugin set:</p><ul><li>ctrlp - smallest possible fuzzy-finder plugin (pure vimscript)</li><li>fugitive - a must have tool for git</li><li>trailing-whitespace - shows and fixes, well, trailing whitespace</li><li>airline - an improved status line (pure vimscript)</li><li>ale - highlights typos or syntax errors as you type</li><li>ctags - not a Vim plugin but a very much needed tool</li></ul><p>There are other fuzzy-finder plugins like Command-T or my faviourite (very
+fast) fzf.vim. Thing is, fzf.vim is not in Fedora and I want the smallest
+possible configuration. CtrlP will do just fine and it is much more easier to
+configure as it requires nothing.</p><p>If I were to choose absolute minimum configuration it would be:</p><pre><code># cat ~/.vimrc
+let mapleader=&quot;,&quot;
+let maplocalleader=&quot;_&quot;
+filetype plugin indent on
+let g:ctrlp_map = '&lt;leader&gt;&lt;leader&gt;'
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+set exrc
+set secure
+</code></pre><p>But that is probably too extreme, so here is slightly bigger configuration with
+my detail explanation below:</p><pre><code>&quot; vim: nowrap sw=2 sts=2 ts=2 et:
+
+&quot; leaders
+let mapleader=&quot;,&quot;
+let maplocalleader=&quot;_&quot;
+
+&quot; filetype and intent
+filetype plugin indent on
+
+&quot; incompatible plugins
+if has('syntax') &amp;&amp; has('eval')
+  packadd! matchit
+end
+
+&quot; be SSD friendly (can be dangerous!)
+&quot;set directory=/tmp
+
+&quot; move backups away from projects
+set backupdir=~/.vimbackup
+
+&quot; fuzzy searching
+let g:ctrlp_map = '&lt;leader&gt;&lt;leader&gt;'
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+nnoremap &lt;leader&gt;b :CtrlPBuffer&lt;cr&gt;
+nnoremap &lt;leader&gt;t :CtrlPTag&lt;cr&gt;
+nnoremap &lt;leader&gt;f :CtrlPBufTag&lt;cr&gt;
+nnoremap &lt;leader&gt;q :CtrlPQuickfix&lt;cr&gt;
+nnoremap &lt;leader&gt;m :CtrlPMRU&lt;cr&gt;
+
+&quot; buffers and quickfix
+function! ToggleQuickFix()
+  if empty(filter(getwininfo(), 'v:val.quickfix'))
+    copen
+  else
+    cclose
+  endif
+endfunction
+nnoremap &lt;leader&gt;w :call ToggleQuickFix()&lt;cr&gt;
+nnoremap &lt;leader&gt;d :bd&lt;cr&gt;
+
+&quot; searching ang grepping
+nnoremap &lt;leader&gt;g :copen&lt;cr&gt;:Ggrep! &lt;SPACE&gt;
+nnoremap K :Ggrep &quot;\b&lt;C-R&gt;&lt;C-W&gt;\b&quot;&lt;cr&gt;:cw&lt;cr&gt;
+nnoremap &lt;leader&gt;s :set hlsearch! hlsearch?&lt;cr&gt;
+
+&quot; ctags generation
+nnoremap &lt;leader&gt;c :!ctags -R .&lt;cr&gt;&lt;cr&gt;
+
+&quot; per-project configs
+set exrc
+set secure
+</code></pre><p>I like having my leader key mapped to comma instead of the default backslash.
+It is the closest free key in Vim when your hands are in writing position. Also
+this key is same in most keyboard layouts while <code>\</code> varies per model or layout.
+I rarely use local leader but underscore looks like a good fit.</p><p>Further reading:</p><ul><li><code>:help map-which-keys</code>: <a href=https://vimhelp.org/map.txt.html#map-which-keys>https://vimhelp.org/map.txt.html#map-which-keys</a></li><li><a href=https://vim.fandom.com/wiki/Unused_keys>https://vim.fandom.com/wiki/Unused_keys</a></li></ul><p>Next up it is the very important filetype command. See, Vim comes with
+&ldquo;batteries included&rdquo;, version 8.2 contains syntax highlighting for 644
+languagues, 251 filetype definitions (ftplugins) and intentation rules for 138
+languages. However, indentation is not enabled by default perhaps to deliver a
+consistent editing experience for all. I like to enable it.</p><p>A quick tip: If you are editing a very large file and Vim feels slow, you may
+want to disable syntax highlighting to speed things up. Just type <code>:syn off</code>
+command.</p><p>Further reading:</p><ul><li><code>:help filetype</code>: <a href=https://vimhelp.org/filetype.txt.html>https://vimhelp.org/filetype.txt.html</a></li><li><code>:help syntax</code>: <a href=https://vimhelp.org/syntax.txt.html>https://vimhelp.org/syntax.txt.html</a></li><li><code>:help indent</code>: <a href=https://vimhelp.org/indent.txt.html>https://vimhelp.org/indent.txt.html</a></li></ul><p>Vim even comes with some extra plugins which makes some feature incompatible,
+one of these is quite useful. It is the matchit plugin which makes <code>%</code> key
+which finds matching paren to work with some languages. Typically, you can find
+beginning or end of a block (<code>begin</code> and <code>end</code>) or HTML matching tags and
+similar.</p><p>Further reading:</p><ul><li><code>:help matchit</code>: <a href=https://vimhelp.org/usr_05.txt.html#matchit-install>https://vimhelp.org/usr_05.txt.html#matchit-install</a></li></ul><p>One of the many settings I want to keep from my old config is using <code>/tmp</code> for
+swap and creating backups in a separate directory in my home which you need to
+create with <code>mkdir ~/.vimbackup</code>. Now, it is important to understand that Vim
+creates a copy called &ldquo;swap file&rdquo; when you start editing and all the unsaved
+work is saved in this file. So even if there is a power outage, your swap will
+contain most of the unsaved work. I prefer using tmpfs as all my laptops and
+servers are protected with UPS and I am used to save quite often. Also, most of
+the times you will utilize swap files when your ssh connection is lost rather
+than thank to a power outage. Swap files can be quite big for large files and I
+value my SSD wear so I am making the decision here, if you are unsure remove
+this statement to use <code>/var/tmp</code> which is safer.</p><p>Further reading:</p><ul><li><code>:help swap-file</code>: <a href=https://vimhelp.org/recover.txt.html#swap-file>https://vimhelp.org/recover.txt.html#swap-file</a></li></ul><p>Now, the fuzzy finder is a plugin I cannot live without. Opening files via
+commands like <code>:Ex</code> or <code>:e</code> or <code>:tabe</code> is okayish on a server when you need to
+open like 20 files a day. When coding, we usually need to open hundreds of
+them. As I said, CtrlP does the job nicely, it is small, no dependencies, pure
+Vim. It opens with Ctrl-P combination which is a bit weird to me, I know that
+some famous editors use it (VSCode I think). Thing is, these are already
+important Vim keybindings I do not want to override. So the winner for me is
+leader+leader (comma pressed twice).</p><p>The <code>ctrlp_user_command</code> just changes how CtrlP is getting the file list,
+instead the build-in recursive file lister (glob) it uses <code>git ls-files</code> which
+is usually better as it ignores things from <code>.gitignore</code> so things like
+<code>node_modules</code> or other irrelevant directories which can slow down the listing
+are not in the way.</p><p>Leader+b/t/f/q/m to open list of buffers, tags, tags from current file, quick
+fix buffer and most recently used files is very useful too. Specifically, once
+you generated a taglist with ctags, this is essentially &ldquo;Go To Definition&rdquo; for
+hundreds of programming languages - no plugins needed! This is all built-in
+Vim. Now to put thigs straigt, when I type leader+b it means pressing comma and
+then pressing b key, not together like with Control or Shift.</p><p>Further reading:</p><ul><li><code>:help Explore</code>: <a href=https://vimhelp.org/pi_netrw.txt.html#netrw-explore>https://vimhelp.org/pi_netrw.txt.html#netrw-explore</a></li><li><a href=https://github.com/kien/ctrlp.vim>https://github.com/kien/ctrlp.vim</a></li></ul><p>Although Vim supports tabs these days, buffer management is an important skill
+for mastering Vim, what I usually end up with is having too many buffers and I
+need to do <code>:bdelete</code> way too often. Well, leader+d seems like a good option
+to do that faster. I also like to be able to close quickfix window so there is
+the leader+q combination for that too. I use this very often when browsing
+search results.</p><p>Further reading:</p><ul><li><code>:help buffer-hidden</code>: <a href=https://vimhelp.org/windows.txt.html#buffer-hidden>https://vimhelp.org/windows.txt.html#buffer-hidden</a></li></ul><p>Speaking about searching, it is as important as opening files. I want to be
+able grep the codebase, for that there is the awesome <code>:Ggrep</code> command from
+fugitive plugin which uses <code>git grep</code> which by design ignores junk files and
+only searches what&rsquo;s in git. Since Shift-K is a free key in Vim, it is a great
+fit for automatically grepping the term under cursor. And finally, being able
+to enter arbitrary search pattern via leader+g is also nice. Note this opens a
+window which is called Quickfix window where you can navigate the results, go
+to next occurance, previous, last, first and more. The same window is used for
+output from compilators or other tools so get familiar with it. I suggest
+further reading in the documentation if this is new to you.</p><p>Further reading:</p><ul><li><code>:help quickfix</code>: <a href=https://vimhelp.org/quickfix.txt.html>https://vimhelp.org/quickfix.txt.html</a></li><li><a href=https://github.com/tpope/vim-fugitive>https://github.com/tpope/vim-fugitive</a></li></ul><p>By the way, searching via <code>/</code> key is smart sensitive, meaning if all characters
+are lower case, Vim searches ignoring case. By default it highlights results
+and I think I typed <code>:noh</code> (turn of highlighting) about a million times, that&rsquo;s
+why I have leader+s to toggle this. I suggest to read more about searching in
+the manual later on too.</p><p>Searching and grepping is next. The fugitive plugin has you covered. Use the
+command <code>:Ggrep pattern</code> to do a git grep, results will go into the Quickfix
+window. Then simply navigate through the results via quick fix commands (<code>:cn</code>,
+<code>:cp</code> etc) or simply use <code>:CtrlPQuickfix</code> (or leader+q) to scroll them
+visually. What is cool about the CtrlP quick fix integration is you can further
+search the results just by typing to match filenames or content as well, if it
+makes sense. Searching the results of a search.</p><p>Further reading:</p><ul><li><code>:help grep</code>: <a href=https://vimhelp.org/quickfix.txt.html#grep>https://vimhelp.org/quickfix.txt.html#grep</a></li><li><code>:help noh</code>: <a href=https://vimhelp.org/pattern.txt.html#noh>https://vimhelp.org/pattern.txt.html#noh</a></li><li><a href=https://github.com/tpope/vim-fugitive>https://github.com/tpope/vim-fugitive</a></li></ul><p>Leader+c to generate ctags file for better navigation is useful when I am
+dealing with a new codebase or doing some longer coding session with lots of
+jumps around. Ctags supports hundreds of languages and Vim can use all this
+knowledge to navigate it. More about how to configure it later. Note we already
+discussed leader+t to open fuzzy search for all tags, remember? It is the very
+same thing.</p><p>Further reading:</p><ul><li><code>:help ctags</code>: <a href=https://vimhelp.org/tagsrch.txt.html>https://vimhelp.org/tagsrch.txt.html</a></li><li><a href=https://ctags.io>https://ctags.io</a></li></ul><p>Being able to override any other setting in projects by creating <code>.vimrc</code> file
+in a project directory is a good idea to do. Just put it in the (global)
+<code>.gitignore</code> to make sure you don&rsquo;t need to edit thousands of git ignore files
+in each project. Such a project <code>.vimrc</code> could be something like (for C/C++
+project with GNU Makefile):</p><pre><code>&quot; coding style
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set noexpandtab
+&quot; include and autocomplete path
+let &amp;path.=&quot;/usr/local/include&quot;
+&quot; function keys to build and run the project
+nnoremap &lt;F9&gt; :wall!&lt;cr&gt;:make!&lt;cr&gt;&lt;cr&gt;
+nnoremap &lt;F10&gt; :!LD_LIBRARY_PATH=/usr/local/lib ./project&lt;cr&gt;&lt;cr&gt;
+</code></pre><p>As you can see, I typically map F2-F10 keys to compile, run, test and similar
+actions. Using F9 for calling <code>make</code> sounds about right, remember the blue
+Borland IDE from MS-DOS?</p><p>As mentioned earlier, is a good idea to ignore both <code>.vimrc</code> and <code>tags</code>
+(generated by <code>ctags</code>) globally so there is no need to update every each
+<code>.gitignore</code>:</p><pre><code># git config --global core.excludesfile ~/.gitignore
+# cat ~/.gitignore
+/.vimrc
+/tags
+/TAGS
+</code></pre><p>There are actually few more statements in my personal config which are only
+relevant for those with non-US keyboard layouts (I am on Czech). I need to use
+dead keys for many characters and it is simply not possible and I&rsquo;d rather type
+the command instead of doing those hard-to-reach combinations. Here is a
+solution to the problem:</p><pre><code>&quot; CTRL-] is hard on my keyboard layout
+map &lt;C-K&gt; &lt;C-]&gt;
+&quot; CTRL-^ is hard on my keyboard layout
+nnoremap &lt;F1&gt; :b#&lt;cr&gt;
+nnoremap &lt;F2&gt; :bp&lt;cr&gt;
+nnoremap &lt;F3&gt; :bn&lt;cr&gt;
+&quot; I hate entering Ex mode by accient
+map Q &lt;Nop&gt;
+</code></pre><p>Further reading:</p><ul><li><code>:help map</code>: <a href=https://vimhelp.org/map.txt.html>https://vimhelp.org/map.txt.html</a></li></ul><p>Function keys are all free in Vim, except F1 which is bound to help. I don&rsquo;t
+need help, not that I would already know everything about Vim. Not at all. But
+I can simply type <code>:help</code> if needed. And F1 is cruical key, so close to the Esc
+key. I like to use buffer swapping (<code>:b#</code>) for that as well as F2-F3 for
+next/previous. The more you work with buffers the more you will need this. If
+you haven&rsquo;t used Ctrl-^ I suggest to get used to it. Oh, have you ever entered
+the Ex mode with the ugly <code>type :visual</code>? Many begginners had no idea how to
+quit Vim from that mode, for me it is just disturbing as I rarely use it.</p><p>Now, getting familiar with <code>ctags</code> is a key thing to be successful with Vim.
+This tool supports hundreds of languages and it can easily create tags for
+files you do not want to create, therefore I suggest to ignore typical junk
+directories:</p><pre><code># cat ~/.ctags.d/local.ctags
+--recurse=yes
+--exclude=.git
+--exclude=build/
+--exclude=.svn
+--exclude=vendor/*
+--exclude=node_modules/*
+--exclude=public/webpack/*
+--exclude=db/*
+--exclude=log/*
+--exclude=test/*
+--exclude=tests/*
+--exclude=\*.min.\*
+--exclude=\*.swp
+--exclude=\*.bak
+--exclude=\*.pyc
+--exclude=\*.class
+--exclude=\*.cache
+</code></pre><p>I must not forget about vim-airline plugin, out of the two in Fedora this one
+is light, no external dependencies are needed and it works out of box with all
+my fonts. You can customize it, there are themes and such things. I just happen
+to like the default setting.</p><p>One thing I must mention is that there are two main ctag projects, Exuberant
+Ctags and Universal Ctags. The latter is a more modern fork, if your
+distribution have it, use that. If you are on Fedora 35+ all you need to know
+that you are now on Universal Ctags.</p><p>Before I wrap it up, here is what I suggest. Try to keep your Vim configuration
+slick and clean. It will pay off in the future. After I switched, I had to
+re-learn &ldquo;write and quit&rdquo; command because I was typing it as <code>:Wq</code> accidentaly
+all the time and I had a &ldquo;hack&rdquo; in the old configuration that actually did what
+I meant. Okay, this one might be actually useful and make the cut, I hope you
+get what I mean:</p><pre><code>:command Wq wq
+:command WQ wq
+</code></pre><p>Here is a final quick tip - you may need to change your default Vim
+configuration a lot while finding the sweetspot of what I presented you here
+and your own taste. Use the following alias so you don&rsquo;t need to search the
+history all the time. Trust me, when a Vim user searches history for &ldquo;vim&rdquo;,
+nothing is relevant:</p><pre><code>alias vim-vimrc='vim ~/.vimrc'
+</code></pre><p>There you have it, maybe this can help you navigating through the rich world of
+Vim without ton of plugins. &ldquo;Vanilla&rdquo; Vim is fun!</p><p>To try out what you just read, install the packages and check out the config:</p><pre><code>test -f ~/.vimrc &amp;&amp; mv ~/.vimrc ~/.vimrc.backup
+curl -s https://raw.githubusercontent.com/lzap/vim-lzap/master/.vimrc -o ~/.vimrc
+mkdir ~/.vimbackup
+</code></pre><p>Special thanks to Marc Deop and Melanie Corr for reviewing my article.</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

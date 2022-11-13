@@ -1,0 +1,65 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Ryzen and Linux is a disaster (2017)</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora,ryzen"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2017-10-06-ryzen-and-linux-is-a-disaster-2017/"><meta property="og:type" content="website"><meta property="og:title" content="Ryzen and Linux is a disaster (2017)"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Ryzen and Linux is a disaster (2017)"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2017-10-06-ryzen-and-linux-is-a-disaster-2017/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2017-10-06-ryzen-and-linux-is-a-disaster-2017/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2017-10-06-ryzen-and-linux-is-a-disaster-2017/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Ryzen and Linux is a disaster (2017)</h1><small role=doc-subtitle></small><p class=post-date>October 6, 2017</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/ryzen>ryzen</a></li></ul></div><div class=post-content><p><p><em>If you are reading this blog post in 2018 or later, chances are that AMD has
+fixed all Linux issues. But that was not the case months after launch in 2017.
+Also, I work at Red Hat, these lines are solely my own opinion blah blah.
+Let&rsquo;s start, shall we?</em></p><p>Ryzen 7 series was introduced early March 2017, I bought parts for my Ryzen
+workstation beginning June 2017 thinking that few months will allow AMD to
+settle down and release necessary BIOS updates and CPU microcode upgrade. I
+was wrong. Terribly wrong.</p><p>I was excited when doing the build, mostly because of the new case I bought:
+Fractal Design Define R5 and Seasonic M12 EVO Bronze 520W. This is premium
+case and I enjoyed every bit of doing the build. Plenty of space for
+hard-drives, many cool ideas or things in the case design (screw-less
+mounting), huge and silent fans, modularity of the case. With a big enough
+SATA Seagate drive, I was planning to do bcache and never run out of space for
+home directory.</p><p>My primary storage for OS was NVMe SSD drive Intel 600p M.2 256GB but shortly
+after installation of Fedora 25 when I performed the initial grub2 package
+upgrade, UEFI was not able to boot. Weird error, I spent a week of figuring
+out until I found a Red Hat Bugzilla describing corruption with non-Windows
+filesystems (specifically XFS).</p><p>In short, Intel did not care enough to test this premium (expensive) drive
+under Linux on XFS. Since I wanted to start working with my workstation, I
+replaced the drive with Samsung NVMe and I doublechecked before my purchase it
+works just fine with Linux. The bug has not yet been resolved (October 2017),
+some users still report problems with Fedora or CentOS:
+<a href="https://bugzilla.redhat.com/show_bug.cgi?id=1402533">https://bugzilla.redhat.com/show_bug.cgi?id=1402533</a></p><p>Anyway, I needed a graphics card and I had one spare MSI GTX 750 Ti which I
+used. Noevau driver, PC was freezing, artifacts, terrible experience. After
+years and years with Intel CPU and IGP, I almost forgot how terrible this is.
+Well, I wanted to buy AMD Radeon RX 5xx anyway, but I couldn&rsquo;t due to Bitcoin
+(cards were sold out). I sold the NVidia and bought entry-level used and very
+old Radeon card which worked like a charm. Later on I bought RX 540 by ASUS.
+Radeon with open-source is like day and night compared to NVidia. It used to
+be the other way around.</p><p>Now, the Ryzen thing. Get ready.</p><p>My PC was freezing, restarting and coredumping when I was working with VMs
+running Red Hat Satellite, the product I work on. Tried Ryzen GCC compiler
+test, my CPU was affected indeed. My CPU unit was batch from week 22, people
+were saying that units produced before week 25 are affected. Since this was a
+hardware issue, I contacted AMD support and RMA process started. I did not
+care calling to Alza (Czech &ldquo;Amazon&rdquo;) where I purchased my CPU, because I&rsquo;d
+not expect them to be able to figure out the issue.</p><p>I was reseting BIOS, doing pictures of BIOS screens of my ASUS B350 mobo with
+certified Kingston DDR4 2400MHz (32 GB), trying various settings. After one
+week with AMD support, they sent DHL Express and I was missing my CPU for
+another two weeks until they sent a replacement (week 30, UA 1730SUS). And it
+worked, memtest passed twice overnight. Problem solved?</p><p>Nope, my PC did random restarts or hard freezes when it was idle. What a
+disaster - you put Ryzen 7 into decent load, problem. You leave it idling,
+another problem! The solution? Googled out to turn off C-State support in
+BIOS, which increased power consumption of course. Well, I can live with this
+for now, but I want this to be fixed with BIOS/microcode update.</p><p>Will my Ryzen PC freeze again? I don&rsquo;t know. But one thing is clear - AMD
+clearly did not care testing their hardware under Linux enough. This is rather
+surprising, I remember Opteron CPU launch which was pretty good compared to
+this.</p><p>Anyway, I am big fan of AMD, my very first x86 chip was made by AMD and I am
+glad there is some competition for Intel hopefully. Things will settle down, I
+just hope AMD will work hard with motherboard manufactures to solve these
+issues for Linux early adopters.</p><p>And here is a bonus:</p><p>Since there was a plenty of space in my case, I took my old SATA SSD (Samsung
+840) and installed Windows 10 on this to be able to perform upgrades of BIOS
+and SSD firmware. Windows was randomly erroring out during boot about
+corrupted &ldquo;winload.efi&rdquo;. Spent endless nights with this, I thought that
+Windows 10 do not like my Fedora on the same ESP partition. Went through
+countless tutorials, restoring windows boot files, checking ESP. Since I
+partitioned everything as GPT, I could not zap EFI for BIOS anymore. Then I
+found it - I had a loose SATA cable to my Windows SSD. The Samsung drive did
+not have holes so SATA plug did not &ldquo;click&rdquo; in. Common issue with SATA cables,
+I swapped it with a different one and taped it just to be sure.</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

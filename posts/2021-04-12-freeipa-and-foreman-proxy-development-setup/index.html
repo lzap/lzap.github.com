@@ -1,0 +1,67 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>FreeIPA and Foreman Proxy development setup</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2021-04-12-freeipa-and-foreman-proxy-development-setup/"><meta property="og:type" content="website"><meta property="og:title" content="FreeIPA and Foreman Proxy development setup"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="FreeIPA and Foreman Proxy development setup"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2021-04-12-freeipa-and-foreman-proxy-development-setup/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2021-04-12-freeipa-and-foreman-proxy-development-setup/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2021-04-12-freeipa-and-foreman-proxy-development-setup/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>FreeIPA and Foreman Proxy development setup</h1><small role=doc-subtitle></small><p class=post-date>April 12, 2021</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li></ul></div><div class=post-content><p><p>I have been avoiding this for like ten years now, but today is the day when I
+will setup a FreeIPA with Foreman Proxy for development and testing purposes
+and here are my notes.</p><p>The goal is to deploy a libvirt VM with IPA server and Foreman Proxy intergated
+with it. The domain will be <code>ipa.lan</code> and the host named <code>ipa.ipa.lan</code>. This is
+NOT how you should deploy production Foreman FreeIPA integration! For that,
+reading our <a href=https://docs.theforeman.org/nightly/Administering_Red_Hat_Satellite/index-foreman-el.html#sect-Red_Hat_Satellite-Administering_Red_Hat_Satellite-Configuring_External_Authentication-External_Authentication_for_Provisioned_Hosts>official
+documentation</a>
+and using <code>foreman-installer</code> is suggested instead.</p><p>We need a VM, let&rsquo;s go with CentOS 8.</p><pre><code>virt-builder centos-8.2 --output /var/lib/libvirt/images/ipa.img --root-password password:redhat --hostname ipa.ipa.lan
+virt-install --name ipa.ipa.lan --memory 2048 --vcpus 2 --disk /var/lib/libvirt/images/ipa.img --import --os-variant rhel8.3 --update
+virsh console ipa.ipa.lan
+</code></pre><p>We need a static IP for this VM:</p><pre><code>nmcli con modify enp1s0 \
+  ip4 192.168.122.5/24 \
+  gw4 192.168.122.1 \
+  ipv4.dns 192.168.122.1
+nmcli con down enp1s0
+nmcli con up enp1s0
+</code></pre><p>Make sure the hostname is correct:</p><pre><code>hostnamectl set-hostname ipa.ipa.lan
+</code></pre><p>Make sure to fix hosts file, FQDN must resolve to the IP address not localhost:</p><pre><code>grep ipa /etc/hosts
+192.168.122.5 ipa.ipa.lan ipa
+</code></pre><p>The installation is very smooth, expect just couple of questions like administrator password or the actual domain:</p><pre><code>dnf module enable idm:DL1
+dnf module install idm:DL1/dns
+ipa-server-install --setup-dns --auto-forwarder --auto-reverse
+</code></pre><p>Ensure firewall ports are enabled:</p><pre><code>firewall-cmd --add-service=http --add-service=https --add-service=ldap --add-service=ldaps \
+    --add-service=ntp --add-service=kerberos --add-service=dns --add-port=8000/tcp --permanent
+</code></pre><p>Next up, install Foreman Proxy:</p><pre><code>dnf -y install https://yum.theforeman.org/releases/2.4/el8/x86_64/foreman-release.rpm
+dnf -y install foreman-proxy
+</code></pre><p>Create the foreman user with minimum required permissions to manage Foreman
+hosts, create and configure keytab file. When asked for <code>admin</code> password, use
+the one used when installing the IPA server:</p><pre><code>foreman-prepare-realm admin realm-smart-proxy
+mv freeipa.keytab /etc/foreman-proxy/freeipa.keytab
+chown foreman-proxy:foreman-proxy /etc/foreman-proxy/freeipa.keytab
+</code></pre><p>Configure and start the Foreman Proxy service. This is for development
+purposes, so let&rsquo;s only use HTTP. You may also want to add some <code>trusted_hosts</code>
+entries to allow access from Foreman:</p><pre><code>cat /etc/foreman-proxy/settings.yml
+---
+:settings_directory: /etc/foreman-proxy/settings.d
+:http_port: 8000
+:log_level: DEBUG
+</code></pre><p>Enable Realm module:</p><pre><code>cat /etc/foreman-proxy/settings.d/realm.yml
+---
+:enabled: true
+:use_provider: realm_freeipa
+</code></pre><p>And enable FreeIPA plugin:</p><pre><code>cat /etc/foreman-proxy/settings.d/realm_freeipa.yml
+---
+:keytab_path: /etc/foreman-proxy/freeipa.keytab
+:principal: realm-smart-proxy@IPA.LAN
+:ipa_config: /etc/ipa/default.conf
+:remove_dns: true
+:verify_ca: true
+</code></pre><p>And start it up:</p><pre><code>systemctl enable --now foreman-proxy
+</code></pre><p>Realm feature should be available:</p><pre><code>curl http://ipa.ipa.lan:8000/features
+[&quot;realm&quot;]
+</code></pre><p>To show a host entry in IPA via CLI:</p><pre><code>kinit admin
+ipa host-show rex-dzurnak.ipa.lan
+  Host name: rex-dzurnak.ipa.lan
+  Class: ipa-debian-10
+  Password: True
+  Keytab: False
+  Managed by: rex-dzurnak.ipa.lan
+</code></pre><p>Add the foreman proxy into Foreman and start developing or testing. Have fun!</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

@@ -1,0 +1,42 @@
+#Jednovrstva neuronova sit - problem XOR
+#
+#Na tento problem neni vhodny sigmoid, ale napriklad tanh (ale ten
+#ma interval -2, 2. Pri pouziti sigmoidu se brakepoint objevi asi
+#po 40 tisicich opakovanich.
+
+#Pocet vrstev
+2
+#Pocet vstupu
+2
+#Popis vstupu
+x 0 1
+y 0 1
+
+#pocet neuronu v jednotlivych vrstvach
+2 1
+
+#popis vystupu
+xor_result
+
+#Koeficient uceni
+0.5
+
+#Koeficient vlivu z predchoziho kroku
+0.15
+
+#Trenovaci mnozina
+#Pocet prvku
+4
+#Jednotlive Prvky
+0 0 0
+0 1 1
+1 0 1
+1 1 0
+
+#Testovaci vstupy
+4
+#Jednotlive Prvky
+0 0
+0 1
+1 0
+1 1

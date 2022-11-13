@@ -1,0 +1,48 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>EFI with libvirt in RHEL7</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora,uefi,efi,libvirt"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2017-10-03-efi-with-libvirt-in-rhel7/"><meta property="og:type" content="website"><meta property="og:title" content="EFI with libvirt in RHEL7"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="EFI with libvirt in RHEL7"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2017-10-03-efi-with-libvirt-in-rhel7/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2017-10-03-efi-with-libvirt-in-rhel7/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2017-10-03-efi-with-libvirt-in-rhel7/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>EFI with libvirt in RHEL7</h1><small role=doc-subtitle></small><p class=post-date>October 3, 2017</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/uefi>uefi</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/efi>efi</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/libvirt>libvirt</a></li></ul></div><div class=post-content><p><p>RHEL 7 does not ship with EFI firmware by default, at least version 7.4 I just
+tested with. There is easy help tho if you want to try EFI in libvirt which
+does not make much any other sense than for development purposes.</p><p>We will follow steps from Fedora Wiki but changed into RHEL context. Download
+firmware repository which have latest builds of EFI QEMU firmware and NVRAM
+images:</p><pre><code># wget -O /etc/yum.repos.d/firmware.repo http://www.kraxel.org/repos/firmware.repo
+</code></pre><p>Install the package:</p><pre><code># yum -y install edk2.git-ovmf-x64
+</code></pre><p>There are several flavors available and honestly - I just randomly picked one
+of these:</p><pre><code># rpm -ql edk2.git-ovmf-x64
+/usr/share/doc/edk2.git-ovmf-x64
+/usr/share/doc/edk2.git-ovmf-x64/README
+/usr/share/edk2.git
+/usr/share/edk2.git/ovmf-x64
+/usr/share/edk2.git/ovmf-x64/OVMF-need-smm.fd
+/usr/share/edk2.git/ovmf-x64/OVMF-pure-efi.fd
+/usr/share/edk2.git/ovmf-x64/OVMF-with-csm.fd
+/usr/share/edk2.git/ovmf-x64/OVMF_CODE-need-smm.fd
+/usr/share/edk2.git/ovmf-x64/OVMF_CODE-pure-efi.fd
+/usr/share/edk2.git/ovmf-x64/OVMF_CODE-with-csm.fd
+/usr/share/edk2.git/ovmf-x64/OVMF_VARS-need-smm.fd
+/usr/share/edk2.git/ovmf-x64/OVMF_VARS-pure-efi.fd
+/usr/share/edk2.git/ovmf-x64/OVMF_VARS-with-csm.fd
+</code></pre><p>There are also builds for AARM64 platform, but I will focus on x64_64 in this
+article.</p><p>Here comes the trick, QEMU in RHEL7 is not configured to search this rather
+unusual EDK2 path, so let&rsquo;s add it to its configuration:</p><pre><code># cat &gt;&gt;/etc/libvirt/qemu.conf &lt;&lt;EOQEMU
+nvram = [
+&quot;/usr/share/edk2.git/ovmf-x64/OVMF_CODE-pure-efi.fd:/usr/share/edk2.git/ovmf-x64/OVMF_VARS-pure-efi.fd&quot;
+]
+EOQEMU
+</code></pre><p>And restart the daemon.</p><pre><code>systemctl restart libvirtd
+</code></pre><p>Done, now you can create VMs with UEFI firmware instead of BIOS. Note this
+cannot be changed once VM is created via virt-manager but you should be able
+to use command line tools:</p><pre><code># virsh edit my_domain
+...
+&lt;os&gt;
+&lt;type arch='x86_64' machine='pc-i440fx-rhel7.0.0'&gt;hvm&lt;/type&gt;
+&lt;loader readonly='yes' type='pflash'&gt;/usr/share/edk2.git/ovmf-x64/OVMF_CODE-pure-efi.fd&lt;/loader&gt;
+&lt;nvram&gt;/var/lib/libvirt/qemu/nvram/rhel7.4_VARS.fd&lt;/nvram&gt;
+&lt;/os&gt;
+...
+</code></pre><p>If you are PXE booting, I vaguely remember that libvirt driver had some
+issues, it should be safer to use RTL chipset emulation. That&rsquo;s all for today.</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

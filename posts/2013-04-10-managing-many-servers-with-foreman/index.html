@@ -1,0 +1,302 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Managing many servers with Foreman</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2013-04-10-managing-many-servers-with-foreman/"><meta property="og:type" content="website"><meta property="og:title" content="Managing many servers with Foreman"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Managing many servers with Foreman"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2013-04-10-managing-many-servers-with-foreman/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2013-04-10-managing-many-servers-with-foreman/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2013-04-10-managing-many-servers-with-foreman/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Managing many servers with Foreman</h1><small role=doc-subtitle></small><p class=post-date>April 10, 2013</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li></ul></div><div class=post-content><p><p>Recently I joined the Foreman team - an open-source provisioning and
+configuration management software written in Ruby on Rails. If you manage more
+than one server and you need to automate server installations and
+configuration, maybe Foreman is good fit for you. If you use Puppet for
+configuration deployment, then Foreman is great fit for sure.</p><p>In this blog post, I want to share how to do a small installation
+everythin-on-one-box for evaluating Foreman. This kind of setup is great for
+evaluating Foreman or for development or testing. It is definitely not
+recommended to run production setup configured according to this blog post!
+I will repeat this several times, <em>do not</em> install Foreman for serious use
+following this page.</p><p><em>Warning</em>: I used this setup to <em>learn</em> how Foreman works, how Foreman
+Smart-Proxy works and how everything fit together. Foreman does have
+puppet-based installer which configures all services out-of-box (except
+libvirt of course). It is highly recommended to use it instead of this manual
+installation. If you are going to evaluate Foreman, it is more recommended to
+do this:</p><ul><li>Get a RHEL 6.4+ box with some memory and space and hypervisor capabilities</li><li>Install libvirt and create a virtual NAT network without DHCP enabled (see
+bellow how to do that)</li><li>Install Foreman and Foreman-Proxy using our installers</li><li>Reconfigure ISC DHCP to listen only on the virtual network (see bellow)</li><li>Register the proxy and the libvirt in the Foreman using the UI</li><li>Play with Foreman</li></ul><p>Ok if you decided <em>not</em> to stop reading here, you want to do the &ldquo;hard&rdquo; setup.
+And that is fine, this is the purpose of my blog post.</p><p>The idea is simple - I will have one hardware box running RHEL6 where I want
+to install KVM/libvirt hypervisor with a virtual network. In this network, I
+will run DHCP, DNS and TFTP services for automated installations of RHEL6,
+CentOS6 or Fedora. Note that Foreman does support other distributions like
+SUSE, Debian, Ubuntu or even Solaris OS, but for simplicity I will focus only
+on RHEL-based systems.</p><p>Also, I will not use libvirt DHCP server since I wanted to try out full
+integration with ISC DHCP service. Ready, steady. Let&rsquo;s do this!</p><p>First of all, get a decent hardware box with at least 4 GB RAM and a CPU with
+native virtualization support, install RHEL6 (I am using 6.4) and install
+necessary Virtualization yum group (or just libvirt if you want).</p><p>For the sake of simplicity we will configure libvirt without any
+authentication. This is dangerous, but for our testing purposes it will work.
+On the libvirt server make the following changes:</p><pre><code># cat /etc/libvirt/libvirtd.conf
+listen_tls = 0
+listen_tcp = 1
+auth_tcp = &quot;none&quot;
+
+# grep listen /etc/sysconfig/libvirtd
+LIBVIRTD_ARGS=&quot;--listen&quot;
+</code></pre><p>Restart the guy.</p><pre><code># service libvirtd restart
+</code></pre><p>You should be able to reach this instance via TCP. Note the above setting is
+perhaps not necessary for the whole setup, but I just did this for my
+convenience. Test it out:</p><pre><code># virsh -c 'qemu+tcp://libvirt:16509/system' list
+</code></pre><p>Now, we want to create a <em>virtual network</em> where we will run our services. I
+want to stress out using virtual network instead physical one, because I can
+imagine you are already running a DHCP server there and starting our own one
+could cause some pains :-)</p><p>To create it, the easiest method is to use virt-manager, connect to your
+hypervisor and using Details - Virtual Network - Add add new one with a name
+&ldquo;virtual&rdquo;. Do <em>NOT</em> set DHCP server there and leave the default network
+configuration. Also put NAT option in there. It will likely have device virbr1
+since virbr0 is usually taken by network &ldquo;default&rdquo;. The configuration should
+look like this (note the network 192.168.100.0/24 I use here):</p><pre><code># cat /etc/libvirt/qemu/networks/virtual.xml 
+&lt;!--
+WARNING: THIS IS AN AUTO-GENERATED FILE. CHANGES TO IT ARE LIKELY TO BE 
+OVERWRITTEN AND LOST. Changes to this xml configuration should be made using:
+virsh net-edit virtual or other application using the libvirt API.
+--&gt;
+&lt;network&gt;
+&lt;name&gt;virtual&lt;/name&gt;
+&lt;uuid&gt;f00c9416-0b28-3cbf-4144-b9b95bd3c651&lt;/uuid&gt;
+&lt;forward mode='nat'/&gt;
+&lt;bridge name='virbr1' stp='on' delay='0' /&gt;
+&lt;mac address='52:54:00:20:1F:20'/&gt;
+&lt;ip address='192.168.100.1' netmask='255.255.255.0'&gt;
+&lt;/ip&gt;
+&lt;/network&gt;
+</code></pre><p>You should be also able to create this via virsh, or even manually (but you
+need to stop libvirt, edit the file and then start it). Also create the
+autostart symlink if you are doing this manually. The UI is highly recommended
+for this tho.</p><p>Note you could use the &ldquo;default&rdquo; network which has the very same configuration
+(but usually with 192.168.122.0/24 network), but with DHCP. I tend to prefer
+creating very own network not to confuse others which would like to use
+&ldquo;default&rdquo; one.</p><p>Now, the following step is really not necessary, because there will not be any
+TFTP NAT traversal, but we can load our iptables modules since it does not
+hurt at all (actually I just wanted to keep these lines somewhere not to
+forget about these :-)</p><pre><code># cat /etc/sysconfig/modules/foreman.modules
+#!/bin/sh
+modprobe nf_nat_tftp
+modprobe nf_conntrack_tftp
+exit 0
+</code></pre><p>Make sure it has executable flag and load these modules by executing this
+file.</p><p>Let&rsquo;s install ISC DHCP software, ISC Bind (DNS) software and BSD TFTP.</p><pre><code># yum -y install dhcp bind tftp-server syslinux
+</code></pre><p>Before we start configuring DHCP, we need to generate security token:</p><pre><code># dnssec-keygen -r /dev/urandom -a HMAC-MD5 -b 512 -n HOST omapi_key
+# cat Komapi_key.+*.private |grep ^Key|cut -d ' ' -f2-
+</code></pre><p>Copy the output and paste it bellow to the dhcpd.conf.</p><p>Note: If you get an package conflict error in Fedora 16 or RHEL 6.0, do yum
+update dhclient and try again then. Now configure dhcpd and make it listen on
+the correct interface (virbr1 in our case). This is <em>very</em> important - do NOT
+run DHCP daemon on your physical device like eth0 :-)</p><pre><code># cat /etc/dhcp/dhcpd.conf
+default-lease-time 604800;
+max-lease-time 2592000;
+log-facility local7;
+
+subnet 192.168.100.0 netmask 255.255.255.0 {
+    range 192.168.100.10 192.168.100.200;
+    option routers 192.168.100.1;
+    option subnet-mask 255.255.255.0;
+    option domain-search &quot;virtual.lan&quot;;
+    option domain-name &quot;virtual.lan&quot;;
+    option domain-name-servers 8.8.8.8;
+}
+
+omapi-port 7911;
+key omapi_key {
+    algorithm HMAC-MD5;
+    secret &quot;0pD4fT+...&quot;;
+};
+omapi-key omapi_key;
+</code></pre><p>As you can see our network will have &ldquo;virtual.lan&rdquo; domain. Also change your
+DNS servers from Google public (8.8.x.x) to yours. This network has NAT, so it
+will use your physical interface.</p><p>Again, do not forget to set the correct listening interface!</p><pre><code># cat /etc/sysconfig/dhcpd
+DHCPDARGS=&quot; virbr1&quot;
+
+# service dhcpd restart
+# chkconfig dhcpd on
+</code></pre><p>If you do not want to break your current LAN setup, double check in the
+/var/log/messages dhcpd is listening on the correct interface! I know I am
+repeating myself, I promise - this is the last time.</p><p>Let&rsquo;s configure DNS, bind is already installed so we can edit it&rsquo;s
+configuration:</p><pre><code># cat /etc/named.conf
+include &quot;/etc/rndc.key&quot;;
+
+controls  {
+    inet 127.0.0.1 port 953 allow { 127.0.0.1; } keys { &quot;foreman&quot;; };
+};
+
+options  {
+    directory &quot;/var/named&quot;;
+    forwarders { 8.8.8.8; 8.8.4.4; };
+};
+
+include &quot;/etc/named.rfc1912.zones&quot;;
+
+zone &quot;100.168.192.in-addr.arpa&quot; IN {
+    type master;
+    file &quot;dynamic/100.168.192-rev&quot;;
+    update-policy {
+        grant &quot;foreman&quot; zonesub ANY;
+    };
+};
+
+zone &quot;virtual.lan&quot; IN {
+    type master;
+    file &quot;dynamic/virtual.lan&quot;;
+    update-policy {
+        grant &quot;foreman&quot; zonesub ANY;
+    };
+};
+</code></pre><p>There is a key section in the rndc.key file - it is good idea to keep it
+separate:</p><pre><code># cat /etc/rndc.key
+key &quot;foreman&quot; {
+    algorithm hmac-md5;
+    secret &quot;WqEdq...Kk2vWhcw==&quot;;
+};
+</code></pre><p>As you can see, it is pretty much standard named.conf configuration with acl
+virtual-lan added, zone &ldquo;virtual.lan&rdquo; and key section which was generated by
+the following command:</p><pre><code># ddns-confgen -k foreman -a hmac-md5
+</code></pre><p>Make sure the DNS does listen on the virtual lan only. I am not configuring
+IPv6 at all. Now let&rsquo;s create a simple zone file:</p><pre><code># cat /var/named/dynamic/virtual.lan
+$ORIGIN .
+$TTL 86400  ; 1 day
+virtual.lan     IN SOA  virtual.lan. lzap+pub.redhat.com. (
+                2013041903 ; serial
+                28800      ; refresh (8 hours)
+                7200       ; retry (2 hours)
+                864000     ; expire (1 week 3 days)
+                86400      ; minimum (1 day)
+                )
+            NS  ns.virtual.lan.
+            A   192.168.100.1
+            MX  10 mail.virtual.lan.
+$ORIGIN virtual.lan.
+foreman         A   192.168.100.1
+mail            A   192.168.100.1
+ns              A   192.168.100.1
+tftp            A   192.168.100.1
+</code></pre><p>And the reverse file:</p><pre><code># cat /var/named/dynamic/100.168.192-rev
+$ORIGIN .
+$TTL 86400  ; 1 day
+100.168.192.in-addr.arpa IN SOA virtual.lan. lzap+pub.redhat.com. (
+                2013041903 ; serial
+                28800      ; refresh (8 hours)
+                7200       ; retry (2 hours)
+                864000     ; expire (1 week 3 days)
+                86400      ; minimum (1 day)
+                )
+            NS  ns.virtual.lan.
+$ORIGIN 100.168.192.in-addr.arpa.
+1           PTR foreman.virtual.lan.
+</code></pre><p>Start the thing!</p><pre><code># service named start
+# chkconfig named on
+</code></pre><p>Now you should be able to connect to the management interface. To test this
+issue the following command:</p><pre><code># echo -e &quot;update add aaa.virtual.lan 3600 IN A 192.168.100.99\nsend\n&quot; |\
+    nsupdate -k /etc/rndc.key
+</code></pre><p>Note you will not see the entry in the zone file, but in the transfer jnl
+binary file. To move all the entries from the binary file to the zone text
+file, use the following commands:</p><pre><code># rndc freeze virtual.lan
+# rndc freeze 100.168.192.in-addr.arpa
+</code></pre><p>Now you can remove it and restart named.</p><p>Warning: Since I will install Foreman and Smart Proxy as root (NOT
+recommended), I do not need to care about permissions. You should make sure
+that the key file is readable by Smart Proxy user.</p><p>Configuration of TFTP will be pretty straightforward, the software is already
+installed and we just need to do few steps. Create a directory structure for
+files:</p><pre><code># mkdir -p /var/lib/tftpboot/pxelinux.cfg
+</code></pre><p>Now, copy essential files from syslinux package to our TFTP root directory.</p><pre><code># cp /usr/share/syslinux/{pxelinux.0,menu.c32,chain.c32} \
+    /var/lib/tftpboot/
+</code></pre><p>If you are thinking about &ldquo;service tftp start&rdquo; command, forget about it.
+Muhahahahahaaaa! The TFTP service is started via xinetd, so we need to start
+it. Remove disabled line from the tftp xinetd file:</p><pre><code># grep disable /etc/xinetd.d/tftp
+disable         = yes
+</code></pre><p>And start it.</p><pre><code># service xinetd start
+# chkconfig xinetd on
+</code></pre><p>You should be able to download a file via TFTP now:</p><pre><code># cd /tmp
+# tftp 192.168.100.1
+tftp&gt; get pxelinux.0
+tftp&gt; exit
+# rm -i pxelinux.0
+</code></pre><p>We are not there yet, but quite close. We want to install smart proxy at this
+point. Smart proxy is a very small daemon that Foreman talks to via HTTPS
+REST. Smart proxy is able to interact with all the services like DHCP, DNS,
+TFTP and Puppet/PuppetCA.</p><p>For both Smart proxy and Foreman, I will use rbenv installation, because both
+projects need recent ruby libraries which are not avaiable in RHEL6 yet. It is
+not recommended to use rbenv for production setups, but for our evaluation
+purposes it should work just fine and it is very quick.</p><p>I will install everything in /root (yeah) and will run everything under root
+(on my test/development servers I only have the root user). Because rbenv script
+will compile it&rsquo;s own Ruby, we need some devel libraries.</p><pre><code># yum -y install git libvirt-devel mysql-devel pg-devel openssl-devel \
+    libxml2-devel sqlite-devel libxslt-devel zlib-devel readline-devel 
+</code></pre><p>We are following rbenv installation instructions now. Let&rsquo;s install rbenv and
+Ruby 1.9:</p><pre><code># cd /root
+# git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
+# echo 'export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot;' &gt;&gt; ~/.bash_profile
+# echo 'eval &quot;$(rbenv init -)&quot;' &gt;&gt; ~/.bash_profile
+# exec $SHELL -l
+# git clone git://github.com/sstephenson/ruby-build.git \
+    ~/.rbenv/plugins/ruby-build
+# rbenv install 1.9.3-p327
+</code></pre><p>It will take a while to finish. Now, let&rsquo;s move on to smart-proxy. We will
+configure to run it in the <em>foreground</em> instead of deamonizing. Good for
+testing.</p><pre><code># git clone git://github.com/theforeman/smart-proxy.git
+# cd smart-proxy
+# cp config/settings.yml.example config/settings.yml
+</code></pre><p>Configure Smart Proxy to use all the services we have just configured.</p><pre><code># grep '^:' config/settings.yml
+:daemon: false
+:daemon_pid: /var/run/foreman-proxy/foreman-proxy.pid
+:port: 8443
+:tftp: true
+:tftproot: /var/lib/tftpboot
+:tftp_servername: 192.168.100.1
+:dns: true
+:dns_key: /etc/rndc.key
+:dns_server: 192.168.100.1
+:dhcp: true
+:dhcp_vendor: isc
+:dhcp_config: /etc/dhcp/dhcpd.conf
+:dhcp_leases: /var/lib/dhcpd/dhcpd.leases
+:dhcp_key_name: omapi_key
+:dhcp_key_secret: 0pD4fT+hJ...==
+:puppetca: true
+:ssldir: /etc/puppet/ssl
+:puppetdir: /etc/puppet
+:puppet: true
+:puppet_conf: /etc/puppet/puppet.conf
+:bmc: false
+:log_file: logs/development.log
+:log_level: WARN
+</code></pre><p>Note I am not setting Proxy up for SSL, again, this is NOT recommended for
+production setups. For fast readers - warning - this is testing installation.</p><p>Since Puppet in RHEL/EPEL is pretty outdated, we will run latest Puppet from
+rubygems.org directly. Add this line to the Gemfile:</p><pre><code># grep puppet Gemfile
+gem 'puppet'
+</code></pre><p>Start the proxy:</p><pre><code># bundle install
+# bundle exec bin/smart-proxy
+</code></pre><p>We need to configure Puppet first. Although we will run the latest puppet from
+rubygems.org, we configured standard paths.</p><pre><code># mkdir /etc/puppet
+# puppet master --genconfig &gt; /etc/puppet/puppet.conf
+</code></pre><p>You can review the configuration, I made just three changes there. I will run
+puppet master daemon as root, which is <em>not</em> recommended for production
+setups.</p><pre><code># grep -E '^\s*(modulepath|user|group)' /etc/puppet/puppet.conf
+user = root
+group = root
+modulepath = /etc/puppet/modules/$environment
+</code></pre><p>Now you can start puppet master:</p><pre><code># puppet master --no-daemonize --verbose
+</code></pre><p>Finally, you can follow Foreman installation:</p><pre><code># cd /root
+# git clone https://github.com/theforeman/foreman.git -b develop
+# cd foreman
+# bundle install
+# cp config/settings.yaml.example config/settings.yaml
+# cp config/database.yml.example config/database.yml
+</code></pre><p>I will keep the default database setting on sqlite3, but if you intend to
+evaluate Foreman with more than one user, I highly recommend to configure
+postgresql database (more info in the Foreman manual about that). Settings are
+standard:</p><pre><code># grep '^:' config/settings.yaml
+:unattended: true
+:login: true
+:require_ssl: false
+:locations_enabled: true
+:organizations_enabled: true
+:support_jsonp: false
+</code></pre><p>Migrate db and start the thing! It is recommended to run in the production mode
+which is much more faster.</p><pre><code># RAILS_ENV=production bundle exec rake db:migrate assets:precompile locale:pack
+# RAILS_ENV=production bundle exec rails server
+</code></pre><p>We are almost there, go to http://localhost:3000 and visit main settings page.
+Review it and setup root password for newly created hosts and also foreman_url
+to foreman.virtual.lan.</p><p>Configure Smart Proxy first, you whould see all its features there.</p><p>Now you can create architecture, OS, associate templates and provision hosts and
+do stuff. More about that maybe later.</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

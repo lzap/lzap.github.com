@@ -1,0 +1,73 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Ryzen workstation build 2017</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora,hardware"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2017-06-07-ryzen-workstation-build-2017/"><meta property="og:type" content="website"><meta property="og:title" content="Ryzen workstation build 2017"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Ryzen workstation build 2017"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2017-06-07-ryzen-workstation-build-2017/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2017-06-07-ryzen-workstation-build-2017/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2017-06-07-ryzen-workstation-build-2017/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Ryzen workstation build 2017</h1><small role=doc-subtitle></small><p class=post-date>June 7, 2017</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/hardware>hardware</a></li></ul></div><div class=post-content><p><p>I&rsquo;ve been waiting for so long, AMD RYZEN processors are here for some time and
+I was giving few months to vendors and community to settle down and release
+updates for their BIOSes, firmware and Linux drivers before I finally made my
+decision. My next machine for work is AMD RYZEN 1700, unbelievable value for
+the money! Eight cores, sixteen threads and only 65 watts with stock cooler
+that is silent and &ldquo;cool&rdquo; according to all reviews.</p><p>For motherboard, I was sure to get B350 chipset which matches my requirements
+and after reading my <a href=https://www.heronovo.cz/amd-ryzen-r7-1700/>friend&rsquo;s
+article</a> there was no doubt about
+ASUS PRIME B350-PLUS that gives just enough of everything I need, including
+M.2 (4x lanes), 1G LAN and enough USB ports.</p><p>Now, I am going to use this as typical Linux programmer workstation with some
+decent virtualization workload. Since I am working on Red Hat Satellite 6
+which is quite demanding (minimum requirements are 16 GB RAM for server, 8 GB
+RAM for Capsule), I need more than 24 GB. I wish I could max out mobo to 64
+GB, but memory prices are ridiculous these days! It went up like 200%, so I
+just ordered 32GB of Kingston DDR4 2400MHz which seems to work just fine with
+this ASUS mobo. I do not want any surprises, therefore I will stay at stock
+2400MHz and will not do any overclocking of either memory or CPU as I prefer
+stability and I really don&rsquo;t know how to do this exactly to be honest.</p><p>I am going to experiment with dm-cache tho, so I picked Seagate Barracuda 4TB
+SATA drive along with entry-level NVMe SSD drive Intel 600p M.2 256GB where I
+am going to put root of my system and cache for home folder sitting on the
+Barracuda drive. I am really interested in how dm-cache is usable and what
+performance it will give me for large git checkouts.</p><p>This is definitely not a gaming rig, but I need a graphics card for sure and
+it looks like my old spare MSI GTX 750 Ti will service well. I know, this card
+totally does not match the powerful CPU, but it is very quiet and with its TDP
+of 60 watts it does not even require extra power connector. It has a DVI
+output, that&rsquo;s all I need. Will it scroll my browser smoothly? I bet it will.</p><p>Next on the list we have Seasonic M12 EVO Bronze 520W which is total overkill
+for this build, but I have one spare which returned from RMA last year (I had
+to replace my wife&rsquo;s PSU already), so I will use it. It&rsquo;s a premium and
+modular PSU which will keep my case clean.</p><p>Speaking about case, I have an old case with DVD burner, but when I pulled it
+out this morning, I realized it&rsquo;s way too old, the drive is an IDE one and it
+looks - well dated. I quickly made a purchase of Fractal Design Define R5
+which is supposed to be most successful case these days according to all
+reviews. And it&rsquo;s silent and extensible with many drives for the future,
+that&rsquo;s what I aim for. No more hard drive space issues for huge Red Hat yum
+repository testing anymore for me!</p><p>Hardware installation was smooth, the stock cooler is heavy, looks nice but
+most importantly AM4 socket is back to good-old screws. I never liked these
+clips or click things and cooler installation was always clunky. Not with AM4
+anymore, four screws with a philips screwer. Although my very first chip was
+MOS from my Commodore 64, the first x86 CPU was indeed AMD (i386 running at
+40Mhz). It&rsquo;s good to be back home.</p><p>The new case is brilliant, I never owned a &ldquo;gaming&rdquo; case, but this piece was
+given dozens of little details which are amazing. Everything is on the right
+place but you can move lots of parts inside the noise-cancellation cage,
+plenty of room for everything including HDD trays, extra SSD slots on the
+back, cable management, dust filters, good case fans included, manual fan
+control, most of the work was screwless, and there is more.</p><p>The rest of the build was pretty standard, except NVMe Intel 600p M.2 chip
+which corrupted my brand new Fedora installation, turned out to be bug in the
+Intel&rsquo;s firmware which surprised me and I swapped it with Samsung 960 EVO M.2
+chip of the same size. It was a pain to find out, because it also corrupted
+Grub2 loader on EFI volume and the system was booting into black screen. Had
+to figure it out from Fedora Live system and fsck.</p><p>I have been using laptops for work for more than 10 years now, I almost forgot
+how it feels to have much more powerful CPU, much more memory and no
+limitations of adding more and more drives to the system. During the next days
+I will be installing Windows 10 onto this. Lame, yes I know but I just want
+smooth BIOS and (SSD) firmware upgrade experience, it is absolutely necessary
+to update BIOS of AMD AM4 mobos these days before moving to real work. Then I
+will be installing Fedora and setting things up and finally writing an article
+about dm-cache setup and how well it hopefully performs.</p><p>Idle power consumption of my build is 50W which is nice for such a powerful
+system, CPU fan rotating at 1600 RPMs in stock BIOS settings. Everything is
+very silent, under load it is the same noise as my Lenovo ThinkPad T430s but
+in more comfortable lower frequencies, under idle or web browsing the new
+build wins because fan of the laptop never turns off.</p><p>Tomorrow is my first working day with the system, I am indeed hopping into a
+video conference with BlueJeans which makes my laptop crazy (load 1.50 with
+full-throttle fan). I expect much more smooth experience this time.</p><p>Some <a href=https://plus.google.com/+Luk%C3%A1%C5%A1Zapletal/posts/VoABttp6cuM>poor photos from my ASUS
+phone</a></p><pre><code>$ lspci | grep Intel | wc -l
+0
+</code></pre></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

@@ -1,0 +1,89 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Slow boot: LVM2 PV scan on device</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2019-06-11-slow-boot-lvm2-pv-scan-on-device/"><meta property="og:type" content="website"><meta property="og:title" content="Slow boot: LVM2 PV scan on device"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Slow boot: LVM2 PV scan on device"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2019-06-11-slow-boot-lvm2-pv-scan-on-device/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2019-06-11-slow-boot-lvm2-pv-scan-on-device/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2019-06-11-slow-boot-lvm2-pv-scan-on-device/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Slow boot: LVM2 PV scan on device</h1><small role=doc-subtitle></small><p class=post-date>June 11, 2019</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li></ul></div><div class=post-content><p><p>My workstation was sometimes slow to boot and got stuck at:</p><pre><code>Start job is running for LVM PV Scan on device 0:1 ...
+Start job is running for activation of DM RAID sets ...
+</code></pre><p>It took me lot of time experimenting with settings, before you do that I
+suggest to do one simple workaround. The timeout for this systemd unit is
+actually set to infinite value, so it can easily get your PC or laptop stuck
+for hours as there is no way of interrupting this. It&rsquo;s not very practical, I
+think it&rsquo;s much better to limit the timeout so if you hit the issue again the
+system either boots with some volumes uninitialized or fails to boot and drops
+into rescue prompt where you can take actions or do a soft reboot. To set a
+timeout do this:</p><pre><code># mkdir -p /etc/systemd/system/lvm2-pvscan@.service.d/
+# cat /etc/systemd/system/lvm2-pvscan@.service.d/interval.conf
+[Unit]
+StartLimitInterval=30
+</code></pre><p>Now, to my problem. These LVM scan jobs were taking dozens of minutes and I am
+not patient person so it always ended up in hard reboot. Today, I decided to
+take a look. So after quick search, it looks like LVM scan can get stuck when
+searching block devices which are not part of the LVM configuration. What&rsquo;s
+weird in my case is that lvscan is quick after the system is booted:</p><pre><code># time vgscan
+  Reading volume groups from cache.
+  Found volume group &quot;vg_home&quot; using metadata type lvm2
+  Found volume group &quot;vg_virt&quot; using metadata type lvm2
+real    0m0,051s
+user    0m0,016s
+sys     0m0,010s
+</code></pre><p>It must be something else, I suspect that it&rsquo;s the CDROM device which is not
+yet fully initialized. This was happening <em>randomly</em>, most of the times it
+booted quicky but when it did not it was pain in the ass. Let&rsquo;s have a look, I
+have the following block devices as part of my LVM:</p><pre><code># pvdisplay | grep PV.Name
+  PV Name               /dev/sda1
+  PV Name               /dev/nvme0n1p5
+  PV Name               /dev/sda3
+</code></pre><p>However it looks like LVM scan need to sniff more of them:</p><pre><code># cat /etc/lvm/cache/.cache
+
+# This file is automatically maintained by lvm.
+persistent_filter_cache {
+        valid_devices=[
+                &quot;/dev/disk/by-path/pci-0000:02:00.1-ata-1-part3&quot;,
+                &quot;/dev/disk/by-id/wwn-0x5000c500a2e9c4ca-part1&quot;,
+                &quot;/dev/block/259:5&quot;,
+                &quot;/dev/disk/by-id/nvme-eui.0025385471b19e14-part5&quot;,
+                &quot;/dev/disk/by-id/wwn-0x5000c500a2e9c4ca-part3&quot;,
+                &quot;/dev/disk/by-partuuid/fa532780-e770-448d-b004-120f1128b5b8&quot;,
+                &quot;/dev/disk/by-path/pci-0000:02:00.1-ata-1-part1&quot;,
+                &quot;/dev/disk/by-partuuid/35f3b55b-5259-45e2-aa93-b8eb8b9b0cd0&quot;,
+                &quot;/dev/block/8:1&quot;,
+                &quot;/dev/nvme0n1p5&quot;,
+                &quot;/dev/sda1&quot;,
+                &quot;/dev/disk/by-id/nvme-Samsung_SSD_960_EVO_250GB_S3ESNX0J444591D-part5&quot;,
+                &quot;/dev/disk/by-id/ata-ST4000DM005-2DP166_ZDH1KYP4-part3&quot;,
+                &quot;/dev/disk/by-path/pci-0000:01:00.0-nvme-1-part5&quot;,
+                &quot;/dev/disk/by-partuuid/73267321-1c7e-4510-86ab-6cd45bd38518&quot;,
+                &quot;/dev/block/8:3&quot;,
+                &quot;/dev/sda3&quot;,
+                &quot;/dev/disk/by-id/ata-ST4000DM005-2DP166_ZDH1KYP4-part1&quot;
+        ]
+}
+</code></pre><p>There is a configuration option called global filter which whitelists (a) or
+blacklists (r) devices by regular expressions. It&rsquo;s easy to understand. There
+are actually two options: <code>filter</code> and <code>global_filter</code> and both need to be set
+in addition to <code>use_lvmetad</code>. The purpose of LVM metadata daemon is to speedup
+device scans at cost of slower boot times, it can be safely disabled. As long
+as you don&rsquo;t have dozens of LVM physical volumes and you don&rsquo;t modify LVM
+configuration every day, it&rsquo;s a good idea to disable it. It&rsquo;s been deprecated
+in Red Hat Enterprise Linux 7.6 as well:</p><pre><code># grep global_filter /etc/lvm/lvm.conf
+filter = [ &quot;a|/dev/sda[13]|&quot;, &quot;a|/dev/nvme0n1p5|&quot;, &quot;r|.*|&quot; ]
+global_filter = [ &quot;a|/dev/sda[13]|&quot;, &quot;a|/dev/nvme0n1p5|&quot;, &quot;r|.*|&quot; ]
+use_lvmetad = 0
+</code></pre><p>Let&rsquo;s run VG and PV scan again to confirm it&rsquo;s finding the devices correctly:</p><pre><code># vgscan
+  Reading volume groups from cache.
+  Found volume group &quot;vg_home&quot; using metadata type lvm2
+  Found volume group &quot;vg_virt&quot; using metadata type lvm2
+
+# pvscan 
+  PV /dev/sda1        VG vg_home         lvm2 [&lt;1024,00 GiB / 0    free]
+  PV /dev/nvme0n1p5   VG vg_home         lvm2 [&lt;149,69 GiB / 0    free]
+  PV /dev/sda3        VG vg_virt         lvm2 [&lt;1024,00 GiB / &lt;226,00 GiB free]
+  Total: 3 [&lt;2,15 TiB] / in use: 3 [&lt;2,15 TiB] / in no VG: 0 [0   ]
+</code></pre><p>Let&rsquo;s now delete the cache, this is safe operation do not worry:</p><pre><code>rm /etc/lvm/cache/.cache
+</code></pre><p>Note some symlinks will be still present if its target is whitelisted. On the
+next reboot, it should be fast enough every time. Special care needs to be
+done:</p><ul><li>During fedora upgrades (to keep the <code>lvm.conf</code> change when doing <code>rpmconf</code>)</li><li>When adding new disks/devices to the LVM (it might not see it until the filter is adjusted)</li></ul><p>Hopefully this blog helps me to get here when I search &ldquo;LVM does not see a
+block device&rdquo;. Let&rsquo;s see, cheers!</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

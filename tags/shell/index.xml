@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>shell on Lukáš Zapletal</title><link>http://blog.zapletalovi.com/tags/shell/</link><description>Recent content in shell on Lukáš Zapletal</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 25 Aug 2011 00:00:00 +0000</lastBuildDate><atom:link href="http://blog.zapletalovi.com/tags/shell/index.xml" rel="self" type="application/rss+xml"/><item><title>How to set timezone from shell quickly</title><link>http://blog.zapletalovi.com/posts/2011-08-25-how-to-set-timezone-from-shell-quickly/</link><pubDate>Thu, 25 Aug 2011 00:00:00 +0000</pubDate><guid>http://blog.zapletalovi.com/posts/2011-08-25-how-to-set-timezone-from-shell-quickly/</guid><description>The easiest trick is to override /etc/localtime:
+# ln -sf /usr/share/zoneinfo/Europe/Prague /etc/localtime
+According to the BIOS clocks and BIOS-UTC setting of the OS it is usually good idea to correct time:
+# date +%T -s "22:30"
+It's also quite good idea to start NTP daemon:
+# service ntpd restart
+# chkconfig ntpd on
+For Fedora/RHEL systems you should also update sysconfig file to make this permanent:
+# echo 'ZONE="Europe/Prague"' > /etc/sysconfig/clock</description></item></channel></rss>

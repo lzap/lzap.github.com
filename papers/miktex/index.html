@@ -1,0 +1,92 @@
+<html><!-- #BeginTemplate "/Templates/main.dwt" --><!-- DW6 -->
+<head>
+<!-- #BeginEditable "doctitle" -->
+<title>Instalace csLaTeX pro MiKTeX</title>
+<!-- #EndEditable --> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-1250-2">
+</head>
+<body>
+
+<h2>Automatický instalátor èe¹tiny v1.01<br>
+  do TeXové distribuce MiKTeX v2.2 pro Windows</h2>
+
+<p>Na katedøe <strong>MI PøF University Palackého</strong> je kladen dùraz na 
+  operaèní systém Linux. Nic proti operaènímu systému Linux, ale zvyk je zvyk. 
+  V¹ichni o nìj mluvíme, ale stejnì má vìt¹ina z nás nainstalovány doma Windows 
+  (a tøeba nìco k tomu). Budete se asi divit, ale já jsem pøe¹el z Linuxu na Windows. 
+  Mo¾ná proto, ¾e mám èasto nový hardware, na kterém Linux prostì nebì¾í. Ono 
+  je to zrádné -- on vlastnì bì¾í, ale po nìkolika dnech laborování a nastavování. 
+  Proto ho zkrátka (zatím) doma nepou¾ívám. Jiná situace je v¹ak ve ¹kole nebo 
+  v práci. To jen tak na okraj, aby se nikdo nedivil, proè takový Linux guru jako 
+  já :-) vytváøí nìco do Windows.</p>
+<p><em><strong>UPDATE k 21. 10. 2002:</strong> Nový </em>Mandrake 9.0<em> vypadá 
+  opravdu dobøe, ¹pièkový vzhled, výborná spolupráce s hardwarem (poprvé se mi 
+  linux nainstaloval bez ruèní konfigurace) a v distribuci se nalézá také kompletní 
+  teTeX.</em></p>
+<p>Bylo nám dáno za úkol psát dokumentaci k projektùm a diplomovým pracem v TeXu 
+  (resp. LaTeXu). Dal jsem si tu práci a týden jsem si hrál s TeXovou ditribucí 
+  MiKTeX pro Windows. Rozbìhnout v nìm správnì èe¹tinu není otázkou pár klikù 
+  a proto jsem se rozhodl vytvoøit pro ostatní kolegy instalátor, který to v¹echno 
+  zmákne sám.</p>
+<p>Co v¹echno budete k provozování TeXu na Windows potøebovat? Tak pøedev¹ím <em>Microsoft 
+  Windows 95</em> nebo vy¹¹í. Dále distribuci MiKTeX (<a href="http://www.miktex.org">http://www.miktex.org</a>). 
+  Doporuèuji pou¾ít velikou (large) distribuci doplnìnou o nìkolik balíèkù pøípadnì 
+  nainstalovat úplnou (total) instalaci, která v¹ak na disku zabere mnoho prostoru. 
+  Nakonec budete potøebovat ký¾ený <a href="cslatex-install-1.01.exe">instalátor</a> 
+  (600&nbsp;kb) a na otestování poslou¾í <a href="priklady.zip">tyto pøíklady</a> 
+  (6&nbsp;kb). Volitelnì si mù¾ete také stáhnout <a href="cslatex-install-src.zip">zdrojový 
+  kód</a> instalátoru (psaný ve skriptovacím jazyce NSIS).</p>
+<p>Instalátor nainstaluje a <strong>nastaví èe¹tinu</strong> (csLaTeX), <strong>nakonfiguruje 
+  metapost</strong> pro èeské kódování, <strong>doplní systém</strong> o nìkolik 
+  u¾iteèných programù (vlna, outlines, GNU make) a koneènì nainstaluje LaTeX <strong>styly 
+  University Palackého</strong>.</p>
+<p>Prosím respektujte autorská práva. Tento instalátor obsahuje programy, které 
+  byly vytvoøeny pod licencí GPL. Pøeètìte si proto pozornì licenci GPL.</p>
+<h3>Instalace</h3>
+<ol>
+  <li><strong>Nainstalujte MiKTeX</strong>. Doporuèuji volit velikou instalaci 
+    (large).</li>
+  <li><strong>Zkontrolujte</strong>, zda instalátor správnì upravil cestu <strong>PATH</strong>. 
+    Napøíklad spu¹tìním pøíkazu <tt>tex</tt>. Pokud se objeví intepret TeXu, je 
+    v¹e v poøádku. Jinak cestu PATH upravte, aby ukazovala také do <tt>C:\texmf\miktex\bin</tt>. 
+    Na nìkterých systémech Windows (95 a spol.) musíte pøebootovat.</li>
+  <li>Pokud jste instalovali small nebo large instalaci, spus»te nyní <strong>MiKTeX 
+    Options</strong> z nabídky<br>
+    <strong>Start</strong>, pøejdìte do <em>Packages</em> ou¹ka a <strong>doinstalujte 
+    následující balíèky</strong> (volte je ze stromu nebo je vyhledejte pøes tlaèítko 
+    <em>Show catalog)</em>: 
+    <ul>
+      <li>cspsfonts.cab,</li>
+      <li>booktabs.cab,</li>
+      <li>dal¹í balíèky chystáte-li se sázet chemické vzorce, noty, ¹achové partiáøe 
+        èi jiné ¹ílenosti.</li>
+    </ul>
+  </li>
+  <li>V ou¹ku <em>languages</em> <strong>zatrhnìte</strong> <em>Czech</em>, pøípadnì 
+    jiné jazyky, ve kterých hodláte sázet.</li>
+  <li><strong>Spus»te instalátor</strong> <tt>install-cslatex-1.xx.exe</tt>. Instalátor 
+    provede <strong>automaticky</strong> v¹e potøebné a pøegeneruje databázi MiKTeXu.</li>
+  <li><strong>Vyzkou¹ejte</strong> v¹e na <strong>dodaných pøíkladech</strong>. 
+    Postavte se do adresáøe s pøíkladem a zadejte <tt>make</tt>.</li>
+</ol>
+<p>V dokumentech <strong>uvádìjte standartní hlavièku</strong>, doporuèovanou 
+  CsTuGem. Naopak v ¾ádném pøípadì se nepokou¹ejte zapnout explicitní pøekódování 
+  na kódovou stránku Windows pøíkazem<tt> \usepackage[cp1250]{inputenc}</tt>. 
+  Toto nebude fungovat, proto¾e kódovou stránku cp1250 má MiKTeX nyní nainstalovanou 
+  jako implicitní (pokud voláte cslatex). Poèe¹tìn byl také metapost a volat ho 
+  mù¾ete dávkou <tt>csmpost</tt> (pøípadnì <tt>csmp</tt>). Èe¹tina funguje v TeXových 
+  popiskách. Kdybyste v¹ak chtìli pou¾ít popisky netexové (resp. metapostové), 
+  musíte uvést na zaèátku ka¾dého metapostového zdrojového kódu pøíkaz <tt>defaultfont 
+  := &quot;csr10&quot;</tt>. Pøípadnì mù¾ete zvolit jiný (èeský) font. Takováto 
+  explicitní volba fontu má v¹ak jedno omezení - nelze pak vygenerovat PDF dokument 
+  (resp. lze ale ¹patný). Dvipdfm toti¾ ¹patnì interpretuje metapost s èe¹tinou. 
+  Toto omezení v¹ak není zásadní, proto¾e se vìt¹inou pou¾ívá pro popisky TeX 
+  mód, ale je dobré o tom vìdìt.</p>
+<p>Abyste si mohli stáhnout tento skript a¾ tady tøeba nebudu, celý tento dokument 
+  vèetnì mého instalátoru byste mìli nalézt na <a href="http://vychodil.inf.upol.cz">domovské 
+  stránce pana Vychodila</a>, kterému bych chtìl podìkovat za podnìtné rady a 
+  za program <em>outlines</em>. </p>
+</body>
+
+<!-- #EndTemplate --></html>
+

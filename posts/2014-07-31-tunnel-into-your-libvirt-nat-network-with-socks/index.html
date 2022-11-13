@@ -1,0 +1,112 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Tunnel into your libvirt NAT network with SOCKS</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2014-07-31-tunnel-into-your-libvirt-nat-network-with-socks/"><meta property="og:type" content="website"><meta property="og:title" content="Tunnel into your libvirt NAT network with SOCKS"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Tunnel into your libvirt NAT network with SOCKS"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2014-07-31-tunnel-into-your-libvirt-nat-network-with-socks/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2014-07-31-tunnel-into-your-libvirt-nat-network-with-socks/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2014-07-31-tunnel-into-your-libvirt-nat-network-with-socks/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Tunnel into your libvirt NAT network with SOCKS</h1><small role=doc-subtitle></small><p class=post-date>July 31, 2014</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li></ul></div><div class=post-content><p><p>My development setup is based on two Fedora boxes: laptop and worstation
+situated in Red Hat office. Both machines are powerful enough to run few VMs,
+but to leverage hardware, I wanted to use libvirt virtual networks on both
+devices. The Xeon server is more capable of running nested KVM virtual
+appliances like oVirt or RHEV while laptop is good for local testing.</p><p>I have two virtual (NAT) libvirt networks called:</p><ul><li>zzz.lan (server)</li><li>local.lan (laptop)</li></ul><p>My goal was to use them seamlessly during my development. Let&rsquo;s focus on the
+local.lan first.</p><p>Some time ago I was using libvirt bridges, but since I need to tackle with
+DHCP/TFTP/DNS services (I work on The Foreman project), NAT was the only
+viable option here. The configuration is pretty standard, I created new NAT
+network and disabled DHCP service there because I wanted to run my own DHCP
+server. You can use &ldquo;default&rdquo; one for this purpose.</p><p>The key thing is to setup local caching DNS server dnsmasq. In my case, I use
+Google public DNS servers as main forwarders:</p><pre><code>laptop# cat /etc/dnsmasq.d/caching
+bind-interfaces
+listen-address=127.0.0.1
+resolv-file=/etc/resolv.dnsmasq
+
+laptop# cat /etc/resolv.dnsmasq
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+
+laptop# cat /etc/resolv.conf
+nameserver 127.0.0.1
+domain redhat.com
+
+laptop# chattr +i /etc/resolv.conf
+</code></pre><p>Having dnsmasq set correctly, now we can add special file that will add all
+hosts that has been created via libvirt. This is done automatically by
+libvirt.</p><pre><code>laptop# cat /etc/dnsmasq.d/local.lan
+addn-hosts=/var/lib/libvirt/dnsmasq/default.addnhosts
+</code></pre><p>Restart (or start and enable) the service.</p><pre><code>laptop# systemctl enable dnsmasq
+laptop# systemctl start dnsmasq
+</code></pre><p>Tip: When using VPN you can add extra configuration file so all <code>*.redhat.com</code>
+queries goes to internal DNS servers (these IP addresses are not real). Also
+we want to use public DNS server for the adress of the VPN hub, otherwise you
+would need to use IP address for that service.</p><pre><code>laptop# cat /etc/dnsmasq.d/redhat.com
+server=/redhat.com/10.20.30.40
+server=/redhat.com/10.20.30.50
+server=/vpn-hub1.redhat.com/8.8.8.8
+</code></pre><p>Now, everytime you create a new VM locally, you only need to refresh dnsmasq
+configuration to re-load the default.addnhosts file.</p><pre><code>laptop# virt-install --os-variant rhel6 --vcpus 1 --ram 900 \
+    --name myhost.local.lan --boot network --nodisk --noautoconsole
+</code></pre><p>This is as easy as sending HUP signal (or you can do <code>service reload</code>) or
+similar:</p><pre><code>laptop# pkill -SIGHUP dnsmasq
+</code></pre><p>That&rsquo;s it. You can connect to your server easily:</p><pre><code>laptop# ssh root@myhost.local.lan
+</code></pre><p>I do more. When you shutdown or restart your VM, libvirt (which uses dnsmasq
+for DHCP too) can assign different IP, therefore the addnhost entry is not
+valid anymore. Therefore I created a simple script that preallocates static
+DHCP entry in libvirt, so restarts won&rsquo;t hurt anymore. The snippet is
+something like:</p><pre><code>echo &quot;Removing existing DHCP/DNS configuration from libvirt&quot;
+netdump=&quot;sudo virsh net-dumpxml default&quot;
+virsh_dhcp=$($netdump | xmllint --xpath &quot;/network/ip/dhcp/host[@mac='$MAC']&quot; - 2&gt;/dev/null)
+virsh_dns=$($netdump | xmllint --xpath &quot;/network/dns/host/hostname[text()='$FQDN']/parent::host&quot; - 2&gt;/dev/null)
+sudo virsh net-update default delete ip-dhcp-host --xml &quot;$virsh_dhcp&quot; --live --config 2&gt;/dev/null
+sudo virsh net-update default delete dns-host --xml &quot;$virsh_dns&quot; --live --config 2&gt;/dev/null
+
+while true; do
+  AIP=&quot;192.168.100.$(( ( RANDOM % 250 )  + 2 ))&quot;
+  echo &quot;Checking if random IP $AIP is not in use&quot;
+  $netdump | xmllint --xpath &quot;/network/ip/dhcp/host[@ip='$AIP']&quot; - &amp;&gt;/dev/null || break
+done
+
+echo &quot;Deploying DHCP/DNS configuration via libvirt for $AIP&quot;
+sudo virsh net-update default add-last ip-dhcp-host --xml &quot;&lt;host mac='$MAC' name='$FQDN' ip='$AIP'/&gt;&quot; --live --config
+sudo virsh net-update default add-last dns-host --xml &quot;&lt;host ip='$AIP'&gt;&lt;hostname&gt;$FQDN&lt;/hostname&gt;&lt;/host&gt;&quot;  --live --configpice,listen=0.0.0.0 -
+</code></pre><p>This will remove existing entries, generates random IP address, checks if that
+does not exist and create DHCP (and in addition to that DNS) entries.</p><p>Now, this was the easy part. I use the same on my server, but I want to
+be able to access the zzz.lan VMs from my laptop too. For web access this
+turns out to be quite easy task. For example in Chrome you only need to
+created this file:</p><pre><code>laptop# cat ~/proxies.pac
+function FindProxyForURL(url, host) {
+  if (shExpMatch(host, &quot;*.zzz.lan*&quot;)) {
+    return &quot;SOCKS5 localhost:8890&quot;;
+  } else {
+    return &quot;DIRECT&quot;;
+  }
+}
+</code></pre><p>Start dynamic tunnel to the libvirt hypervisor (the server):</p><pre><code>laptop# cat .ssh/config
+Host server
+    HostName server.redhat.com
+    DynamicForward 8890
+
+laptop# ssh -N server &amp;&gt;/dev/null &amp;
+</code></pre><p>And start Chrome with this configuration:</p><pre><code>laptop# google-chrome --proxy-pac-url=file:///home/lzap/proxies.pac
+</code></pre><p>When working on The Foreman development, I also want the application to be
+able to connect to various services (like oVirt or RHEV compute resources).
+This turns to be possible too. The key utility is tsocks wrapper which is
+available in Fedora. We can use the very same ssh dynamic tunnel for that.</p><pre><code>laptop# cat /etc/tsocks.conf
+local = 192.168.0.0/255.255.255.0
+server = 127.0.0.1
+server_port = 8890
+</code></pre><p>The only difference in dnsmasq configuration on the server is that I want
+to open it for incoming DNS requests, because my laptop needs to resolve hosts
+from zzz.lan:</p><pre><code>server# cat /etc/dnsmasq.d/caching
+bind-interfaces
+resolv-file=/etc/resolv.dnsmasq
+interface=em1
+interface=lo
+no-dhcp-interface=em1
+</code></pre><p>And of course we need to open firewall port:</p><pre><code>server# firewall-cmd --add-service=dns --permanent
+</code></pre><p>Now on the laptop, one more change is needed. I need to direct my local
+dnsmasq daemon to resolve from the server dnsmasq (assuming my server IP
+address is 10.90.90.90):</p><pre><code>laptop# cat /etc/dnsmasq.d/zzz.lan
+server=/zzz.lan/10.90.90.90
+</code></pre><p>After reloading dnsmasq, I can finally use tsocks:</p><pre><code>laptop# tsocks wget -O - http://ovirt34.zzz.lan
+</code></pre><p>So I can start my application allowing it to connect to zzz.lan NAT network:</p><pre><code>laptop# tsocks foreman_application
+</code></pre><p>That&rsquo;s it. Hope you were inspired.</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>

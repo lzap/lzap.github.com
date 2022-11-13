@@ -1,0 +1,61 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Easy VM access with routed libvirt mode</title><meta name=description content="engineer in pyjama"><meta name=keywords content="blog,lzap,lukáš,zapletal,linux,tech,fedora"><meta property="og:url" content="http://blog.zapletalovi.com/posts/2022-02-23-easy-vm-access-with-routed-libvirt-mode/"><meta property="og:type" content="website"><meta property="og:title" content="Easy VM access with routed libvirt mode"><meta property="og:description" content="engineer in pyjama"><meta property="og:image" content="/images/avatar_rh_512.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Easy VM access with routed libvirt mode"><meta name=twitter:description content="engineer in pyjama"><meta property="twitter:domain" content="http://blog.zapletalovi.com/posts/2022-02-23-easy-vm-access-with-routed-libvirt-mode/"><meta property="twitter:url" content="http://blog.zapletalovi.com/posts/2022-02-23-easy-vm-access-with-routed-libvirt-mode/"><meta name=twitter:image content="/images/avatar_rh_512.jpg"><link rel=canonical href=http://blog.zapletalovi.com/posts/2022-02-23-easy-vm-access-with-routed-libvirt-mode/><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=http://blog.zapletalovi.com/css/main.css><link disabled id=dark-theme rel=stylesheet href=http://blog.zapletalovi.com/css/dark.css><script src=http://blog.zapletalovi.com/js/svg-injector.min.js></script>
+<script src=http://blog.zapletalovi.com/js/feather-icons.min.js></script>
+<script src=http://blog.zapletalovi.com/js/main.js></script>
+<script type=text/javascript>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-16034952-1"]),_gaq.push(["_trackPageview"]),function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)}()</script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=http://blog.zapletalovi.com><img src=http://blog.zapletalovi.com/images/avatar_rh_512.jpg alt=avatar></a></div><div class=nav-title><a class=nav-brand href=http://blog.zapletalovi.com>Lukáš Zapletal</a></div><div class=nav-links><div class=nav-link><a href=http://blog.zapletalovi.com/posts/>Posts</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/me/>About me</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/contact/>Contact</a></div><div class=nav-link><a href=http://blog.zapletalovi.com/tags/>Tags</a></div><div class=nav-link><a href=https://github.com/lzap><span data-feather=github></span></a></div><div class=nav-link><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></div><div class=nav-link><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></div><div class=nav-link><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></div><div class=nav-link><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span id=hamburger-menu-toggle-screen-reader-target class=sr-only>menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=http://blog.zapletalovi.com/posts/>Posts</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/me/>About me</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/contact/>Contact</a></li><li class=nav-item><a href=http://blog.zapletalovi.com/tags/>Tags</a></li><li class=nav-item><a href=https://github.com/lzap><span data-feather=github></span></a></li><li class=nav-item><a href=https://mastodon.social/@lzap><img class=svg-inject src=/svg/icons/mastodon.svg></a></li><li class=nav-item><a href=https://twitter.com/lzap><span data-feather=twitter></span></a></li><li class=nav-item><a href=https://www.buymeacoffee.com/lzap><span data-feather=coffee></span></a></li><li class=nav-item><a href=http://blog.zapletalovi.com/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Easy VM access with routed libvirt mode</h1><small role=doc-subtitle></small><p class=post-date>February 23, 2022</p><ul class=post-tags><li class=post-tag><a href=http://blog.zapletalovi.com/tags/linux>linux</a></li><li class=post-tag><a href=http://blog.zapletalovi.com/tags/fedora>fedora</a></li></ul></div><div class=post-content><p><p>By default, libvirt comes with a virtual network called &ldquo;default&rdquo; that is
+configured with NAT. That is a very sane default configuration, VMs are
+accessible from the host machine directly and they can also access internet via
+NAT. Many people, however, want to access VMs from outside - typically when
+libvirt is used as a server hypervisor. You will find many blog posts
+explaining how to setup a bridge. Configuration of bridge is complex, you need
+to shut down the main connection and it is a challenge for users who only have
+SSH access to the machine. Only if there was a better way&mldr;</p><p>Big news if you did not know: you don&rsquo;t need a bridge to access your VMs. You
+can use a regular (routed) network! In this article, I will describe how it
+works. Spoiler alert: it is easier than bridge!</p><p><strong>Routing? Isn&rsquo;t that difficiult?</strong></p><p>No, it is actually a very important concept. Every machine has a thing called a
+routing table, it tells what interface it should send packets to for each
+individual network the system is connected to. It also tells which system it
+should send patckets for all other cases - this is called the default route.
+You can print your own routing table with commans <code>ip route</code>.</p><p>If you create a libvirt network in route mode and set up the host system to
+route packets it will work as a regular network. Of course, all systems that
+want to communicate with VMs in the route libvirt network need to know how to
+reach the network. There are two options: you can modify routing table for all
+systems that are supposed to communicate with VMs, or you can do this on your
+(home) router. I will show you both.</p><p><strong>The setup</strong></p><p>As I said, libvirt comes with NAT network, the configuration looks like this (all commands are as root):</p><pre><code>virsh net-edit default
+</code></pre><p>This is how it looks like:</p><pre><code>&lt;network&gt;
+  &lt;name&gt;default&lt;/name&gt;
+  &lt;uuid&gt;9f3e4377-3d33-42df-b34c-7880295d24ee&lt;/uuid&gt;
+  &lt;forward mode='nat'/&gt;
+  &lt;bridge name='virbr0' zone='trusted' stp='on' delay='0'/&gt;
+  &lt;mac address='52:54:00:7a:00:01'/&gt;
+  &lt;ip address='192.168.122.1' netmask='255.255.255.0'&gt;
+    &lt;dhcp&gt;
+      &lt;range start='192.168.122.2' end='192.168.122.254'/&gt;
+    &lt;/dhcp&gt;
+  &lt;/ip&gt;
+&lt;/network&gt;
+</code></pre><p>You can either modify this directly, or create a new network named differently. Let&rsquo;s simply edit the XML configuration to change it into route mode. Let&rsquo;s perform two changes: change forward mode to route and pick a different subnet address (122 is comonly used so let&rsquo;s use 200):</p><pre><code>&lt;network&gt;
+  &lt;name&gt;default&lt;/name&gt;
+  &lt;uuid&gt;9f3e4377-3d33-42df-b34c-7880295d24ee&lt;/uuid&gt;
+  &lt;forward mode='route'/&gt;
+  &lt;bridge name='virbr0' zone='trusted' stp='on' delay='0'/&gt;
+  &lt;mac address='52:54:00:7a:00:01'/&gt;
+  &lt;ip address='192.168.200.1' netmask='255.255.255.0'&gt;
+    &lt;dhcp&gt;
+      &lt;range start='192.168.200.2' end='192.168.200.254'/&gt;
+    &lt;/dhcp&gt;
+  &lt;/ip&gt;
+&lt;/network&gt;
+</code></pre><p>That&rsquo;s all, libvirt daemon should have restarted the network already. It should also automatically enable routing on the system, modify firewall and routes. Let&rsquo;s check that:</p><pre><code>cat /proc/sys/net/ipv4/ip_forward
+</code></pre><p>This command must return <code>1</code>. Older versions of libvirt will not take care of routing kernel setting or firewall rules, but modern (2020) version I tested with does this for you, no need to do any other commands (tested on Fedora 33). Check the route table on the hosting machine:</p><pre><code>ip r
+...
+192.168.200.0/24 dev virbr0 proto kernel scope link src 192.168.200.1
+</code></pre><p>Now, launch a VM, it should get an address from 192.168.200.0 network from libvirt&rsquo;s DHCP automatically. Try to ping it from the host itself, as you can see above the route entry is already there and the system knows that it can reach the VM via <code>virbr0</code>.</p><p><strong>Accessing VMs remotely</strong></p><p>Now let&rsquo;s try scenario number one: a remote system wants to connect to your VM. Witnout any configuration, it will not work as the host does not know how to reach the 192.168.200.0 network (has no routing entry). You can create it manually (I am assuming that 192.168.1.5 is the hosting machine - the hypervisor):</p><pre><code>ip route add 192.168.200.0/24 via 192.168.1.5 dev eth0
+</code></pre><p>Now it should work! You can now communicate with all your VMs directly, no NAT, no firewall, no forwarding. It is a direct connection!</p><p>You perhaps do not want to modify routing tables for all your hosts. Indeed, you can modify your (home) router to advertise what is called a static route. All clients in the network will automatically add such entry. If you are using ISC DHCP (linux server), then the configuration is something like:</p><pre><code>    option classless-static-routes 192.168.200.0 192.168.1.5;
+</code></pre><p>I actually have a Mikrotik DHCP server, that is a completely different beast, the value needs to be in hex and there are online calculators to construct the correct command:</p><pre><code>/ip dhcp-server option
+add code=121 name=classless-static-route-option value=0x00C0A8000118C0A800C0A80001
+</code></pre><p>But the idea is the same for any kind of router, search for &ldquo;static routes&rdquo; in the UI.</p><p>There is one problem tho, you want VMs from the 192.168.200.0 want to access internet I suppose. In that case, there is one additional change needed. The main router to the internet must be aware of this and NAT (masquerade) must be enabled for such network. If your main internet router is Linux then it is as easy as making sure the internal and external interfaces are set correctly:</p><pre><code>nmcli connection modify ens1 connection.zone internal
+nmcli connection modify ens2 connection.zone external
+</code></pre><p>And firewall daemon will take care of NAT automatically (it is already set for internal/external zones). For home routers, search for NAT, masquerade, srcnat and simply add the 192.168.200.0 next to the main network (192.168.1.0 in my examples). That&rsquo;s all.</p><p><strong>Wait, is that all?</strong></p><p>Yup, it is that easy. With recent libvirt, you just flip the setting to &ldquo;route&rdquo; and add a route to your DHCP server. I hope this was useful, retweet this if you find this helpful and remember to tag me I am @lzap on Twitter. Cheers!</p></p></div></div></main><footer class=footer><span>&copy; 2022 Lukáš Zapletal, CC BY 4.0</span>
+<span>Built with <a href=https://gohugo.io>hugo</a>, template <a target=_blank href=https://github.com/526avijitgupta/gokarna>gokarna</a></span></footer></body></html>
