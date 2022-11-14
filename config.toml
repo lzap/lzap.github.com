@@ -2,7 +2,7 @@
 theme = "gokarna"
 
 title = 'Lukáš Zapletal'
-baseURL = 'https://blog.zapletalovi.com'
+baseURL = 'https://lukas.zapletalovi.com'
 languageCode = 'en-us'
 defaultContentLanguage = "en"
 enableRobotsTXT = true
