@@ -1,0 +1,8 @@
+#!/bin/bash
+Y=$(date +%Y)
+DIR=content/posts/$Y
+test -d $DIR || mkdir $DIR
+read -p "Title [draft-$RANDOM]: " title
+title=${title:-draft-$RANDOM}
+hugo new -k post "$DIR/$title.md"
+vim "$DIR/$title.md" -c "setlocal spell spelllang=en_us"
