@@ -61,7 +61,7 @@ weight = 70
 [[menu.main]]
 identifier = "rss"
 pre = "<span data-feather='rss'></span>"
-url = "/index.xml"
+url = "/atom.xml"
 weight = 80
 
 [params]
@@ -119,3 +119,11 @@ socialIcons = [
 startLevel = 1
 endLevel = 3
 ordered = false
+
+# change RSS from the default index.xml to atom.xml
+[outputs]
+home = [ "RSS", "HTML"]
+[outputFormats]
+[outputFormats.RSS]
+mediatype = "application/rss"
+baseName = "atom"
