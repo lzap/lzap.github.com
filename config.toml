@@ -120,8 +120,10 @@ startLevel = 1
 endLevel = 3
 ordered = false
 
+[services.rss]
+ limit = 20
+
 # change RSS from the default index.xml to atom.xml
-rssLimit = 20
 [outputs]
 home = [ "RSS", "HTML"]
 [outputFormats]
