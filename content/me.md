@@ -3,21 +3,13 @@ type: page
 title: About me
 ---
 
-A software engineer who works for Red Hat, subsidiary of IBM. My primary interest
-is in Linux server management software development with focus on provisioning,
-PXE/HTTP UEFI booting, hardware discovery and networking. I am also involved in
-security and performance aspects of the projects and products I co-maintain.
+I am a software engineer who works for Red Hat. My primary interest is in Linux
+server management software development with focus on provisioning, PXE/HTTP
+UEFI booting, hardware discovery and networking. I am also involved in security
+and performance aspects of the projects and products I co-maintain.
 
-I run Red Hat Administration courses (RHA 1-2-3) at [Palacký University in Olomouc](https://www.inf.upol.cz/lide/lukas-zapletal).
-
-I live and work in Velký Týnec, Olomoucký kraj, [Czechia](https://en.wikipedia.org/wiki/Czech_Republic),
-Europe.
-
-## Work bio
-
-Lukas Zapletal is a core member of The Foreman (http://www.theforeman.org)
-open-source project and a Red Hat Satellite product engineer with focus on
-hardware discovery, bare-metal provisioning, PXE and SELinux.
+I live and work in Velký Týnec, Olomoucký kraj,
+[Czechia](https://en.wikipedia.org/wiki/Czech_Republic), Europe.
 
 ### Experience
 * 2018: principal software engineer, Red Hat Czech s.r.o.
