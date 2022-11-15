@@ -8,6 +8,8 @@ server management software development with focus on provisioning, PXE/HTTP
 UEFI booting, hardware discovery and networking. I am also involved in security
 and performance aspects of the projects and products I co-maintain.
 
+My internet nick is typically `lzap`, that's el-zet-ej-pi.
+
 I live and work in Velký Týnec, Olomoucký kraj,
 [Czechia](https://en.wikipedia.org/wiki/Czech_Republic), Europe.
 

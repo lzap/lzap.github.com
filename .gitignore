@@ -1,3 +1,6 @@
+# Git hook
+.noverify
+
 # Generated files by hugo
 /public/
 /resources/_gen/
