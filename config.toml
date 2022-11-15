@@ -81,9 +81,9 @@ accentColor = "#FF4D4D"
 # Ideal usecase for this is to import custom js/css or add your analytics snippet
 customHeadHTML = '''
 <!-- analytics, CSP and RSS alternate -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src static.cloudflareinsights.com; connect-src cloudflareinsights.com;" />
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "e0a5b1d968fe4fc1942644c21fcf78dd"}'></script>
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; child-src 'none'; script-src static.cloudflareinsights.com; connect-src cloudflareinsights.com;" />
-<link rel="alternate" type="application/rss+xml" href="{{ .Site.BaseURL }}/atom.xml" title="Lukas Zapletal's blog">
+<link rel="alternate" type="application/rss+xml" href="https://lukas.zapletalovi.com/atom.xml" title="Lukas Zapletal's blog">
 '''
 
 # Keywords relevant for SEO
