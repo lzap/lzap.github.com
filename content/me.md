@@ -31,12 +31,13 @@ I live and work in Velký Týnec, Olomoucký kraj,
 ### Professional certificates
 * Red Hat Certified Engineer
 * Red Hat Certified System Administrator
-* TIBCO Enterprise Message Service 4.x (Prague CZ)
-* webMethods Integration Certified BPMS Developer (Darmstadt-Eberstadt DE)
-* IBM Information Management – Optim Bootcamp for Business Partners (Budapest HU)
-* IBM WebSphere DataStage V8.0 (Prague CZ)
+* TIBCO Enterprise Message Service 4.x
+* webMethods Integration Certified BPMS Developer
+* IBM Information Management – Optim Bootcamp for Business Partners
+* IBM WebSphere DataStage V8.0
 
 ### Trainings taken
+* Red Hat Enterprise Linux SELinux course
 * Red Hat Enterprise Linux Fast Track Course
 * TIBCO BusinessWorks Administration Boot Camp
 * TIBCO BusinessEvents 2.x Developer
@@ -53,7 +54,7 @@ I live and work in Velký Týnec, Olomoucký kraj,
 * IBM DataStage Essentials V8.1
 
 ### Formal education
-* 2017: External teacher at Palacky University in Olomouc (ongoing)
+* 2017: External mentor at Palacky University in Olomouc
 * 2006: Master degree Computer Science (Palacky University in Olomouc)
 * 2004: Bachelor degree Computer Science (Palacky University in Olomouc)
 * 1998: Secondary technical school of mechanical engineering
