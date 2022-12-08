@@ -60,8 +60,8 @@ efficient.
 
 Now, starting from Go 1.13, wrapping was introduced. Wrapping allows to embed
 errors into other errors, just like wrapping exceptions in other languages.
-This is very useful: a function that encounters "record not found" exception
-can add more context information to the message like "unknown user: record not
+This is very useful: a function that encounters "record not found" error can
+add more context information to the message like "unknown user: record not
 found".
 
 The interesting idea behind error wrapping design in Go is that the contract
@@ -200,7 +200,7 @@ func (e *joinError) Unwrap() []error {
 }
 ```
 
-An theoretical interface, which does not exists in the standard library, looks
+A theoretical interface, which does not exists in the standard library, looks
 like this:
 
 ```go
@@ -210,7 +210,7 @@ type MultiWrappedError {
 ```
 
 Since Go does not allow method overloading, each type can either implement
-`Unwrap() error` or `Unwrap() []error` but not both. Remember when I mentioned
+`Unwrap() error` or `Unwrap() []error`, but not both. Remember when I mentioned
 that wrapped errors are essentially a linked list? Types which implement the
 former (the newly introduced) method actually form a linked tree and functions
 `errors.Is` and `errors.As` work the same, except now they need to traverse
@@ -261,9 +261,11 @@ var AffectedRecordsMismatchErr = errors.New("DB: affected records mismatch")
 var ResourceNotFoundErr = errors.New("HTTP client: resource not found")
 var ResourceUnauthorizedErr = errors.New("HTTP client: unauthorized")
 
-// application errors
-var UserNotFoundErr = fmt.Errorf("user not found: %w (%w)", RecordNotFoundErr, NotFoundHTTPCode)
-var OtherResourceUnauthorizedErr = fmt.Errorf("unauthorized to call other service: %w (%w)", ResourceUnauthorizedErr, UnauthorizedHTTPCode)
+// application errors (the new feature)
+var UserNotFoundErr = fmt.Errorf("user not found: %w (%w)",
+    RecordNotFoundErr, NotFoundHTTPCode)
+var OtherResourceUnauthorizedErr = fmt.Errorf("unauthorized call: %w (%w)",
+    ResourceUnauthorizedErr, UnauthorizedHTTPCode)
 
 func handleError(err error) {
 	if errors.Is(err, NotFoundHTTPCode) {
@@ -296,7 +298,7 @@ Obviously, the common HTTP status codes could easily be a new error type (based
 on `int` type) so the actual code could be easily extracted via `errors.As`,
 but I want to keep the example simple.
 
-Feel free to (play around)[https://go.dev/play/p/czyJBZOUltT?v=gotip] with the
+Feel free to [play around](https://go.dev/play/p/czyJBZOUltT?v=gotip) with the
 code on Go Playground. Make sure to use "dev branch" or 1.20+ version of Go.
 
 ## Take care
@@ -321,6 +323,6 @@ wrapped errors.
 
 Error wrapping is not the ultimate solution for all error handling in Go. It
 provides a clean approach to handle errors in typical Go applications tho and
-it might actually be all you need for your application!
+it might actually be all you need for simple application.
 
 Reach out to me on Mastodon or Twitter, share the post if you like it! Cheers.
