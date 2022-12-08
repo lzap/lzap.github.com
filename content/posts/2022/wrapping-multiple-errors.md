@@ -4,7 +4,6 @@ date: 2022-12-08T09:21:12+01:00
 type: "post"
 tags:
 - golang
-draft: true
 ---
 
 Go 1.20, which is expected to be released in February 2023, comes with a small
