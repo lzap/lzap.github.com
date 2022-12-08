@@ -14,34 +14,42 @@ below for the news.
 
 Errors in Go are values which implements a very simple interface:
 
-    type error interface {
-        Error() string
-    }
+```go
+type error interface {
+    Error() string
+}
+```
 
 Error types can be anything, from `string` itself to `int`, but very often they
 are `struct` types. This example is from the standard library:
 
-    type err struct {
-	    s string
-    }
+```go
+type err struct {
+    s string
+}
 
-    func (e *err) Error() string {
-	    return e.s
-    }
+func (e *err) Error() string {
+    return e.s
+}
+```
 
 To check an error in Go, you simply compare a value (in this case an `int`
 value):
 
-    if err == io.EOF {
-        // ...
-    }
+```go
+if err == io.EOF {
+    // ...
+}
+```
 
 The second common thing is to check error's type, that is little bit more code
 to write tho:
 
-    if nerr, ok := err.(net.Error) {
-        // ... (use nerr which is a net.Error)
-    }
+```go
+if nerr, ok := err.(net.Error) {
+    // ... (use nerr which is a net.Error)
+}
+```
 
 In the example above, the type assertion tests the `err` value for type
 `net.Error` creating a new variable `nerr` which can be used in the if
@@ -65,25 +73,29 @@ standard library to show you since interfaces are implemented implicitly and
 there is no need to have one. Let`s write one just for the purpose of this
 post:
 
-    type WrappedError {
-        Unwrap() error
-    }
+```go
+type WrappedError {
+    Unwrap() error
+}
+```
 
-Let`s take a look how wrapped errors are implemented in the Go standard
+Let's take a look how wrapped errors are implemented in the Go standard
 library (package `fmt` actually):
 
-    type wrapError struct {
-	    msg string
-	    err error
-    }
+```go
+type wrapError struct {
+    msg string
+    err error
+}
 
-    func (e *wrapError) Error() string {
-	    return e.msg
-    }
+func (e *wrapError) Error() string {
+    return e.msg
+}
 
-    func (e *wrapError) Unwrap() error {
-	    return e.err
-    }
+func (e *wrapError) Unwrap() error {
+    return e.err
+}
+```
 
 Since errors are types which implement `Error() string` and there is nothing
 wrong saying that errors in Go actually *are* "strings" in the end, a good
@@ -113,17 +125,21 @@ helper functions to do that.
 
 To check for a value in wrapped errors list:
 
-    if errors.Is(err, RecordNotFoundErr) {
-        // ...
-    }
+```go
+if errors.Is(err, RecordNotFoundErr) {
+    // ...
+}
+```
 
 To check for a specific type (a network error from the standard library in this
 case):
 
-    var nerr *net.Error
-    if errors.As(err, &nerr) {
-        // ... (use nerr which is a *net.Error)
-    }
+```go
+var nerr *net.Error
+if errors.As(err, &nerr) {
+    // ... (use nerr which is a *net.Error)
+}
+```
 
 That summarizes error wrapping in Go 1.13 and later.
 
@@ -187,9 +203,11 @@ func (e *joinError) Unwrap() []error {
 An theoretical interface, which does not exists in the standard library, looks
 like this:
 
-    type MultiWrappedError {
-        Unwrap() []error
-    }
+```go
+type MultiWrappedError {
+    Unwrap() []error
+}
+```
 
 Since Go does not allow method overloading, each type can either implement
 `Unwrap() error` or `Unwrap() []error` but not both. Remember when I mentioned
