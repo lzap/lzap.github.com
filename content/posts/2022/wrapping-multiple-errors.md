@@ -74,7 +74,7 @@ there is no need to have one. Let`s write one just for the purpose of this
 post:
 
 ```go
-type WrappedError {
+type WrappedError interface {
     Unwrap() error
 }
 ```
@@ -177,7 +177,7 @@ err := fmt.Errorf("%w + %w", err1, err2)
 fmt.Println(err)
 ```
 
-What would previously result in an error now correctly prints:
+What would previously result as a malformed format string now correctly prints:
 
     err1 + err2
 
@@ -204,7 +204,7 @@ A theoretical interface, which does not exists in the standard library, looks
 like this:
 
 ```go
-type MultiWrappedError {
+type MultiWrappedError interface {
     Unwrap() []error
 }
 ```
@@ -291,9 +291,16 @@ This will print:
     Will return 401
     unauthorized to call other service: HTTP client: unauthorized (401)
 
+What may not look obvious from such artificial code snippet is that errors
+declarations are typically spread across many packages and it is not easy to
+keep track of all possible errors ensuring the required HTTP status codes. In
+this approach, all application-level wrapping errors declared in a single place
+also have HTTP codes wrapped inside them.
+
 Note this was previously not possible in Go 1.19 or older because the
 `fmt.Errorf` function would only wrap the first error. The code does compile on
-1.19, however, and does not even generate runtime panic, it won't work tho.
+1.19 and does not even generate runtime panic, it won't work however.
+
 Obviously, the common HTTP status codes could easily be a new error type (based
 on `int` type) so the actual code could be easily extracted via `errors.As`,
 but I want to keep the example simple.
@@ -301,11 +308,11 @@ but I want to keep the example simple.
 Feel free to [play around](https://go.dev/play/p/czyJBZOUltT?v=gotip) with the
 code on Go Playground. Make sure to use "dev branch" or 1.20+ version of Go.
 
-## Take care
+## Existing applications
 
 When implementing the new feature into your application, beware of
 `errors.Unwrap` function. For error types that has `Unwrap() []error` it
-returns `nil`:
+always returns `nil`:
 
 ```go
 err1 := errors.New("err1")
@@ -319,7 +326,8 @@ fmt.Println(unwrapped)
 
 This prints `nil` and it is expected because of the Go 1.X compatibility
 promise. Just make sure to review unwrapping code when you introduce multiple
-wrapped errors.
+wrapped errors. Luckily, most of error checking in typical Go code is done
+using `errors.Is` and `errors.As`.
 
 Error wrapping is not the ultimate solution for all error handling in Go. It
 provides a clean approach to handle errors in typical Go applications tho and
