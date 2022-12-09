@@ -183,7 +183,7 @@ What would previously result as a malformed format string now correctly prints:
 
 How this is possible when wrapped errors implements `Unwrap() error`? It turns
 out that there is a new mechanism in Go 1.20 standard library: an error type
-implementing `Unwrap() []string` function can wrap multiple errors instead of
+implementing `Unwrap() []error` function can wrap multiple errors instead of
 just one. Let's take a look how this is implemented in the library:
 
 ```go
