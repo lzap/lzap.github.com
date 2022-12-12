@@ -157,8 +157,10 @@ err := errors.Join(err1, err2)
 fmt.Println(err)
 ```
 
-It is worth mentioning that the function concatenates errors from the list with
-newline characters. The above snippet prints:
+This function can be useful for joining errors together when amount of errors
+is not known in advance. A good example would be gathering errors from
+goroutines. It is worth mentioning that the function concatenates errors from
+the list with newline characters. The above snippet prints:
 
     err1
     err2
@@ -334,3 +336,6 @@ provides a clean approach to handle errors in typical Go applications tho and
 it might actually be all you need for simple application.
 
 Reach out to me on Mastodon or Twitter, share the post if you like it! Cheers.
+
+Update: The blogpost was featured on [hacker news](https://news.ycombinator.com/item?id=33942581). Feel free to drop a
+comment.
