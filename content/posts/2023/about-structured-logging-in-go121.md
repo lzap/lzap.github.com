@@ -1,10 +1,9 @@
 ---
 title: "About Structured Logging in Go 1.21"
-date: 2023-06-10T21:38:40+02:00
+date: 2023-06-28T20:00:00+02:00
 type: "post"
 tags:
 - golang
-draft: true
 ---
 
 About structured logging in Go 1.21
@@ -46,7 +45,7 @@ libraries like SQL drivers, messaging broker libraries or cloud clients.
 In order to start using slog, a new `Logger` with a `Handler` must be created.
 There are two handlers available in the library: one for JSON and one for text.
 Storing structured logs as text is not very useful for production use, however,
-it is very nice option for development environments:
+it is a good option for development environments:
 
     logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
     slog.SetDefault(logger)
@@ -79,7 +78,7 @@ levels (e.g. Notice) and Level is in fact an integer so there is plenty of room
 for additional levels if needed.
 
 As you can probably see, the Info function is variadic: `Info(msg string, args
-...any)` and it provides a convenient way of writing structured logs.  Simply
+...any)` and it provides a convenient way of writing structured logs. Simply
 add zero, one or more key-value pairs or attributes, more about them later, and
 types will be introspected via the `reflect` package. You see it right,
 reflection is the price you pay if you want to type your logging statements
@@ -157,7 +156,7 @@ The build-in JSON handler generates something like:
         }
     }
 
-Let's take a closer look on the Record type:
+Let's take a closer look on how `slog` stores the data. Here is the Record type:
 
     type Record struct {
         Time time.Time
@@ -237,9 +236,12 @@ have one such handler. Then working with contexts is super easy, simply use
     slog.InfoCtx(ctx, "user was authenticated", "user_id", user.ID)
 
 I personally find this easier to type instead of retrieving a `logger` variable
-from the context in every single function. Assuming a trace id `42cafe13` in
-the context, the built-in text handler decorated with the above handler
-generates:
+from the context in every single function. Since unused variable is an error
+for Go compiler, the `logger` variable often needs to be deleted or
+reintroduced as the code is being rewritten which is not an issue for
+`slog.InfoCtx` function and the three other siblings. Assuming a trace id
+`42cafe13` in the context, the built-in text handler decorated with the
+above handler generates:
 
     time=2023-06-03T17:49:54.224+02:00 level=INFO msg="user was authenticated" user_id=424213 trace_id=42cafe13
 
@@ -250,8 +252,9 @@ Even users who will continue using other logging libraries will benefit from
 
 If you like to start using the API today, there is `golang.org/x/exp/slog` and
 although "exp" stands for "experimental", the API is currently frozen for Go
-1.21 and no changes are expected. You should switch to standard library after
-Go 1.21 is out because that will probably not last forever.
+1.21 and no changes are expected in the near future. You should switch to
+standard library after Go 1.21 is out because that will probably not last
+forever.
 
 I personally started a new application with `slog` myself as I really enjoy
 variadic functions and I am willing to sacrifice few CPU cycles per request in
