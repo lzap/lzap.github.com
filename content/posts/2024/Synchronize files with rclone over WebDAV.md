@@ -76,8 +76,8 @@ htpasswd -c webdav-share.htpasswd user1
 htpasswd webdav-share.htpasswd user2
 ```
 
-Synchronizing 500 GB of photos and videos takes less than a minute (assuming
-all files are already synchronized):
+Synchronizing 500 GB (50k files) of photos and videos takes less than a minute
+(assuming all files are already synchronized):
 
 ```
 rclone sync --progress c:\users\user\photo server:backups\windowspc\photo
@@ -85,8 +85,8 @@ rclone sync --progress --transfers=1 c:\users\user\video server:backups\windowsp
 ```
 
 Compared to about 10 minutes for `robocopy` over `smb` or even slower `rsync`,
-this is awesome. I have not tried HTTPS as that protocol is only enabled for
-external access outside of home LAN, I assume that would be a bit slower.
+this looks quite appealing if you ask me. Note I am getting these speeds on LAN
+and HTTP, I assume HTTPS would be a tad slower.
 
 Warning: `rclone` compares file size and last modification time stamp, it does
 *not* calculate shasum of file contents like rsync does. For my use case, this
@@ -96,7 +96,8 @@ By default, `rclone` uses four threads to do directory walking and file
 comparisons which is super fast and you can even increase this via `transfers`
 argument if you use SSDs. In my case, I actually did the opposite as both the
 client and the server store the data on slow HDD and big video files were
-hammering disk heads which had to seek constantly.
+hammering disk heads which had to seek constantly when doing actual data
+upload.
 
 It looks like I will keep using WebDAV as my main file sharing protocol at
 home. I wish Apple adds it into iOS, currently I must copy files using
