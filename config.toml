@@ -66,7 +66,8 @@ weight = 80
 
 [params]
 # URL for the avatar on homepage
-avatarURL = "/images/avatar_rh_512.jpg"
+#avatarURL = "/images/avatar_rh_512.jpg"
+avatarURL = "/images/avatar_rh_256.avif"
 
 # Choose one of size-xs, size-s, size-m, size-l & size-xl. (Default: size-m)
 avatarSize = "size-l"
