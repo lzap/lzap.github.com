@@ -14,8 +14,8 @@ little machine as a file server and backup server but shortly after I added
 bunch of other services which ended up with this mess of NVMe/SSD/HDD.
 
 Last week when I was testing bootable container installations of Anaconda in a
-libvirt VM and decided to configure a new raw partition storage pool and - well
-- I made a small typo. As you guessed, I completely destroy one of my volumes
+libvirt VM and decided to configure a new raw partition storage pool and (ehm)
+I made a small typo. As you guessed, I completely destroy one of my volumes
 (file server data). Recovery from backups was painful as I do not have much
 experience with `btrfs` snapshots, I just wanted to try this file system out as
 I heard about it. But I did it, family photos and videos were saved, ton of
