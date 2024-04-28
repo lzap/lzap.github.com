@@ -15,7 +15,7 @@ bunch of other services which ended up with this mess of NVMe/SSD/HDD.
 
 Last week when I was testing bootable container installations of Anaconda in a
 libvirt VM and decided to configure a new raw partition storage pool and (ehm)
-I made a small typo. As you guessed, I completely destroy one of my volumes
+I made a small typo. As you guessed, I completely destroyed one of my volumes
 (file server data). Recovery from backups was painful as I do not have much
 experience with `btrfs` snapshots, I just wanted to try this file system out as
 I heard about it. But I did it, family photos and videos were saved, ton of
@@ -40,7 +40,7 @@ My NMVe pick was shooting in the dark, I wanted the biggest possible SSD (4 TB)
 but reasonably priced to avoid any raw device typos. The plan is to only have
 one SSD with LVM so I will never do that again when working with VMs and
 logical volumes. So I ultimately decided on fairly new product: Lexar NM790,
-quite unknown brand but I have experienced both Samsung and Intel SSD to die so
+quite unknown brand but I have witnessed both Samsung and Intel SSD to die so
 why not to try something else. There were some compatibility concerns both for
 hardware and Linux kernel, but I could always swap it with my 2TB SSD in PS5 if
 it did not work.
