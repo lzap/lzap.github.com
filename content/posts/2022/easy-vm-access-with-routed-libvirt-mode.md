@@ -84,6 +84,12 @@ This command must return `1`. Older versions of libvirt will not take care of ro
 	...
 	192.168.200.0/24 dev virbr0 proto kernel scope link src 192.168.200.1
 
+To enable forwarding on modern Fedora versions, a [native firewall-cmd command](https://firewalld.org/2020/04/intra-zone-forwarding) can be used now:
+
+```
+firewall-cmd --zone=internal --add-forward
+```
+
 Now, launch a VM, it should get an address from 192.168.200.0 network from libvirt's DHCP automatically. Try to ping it from the host itself, as you can see above the route entry is already there and the system knows that it can reach the VM via `virbr0`.
 
 **Accessing VMs remotely**
