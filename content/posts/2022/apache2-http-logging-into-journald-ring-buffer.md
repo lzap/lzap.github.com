@@ -44,6 +44,7 @@ systemd: `logger`:
         ...
         LogFormat "%h \"%r\" %>s %b" journal
         CustomLog "|/usr/bin/logger -t httpd -p local7.info" journal
+        ErrorLog "|/usr/bin/logger -t httpd -p local7.info"
         ...
 
 Do the same for `ssl.conf` file which has configuration for TLS. You can use
