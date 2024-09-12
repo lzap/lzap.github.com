@@ -9,6 +9,8 @@ tags:
 title: Installing Unifi Controller on Fedora 33
 ---
 
+**Update**: [New article](/posts/2024/unifi-controller-in-fedora-centos-rhel) deprecates this one, you may want to read the newer one.
+
 Installing Unifi Controller in Fedora 33 is easy. Step one: install MongoDB from [the official site](https://www.mongodb.com/download-center/community) since it is no longer available in Fedora due to licensing reasons. Use EL8 version which appears to work fine:
 
 	# dnf install ./mongodb-org-server-4.4.4-1.el8.x86_64.rpm

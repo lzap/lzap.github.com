@@ -9,6 +9,8 @@ tags:
 title: Installing Unifi Controller on CentOS 8
 ---
 
+**Update**: [New article](/posts/2024/unifi-controller-in-fedora-centos-rhel) deprecates this one, you may want to read the newer one.
+
 This tutorial covers installation of UniFi from RPMFusion repository on OpenJDK
 with MongoDB from official community repository. It kinda works, but I've hit
 few bugs here and there, therefore I'd suggest you to use "tarball"
