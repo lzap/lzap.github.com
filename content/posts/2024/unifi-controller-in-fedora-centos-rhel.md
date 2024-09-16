@@ -7,7 +7,7 @@ tags:
 - fedora
 ---
 
-This article contains instructions how to reliable run Unify Controller from Ubiquity via podman found in Fedora, CentOS, RHEL, clones or pretty much any Linux distribution. I tested this on Fedora 40 running with SELinux in enforcing mode and rootless containers.
+This article contains instructions how to reliable run Unifi Controller from Ubiquiti via podman found in Fedora, CentOS, RHEL, clones or pretty much any Linux distribution. I tested this on Fedora 40 running with SELinux in enforcing mode and rootless containers.
 
 First off, create a pod with few exposed ports, this is the minimum required ports for the controller to operate, feel free to add optional ports if you like. Do not expose MongoDB port for security reasons.
 
@@ -29,7 +29,7 @@ You do not need to change usernames or passwords as MongoDB container is only ac
 
     podman volume create unifi-app
 
-And start the controller from an image maintained by LinuxServer.io since Ubiquity does not provide any official images at this time:
+And start the controller from an image maintained by LinuxServer.io since Ubiquiti does not provide any official images at this time:
 
     podman run -d --pod unifi --name unifi-app -e PUID=1000 -e PGID=1000 -e TZ=Europe/Prague -e MONGO_USER=unifi -e MONGO_PASS=unifi -e MONGO_HOST=unifi-db -e MONGO_PORT=27017 -e MONGO_DBNAME=unifi -e MONGO_AUTHSOURCE=admin -v unifi-app:/config:Z lscr.io/linuxserver/unifi-network-application:latest
 
