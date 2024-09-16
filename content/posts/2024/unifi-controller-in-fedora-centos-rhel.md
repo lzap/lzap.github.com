@@ -7,46 +7,113 @@ tags:
 - fedora
 ---
 
-This article contains instructions how to reliable run Unifi Controller from Ubiquiti via podman found in Fedora, CentOS, RHEL, clones or pretty much any Linux distribution. I tested this on Fedora 40 running with SELinux in enforcing mode and rootless containers.
+This article contains instructions how to run Unifi Controller from Ubiquiti via podman from Fedora, CentOS, RHEL, clones or pretty much any Linux distribution as long as it is version 5.x or higher. I tested this on Fedora 40 running with SELinux in enforcing mode and rootless containers via quadlets.
 
-First off, create a pod with few exposed ports, this is the minimum required ports for the controller to operate, feel free to add optional ports if you like. Do not expose MongoDB port for security reasons.
+First off, make sure there is no `unifi` application installed since the system-wide `unifi.service` could collide with a new service we are creating. Also, make sure to work as a regular user as this article expects systemd units to be created under user directory. If you want, for any reason, to run Unifi as root (which I do not recommend), put all files into `/usr/containers/systemd` instead and do not use `--user` option in all systemd commands.
 
-    podman pod create --name=unifi -p 8443:8443 -p 8080:8080 -p 3478:3478/udp -p 10001:10001/udp
+We will create two containers and a pod. But before that, let's create a volume for MongoDB database:
 
-Create a podman volume for MongoDB database.
+    cat > ~/.config/containers/systemd/unifi-db.volume <<EOF
+    [Volume]
+    VolumeName=unifi-db
+    EOF
+
+And one for the Controller application configuration:
+
+    cat > ~/.config/containers/systemd/unifi-app.volume <<EOF
+    [Volume]
+    VolumeName=unifi-app
+    EOF
+
+We need to create the volume for MongoDB in advance because it needs to be initialized first:
 
     podman volume create unifi-db
 
 Start MongoDB 5.0 and keep in mind that this article was written for controller version 8.4 which required MongoDB 5.0. Different version might require different MongoDB version.
 
-    podman run -d --pod unifi --name unifi-db -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=unifi -v unifi-db:/data/db:Z docker.io/mongo:5.0
+    podman run --rm --name unifi-db-init -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=unifi -v unifi-db:/data/db:Z docker.io/mongo:5.0
 
-Run the following command to create a user for the controller:
+Do not stop the container (you can also run it in the background), it will have very short life tho. We only need it to run the following command to create a user for the controller:
 
     podman run --rm -it --pod unifi --name unifi-init --entrypoint=/usr/bin/mongosh docker.io/mongo:5.0 --authenticationDatabase admin --host unifi-db -u root -p unifi admin --eval "db.createUser({user: 'unifi', pwd: 'unifi', roles: [{role: 'dbOwner', db: 'unifi'},{role: 'dbOwner', db: 'unifi_stat'}]});"
 
-You do not need to change usernames or passwords as MongoDB container is only accessible internally (from the pod). Create another volume for the controller:
+Now the container must be stopped via `ctrl-c`, data is stored in the `unifi-db` volume. Let's create a container unit:
 
-    podman volume create unifi-app
+    cat > ~/.config/containers/systemd/unifi-db.container <<EOF
+    [Container]
+    ContainerName=unifi-db
+    Environment=MONGO_INITDB_ROOT_USERNAME=root MONGO_INITDB_ROOT_PASSWORD=unifi
+    Image=docker.io/mongo:5.0
+    Pod=unifi.pod
+    Volume=unifi-db.volume:/data/db:Z
+    EOF
 
-And start the controller from an image maintained by LinuxServer.io since Ubiquiti does not provide any official images at this time:
+And let's create a similar container with the controller from an image maintained by LinuxServer.io since Ubiquiti does not provide any official images at this time:
 
-    podman run -d --pod unifi --name unifi-app -e PUID=1000 -e PGID=1000 -e TZ=Europe/Prague -e MONGO_USER=unifi -e MONGO_PASS=unifi -e MONGO_HOST=unifi-db -e MONGO_PORT=27017 -e MONGO_DBNAME=unifi -e MONGO_AUTHSOURCE=admin -v unifi-app:/config:Z lscr.io/linuxserver/unifi-network-application:latest
+    cat > ~/.config/containers/systemd/unifi-app.container <<EOF
+    [Container]
+    ContainerName=unifi-app
+    Environment=PUID=1000 PGID=1000 TZ=Europe/Prague MONGO_USER=unifi MONGO_PASS=unifi MONGO_HOST=unifi-db MONGO_PORT=27017 MONGO_DBNAME=unifi MONGO_AUTHSOURCE=admin
+    Image=lscr.io/linuxserver/unifi-network-application:latest
+    Pod=unifi.pod
+    Volume=unifi-app.volume:/config:Z
+    [Unit]
+    After=unifi-db.service
+    EOF
 
-Visit your host URL `https://podman-host:8443` and perform initial setup or restore from backup. Then, stop and delete both containers. All the data are kept in the two volumes created above, do not worry you will loose any configuration data.
+Feel free to tune up environment variables, probably timezone is different and you can change passwords as well. MongoDB will not be exposed on the host interface so you can leave the password as is.
 
-    podman stop unifi-app
-    podman stop unifi-db
-    podman rm unifi-app
-    podman rm unifi-db
+The final step is to create a pod, as you can see only few ports are expose. Reach out to Uniquity documentation for more ports, this is the minimum set of ports recommended:
 
-Now, Fedora 40 still contains direct systemd unit generation feature in podman, however, it is soon be removed. Let me know on Twitter (`lzap`) when this happens and I will publich an updated article on how to do the same with Quadlets. In the meantime, just generate the units via podman itself and ignore the deprecation warning:
+    cat > ~/.config/containers/systemd/unifi.pod <<EOF
+    [Pod]
+    PodName=unifi
+    PublishPort=8443:8443
+    PublishPort=8080:8080
+    PublishPort=3478:3478/udp
+    PublishPort=10001:10001/udp
+    [Install]
+    WantedBy=multi-user.target default.target
+    EOF
 
-    cd $HOME/.config/systemd/user/
-    podman generate systemd --new --files --name unifi
-    systemctl enable --now --user pod-unifi.service
+Validate podman generation, this is where it fails if you don't have podman version 5.x or higher:
 
-Check systemd user unit `pod-unifi` where you will find the overall status and logs. Keep in mind that all the data are kept in your `$HOME/.local/share/containers/storage/volumes/` directory, this includes automatic backups done by the controller. I suggest to do configuration-only backups regularly. To find the exact location of your data:
+    /usr/libexec/podman/quadlet -dryrun -user
+    quadlet-generator[6737]: Loading source unit file /home/lzap/.config/containers/systemd/unifi-app.container
+    quadlet-generator[6737]: Loading source unit file /home/lzap/.config/containers/systemd/unifi-app.volume
+    quadlet-generator[6737]: Loading source unit file /home/lzap/.config/containers/systemd/unifi-db.container
+    quadlet-generator[6737]: Loading source unit file /home/lzap/.config/containers/systemd/unifi-db.volume
+    quadlet-generator[6737]: Loading source unit file /home/lzap/.config/containers/systemd/unifi.pod
+    ---unifi-app-volume.service---
+    [X-Volume]
+    VolumeName=unifi-app
+    [Unit]
+    RequiresMountsFor=%t/containers
+    [Service]
+    ExecStart=/usr/bin/podman volume create --ignore unifi-app
+    Type=oneshot
+    RemainAfterExit=yes
+    SyslogIdentifier=%N
+    --- ... ---
+
+This command may print some warnings you can ignore, but it must print all the services that will be used by systemd. It is now time to generate service files:
+
+    systemctl --user daemon-reload
+
+You will find them here:
+
+    ls $XDG_RUNTIME_DIR/systemd/generator -1
+    unifi-app.service
+    unifi-app-volume.service
+    unifi-db.service
+    unifi-db-volume.service
+    unifi-pod.service
+
+Start the pod (it should be enabled by default on boot):
+
+    systemctl --user start unifi-pod
+
+Visit your host URL `https://podman-host:8443` and perform initial setup or restore from backup. Keep in mind that all the data are kept in your `$HOME/.local/share/containers/storage/volumes/` directory, this includes automatic backups done by the controller. I suggest to set up configuration-only backups regularly in the admin interface of the Unifi Controller UI. To find the exact location of your data:
 
     podman volume inspect unifi-app
     ...
@@ -54,141 +121,5 @@ Check systemd user unit `pod-unifi` where you will find the overall status and l
     ...
 
 On my system, I need to backup the following directory: `/home/lzap/.local/share/containers/storage/volumes/unifi-app/_data/data/backup/`. You can do the same for the MongoDB data stored in the volume named `unifi-db`, but I *think* that only statistics are stored there - nothing important for a home deployment. Tho, if you are running a public service, you may be legally obligated to store records of client data.
-
-Here are the service units which were generated by podman. I do not recommend to blindly copy them as they contain some machine-dependant things like UID (1001) which might not match your system. If you want to write units manually, prefer [Quadlets](https://www.redhat.com/sysadmin/quadlet-podman).
-
-```
-# pod-unifi.service
-
-[Unit]
-Description=Podman pod-unifi.service
-Documentation=man:podman-generate-systemd(1)
-Wants=network-online.target
-After=network-online.target
-RequiresMountsFor=/run/user/1001/containers
-Wants=container-unifi-app.service container-unifi-db.service
-Before=container-unifi-app.service container-unifi-db.service
-
-[Service]
-Environment=PODMAN_SYSTEMD_UNIT=%n
-Restart=on-failure
-TimeoutStopSec=70
-ExecStartPre=/usr/bin/podman pod create \
-	--infra-conmon-pidfile %t/pod-unifi.pid \
-	--pod-id-file %t/pod-unifi.pod-id \
-	--exit-policy=stop \
-	--name=unifi \
-	-p 8443:8443 \
-	-p 8080:8080 \
-	-p 3478:3478/udp \
-	-p 10001:10001/udp \
-	--replace
-ExecStart=/usr/bin/podman pod start \
-	--pod-id-file %t/pod-unifi.pod-id
-ExecStop=/usr/bin/podman pod stop \
-	--ignore \
-	--pod-id-file %t/pod-unifi.pod-id  \
-	-t 10
-ExecStopPost=/usr/bin/podman pod rm \
-	--ignore \
-	-f \
-	--pod-id-file %t/pod-unifi.pod-id
-PIDFile=%t/pod-unifi.pid
-Type=forking
-
-[Install]
-WantedBy=default.target
-```
-
-```
-# container-unifi-db.service
-
-[Unit]
-Description=Podman container-unifi-db.service
-Documentation=man:podman-generate-systemd(1)
-Wants=network-online.target
-After=network-online.target
-RequiresMountsFor=%t/containers
-BindsTo=pod-unifi.service
-After=pod-unifi.service
-
-[Service]
-Environment=PODMAN_SYSTEMD_UNIT=%n
-Restart=on-failure
-TimeoutStopSec=70
-ExecStart=/usr/bin/podman run \
-	--cidfile=%t/%n.ctr-id \
-	--cgroups=no-conmon \
-	--rm \
-	--pod-id-file %t/pod-unifi.pod-id \
-	--sdnotify=conmon \
-	--replace \
-	-d \
-	--name unifi-db \
-	-e MONGO_INITDB_ROOT_USERNAME=root \
-	-e MONGO_INITDB_ROOT_PASSWORD=unifi \
-	-v unifi-db:/data/db:Z docker.io/mongo:5.0
-ExecStop=/usr/bin/podman stop \
-	--ignore -t 10 \
-	--cidfile=%t/%n.ctr-id
-ExecStopPost=/usr/bin/podman rm \
-	-f \
-	--ignore -t 10 \
-	--cidfile=%t/%n.ctr-id
-Type=notify
-NotifyAccess=all
-
-[Install]
-WantedBy=default.target
-```
-
-```
-# container-unifi-app.service
-
-[Unit]
-Description=Podman container-unifi-app.service
-Documentation=man:podman-generate-systemd(1)
-Wants=network-online.target
-After=network-online.target
-RequiresMountsFor=%t/containers
-BindsTo=pod-unifi.service
-After=pod-unifi.service
-
-[Service]
-Environment=PODMAN_SYSTEMD_UNIT=%n
-Restart=on-failure
-TimeoutStopSec=70
-ExecStart=/usr/bin/podman run \
-	--cidfile=%t/%n.ctr-id \
-	--cgroups=no-conmon \
-	--rm \
-	--pod-id-file %t/pod-unifi.pod-id \
-	--sdnotify=conmon \
-	--replace \
-	-d \
-	--name unifi-app \
-	-e PUID=1000 \
-	-e PGID=1000 \
-	-e TZ=Europe/Prague \
-	-e MONGO_USER=unifi \
-	-e MONGO_PASS=unifi \
-	-e MONGO_HOST=unifi-db \
-	-e MONGO_PORT=27017 \
-	-e MONGO_DBNAME=unifi \
-	-e MONGO_AUTHSOURCE=admin \
-	-v unifi-app:/config:Z lscr.io/linuxserver/unifi-network-application:latest
-ExecStop=/usr/bin/podman stop \
-	--ignore -t 10 \
-	--cidfile=%t/%n.ctr-id
-ExecStopPost=/usr/bin/podman rm \
-	-f \
-	--ignore -t 10 \
-	--cidfile=%t/%n.ctr-id
-Type=notify
-NotifyAccess=all
-
-[Install]
-WantedBy=default.target
-```
 
 If this article helped, share it on your favourite social networks. Cheers!
