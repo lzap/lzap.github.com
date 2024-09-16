@@ -100,7 +100,7 @@ This command may print some warnings you can ignore, but it must print all the s
 
     systemctl --user daemon-reload
 
-You will find them here:
+You need to run the `daemon-reload` command every time a change needs to be propagated. To check out the generated units:
 
     ls $XDG_RUNTIME_DIR/systemd/generator -1
     unifi-app.service
