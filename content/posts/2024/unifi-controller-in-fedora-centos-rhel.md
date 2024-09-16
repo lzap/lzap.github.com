@@ -31,11 +31,11 @@ We need to create the volume for MongoDB in advance because it needs to be initi
 
 Start MongoDB 5.0 and keep in mind that this article was written for controller version 8.4 which required MongoDB 5.0. Different version might require different MongoDB version.
 
-    podman run --rm --name unifi-db-init -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=unifi -v unifi-db:/data/db:Z docker.io/mongo:5.0
+    podman run --rm -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=unifi -v unifi-db:/data/db:Z docker.io/mongo:5.0
 
 Do not stop the container (you can also run it in the background), it will have very short life tho. We only need it to run the following command to create a user for the controller:
 
-    podman run --rm -it --pod unifi --name unifi-init --entrypoint=/usr/bin/mongosh docker.io/mongo:5.0 --authenticationDatabase admin --host unifi-db -u root -p unifi admin --eval "db.createUser({user: 'unifi', pwd: 'unifi', roles: [{role: 'dbOwner', db: 'unifi'},{role: 'dbOwner', db: 'unifi_stat'}]});"
+    podman run --rm -it --entrypoint=/usr/bin/mongosh docker.io/mongo:5.0 --authenticationDatabase admin --host unifi-db -u root -p unifi admin --eval "db.createUser({user: 'unifi', pwd: 'unifi', roles: [{role: 'dbOwner', db: 'unifi'},{role: 'dbOwner', db: 'unifi_stat'}]});"
 
 Now the container must be stopped via `ctrl-c`, data is stored in the `unifi-db` volume. Let's create a container unit:
 
