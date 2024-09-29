@@ -44,6 +44,8 @@ Now the container must be stopped via `ctrl-c`, data is stored in the `unifi-db`
     ContainerName=unifi-db
     Environment=MONGO_INITDB_ROOT_USERNAME=root MONGO_INITDB_ROOT_PASSWORD=unifi
     Image=docker.io/mongo:5.0
+    HealthCmd=mongosh --eval db.adminCommand('ping')
+    Notify=healthy
     Pod=unifi.pod
     Volume=unifi-db.volume:/data/db:Z
     EOF
