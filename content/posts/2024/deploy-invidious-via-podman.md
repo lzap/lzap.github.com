@@ -35,7 +35,7 @@ Shutdown the temporary container, it is no longer needed. Create database volume
     VolumeName=invidious-db
     EOF
 
-And database container:
+And a database container:
 
     cat > ~/.config/containers/systemd/invidious-db.container <<EOF
     [Container]
@@ -59,15 +59,15 @@ Create a helper container:
     Pod=invidious.pod
     EOF
 
-Now, generate your `VISITOR_DATA` an `PO_TOKEN` secrets:
+Now, generate your `VISITOR_DATA` an `PO_TOKEN` secrets, run this command and wait until it prints both values:
 
     podman run quay.io/invidious/youtube-trusted-session-generator
 
-Set those secrets as environmental variables, also generate a random string for HMAC secret:
+Set those secrets as temporary environmental variables, also generate a random string for HMAC secret:
 
-    HMAC=$(openssl rand -hex 13)
-    VISITOR_DATA="ABCDEF%3D%3D"
-    PO_TOKEN="MpOIfiljfsdljds-Lljfsdk-ojrdjXVs=="
+    HMAC=$(openssl rand -base64 21)
+    VISITOR_DATA="ABCDEF%3D%3D" # notsecret
+    PO_TOKEN="MpOIfiljfsdljds-Lljfsdk-ojrdjXVs==" # notsecret
 
 In the same terminal where you defined the environmental variables, create new environmental config file:
 
@@ -83,7 +83,7 @@ INVIDIOUS_HMAC_KEY="$HMAC"
 EOF
 ```
 
-And create invidious container unit:
+And create an invidious container unit:
 
     cat > ~/.config/containers/systemd/invidious.container <<EOF
     [Container]
@@ -95,7 +95,7 @@ And create invidious container unit:
     After=invidious-db.service
     EOF
 
-And finally, create pod unit. Note only port 3000 is exposed, do not expose other ports!
+And finally, create a pod unit. Note only port 3000 is exposed, do not expose other ports!
 
     cat > ~/.config/containers/systemd/invidious.pod <<EOF
     [Pod]
@@ -112,7 +112,7 @@ version 5.0 or higher, older versions will not work:
     /usr/libexec/podman/quadlet -dryrun -user
 
 Reload systemd daemon. Keep in mind you need to do this command every time you
-change a unit file, you can change the environmental file freely tho.
+change any unit file, you can change the environmental file without reload tho.
 
     systemctl --user daemon-reload
 
