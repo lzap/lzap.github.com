@@ -19,7 +19,7 @@ Well, it turns out that in 2019 it's still a challenge to figure out OpenSSL
 commands to generate certificates. I've been struggling a bit but with some
 help of Tomas Mraz of Red Hat I was finally able to find last missing bits (V3
 extensions). So I present you a script which generates *testing* certificates
-for mutual TLS with password:
+for mutual TLS without key password:
 
 * A self-signed CA
 * A server TLS certificate
@@ -41,12 +41,13 @@ SERVER_CN=${1:-server.example.com}
 # client certificate common name (hostname, uuid)
 CLIENT_CN=${2:-client.example.com}
 
-# password
-PASSWORD=${3:-password}
 
 SUBJECT="/C=US/ST=CA/O=Example.com"
 CA_CN="Example CA"
 DAYS=9999
+
+# passwords are temporary for technical reasons
+PASSWORD=${3:-password}
 PASSCA=pass:$PASSWORD
 PASSSV=pass:$PASSWORD
 PASSCT=pass:$PASSWORD
@@ -87,9 +88,6 @@ openssl x509 -in $CLIENT_CN-client.crt -text -noout
 openssl verify -CAfile test-ca.crt $SERVER_CN-server.crt
 openssl verify -CAfile test-ca.crt $CLIENT_CN-client.crt
 ```
-
-Note a password must be set, not providing one will fail the script. All
-certificates are valid for almost a thousand years.
 
 Have fun! And remember, never generate production certificates this way. This
 is meant only for development or testing environments.
