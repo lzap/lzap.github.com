@@ -22,10 +22,11 @@ extensions). So I present you a script which generates *testing* certificates
 for mutual TLS without key password:
 
 * A self-signed CA
-* A server TLS certificate
-* A client TLS certificate
+* A server TLS certificate with Subject Alternative Name
+* A client TLS certificate with Subject Alternative Name
 
-All you need to do is to set SERVER_CN and CLIENT_CN variables and that's it:
+All you need to do is to execute a script (below) with two arguments: server
+and client common names:
 
     ./generate_example_certs server.example.com client.example.com password
 
@@ -41,12 +42,9 @@ SERVER_CN=${1:-server.example.com}
 # client certificate common name (hostname, uuid)
 CLIENT_CN=${2:-client.example.com}
 
-
 SUBJECT="/C=US/ST=CA/O=Example.com"
 CA_CN="Example CA"
 DAYS=9999
-
-# passwords are temporary for technical reasons
 PASSWORD=${3:-password}
 PASSCA=pass:$PASSWORD
 PASSSV=pass:$PASSWORD
@@ -62,9 +60,11 @@ openssl x509 -in test-ca.crt -out test-ca.pem -outform PEM
 # server.crt
 openssl genrsa -passout $PASSSV -des3 -out $SERVER_CN-server.key 4096
 openssl req -passin $PASSSV -new -key $SERVER_CN-server.key -out server.csr \
+  -addext "subjectAltName = DNS:${SERVER_CN}" \
   -subj "$SUBJECT/CN=${SERVER_CN}"
 openssl x509 -req -passin $PASSCA -extfile /etc/pki/tls/openssl.cnf \
   -extensions usr_cert -days $DAYS -in server.csr \
+  -extensions SAN -extfile <(cat /etc/pki/tls/openssl.cnf <(printf "\n[SAN]\nsubjectAltName=DNS:${SERVER_CN}\n")) \
   -CA test-ca.crt -CAkey test-ca.key -set_serial 01 -out $SERVER_CN-server.crt
 openssl x509 -purpose -in $SERVER_CN-server.crt
 openssl rsa -passin $PASSSV -in $SERVER_CN-server.key -out $SERVER_CN-server.key
@@ -73,9 +73,11 @@ openssl x509 -in $SERVER_CN-server.crt -out $SERVER_CN-server.pem -outform PEM
 # client.crt
 openssl genrsa -passout $PASSCT -des3 -out $CLIENT_CN-client.key 4096
 openssl req -passin $PASSCT -new -key $CLIENT_CN-client.key \
+  -addext "subjectAltName = DNS:${CLIENT_CN}" \
   -out client.csr -subj "$SUBJECT/CN=${CLIENT_CN}"
 openssl x509 -req -passin $PASSCA -days $DAYS \
   -extfile /etc/pki/tls/openssl.cnf -extensions usr_cert \
+  -extensions SAN -extfile <(cat /etc/pki/tls/openssl.cnf <(printf "\n[SAN]\nsubjectAltName=DNS:${CLIENT_CN}\n")) \
   -in client.csr -CA test-ca.crt -CAkey test-ca.key -set_serial 02 -out $CLIENT_CN-client.crt
 openssl x509 -purpose -in $CLIENT_CN-client.crt
 openssl rsa -passin $PASSCT -in $CLIENT_CN-client.key -out $CLIENT_CN-client.key
