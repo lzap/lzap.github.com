@@ -1,5 +1,5 @@
 ---
-title: "Macos Text Replacements in Firefox"
+title: "MacOS Text Replacements in Firefox"
 date: 2024-10-10T09:33:07+02:00
 type: "post"
 tags:
@@ -34,7 +34,7 @@ EOF
 
 The first command changes the working directory to Downloads folder where text substitutions were dragged resulting into `Text Substitutions.plist` file being created. The second command creates a short script that converts `plist` into `json`. And the third command executes the script creating a new file named `Text Substitutions.json`.
 
-Warning: Depending on your language, the file might be named differently. For example, in my Czech locale the file will be "Textové záměny.plist". Change the third command accordingly.
+Warning: Depending on your language, the file might be named differently. For example, in my Czech locale the file will be `Textové záměny.plist`. Change the third command accordingly.
 
 Now, open up the extension and use Import JSON feature to import your replacements. Done!
 
