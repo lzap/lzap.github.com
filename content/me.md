@@ -14,15 +14,16 @@ I live and work in Velký Týnec, Olomoucký kraj,
 [Czechia](https://en.wikipedia.org/wiki/Czech_Republic), Europe.
 
 ### Experience
-* 2018: principal software engineer, Red Hat Czech s.r.o.
-* 2010: senior software engineer, Red Hat Czech s.r.o.
-* 2009-2010: consultant in T-Mobile Netherlands, Den Haag (PIKE Electronic)
-* 2007: PIKE Electronic s.r.o., solution architect (http://www.pikeelectronic.com)
-* 2006-2007: QCM s.r.o., software development (http://www.qcm.cz)
-* 2004-2006: editor-in-chief LinuxEXPRES magazine (http://www.linuxexpres.cz)
-* 2003-2004: editor-in-chief Linux+ magazine
-* 2000: Faculty Hospital Olomouc, IT (http://www.fnol.cz)
-* 1998: Bach systems s.r.o., Visual Basic developer (http://www.bach.cz)
+* 2024: Senior Principal Software Engineer, Red Hat Czech s.r.o.
+* 2018: Principal Software Engineer, Red Hat Czech s.r.o.
+* 2010: Senior Software Engineer, Red Hat Czech s.r.o.
+* 2009-2010: Consultant in T-Mobile Netherlands, Den Haag (PIKE Electronic)
+* 2007: PIKE Electronic s.r.o., Solution Architect (http://www.pikeelectronic.com)
+* 2006-2007: QCM s.r.o., Software Engineer (http://www.qcm.cz)
+* 2004-2006: Editor-in-Chief LinuxEXPRES magazine (http://www.linuxexpres.cz)
+* 2003-2004: Editor-in-Chief Linux+ magazine
+* 2000: Faculty Hospital Olomouc, IT Operations (http://www.fnol.cz)
+* 1998: Bach systems s.r.o., Visual Basic Developer (http://www.bach.cz)
 
 ### Mentorship
 * Google Summer of Code 2019,
