@@ -9,6 +9,11 @@ tags:
 title: Testing MTLS CA, server and client certs
 ---
 
+*Warning*: the script is generates certificates which may not be valid in more
+strict OpenSSL environments,
+[/posts/2024/generate-testing-mtls-certificates/](here is a better way) of
+doing the same.
+
 I needed a X509 CA, server and client certificate quite often during my
 day-to-day work on Foreman, Smart Proxy and managed nodes. Up until now, I've
 been using "puppet cert" command which was pretty useful utility for simple
@@ -28,7 +33,7 @@ for mutual TLS without key password:
 All you need to do is to execute a script (below) with two arguments: server
 and client common names:
 
-    ./generate_example_certs server.example.com client.example.com password
+    ./generate_example_certs server.example.com client.example.com
 
 Here is the script:
 
@@ -45,7 +50,7 @@ CLIENT_CN=${2:-client.example.com}
 SUBJECT="/C=US/ST=CA/O=Example.com"
 CA_CN="Example CA"
 DAYS=9999
-PASSWORD=${3:-password}
+PASSWORD=temppassword
 PASSCA=pass:$PASSWORD
 PASSSV=pass:$PASSWORD
 PASSCT=pass:$PASSWORD
@@ -77,7 +82,10 @@ openssl req -passin $PASSCT -new -key $CLIENT_CN-client.key \
   -out client.csr -subj "$SUBJECT/CN=${CLIENT_CN}"
 openssl x509 -req -passin $PASSCA -days $DAYS \
   -extfile /etc/pki/tls/openssl.cnf -extensions usr_cert \
-  -extensions SAN -extfile <(cat /etc/pki/tls/openssl.cnf <(printf "\n[SAN]\nsubjectAltName=DNS:${CLIENT_CN}\n")) \
+  -addext basicConstraints=CA:FALSE \
+  -addext nsCertType=client \
+  -addext keyUsage=critical,nonRepudiation,digitalSignature,keyEncipherment \
+  -addext extendedKeyUsage=clientAuth \
   -in client.csr -CA test-ca.crt -CAkey test-ca.key -set_serial 02 -out $CLIENT_CN-client.crt
 openssl x509 -purpose -in $CLIENT_CN-client.crt
 openssl rsa -passin $PASSCT -in $CLIENT_CN-client.key -out $CLIENT_CN-client.key

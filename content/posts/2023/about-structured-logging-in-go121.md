@@ -231,15 +231,15 @@ context and put it as `trace_id` field into every record when available:
 
 Now, this might look like a lot of code, but every program typically need to
 have one such handler. Then working with contexts is super easy, simply use
-`Ctx` version of the logging function:
+`Context` version of the logging function:
 
-    slog.InfoCtx(ctx, "user was authenticated", "user_id", user.ID)
+    slog.InfoContext(ctx, "user was authenticated", "user_id", user.ID)
 
 I personally find this easier to type instead of retrieving a `logger` variable
 from the context in every single function. Since unused variable is an error
 for Go compiler, the `logger` variable often needs to be deleted or
 reintroduced as the code is being rewritten which is not an issue for
-`slog.InfoCtx` function and the three other siblings. Assuming a trace id
+`slog.InfoContext` function and the three other siblings. Assuming a trace id
 `42cafe13` in the context, the built-in text handler decorated with the
 above handler generates:
 
