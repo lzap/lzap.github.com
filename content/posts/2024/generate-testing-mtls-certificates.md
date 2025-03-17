@@ -1,13 +1,14 @@
 ---
-title: "Generate Testing Mtls Certificates"
+title: "Generate testing MTLS certificates more easily"
 date: 2024-11-20T15:48:23+01:00
 type: "post"
 tags:
 - linux
 - fedora
+- rhel
 ---
 
-I found a much better tool to generate testing X509 TLS certificates than [/posts/2019/testing-tls-ca-server-and-client-certs/](my own script) which by the way is not correct. Here is how to generate a MTLS pair for typical web testing:
+I found a much better tool to generate testing X509 TLS certificates than [my own script](/posts/2019/testing-tls-ca-server-and-client-certs/) which by the way is not correct. Here is how to generate a MTLS pair for typical web testing:
 
 ```
 #!/bin/bash -e
@@ -44,7 +45,7 @@ And a client:
 openssl s_client -connect localhost:4433 \
     -CAfile ./ca/cert.pem \
     -cert ./client/cert.pem \
-    -key ./client/cert.pem
+    -key ./client/key.pem
 ```
 
 A python server:
