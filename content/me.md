@@ -3,10 +3,14 @@ type: page
 title: About me
 ---
 
-I am a software engineer who works for Red Hat. My primary interest is in Linux
-server management software development with focus on provisioning, PXE/HTTP
-UEFI booting, hardware discovery and networking. I am also involved in security
-and performance aspects of the projects and products I co-maintain.
+I am a software engineer who works for Red Hat. Currently, I am in the Insights
+team, working on projects for the RHEL Image Builder product that involve
+[osbuild](https://www.osbuild.org).
+
+In the past, I contributed to provisioning tools (covering bare-metal, PXE/UEFI
+HTTP, virtualization, and cloud environments), specifically to the Red Hat
+Satellite product and Foreman projects. I am also involved in the security and
+performance aspects of the projects and products I co-maintain.
 
 My internet nick is typically `lzap`, that's el-zet-ej-pi.
 
