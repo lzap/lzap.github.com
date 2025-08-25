@@ -3,15 +3,17 @@ type: page
 title: Contact
 ---
 
-* irc: *lzap* @ freenode: #theforeman-dev #theforeman #fedora-devel
-* matrix: at _lzap:matrix.org_
-* e-mail: lukas-a_t-zapletalovi-dot-com or lzap-a_t_redhat-dot-com
-* skype: lukas-underscore-zapletal (offline)
-* paypal: lukas-dot-zapletal-a_t-gmail-dot-com
-* int. bank (USD): CZ5830300000001036270031 / BIC AIRACZPP
-* int. bank (EUR): LT373250026820679532 / BIC REVOLT21 (Revolut)
-* czech bank: 1036270015 / 3030 (IBAN CZ0530300000001036270015 / BIC AIRACZPP)
-* office phone: 00_420_538_880_807
+- e-mail: `lukas-a_t-zapletalovi-dot-com` or `lzap-a_t_redhat-dot-com`
+- matrix: at `lzap:matrix.org`
+- mastodon: `@lzap@mastodon.social`
+- twitter: https://x.com/lzap
+- skype: lukas-underscore-zapletal (offline)
+- irc: `lzap` @freenode: (offline)
+- paypal: `lukas-dot-zapletal-a_t-gmail-dot-com`
+- dom. bank (CZK): 1036270015 / 3030
+- int. bank (USD): CZ5830300000001036270031 / BIC AIRACZPP
+- int. bank (EUR): CZ6130300000001036270074 / BIC AIRACZPP
+- int. bank (CZK): CZ0530300000001036270015 / BIC AIRACZPP
 
 ## Public keys
 
