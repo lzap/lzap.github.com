@@ -86,6 +86,8 @@ customHeadHTML = '''
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "e0a5b1d968fe4fc1942644c21fcf78dd"}'></script>
 <link rel="alternate" type="application/rss+xml" href="https://lukas.zapletalovi.com/atom.xml" title="Lukas Zapletal's blog" />
 <link rel="me" href="https://mastodon.social/@lzap" />
+<meta name="google-site-verification" content="Ifsr98Ygg7L5HGgZxibL3t2m15RdWi1hvOjr-t1FJl4" />
+<meta name="google-site-verification" content="5tQ8W4BRim8RCoroRu-GlGa1YAy05riDN1uZJ7fz2Xk" />
 '''
 
 # Keywords relevant for SEO
