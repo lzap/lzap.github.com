@@ -4,12 +4,9 @@ title: Contact
 ---
 
 - e-mail: `lukas-a_t-zapletalovi-dot-com` or `lzap-a_t_redhat-dot-com`
-
 - matrix: at `lzap:matrix.org`
-
 - mastodon: `@lzap@mastodon.social`
-
-- twitter: https://x.com/lzap
+- twitter: https://x.com/lzap
 - skype: lukas-underscore-zapletal (offline)
 - irc: `lzap` @freenode: (offline)
 - dom. bank (CZK): 1036270015 / 3030
