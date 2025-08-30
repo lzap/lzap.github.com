@@ -29,7 +29,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      HUGO_VERSION: 0.126.0 # the same as in Fedora 41
+      HUGO_VERSION: 0.142.0 # the same as on my machine (Fedora dev box)
     steps:
       - name: Install Hugo CLI
         run: |
