@@ -50,3 +50,4 @@ To add the `<host/>` line, just use virt-manager which recently received XML
 editing capability or simply use `virsh net-edit dhcpsix.lan` to edit the
 configuration. Restart the network then, not host nework but libvirt virtual
 network. Again, you can use virt-manager or virsh command to do that.
+

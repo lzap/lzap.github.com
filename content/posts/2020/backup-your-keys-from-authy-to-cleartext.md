@@ -83,3 +83,4 @@ A sidenote: to display the QR code on the console do something like:
     $ echo -n "ootpauth://totp/Twitter:@lzap?digits=6&secret=ABC334XZL5K21J7" | qrencode -t UTF8
 
 Finally, "ABC334XZL5K21J7" is NOT my secret. Do not bother. Have fun! :-)
+

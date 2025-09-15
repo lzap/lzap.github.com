@@ -23,3 +23,4 @@ uploading to YouTube it's a good idea to normalize and encode the audio channel
 into 44.1kHz with AAC at 96kbps:
 
     ffmpeg-normalize -nt ebu -ar 44100 -c:a aac -b:a 96k a_file.mkv
+

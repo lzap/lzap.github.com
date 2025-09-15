@@ -55,3 +55,4 @@ You may uninstall rsyslog too:
 	# dnf remove rsyslog
 
 Done!
+

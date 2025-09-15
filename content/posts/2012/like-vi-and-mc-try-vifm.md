@@ -67,3 +67,4 @@ listed in the documentation. Fedora 18 will have the most recent version of
 course, there are builds for F16/F17 in koji too.
 
 [1]: http://vifm.sourceforge.net/
+

@@ -34,3 +34,4 @@ Update your scripts, this will help:
 Take care. Oh, one more thing. You can also use `yum --setopt=strict=0 install`
 to get the old behavior and this is actually recommended by DNF developers,
 however I can hardly imagine remembering this thing.
+

@@ -164,3 +164,4 @@ don't have iOS development account yet I would love to start testing it).
 Browsing photos on my iPad is really exciting. I really hope the authors get
 pricing model right and develop a sustainable offering for both DYI and regular
 users.
+

@@ -27,3 +27,4 @@ News? We are wrapping up Foreman 1.11 release and I bought small little Intel
 NUC box to do me network management (DHCP/DNS/Foreman) in the house. Well, it
 will likely provide also Kodi and Steam streaming if I decide to put it under
 my telly. So far, I am impressed (6 W idle).
+

@@ -18,3 +18,4 @@ Next up it's this wonderful freeware tool called [Rufus](https://rufus.ie). By d
 After the initial reboot Windows 10 sets them up and allows the trial period without activation. I was able to download a firmware update tool and perform what I needed to do. Everything was a little bit too slow on my USB 3.0 SATA HDD, but it was fine for the job.
 
 I hope that helps someone else using Linux!
+

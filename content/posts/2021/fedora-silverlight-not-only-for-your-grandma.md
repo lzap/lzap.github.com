@@ -85,3 +85,4 @@ and I can do it via ssh:
 To revert to the previus version, simply pick the previous boot entry and
 perform `rpm-ostree rollback`. Which reminds me - Fedora 35 is out, I should
 probably upgrade them now.
+

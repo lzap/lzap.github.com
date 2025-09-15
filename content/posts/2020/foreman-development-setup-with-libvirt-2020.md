@@ -56,3 +56,4 @@ Finally, change libvirt "default" network configuration in the following way. Th
     </network>
 
 Restart libvirt network named "default" and you are good to go. Note in this setup I haven't configured DNS, therefore `unattended_url` must be set to something like `http://192.168.122.1:3000`.
+

@@ -1325,3 +1325,4 @@ Alternatively, the same can be achieved via `smartctl` tool. Read my next
 article about how to do that.
 
 That's all. Good luck not breaking your drive! :-)
+

@@ -115,3 +115,4 @@ To show a host entry in IPA via CLI:
       Managed by: rex-dzurnak.ipa.lan
 
 Add the foreman proxy into Foreman and start developing or testing. Have fun!
+

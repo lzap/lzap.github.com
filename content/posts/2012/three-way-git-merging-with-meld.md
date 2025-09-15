@@ -124,3 +124,4 @@ the changes via meld.
 That's all for today.
 
 [1]: http://lukas.zapletalovi.com/2012/06/three-way-git-merging-and-meld.html
+

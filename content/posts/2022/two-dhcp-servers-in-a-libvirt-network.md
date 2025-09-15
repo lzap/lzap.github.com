@@ -58,3 +58,4 @@ Then installing them is a matter of creating images:
 	virt-builder rhel-7.9 --output /dev/vg_virt/b10.local --root-password password:redhat --hostname b10.local --ssh-inject root:file:/home/lzap/.ssh/id_rsa.pub
 
 Something like that, I just wanted to show the dhcp-ignore trick. Cheers!
+

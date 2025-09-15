@@ -62,3 +62,4 @@ Oh gosh, I need to switch back to English from Czech language. Next up, set stat
 
 And after quick update in a MacOS network dialog and `/etc/hosts` change, the
 connection between my new desktop and my working Linux machine is 10Gbps.
+

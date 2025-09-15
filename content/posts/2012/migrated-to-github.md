@@ -77,3 +77,4 @@ end
 I highly recommend github.com pages. If you are a geek, if you like git, then
 there is nothing better for simple static pages or even blogs. I hope you will
 like it.
+

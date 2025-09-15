@@ -55,3 +55,4 @@ I will update this blogpost on the fly if I encounter any other instability of
 my setup in the future. Overall, I am quite happy with AMD-only hardware. Sure,
 it's not as stable as Intel, but I am glad there's a competition again in the
 industry.
+

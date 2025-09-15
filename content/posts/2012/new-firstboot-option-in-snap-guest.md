@@ -64,3 +64,4 @@ To recapitulate snap-guest usage:
 Enjoy.
 
 [1]: http://github.com/lzap/snap-guest
+

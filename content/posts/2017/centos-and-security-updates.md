@@ -47,3 +47,4 @@ Update 2018: It looks like there is a way to import errata information into
 local yum mirror, Spacewalk, Katello or Satellite 5 or 6:
 http://cefs.steve-meier.de/ and this is a way to load errata into CetnOS
 clients.
+

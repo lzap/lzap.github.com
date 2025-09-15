@@ -24,3 +24,4 @@ For longer coding sessions, I am trying GNOME Builder which looks great and
 every single release it is catching up with Submlime Text 3, except it is fully
 open source and it has usable Vim emulation. I've tried Atom and VSCode but
 these slow things are not for me.
+

@@ -155,3 +155,4 @@ file:
         <dnsmasq:option value='log-debug'/>
 
 To debug Apache2, just tail `/var/log/httpd/access_log`. That is all for today!
+

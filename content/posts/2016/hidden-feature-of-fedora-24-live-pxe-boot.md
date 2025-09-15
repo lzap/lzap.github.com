@@ -47,3 +47,4 @@ Example PXELinux configuration:
 Boot Fedora Live from your network, install it from your network when your
 crying friends show up with their laptops upgraded to Windows 10. Do it like a
 boss. End of transmission.
+

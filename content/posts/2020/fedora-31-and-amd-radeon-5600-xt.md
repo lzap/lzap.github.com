@@ -99,3 +99,4 @@ This release is expected to have kernel 5.6.0 final release, or higher. For
 sure it will have firmware files updated as well.
 
 Until next time!
+

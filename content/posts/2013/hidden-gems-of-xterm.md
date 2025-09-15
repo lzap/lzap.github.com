@@ -417,3 +417,4 @@ There's much more, I recommend reading through the man page.
     /usr/share/pixmaps/xterm_48x48.xpm
 
 Just go ahead and try xterm *right now*! Cheers.
+

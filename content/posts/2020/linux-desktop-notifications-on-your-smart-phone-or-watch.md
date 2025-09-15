@@ -51,3 +51,4 @@ daemon is built into your environment (Gnome, KDE), search for notification
 daemon python example, that gives you short script that subscribes to DBus
 notification API. You can call the script from there, it must run as a daemon
 tho.
+

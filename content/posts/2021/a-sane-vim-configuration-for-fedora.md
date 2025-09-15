@@ -388,3 +388,4 @@ To try out what you just read, install the packages and check out the config:
 	mkdir ~/.vimbackup
 
 Special thanks to Marc Deop and Melanie Corr for reviewing my article.
+

@@ -109,3 +109,4 @@ Anyway, it looks like NBD performs well enough. I think this is a go to
 implement this in foreman-discovery-image. Exporting volumes via NBD is an
 easy task, the only work needs to be done on smart-proxy side to implement new
 virt-builder plugin which will do the deployment.
+

@@ -67,3 +67,4 @@ You can use both git diff or git am (if you have already commited something).
 Depends on your git workflow.
 
 Maybe this can be helpful for you somehow. ;-)
+

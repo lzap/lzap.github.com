@@ -51,3 +51,4 @@ I've edited the file putting the required "use-cmd-decoder" GPU workaround. Note
     Exec=/usr/bin/google-chrome-stable --incognito --allow-running-insecure-content --ignore-certificate-errors
 
 No need of restarting, Gnome automatically picks the changes which is cool. That's all I have for today.
+

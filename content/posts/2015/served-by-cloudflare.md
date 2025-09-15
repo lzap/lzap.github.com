@@ -21,3 +21,4 @@ https://sheharyar.me/blog/free-ssl-for-github-pages-with-custom-domains/
 And yeah, my blog now supports HTTP/2 and SPDY and other fancy things.
 
 Please report issues via discussion or IRC or Google+. Take care!
+

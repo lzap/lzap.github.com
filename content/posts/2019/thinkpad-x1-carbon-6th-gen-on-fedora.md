@@ -152,3 +152,4 @@ the wait for me. I use headphones anyway.
 
 That's all folks for today, I will probably revisit this article after few
 weeks and put more of my own experience with this laptop. Take care!
+

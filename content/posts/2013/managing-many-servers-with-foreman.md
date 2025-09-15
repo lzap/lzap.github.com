@@ -455,3 +455,4 @@ Configure Smart Proxy first, you whould see all its features there.
 
 Now you can create architecture, OS, associate templates and provision hosts and 
 do stuff. More about that maybe later.
+

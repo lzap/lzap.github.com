@@ -52,3 +52,4 @@ That's all. To test the delivery use `-v` option:
 
 I think I can shutdown postfix on my workstation now. Served well, thank you,
 but it was pretty much an overkill for my single email per day.
+

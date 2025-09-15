@@ -29,3 +29,4 @@ Hurray! No more fiddling with /etc/hosts, no more dnsmasq split setups or
 hacks via virsh. This is elegant solution.
 
 Via [Kamil Páral's blog](https://kparal.wordpress.com/2017/10/06/ssh-to-your-vms-without-knowing-their-ip-address/#comment-6447).
+

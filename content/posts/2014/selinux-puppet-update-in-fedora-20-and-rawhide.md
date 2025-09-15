@@ -49,3 +49,4 @@ in my comments or in the update comments.
 
 Let's make sure we have rock solid version of Puppet hardened with SELinux in
 the best quality possible in EPEL7. Thanks for help!
+

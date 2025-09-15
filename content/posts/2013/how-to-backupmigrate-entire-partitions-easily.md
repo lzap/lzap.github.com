@@ -30,3 +30,4 @@ partition layout (not using LVM in this case) I migrated the data back:
 There are other options (e.g. parallel compression, splitting into smaller
 archives or excluding files), all is documented in the man page. Ideal tool
 for fast migrations and for full off-line backups.
+

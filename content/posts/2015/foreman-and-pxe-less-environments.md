@@ -104,3 +104,4 @@ documentation](http://theforeman.org/plugins/foreman_discovery/4.0/index.html)
 
 Documentation for this feature is currently being finished. The draft is
 [available here](https://github.com/theforeman/theforeman.org/pull/421/files).
+

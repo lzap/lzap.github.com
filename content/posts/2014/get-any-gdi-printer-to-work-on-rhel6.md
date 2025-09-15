@@ -115,3 +115,4 @@ acquiring the device via udev which was useless - I don't use LP on the host):
 That's all. You can use this approach to get any winprinter working on Linux
 (RHEL6) via libvirt (kvm/qemu). All you really need is a valid Windows license
 and Linux box with libvirt.
+

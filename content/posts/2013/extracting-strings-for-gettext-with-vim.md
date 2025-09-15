@@ -87,3 +87,4 @@ Here is a link to my git where you can find the most recent version of these
 macros:
 https://github.com/lzap/vim-lzap/blob/master/macros/gettext_extraction.vim
 
+

@@ -39,3 +39,4 @@ interested in processes running in passenger_t SELinux domain:
 
 To add rules permanently, edit `/etc/audit/audit.rules` file and restart
 auditd daemon.
+

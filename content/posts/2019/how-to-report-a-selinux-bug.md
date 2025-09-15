@@ -45,3 +45,4 @@ That's all for now. If you want only to add an extra rule and switch enforcing b
     # audit2allow -a -M myfix
     # semodule -i myfix.pp
     # setenforce 1
+

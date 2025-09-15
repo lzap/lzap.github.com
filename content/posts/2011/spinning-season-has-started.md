@@ -16,3 +16,4 @@ These days I only play on my friends parties over the summer. It's relaxing and 
 Here is a small review of my old sets that have been recorded somewhere between 2004 and 2008. It's on-line for years. My post is just a reminder.
 
 Let me start with drum and bass. I put lot of dnb sets on-line: https://lukas.zapletalovi.com/tags.html#set-ref
+

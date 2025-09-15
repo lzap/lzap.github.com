@@ -48,3 +48,4 @@ a property list for launcher must be created. Here it is:
 
 Worry do not, this is still a Linux blog. I just ended up using MacOS on
 desktop a bit more lately, I still run Linux remote shells :-)
+

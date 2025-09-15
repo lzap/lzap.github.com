@@ -135,3 +135,4 @@ particular applications or plugins through this setup.
 If you want to play more with this, there are LADSPA plugins for noise
 cancellation and equalizer to cut off low and high frequencies to clean out
 speech. Share your setup with me in the comments bellow.
+

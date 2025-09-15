@@ -104,3 +104,4 @@ For a daily report do this:
 
 Make sure the cron script is executable and test it first. That's all, enjoy
 all the e-mails!
+

@@ -55,3 +55,4 @@ I ended up creating more simple format that looks like this:
         Nov 07 14:13:53 nuc.home.lan httpd[225124]: 162.19.29.212 "POST /users/lukas/inbox HTTP/1.1" 401 23
 
 That's all for today. Cheers.
+

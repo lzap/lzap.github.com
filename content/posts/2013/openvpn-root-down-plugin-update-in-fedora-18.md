@@ -36,3 +36,4 @@ Note that path has changed too, from /usr/lib64/openvpn/plugin/ to
 /usr/lib64/openvpn/plugins/, but you usually don't need to provide it.
 
 Take care!
+

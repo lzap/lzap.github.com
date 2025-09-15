@@ -104,3 +104,4 @@ it - this command opens Vim in the root git directory.
 
 Deletes all branches that were *safely* merged into the master. All other are
 skipped (no worries).
+

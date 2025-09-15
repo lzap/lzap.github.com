@@ -68,3 +68,4 @@ Prozkoumal jsem možnosti balíku SNNS (Stuttgart Neural Network Simulator) a je
 == 31. 12. 2005 Poprvé v novinách
 
 Dneska se poprvé v mém životě objevila moje fotka v novinách. Kulturní rubrika Olomouckého Dne sice není žádné terno, ale přesto je to poprvé. Upozorňuje na dnešní akci v U-Klubu, ve kterém budu hrát na silvestrovské trance/drumandbass party. Možná se tam uvidíme! Každopádně vše nejlejší do nového roku 2006!
+

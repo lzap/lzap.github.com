@@ -93,3 +93,4 @@ service of some kind, but which varies among theological and denominational
 traditions. In many traditions the "diaconate" (or deaconate), the term for a
 deacon's office, is a clerical office; in others it is for laity. -- Wikipedia
 
+

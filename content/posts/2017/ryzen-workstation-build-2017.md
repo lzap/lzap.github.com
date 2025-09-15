@@ -104,3 +104,4 @@ phone](https://plus.google.com/+Luk%C3%A1%C5%A1Zapletal/posts/VoABttp6cuM)
     $ lspci | grep Intel | wc -l
     0
 
+

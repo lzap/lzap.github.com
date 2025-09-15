@@ -59,3 +59,4 @@ on the screen, check out the homepage for instructions how to checkout your
 branch back.
 
 And one more thing. File bugs at https://github.com/lzap/git-xcleaner/issues
+

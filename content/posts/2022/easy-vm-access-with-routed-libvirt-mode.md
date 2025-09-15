@@ -121,3 +121,4 @@ And firewall daemon will take care of NAT automatically (it is already set for i
 **Wait, is that all?**
 
 Yup, it is that easy. With recent libvirt, you just flip the setting to "route" and add a route to your DHCP server. I hope this was useful, retweet this if you find this helpful and remember to tag me I am @lzap on Twitter. Cheers!
+

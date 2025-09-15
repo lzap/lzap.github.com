@@ -35,3 +35,4 @@ You can use xbindkeys program if your windows manager cannot handle this:
     XF86Launch1 
 
 Have fun! :-)
+

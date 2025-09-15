@@ -76,3 +76,4 @@ Execute similar commands or use other tools like pmchart to see values for count
 Transaction metrics (time spent) provide total_time value (trace.transact.total_time) but also ave_time, min_time and max_time aggregated values. These are quite handy for ad-hoc troubleshooting.
 
 There is also a helper utility pmtrace for emitting tracing events from scripts like cron jobs. Although the trace API is limited and multiple syscalls are being made every measurement, it is a good starting point to go further.
+

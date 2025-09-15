@@ -27,3 +27,4 @@ on Rails applications. At the end of the talk, I did short introduction to
 SystemTap and it's integration with Ruby as well as bundler_ext extension.
 
 The session was recorded, expect the video to be published hopefully soon.
+

@@ -128,3 +128,4 @@ some plugins with rather experimental support, but I am giving up. Running the
 official Minecraft server on RPi4 is possible, but the server crashes too often
 because the CPU can't keep up with the high tick rate. I've purchased an 8th
 gen Intel NUC and decided to replace my Synology with it.
+

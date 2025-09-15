@@ -62,3 +62,4 @@ Let's shrink syslog files to let's say thousand of bytes.
 
 I could go even further by uninstalling *rsyslog* package, but I will leave
 that on my system for now. Cheers!
+

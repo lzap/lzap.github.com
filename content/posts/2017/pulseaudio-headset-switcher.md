@@ -81,3 +81,4 @@ put this into your .bashrc as well, but it will slow down your shell start.
     pactl upload-sample ~/.i3/speak.wav speak
 
 I found USB headset to be much more cleaner than integrated laptop sound card.
+

@@ -195,3 +195,4 @@ named `id` for primary keys or `something_id` of `id_something` for foreign
 keys), you can just use *inner join* and you are good.
 
 Cheers!
+

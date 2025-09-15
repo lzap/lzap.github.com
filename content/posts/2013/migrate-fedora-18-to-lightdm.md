@@ -20,3 +20,4 @@ have switched from GDM over to LightDM. Installation was easy:
 Done!
 
 This should work for Fedora 17+ I guess. Tested on 18 tho.
+

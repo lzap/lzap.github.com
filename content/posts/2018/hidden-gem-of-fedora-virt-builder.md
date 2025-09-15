@@ -150,3 +150,4 @@ more](http://libguestfs.org/virt-builder.1.html).
 Send beer, t-shirts and flowers to [Richard W.M.
 Jones](http://people.redhat.com/~rjones/) and his team of contributors and
 maintainers. Thanks folks!
+

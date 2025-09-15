@@ -34,3 +34,4 @@ interactive and hopefully self-explanatory.
 The script remembers the INTO and FROM selection (stores it in the `.git`
 directory) and it uses `git stash` to work even when there are some uncommited
 changes.
+

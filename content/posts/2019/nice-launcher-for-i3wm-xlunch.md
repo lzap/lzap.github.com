@@ -42,3 +42,4 @@ And that's all, assuming you have this configuration:
     bindsym $mod+space exec /home/lzap/work/xlunch/xlunch -i /home/lzap/.config/xlunch/entries.dsv -f RobotoCondensed-Regular.ttf/10 -G
 
 In my case that's WIN key with SPACE combination what brings the thing. Have fun.
+

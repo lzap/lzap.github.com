@@ -49,3 +49,4 @@ That's all. Searching for applications via "Windows" key will keep working,
 this feature I use a lot.
 
 To enable tracker back, just go to the Settings and enable it. Cheers!
+

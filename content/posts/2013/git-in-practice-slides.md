@@ -25,3 +25,4 @@ Here you go:
 
 [Git in Practice
 slides](http://lzap.fedorapeople.org/presentations/git-in-practice/)
+

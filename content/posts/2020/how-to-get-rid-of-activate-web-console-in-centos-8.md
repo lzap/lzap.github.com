@@ -24,3 +24,4 @@ That's why you are here, is it? Well, easy help:
 
 Problem solved. If you want it back, simply reinstall cockpit package. I am not
 sure if upgrade would put them back or not tho.
+

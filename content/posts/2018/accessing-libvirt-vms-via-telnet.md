@@ -48,3 +48,4 @@ for root access by default. To enable second one, do:
     $ echo ttyS1 >> /etc/securetty
 
 That's all for today.
+

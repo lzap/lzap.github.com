@@ -42,3 +42,4 @@ For BIOS systems do:
 
 Reboot and connect early to access grub or to see early boot messages. These
 commands will work on Fedora, CentOS, Red Hat Enterprise Linux and clones.
+

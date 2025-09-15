@@ -51,3 +51,4 @@ Similarly to SELinux, do not turn PulseAudio globally. Just turn it off for the
 device you don't want to use with it! Both SELinux and PulseAudio are great,
 the problem is the internet full of incorrect information and "solutions" which are
 often too radical.
+

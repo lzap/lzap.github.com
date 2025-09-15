@@ -98,3 +98,4 @@ To get anonymous access via "dumb" http protocol use
     client# git clone http://lzap@server/git/project.git
 
 Okay. Now I can copy&paste from here next time.
+

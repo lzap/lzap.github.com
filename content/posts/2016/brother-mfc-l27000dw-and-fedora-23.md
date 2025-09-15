@@ -86,3 +86,4 @@ all. This seems to be fixed with `brscan4-0.4.9-1.x86_64`. Most likely `sane-bac
 ### MacOS support
 
 This printer works out of box via Bonjour (AirPrint) for printing. It does feature also WSD (Windows "remote scanning" protocol) but I could not [get it working](https://github.com/alexpevzner/sane-airscan) in Linux. For Mac, there is the official [Image Capture](https://support.brother.com/g/b/faqend.aspx?c=ca&lang=en&prod=dcp9040cn_all&faqid=faq00000717_003) utility which works over network and also works on Apple Silicon.
+

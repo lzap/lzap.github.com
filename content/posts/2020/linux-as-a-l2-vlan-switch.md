@@ -28,3 +28,4 @@ filtering can do the trick:
 This will only work on RHEL 8.1 or newer as it relies on newest NetworkManager
 VLAN filtering switches. Kudos to everyone who made this possible and Beniamino
 for helping me out!
+

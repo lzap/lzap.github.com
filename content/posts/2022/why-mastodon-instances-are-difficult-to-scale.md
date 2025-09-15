@@ -112,3 +112,4 @@ written in Ruby on Rails including github.com and even twitter.com started as a
 RoR app. And there's hey.com and basecamp.com and they all run buttery smooth.
 Like everything in life, it has some highlights and drawbacks. And the major
 drawback of Ruby on Rails is that it is not easy to operate at all.
+

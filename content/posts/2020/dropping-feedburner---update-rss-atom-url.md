@@ -14,3 +14,4 @@ Hey, I am dropping Google Feedburner, please [update the URL](https://lukas.zapl
     https://lukas.zapletalovi.com/atom.xml
 
 The old URL will continue work, but after Google acquired Feedburner the service did not see much development and features are being rather removed. Migrate today if you want to keep reading those random Linux + FOSS + devops notes of mine.
+

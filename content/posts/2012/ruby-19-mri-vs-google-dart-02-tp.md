@@ -152,3 +152,4 @@ A minute and ten. Not bad. Now let's have a look on Dart.
 Four seconds. Wait, four seconds? Hmmm, does this mean Dart VM is faster than Ruby VM?
 Not necessarily. Does this mean optimizer in Dart is better than in Ruby? Hell yeah!
 
+

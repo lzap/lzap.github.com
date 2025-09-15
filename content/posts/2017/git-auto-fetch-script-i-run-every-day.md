@@ -67,3 +67,4 @@ for git flags I use:
 * aggressive - much slower collect giving better results
 * no-prune - I don't want to loose any commits at any point in time
 * auto - git will decide when to actually run gc
+

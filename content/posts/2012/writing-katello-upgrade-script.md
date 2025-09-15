@@ -119,3 +119,4 @@ Links
 
 Katello: http://www.katello.org
 Puppet: http://www.puppetlabs.com
+

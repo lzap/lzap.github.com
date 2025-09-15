@@ -50,3 +50,4 @@ ffmpeg -i $NAME-temp.mp4 -i $NAME-temp.wav -acodec libvorbis -ab 128k -ac 2 -vco
 For the most up-to-date version visit:
 
 https://github.com/lzap/bin-public/blob/master/recordwindow
+

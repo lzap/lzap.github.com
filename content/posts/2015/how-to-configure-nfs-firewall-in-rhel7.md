@@ -21,3 +21,4 @@ But if you want to use NFSv3 protocol, things are more complicated.
     firewall-cmd --permanent --zone public --add-service rpc-bind
     firewall-cmd --permanent --zone public --add-service nfs
     firewall-cmd --reload
+

@@ -662,3 +662,4 @@ __Update__: I have pushed all my configuration files to [git repository][6].
 [4]: http://i3wm.org/docs/userguide.html#_changing_the_container_layout
 [5]: http://i3wm.org
 [6]: https://github.com/lzap/doti3
+

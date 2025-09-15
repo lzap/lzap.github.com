@@ -28,3 +28,4 @@ Reboot into Linux and rewrite grub configuration. For Fedora it's:
     grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
 
 It should print something like "Found Windows" blah blah. You are done.
+

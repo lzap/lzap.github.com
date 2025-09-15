@@ -64,3 +64,4 @@ Update: I had a typo in the script, special thanks to François Le Nalio who
 spotted it and reported back. I actually had the typo in my original script,
 this could have been another disaster. Like I did not have enough SSD failures
 in the last three years :-)
+

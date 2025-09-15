@@ -24,3 +24,4 @@ the video to speed testing up:
     ffmpeg -i intput.mp4 -vf "crop=iw/1.29:ih/1.29,scale=-1:720" -t 00:00:10.0 -y output.mp4
 
 That is all.
+

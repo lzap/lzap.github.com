@@ -94,3 +94,4 @@ partitioned everything as GPT, I could not zap EFI for BIOS anymore. Then I
 found it - I had a loose SATA cable to my Windows SSD. The Samsung drive did
 not have holes so SATA plug did not "click" in. Common issue with SATA cables,
 I swapped it with a different one and taped it just to be sure.
+

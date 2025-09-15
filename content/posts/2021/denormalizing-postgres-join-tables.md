@@ -252,3 +252,4 @@ Only 9ms, that is significantly faster. We almost have a winner, now the most im
 Inserting 1000*500 records into join table with 50 million of records takes 26 seconds, inserting 1000 records with two arrays with 500 elements into table with 100000 records takes 2.5 seconds. This includes updating of indexes, that is great performance.
 
 In conclusion, it is possible to save significant amount of disk, memory and cpu cycles by denormalizing join tables with integer array column containing primary keys or associated table. It makes sense in scenarios with heavy updates, searching with or without index is also faster. On the other hand, records must be fetched manually and there is no database integrity. This is fine for this specific case (reports kept for record purposes). Also this test was performed with small number of associated records (up to 1:500), your mileage may vary.
+

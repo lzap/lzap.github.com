@@ -33,3 +33,4 @@ need to stick with the `idle3ctl` utility:
     Standby timer set to 242 (01:00:00, a vendor-specific minimum applies)
 
 Thought it's useful. Thanks Standa!
+

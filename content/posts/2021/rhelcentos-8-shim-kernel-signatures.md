@@ -47,3 +47,4 @@ be provisioned), boot it in SecureBoot EFI mode and do:
 
 Feel free to file a [Pull Request](https://github.com/lzap/redhat-kernel-shim-signatures) if there are
 new versions of RHEL released. Have fun with Secure Boot!
+

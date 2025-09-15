@@ -46,3 +46,4 @@ I have been using this for years, our project Foreman actually use a different
 term for the mainline branch. We call it the "develop" branch.
 
 Oh, by the way, Steve Job's style: it even works for github pages repositories.
+

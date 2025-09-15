@@ -99,3 +99,4 @@ Start the service, clients should be able to get IPv6 from the assigned subnet:
 
 That's all actually, boot a VM in the "isolated" network. Most distributions
 will attempt to acquire an IPv6 addres and everything should work as expected.
+

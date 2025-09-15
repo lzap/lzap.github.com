@@ -23,3 +23,4 @@ I struggled a bit in order to link alsa, netlink and sys/unix libraries however 
     CGO_CFLAGS="-I/usr/include/alsa" go build
 
 Patch for Ryzen temperature incoming. Have fun!
+
