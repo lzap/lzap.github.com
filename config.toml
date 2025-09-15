@@ -11,6 +11,10 @@ ignoreLogs = ['warning-goldmark-raw-html']
 [frontmatter]
 lastmod = [":git", ":fileModTime", ":default"]
 
+[sitemap]
+disable_taxonomies = true
+disable_terms = true
+
 [menu]
 [[menu.main]]
 identifier = "Posts"
