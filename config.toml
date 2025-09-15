@@ -7,9 +7,10 @@ languageCode = 'en-us'
 defaultContentLanguage = "en"
 enableRobotsTXT = true
 ignoreLogs = ['warning-goldmark-raw-html']
+enableGitInfo = true
 
 [frontmatter]
-lastmod = [":git", ":fileModTime", ":default"]
+lastmod = [":git.Lastmod", ":default"]
 
 [sitemap]
 disable_taxonomies = true
