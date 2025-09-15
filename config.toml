@@ -8,6 +8,9 @@ defaultContentLanguage = "en"
 enableRobotsTXT = true
 ignoreLogs = ['warning-goldmark-raw-html']
 
+[frontmatter]
+lastmod = [":git", ":fileModTime", ":default"]
+
 [menu]
 [[menu.main]]
 identifier = "Posts"
