@@ -12,7 +12,7 @@ title: Contact
 
 ## Bank
 
-![QR Code](static/qr-airbank.png)
+![QR Code](qr-airbank.png)
 
 - dom. bank (CZK): 1036270015 / 3030
 - int. bank (USD): CZ5830300000001036270031 / BIC AIRACZPP
