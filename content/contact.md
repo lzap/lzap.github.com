@@ -9,6 +9,11 @@ title: Contact
 - twitter: https://x.com/lzap
 - skype: lukas-underscore-zapletal (offline)
 - irc: `lzap` @freenode: (offline)
+
+## Bank
+
+![QR Code](static/qr-airbank.png)
+
 - dom. bank (CZK): 1036270015 / 3030
 - int. bank (USD): CZ5830300000001036270031 / BIC AIRACZPP
 - int. bank (EUR): CZ6130300000001036270074 / BIC AIRACZPP
