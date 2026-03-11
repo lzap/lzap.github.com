@@ -1,5 +1,5 @@
 ---
-title: "SecureBoot/HTTPS Provisioning with Foreman/Satellite
+title: "SecureBoot/HTTPS Provisioning with Foreman/Satellite"
 date: 2026-06-11T16:16:34+02:00
 type: "post"
 tags:
