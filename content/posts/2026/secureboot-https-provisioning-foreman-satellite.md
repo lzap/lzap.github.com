@@ -1,6 +1,6 @@
 ---
 title: "SecureBoot/HTTPS Provisioning with Foreman/Satellite"
-date: 2026-06-11T16:16:34+02:00
+date: 2026-03-11T16:16:34+02:00
 type: "post"
 tags:
 - linux
@@ -333,7 +333,7 @@ scope for this blog post, but I just wanted to mention this open bug from 1999:
 Everything is all set now. This is the communication that happens during
 provisioning after the VM is powered on:
 
-![Communication Diagram](https-sb-diag.png)
+![Communication Diagram](/posts/2026/https-sb-diag.png)
 
 ```text
 title SecureBoot EFI HTTPS
