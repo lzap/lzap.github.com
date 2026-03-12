@@ -363,10 +363,12 @@ some point.
 While I no longer work on Satellite, there is a possibility of using a
 different software project that I am contributing to: Red Hat Image Builder.
 While technically Image Builder cannot currently build RHEL netboot ISOs, all
-the underlying technology is there and the functionality be added. For those
-who would prefer creating netboot ISOs on the fly from RPM files hosted by
-Satellite, this is certainly an option. File us a ticket if you would be
-interested in doing that instead of using `mkksiso`.
+the underlying technology is there and the functionality can be added. This
+means that the very same netboot ISOs could be created from scratch (just from
+RPMs), no need to download ISO files from Red Hat Portal. For those who would
+prefer creating netboot ISOs on the fly from RPM files hosted by Satellite,
+this is certainly an option. File us a ticket if you would be interested in
+doing that instead of using `mkksiso`.
 
 Congrats, you made it to the end. I hope this wasn't boring, and if you build a
 similar workflow, send me an e-mail or get in touch in any way! Cheers.
