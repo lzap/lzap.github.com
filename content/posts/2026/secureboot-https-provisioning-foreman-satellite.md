@@ -360,6 +360,15 @@ The (hopefully temporary) hack of injecting the kickstart into ISO files is
 also a bummer, I hope Anaconda engineers will have a chance to work on this at
 some point.
 
+One possible solution for Satellite are [OCI Bootable
+Artifacs](https://fedoraproject.org/wiki/Changes/KickstartOciArtifacts), which
+is a proposal that was accepted into Fedora 42. It is a way of distributing
+kickstart artifacts (including netboot ISO) via OCI registries. Satellite have
+everything it needs to synchronize and effectively manage and pusblish these
+ISO files via Pulp. These artifacts are currently being maintained by me and
+ipanova and we do this only for Fedora, but CentOS and RHEL is certainly a
+possibility.
+
 While I no longer work on Satellite, there is a possibility of using a
 different software project that I am contributing to: Red Hat Image Builder.
 While technically Image Builder cannot currently build RHEL netboot ISOs, all
