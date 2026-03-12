@@ -383,4 +383,7 @@ Congrats, you made it to the end. I hope this wasn't boring, and if you build a
 similar workflow, send me an e-mail or get in touch in any way! Cheers.
 
 _Special thanks to rjones and kraxel from Red Hat for helping me to figure out
-the EDK2 variables._
+the EDK2 variables. And ipanova from Red Hat for working with me on OCI
+artifacts. This post was also posted at [foreman forums]
+(https://community.theforeman.org/t/strict-secureboot-https-provisioning-of-bare-metal-and-vms/45983)
+where you can leave comments._
