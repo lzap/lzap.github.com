@@ -92,6 +92,13 @@ firewall-cmd --zone=internal --add-forward
 
 Now, launch a VM, it should get an address from 192.168.200.0 network from libvirt's DHCP automatically. Try to ping it from the host itself, as you can see above the route entry is already there and the system knows that it can reach the VM via `virbr0`.
 
+Update 2026: In Fedora 43, trusted network does not allow forwarding. This must be configured explicitly:
+
+```
+firewall-cmd --zone=trusted --add-masquerade --permanent
+firewall-cmd --reload
+```
+
 **Accessing VMs remotely**
 
 Now let's try scenario number one: a remote system wants to connect to your VM. Witnout any configuration, it will not work as the host does not know how to reach the 192.168.200.0 network (has no routing entry). You can create it manually (I am assuming that 192.168.1.5 is the hosting machine - the hypervisor):
