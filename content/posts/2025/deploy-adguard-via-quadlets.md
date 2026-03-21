@@ -7,6 +7,9 @@ tags:
 - fedora
 ---
 
+_Update 2026: Few changes, added host network mode which is more simple and less
+confusing._
+
 Let's install AdGuard Home via Podman Quadlets. Volumes:
 
     sudo podman volume create adguard-work
@@ -42,34 +45,14 @@ Volume=adguard-conf.volume:/opt/adguardhome/conf:Z
 EOF
 ```
 
-The pod unit. Maybe comment out DHCP if you do not intend to use it:
+The pod unit. Note I use "host" network, so it is important to pay attention
+for the initial configuration.
 
 ```
 cat <<EOF | sudo tee /etc/containers/systemd/adguard.pod > /dev/null
 [Pod]
 PodName=adguard
-# Admin interface
-PublishPort=3000:3000/tcp
-# DNS
-PublishPort=53:53/udp
-PublishPort=53:53/tcp
-# DHCP
-PublishPort=67:67/udp
-PublishPort=68:68/udp
-# DNS-over-HTTP
-PublishPort=80:80/tcp
-# DNS-over-HTTPS
-PublishPort=443:443/tcp
-PublishPort=443:443/udp
-# DNS-over-TLS
-PublishPort=853:853/tcp
-# DNS-over-QUIC
-PublishPort=784:784/udp
-PublishPort=853:853/udp
-PublishPort=8853:8853/udp
-# DNSCrypt
-PublishPort=5443:5443/tcp
-PublishPort=5443:5443/udp
+Network=host
 [Install]
 WantedBy=multi-user.target default.target
 EOF
@@ -87,22 +70,38 @@ And enable and start:
 
     sudo systemctl enable --now adguard-pod
 
-You may run into existing services bound to the DNS port, typically this is
-`resolved` which can be disabled with:
+Visit `https://adguard.example.com:3000` to configure it. Attention! Since
+AdGuard is running in host network mode, make sure to only select relevant
+interfaces during its initial setup via Web UI, do not allow listening an all
+that will get you into troubles.
+
+If you did not pay attention during initial setup, you can always edit the
+configuration manually. In the `bind_hosts` section, replace `0.0.0.0` with
+your public IP and `localhost` as well.
 
 ```
-$ cat /etc/systemd/resolved.conf.d/listenall.conf
-[Resolve]
-DNS=127.0.0.1
-DNSStubListener=no
+cat /var/lib/containers/storage/volumes/adguard-conf/_data/AdGuardHome.yaml
+...
+dns:
+  bind_hosts:
+    - 192.168.1.2
+    - 127.0.0.1
+  port: 53
 ```
 
-If you are running `libvirtd` the `dnsmasq` could be problem, although it is
-only listening on `virbrX` interfaces it will cause the adblock to fail to
-launch. In that case, prefix the address you want to use to all the ports:
+If you are running systemd-resolved, you will end up with many errors in
+regards to PTR records:
 
 ```
-PublishPort=192.168.X.X:3000:3000/tcp
+dnsproxy: exchange failed upstream=127.0.0.53:53 question=";42.1.168.192.in-addr.arpa.\tIN\t PTR" duration=2.001938493s err="exchanging with 127.0.0.53:53 over udp: read udp 127.0.0.1:53633->127.0.0.53:53: i/o timeout"
 ```
 
-Visit `https://adguard.example.com:3000` to configure it.
+This is because by default, AdGuard sends PTR, SOA, NS requests to the system
+resolver, which is resolved (running on 127.0.0.53) which is unable to complete
+those requests. In AdGuard DNS settings, use Private DNS server and set it to
+the upstream DNS. You may want to disable rDNS, or even completely turn off PTR
+requests for private addresses.
+
+Okay, this is all. A very nice DNS caching server with a great UI, statistics,
+filtering abilities. A great piece of software, remember to make a donation to
+AdGuard or purchase some of their subscriptions if you want to support them.
