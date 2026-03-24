@@ -66,9 +66,9 @@ Reload units:
 
     sudo systemctl daemon-reload
 
-And enable and start:
+And start the pod, keep in mind that the systemd unit is enabled automatically.
 
-    sudo systemctl enable --now adguard-pod
+    sudo systemctl start adguard-pod
 
 Visit `https://adguard.example.com:3000` to configure it. Attention! Since
 AdGuard is running in host network mode, make sure to only select relevant
