@@ -139,4 +139,47 @@ sudo podman logs -f immich
 
 Once the containers are running and the database has initialized, you can
 access your Immich instance by navigating to `http://<your-server-ip>:2283` in
-your web browser. Cheers!
+your web browser.
+
+At the time of writing this, Immich cannot be hosted via a dedicated path, you
+will need a dedicated domain or subdomain. here is how to do it in Apache
+httpd:
+
+```
+<VirtualHost *:80>
+    ServerName xxxxx.zapletalovi.com
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^/.well-known/acme-challenge/
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}$1 [R=301,L]
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName xxxxx.zapletalovi.com
+    Protocols h2 http/1.1
+
+    SSLEngine On
+    SSLCertificateFile /var/lib/acme/certs/xxxxx.zapletalovi.com.crt
+    SSLCertificateKeyFile /etc/pki/tls/private/xxxxx.zapletalovi.com.key
+
+    LimitRequestBody 0
+    ProxyTimeout 2000
+
+    ProxyPreserveHost On
+    RequestHeader set X-Forwarded-Proto "https"
+    RequestHeader set X-Forwarded-Port "443"
+
+    RewriteEngine On
+    RewriteCond %{HTTP:Upgrade} websocket [NC]
+    RewriteCond %{HTTP:Connection} upgrade [NC]
+    RewriteRule ^/?(.*) "ws://192.168.1.9:2283/$1" [P,L]
+
+    ProxyPass / http://192.168.1.9:2283/
+    ProxyPassReverse / http://192.168.1.9:2283/
+</VirtualHost>
+```
+
+Of course, you need a TLS cert for HTTPS to work, I use `tiny-acme`. Search my
+blog for an article on how to set it up.
+
+That is all for now. Cheers!
