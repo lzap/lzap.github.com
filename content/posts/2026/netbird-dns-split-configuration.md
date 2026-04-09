@@ -50,6 +50,7 @@ echo "nameserver 100.100.100.100" | sudo tee /etc/resolver/example.com
 echo "nameserver 100.100.100.100" | sudo tee /etc/resolver/example.corp
 
 echo "nameserver 8.8.8.8" | sudo tee /etc/resolver/wgvpn.example.com
+echo "nameserver 8.8.8.8" | sudo tee /etc/resolver/auth.example.com
 ```
 
 MacOS will automatically detect these files and start routing queries for
