@@ -58,11 +58,9 @@ MacOS will automatically detect these files and start routing queries for
 `*.example.com` and `*.example.corp` to `100.100.100.100`, while continuing to
 use your local home DNS for everything else.
 
-Warning: When authenticating, browser can sometimes get stuck because the
+Warning: When authenticating, browser can sometimes get stuck for 1 minute because the
 interface is not up yet. This can help: `sudo dscacheutil -flushcache && sudo
-killall -HUP mDNSResponder`. Permanent solution is either to use `search_order`
-or hardcode `auth` and `wgvpn` to `/etc/hosts` but ultimately I just gave up on
-this DNS is pretty fast over wireguard.
+killall -HUP mDNSResponder`. Permanent solution is to use `/etc/hosts` I guess.
 
 ## Linux Configuration
 
