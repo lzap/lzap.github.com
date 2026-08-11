@@ -157,4 +157,10 @@ Controller UI. To find the exact location of your data:
 
     podman volume inspect unifi-app
 
+Important: In Device Updates and Settings (on the Devices List, older version
+has this in Settings - Advanced) make sure to set Inform Host Override to the
+IP address or hostname of the container host. If you don't do this, adoption of
+devices will fail because they will be informed with internal container IP
+addresses which are not reachable.
+
 If this article helped, share it on your favourite social networks. Cheers!
