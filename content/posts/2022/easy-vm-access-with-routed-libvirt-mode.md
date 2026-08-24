@@ -74,6 +74,16 @@ You can either modify this directly, or create a new network named differently. 
 	  </ip>
 	</network>
 
+In case you want to create a second network and not modify the default one, do this:
+
+    virsh net-dumpxml default > routed.xml
+
+Then delete the `uuid` and `mac` (they will be auto-generated), change name, IP address and range as well as bridge name and change mode to `route`. Then:
+
+    virsh net-define routed.xml
+    virsh net-start YOUR_NAME
+    virsh net-autostart YOUR_NAME
+
 That's all, libvirt daemon should have restarted the network already. It should also automatically enable routing on the system, modify firewall and routes. Let's check that:
 
 	cat /proc/sys/net/ipv4/ip_forward
@@ -124,6 +134,12 @@ There is one problem tho, you want VMs from the 192.168.200.0 want to access int
 	nmcli connection modify ens2 connection.zone external
 
 And firewall daemon will take care of NAT automatically (it is already set for internal/external zones). For home routers, search for NAT, masquerade, srcnat and simply add the 192.168.200.0 next to the main network (192.168.1.0 in my examples). That's all.
+
+One warning, if you use DHCP on the server itself the pulled routes will not be correct. On the server, you want libvirt to manage the routes. In that case, disable DHCP static routes:
+
+    nmcli connection modify "Wired connection 1" ipv4.ignore-auto-routes yes
+    nmcli connection modify "Wired connection 1" +ipv4.routes "0.0.0.0/0 192.168.1.1"
+    nmcli connection up "Wired connection 1"
 
 **Wait, is that all?**
 
